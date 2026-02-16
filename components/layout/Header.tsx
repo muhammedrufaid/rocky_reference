@@ -35,9 +35,8 @@ const Header: React.FC = () => {
                 href={item.path}
                 onMouseEnter={() => setActiveNav(item.title)}
                 onMouseLeave={() => setActiveNav(null)}
-                className={`relative py-2 text-sm font-medium transition-colors text-[var(--charcoal)] hover:text-[var(--rocky-blue)] ${
-                  activeNav === item.title ? "text-[var(--rocky-blue)]" : ""
-                }`}
+                className={`relative py-2 text-sm font-medium transition-colors text-[var(--charcoal)] hover:text-[var(--rocky-blue)] ${activeNav === item.title ? "text-[var(--rocky-blue)]" : ""
+                  }`}
               >
                 {item.title}
                 {activeNav === item.title && (
@@ -47,33 +46,8 @@ const Header: React.FC = () => {
             ))}
           </nav>
 
-          {/* Right: CTAs + Language */}
+          {/* Right: CTAs */}
           <div className="flex items-center gap-3 md:gap-4">
-            {/* Language toggle */}
-            <div className="hidden sm:flex items-center text-xs font-medium text-[var(--charcoal)]">
-              <button
-                onClick={() => setLang("EN")}
-                className={`px-2 py-1 transition-colors ${
-                  lang === "EN"
-                    ? "text-[var(--rocky-blue)] font-semibold"
-                    : "hover:text-[var(--rocky-blue)]"
-                }`}
-              >
-                EN
-              </button>
-              <span className="text-[var(--border-light)]">|</span>
-              <button
-                onClick={() => setLang("AR")}
-                className={`px-2 py-1 transition-colors ${
-                  lang === "AR"
-                    ? "text-[var(--rocky-blue)] font-semibold"
-                    : "hover:text-[var(--rocky-blue)]"
-                }`}
-              >
-                AR
-              </button>
-            </div>
-
             {/* Secondary CTA - Call */}
             <a
               href="tel:+971501234567"
@@ -122,9 +96,8 @@ const Header: React.FC = () => {
 
       {/* Mobile slide-in menu */}
       <div
-        className={`lg:hidden fixed inset-0 z-40 bg-white transition-transform duration-300 ease-out ${
-          mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`lg:hidden fixed inset-0 z-40 bg-white transition-transform duration-300 ease-out ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         style={{ top: "4rem" }}
       >
         <nav className="flex flex-col gap-1 p-6 overflow-auto">
