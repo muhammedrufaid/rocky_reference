@@ -2,12 +2,20 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #000000;
+  --foreground: #333333;
+  --rocky-blue: #0d365e;
+  --rocky-blue-hover: #0f4274;
+  --charcoal: #333333;
+  --soft-sand: #e7dccd;
+  --sandstone-taupe: #c3ad95;
+  --border-light: #e5e7eb;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-rocky-blue: var(--rocky-blue);
+  --color-charcoal: var(--charcoal);
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
 }
