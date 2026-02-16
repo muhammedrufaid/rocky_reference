@@ -9,7 +9,6 @@ import { navigationData } from "../../utils/data";
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeNav, setActiveNav] = useState<string | null>(null);
-  const [lang, setLang] = useState<"EN" | "AR">("EN");
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-[var(--border-light)]">
