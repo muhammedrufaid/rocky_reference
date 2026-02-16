@@ -1,21 +1,42 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Container from "./Container";
 import { navigationData } from "../../utils/data";
 
+const SCROLL_THRESHOLD = 50;
+
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeNav, setActiveNav] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > SCROLL_THRESHOLD);
+    };
+
+    // Set initial state (handles SSR + scroll position on load)
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b border-[var(--border-light)]">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-out ${
+        scrolled
+          ? "bg-white backdrop-blur-md shadow-sm border-b border-[var(--border-light)]"
+          : "bg-transparent"
+      }`}
+    >
       <Container>
         <div className="flex h-16 md:h-20 items-center justify-between gap-6">
           {/* Logo */}
-          <Link href="/" className="shrink-0">
+          <Link href="/" className={`shrink-0 transition-all duration-500 ${scrolled ? "" : "brightness-0 invert"}`}>
             <Image
               src="/assets/common/Rocky-Logo-Original.svg"
               alt="Rocky Real Estate"
@@ -34,12 +55,19 @@ const Header: React.FC = () => {
                 href={item.path}
                 onMouseEnter={() => setActiveNav(item.title)}
                 onMouseLeave={() => setActiveNav(null)}
-                className={`relative py-2 text-sm font-medium transition-colors text-[var(--charcoal)] hover:text-[var(--rocky-blue)] ${activeNav === item.title ? "text-[var(--rocky-blue)]" : ""
-                  }`}
+                className={`relative py-2 text-sm font-medium transition-all duration-500 ${
+                  scrolled
+                    ? `text-[var(--charcoal)] hover:text-[var(--rocky-blue)] ${activeNav === item.title ? "text-[var(--rocky-blue)]" : ""}`
+                    : `text-white hover:text-white/90 ${activeNav === item.title ? "text-white" : ""}`
+                }`}
               >
                 {item.title}
                 {activeNav === item.title && (
-                  <span className="absolute bottom-0 left-0 h-0.5 w-full bg-[var(--rocky-blue)] transition-all" />
+                  <span
+                    className={`absolute bottom-0 left-0 h-0.5 w-full transition-all ${
+                      scrolled ? "bg-[var(--rocky-blue)]" : "bg-white"
+                    }`}
+                  />
                 )}
               </Link>
             ))}
@@ -50,7 +78,11 @@ const Header: React.FC = () => {
             {/* Secondary CTA - Call */}
             <a
               href="tel:+971501234567"
-              className="hidden sm:flex items-center justify-center px-4 py-2.5 text-sm font-medium text-[var(--rocky-blue)] border border-[var(--rocky-blue)] rounded-lg hover:bg-[var(--rocky-blue)] hover:text-white transition-colors"
+              className={`hidden sm:flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-500 ${
+                scrolled
+                  ? "text-[var(--rocky-blue)] border border-[var(--rocky-blue)] hover:bg-[var(--rocky-blue)] hover:text-white"
+                  : "text-white border border-white/80 hover:bg-white hover:text-[var(--rocky-blue)]"
+              }`}
             >
               Call
             </a>
@@ -76,7 +108,11 @@ const Header: React.FC = () => {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-[var(--charcoal)] hover:text-[var(--rocky-blue)]"
+              className={`lg:hidden p-2 transition-all duration-500 ${
+                scrolled
+                  ? "text-[var(--charcoal)] hover:text-[var(--rocky-blue)]"
+                  : "text-white hover:text-white/80"
+              }`}
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
