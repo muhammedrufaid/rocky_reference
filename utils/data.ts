@@ -152,4 +152,18 @@ export const testimonials: Testimonial[] = [
     author: "Elena Vasquez",
     rating: 5,
   },
+  {
+    id: 4,
+    quote:
+      "Outstanding service from start to finish. The team understood exactly what we were looking for and delivered beyond our expectations.",
+    author: "Michael Chen",
+    rating: 5,
+  },
+  {
+    id: 5,
+    quote:
+      "Rocky's market insights and professional approach made our property search stress-free. We couldn't be happier with our new home.",
+    author: "Priya Sharma",
+    rating: 5,
+  },
 ];

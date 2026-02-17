@@ -17,7 +17,7 @@ const BlogSection: React.FC = () => {
         <header className="text-center mb-12 md:mb-16">
           <motion.h2
             id="blog-section-heading"
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-semibold text-[var(--rocky-blue)]"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-medium text-[var(--rocky-blue)]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
