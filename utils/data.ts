@@ -122,3 +122,34 @@ export const blogPosts: BlogPost[] = [
     path: "/blog/balancing-private-contemporary",
   },
 ];
+
+export interface Testimonial {
+  id: number;
+  quote: string;
+  author: string;
+  rating: number;
+}
+
+export const testimonials: Testimonial[] = [
+  {
+    id: 1,
+    quote:
+      "Rocky made finding our dream home seamless. Their attention to detail and market knowledge exceeded our expectations. Highly recommend for anyone serious about Dubai real estate.",
+    author: "Sarah Mitchell",
+    rating: 5,
+  },
+  {
+    id: 2,
+    quote:
+      "Professional, responsive, and genuinely invested in our needs. From the first viewing to the final handover, the entire experience was flawless.",
+    author: "James Al-Rashid",
+    rating: 5,
+  },
+  {
+    id: 3,
+    quote:
+      "The best real estate agency we've worked with. Their off-plan expertise helped us secure a great investment. Trustworthy and transparent throughout.",
+    author: "Elena Vasquez",
+    rating: 5,
+  },
+];

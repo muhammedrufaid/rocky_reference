@@ -1,6 +1,7 @@
 import FeaturedOffPlanProjects from "@/components/home/FeaturedOffPlanProjects";
 import Hero from "@/components/home/Hero";
 import BlogSection from "@/components/home/BlogSection";
+import TestimonialSection from "@/components/home/TestimonialSection";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 
@@ -9,7 +10,8 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Header />
       <Hero />
-      <FeaturedOffPlanProjects />
+      {/* <FeaturedOffPlanProjects /> */}
+      <TestimonialSection />
       <BlogSection />
       <Footer />
     </div>

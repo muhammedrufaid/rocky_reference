@@ -10,7 +10,7 @@ import { featuredOffPlanProjects } from "@/utils/data";
 const FeaturedOffPlanProjects: React.FC = () => {
   return (
     <section
-      className="py-16 md:py-20 lg:py-24 bg-[#f8f6f3]"
+      className="py-16 md:py-20 lg:py-24 bg-[#e7dccd]"
       aria-labelledby="featured-off-plan-heading"
     >
       <Container>
