@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { searchTabs, categoryOptions } from "@/utils/data";
 
 type SearchTab = (typeof searchTabs)[number];
@@ -9,6 +9,8 @@ const HeroSearchCard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<SearchTab>("Buy");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const categories = categoryOptions[activeTab] ?? [];
 
@@ -21,6 +23,20 @@ const HeroSearchCard: React.FC = () => {
     });
   };
 
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -28,8 +44,7 @@ const HeroSearchCard: React.FC = () => {
     >
       <fieldset className="space-y-4 md:space-y-5">
         <legend className="sr-only">
-          Property search: choose transaction type, category, and enter
-          search
+          Property search: choose transaction type, category, and enter search
         </legend>
 
         {/* Tabs: Buy | Rent | Sell */}
@@ -50,65 +65,95 @@ const HeroSearchCard: React.FC = () => {
                 setActiveTab(tab);
                 setSelectedCategory("");
               }}
-              className={`min-w-[72px] md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
-                activeTab === tab
-                  ? "bg-white text-[#0d365e]"
-                  : "text-white/90 hover:text-white hover:bg-white/10"
-              }`}
+              className={`min-w-[72px] md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${activeTab === tab
+                ? "bg-white text-[#0d365e]"
+                : "text-white/90 hover:text-white hover:bg-white/10"
+                }`}
             >
               {tab}
             </button>
           ))}
         </div>
 
-        {/* Category pills */}
-        <div role="group" aria-labelledby="category-label">
-          <span id="category-label" className="sr-only">
-            Category for {activeTab}
-          </span>
-          <div
-            id={`panel-${activeTab}`}
-            role="tabpanel"
-            aria-labelledby={`tab-${activeTab}`}
-            className="flex flex-wrap gap-2"
-          >
-            {categories.map((category) => (
-              <button
-                key={category}
-                type="button"
-                aria-pressed={selectedCategory === category}
-                aria-label={`Select ${category}`}
-                onClick={() =>
-                  setSelectedCategory((prev) =>
-                    prev === category ? "" : category
-                  )
-                }
-                className={`min-h-[44px] px-4 py-2.5 text-sm font-medium rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
-                  selectedCategory === category
-                    ? "bg-[#c3ad95] text-[#081f3a] border-2 border-[#c3ad95]"
-                    : "bg-white/10 text-white/90 border-2 border-white/30 hover:bg-white/20 hover:border-white/50"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Search bar + button */}
+        {/* Search bar with integrated category dropdown */}
         <div className="flex flex-col sm:flex-row gap-3">
-          <label htmlFor="hero-search" className="sr-only">
-            Search for properties, locations, or keywords
-          </label>
-          <input
-            id="hero-search"
-            type="search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search location, property, or keyword..."
-            className="flex-1 min-h-[48px] md:min-h-[52px] px-4 md:px-5 rounded-lg bg-white/95 text-[#333333] placeholder:text-[#333333]/60 border-0 focus:ring-1 focus:ring-[#c3ad95] focus:ring-offset-1 focus:ring-offset-transparent focus:outline-none text-base"
-            autoComplete="off"
-          />
+          <div className="flex flex-1 min-h-[48px] md:min-h-[52px] rounded-lg bg-white/95">
+            {/* Category dropdown */}
+            <div ref={dropdownRef} className="relative shrink-0">
+              <button
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded={dropdownOpen}
+                aria-label={`Category: ${selectedCategory || "All"}`}
+                onClick={() => setDropdownOpen((prev) => !prev)}
+                className="flex items-center gap-1.5 h-full px-3 md:px-4 text-sm font-medium text-[#333333] border-r border-[#e5e7eb] hover:bg-[#f5f0ea] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#c3ad95] whitespace-nowrap"
+              >
+                <span className="max-w-[90px] truncate">
+                  {selectedCategory || categories[0] || "Category"}
+                </span>
+                <svg
+                  className={`w-3.5 h-3.5 shrink-0 text-[#333333]/60 transition-transform ${dropdownOpen ? "rotate-180" : ""
+                    }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+
+              {/* Dropdown menu */}
+              {dropdownOpen && (
+                <ul
+                  role="listbox"
+                  aria-label={`Category for ${activeTab}`}
+                  className="absolute top-full left-0 mt-1 min-w-[160px] py-1 rounded-lg bg-white shadow-lg border border-[#e5e7eb] z-20"
+                >
+                  {categories.map((category) => (
+                    <li
+                      key={category}
+                      role="option"
+                      aria-selected={selectedCategory === category}
+                      onClick={() => {
+                        setSelectedCategory((prev) =>
+                          prev === category ? "" : category
+                        );
+                        setDropdownOpen(false);
+                      }}
+                      className={`px-4 py-2.5 text-sm cursor-pointer transition-colors ${selectedCategory === category
+                        ? "bg-[#e7dccd]/40 text-[#0d365e] font-medium"
+                        : "text-[#333333] hover:bg-[#f5f0ea]"
+                        }`}
+                    >
+                      {category}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/* Search input */}
+            <label htmlFor="hero-search" className="sr-only">
+              Search for properties, locations
+            </label>
+            <input
+              id="hero-search"
+              type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search location, property"
+              className="flex-1 min-w-0 min-h-[48px] md:min-h-[52px] px-3 md:px-4 py-2.5 md:py-3 bg-transparent text-[#333333] placeholder:text-[#333333]/50 border-0 focus:ring-0 focus:outline-none text-base"
+              autoComplete="off"
+            />
+          </div>
+
+          {/* Search button */}
           <button
             type="submit"
             className="min-h-[48px] md:min-h-[52px] px-6 md:px-8 rounded-lg bg-[#0d365e] hover:bg-[#1c4e80] text-white font-semibold text-base transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0 sm:w-auto w-full"
