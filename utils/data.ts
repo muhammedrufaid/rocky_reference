@@ -58,7 +58,7 @@ export const navigationData = [
   { id: 1, title: "Buy", path: "/buy" },
   { id: 2, title: "Rent", path: "/rent" },
   { id: 4, title: "Off Plan", path: "/off-plan" },
-  { id: 6, title: "Agents", path: "/agents" },
+  // { id: 6, title: "Agents", path: "/agents" },
   { id: 8, title: "Contact", path: "/contact" },
   { id: 9, title: "More", path: "" },
 ];
