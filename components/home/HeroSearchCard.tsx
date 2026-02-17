@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
 import { searchTabs, categoryOptions } from "@/utils/data";
 
 type SearchTab = (typeof searchTabs)[number];
@@ -23,7 +24,6 @@ const HeroSearchCard: React.FC = () => {
     });
   };
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -37,10 +37,26 @@ const HeroSearchCard: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+  };
+
+  const staggerTransition = {
+    duration: 0.5,
+    ease: [0.22, 1, 0.36, 1] as const,
+  };
+
   return (
-    <form
+    <motion.form
       onSubmit={handleSubmit}
       className="space-y-4 md:space-y-5 max-w-2xl"
+      initial={fadeInUp.initial}
+      animate={fadeInUp.animate}
+      transition={{
+        ...staggerTransition,
+        delay: 0.3,
+      }}
     >
       <fieldset className="space-y-4 md:space-y-5">
         <legend className="sr-only">
@@ -48,10 +64,16 @@ const HeroSearchCard: React.FC = () => {
         </legend>
 
         {/* Tabs: Buy | Rent | Sell */}
-        <div
+        <motion.div
           role="tablist"
           aria-label="Transaction type"
           className="flex gap-1 p-1 rounded-lg bg-white/10 backdrop-blur-sm w-fit"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            ...staggerTransition,
+            delay: 0.4,
+          }}
         >
           {searchTabs.map((tab) => (
             <button
@@ -65,18 +87,27 @@ const HeroSearchCard: React.FC = () => {
                 setActiveTab(tab);
                 setSelectedCategory("");
               }}
-              className={`min-w-[72px] md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${activeTab === tab
-                ? "bg-white text-[#0d365e]"
-                : "text-white/90 hover:text-white hover:bg-white/10"
-                }`}
+              className={`min-w-[72px] md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
+                activeTab === tab
+                  ? "bg-white text-[#0d365e]"
+                  : "text-white/90 hover:text-white hover:bg-white/10"
+              }`}
             >
               {tab}
             </button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Search bar with integrated category dropdown */}
-        <div className="flex flex-col sm:flex-row gap-3">
+        <motion.div
+          className="flex flex-col sm:flex-row gap-3"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            ...staggerTransition,
+            delay: 0.5,
+          }}
+        >
           <div className="flex flex-1 min-h-[48px] md:min-h-[52px] rounded-lg bg-white/95">
             {/* Category dropdown */}
             <div ref={dropdownRef} className="relative shrink-0">
@@ -92,8 +123,9 @@ const HeroSearchCard: React.FC = () => {
                   {selectedCategory || categories[0] || "Category"}
                 </span>
                 <svg
-                  className={`w-3.5 h-3.5 shrink-0 text-[#333333]/60 transition-transform ${dropdownOpen ? "rotate-180" : ""
-                    }`}
+                  className={`w-3.5 h-3.5 shrink-0 text-[#333333]/60 transition-transform ${
+                    dropdownOpen ? "rotate-180" : ""
+                  }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -108,7 +140,6 @@ const HeroSearchCard: React.FC = () => {
                 </svg>
               </button>
 
-              {/* Dropdown menu */}
               {dropdownOpen && (
                 <ul
                   role="listbox"
@@ -126,10 +157,11 @@ const HeroSearchCard: React.FC = () => {
                         );
                         setDropdownOpen(false);
                       }}
-                      className={`px-4 py-2.5 text-sm cursor-pointer transition-colors ${selectedCategory === category
-                        ? "bg-[#e7dccd]/40 text-[#0d365e] font-medium"
-                        : "text-[#333333] hover:bg-[#f5f0ea]"
-                        }`}
+                      className={`px-4 py-2.5 text-sm cursor-pointer transition-colors ${
+                        selectedCategory === category
+                          ? "bg-[#e7dccd]/40 text-[#0d365e] font-medium"
+                          : "text-[#333333] hover:bg-[#f5f0ea]"
+                      }`}
                     >
                       {category}
                     </li>
@@ -138,7 +170,6 @@ const HeroSearchCard: React.FC = () => {
               )}
             </div>
 
-            {/* Search input */}
             <label htmlFor="hero-search" className="sr-only">
               Search for properties, locations
             </label>
@@ -153,16 +184,15 @@ const HeroSearchCard: React.FC = () => {
             />
           </div>
 
-          {/* Search button */}
           <button
             type="submit"
             className="min-h-[48px] md:min-h-[52px] px-6 md:px-8 rounded-lg bg-[#0d365e] hover:bg-[#1c4e80] text-white font-semibold text-base transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0 sm:w-auto w-full"
           >
             Search
           </button>
-        </div>
+        </motion.div>
       </fieldset>
-    </form>
+    </motion.form>
   );
 };
 

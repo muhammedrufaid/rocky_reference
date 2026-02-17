@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 import HeroSearchCard from "./HeroSearchCard";
 
@@ -8,6 +9,11 @@ interface HeroProps {
   videoSrc?: string;
   poster?: string;
 }
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+};
 
 const Hero: React.FC<HeroProps> = ({
   videoSrc = "https://www.pexels.com/download/video/29575342/",
@@ -41,16 +47,28 @@ const Hero: React.FC<HeroProps> = ({
       >
         <Container>
           <header className="text-center md:text-left max-w-2xl mb-6 md:mb-8">
-            <h1
+            <motion.h1
               id="hero-title"
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-white leading-tight tracking-tight"
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
               Find Your Dream Property in Dubai
-            </h1>
-            <p className="mt-3 md:mt-4 text-base md:text-lg text-white/90 max-w-xl">
+            </motion.h1>
+            <motion.p
+              className="mt-3 md:mt-4 text-base md:text-lg text-white/90 max-w-xl"
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={{
+                duration: 0.6,
+                delay: 0.15,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
               Premium homes, penthouses, and investment opportunities across
               Dubai&apos;s most sought-after communities.
-            </p>
+            </motion.p>
           </header>
 
           <HeroSearchCard />
