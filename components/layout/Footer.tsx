@@ -15,7 +15,7 @@ const footerServices = [
 const footerCompany = [
     { title: "About Us", path: "/about" },
     { title: "Areas We Serve", path: "/areas" },
-    { title: "Blog / Insights", path: "/blog" },
+    { title: "Blog", path: "/blog" },
     { title: "FAQs", path: "/faqs" },
     { title: "Contact", path: "/contact" },
     { title: "Careers", path: "/careers" },
@@ -61,10 +61,16 @@ const SocialIcon = ({ name, className }: { name: string; className?: string }) =
             </svg>
         ),
         facebook: (
-            <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+            <svg
+              className={className}
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M24 12C24 5.37 18.63 0 12 0S0 5.37 0 12c0 5.99 4.39 10.95 10.13 11.85v-8.39H7.08v-3.46h3.05V9.41c0-3 1.79-4.67 4.53-4.67 1.31 0 2.68.23 2.68.23v2.95h-1.51c-1.49 0-1.95.92-1.95 1.87v2.24h3.33l-.53 3.46h-2.8v8.39C19.61 22.95 24 17.99 24 12z" />
             </svg>
-        ),
+          ),
+          
     };
     return icons[name] ?? null;
 };
@@ -186,7 +192,7 @@ const Footer: React.FC = () => {
                                 ))}
                             </div>
                         </div>
-                        <div>
+                        {/* <div>
                             <h3 className="text-xs font-semibold uppercase tracking-wider text-blue-200 mb-3">Areas We Cover</h3>
                             <div className="flex flex-wrap gap-2">
                                 {areasWeCover.map((area) => (
@@ -199,7 +205,7 @@ const Footer: React.FC = () => {
                                     </Link>
                                 ))}
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </section>
 

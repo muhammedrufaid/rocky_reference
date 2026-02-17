@@ -10,6 +10,50 @@
 //   { id: 9, title: "More", path: "" },
 // ];
 
+export interface OffPlanProject {
+  id: number;
+  title: string;
+  developer: string;
+  location: string;
+  priceFrom: string;
+  image: string;
+  path: string;
+  completionYear?: string;
+}
+
+export const featuredOffPlanProjects: OffPlanProject[] = [
+  {
+    id: 1,
+    title: "Marina Heights",
+    developer: "Emaar Properties",
+    location: "Dubai Marina",
+    priceFrom: "AED 1.2M",
+    image: "/assets/projects/marina-heights.jpg",
+    path: "/off-plan/marina-heights",
+    completionYear: "2027",
+  },
+  {
+    id: 2,
+    title: "Creek Beach Residences",
+    developer: "Emaar Properties",
+    location: "Dubai Creek Harbour",
+    priceFrom: "AED 890K",
+    image: "/assets/projects/creek-beach.jpg",
+    path: "/off-plan/creek-beach-residences",
+    completionYear: "2026",
+  },
+  {
+    id: 3,
+    title: "Sobha One",
+    developer: "Sobha Realty",
+    location: "Sobha Hartland",
+    priceFrom: "AED 1.5M",
+    image: "/assets/projects/sobha-one.jpg",
+    path: "/off-plan/sobha-one",
+    completionYear: "2028",
+  },
+];
+
 export const navigationData = [
   { id: 1, title: "Buy", path: "/buy" },
   { id: 2, title: "Rent", path: "/rent" },
