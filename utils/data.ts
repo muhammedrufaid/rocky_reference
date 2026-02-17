@@ -80,3 +80,45 @@ export const categoryOptions: Record<string, string[]> = {
   Rent: ["Residential", "Commercial"],
   Sell: ["Residential", "Commercial", "Offplan"],
 };
+
+export interface BlogPost {
+  id: number;
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+  path: string;
+}
+
+export const blogPosts: BlogPost[] = [
+  {
+    id: 1,
+    title: "Private Contemporary Home Balancing Openness",
+    category: "Residential",
+    description:
+      "Explore how modern architecture blends indoor and outdoor spaces seamlessly, creating light-filled interiors that feel both private and expansive.",
+    image:
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&h=400&fit=crop",
+    path: "/blog/private-contemporary-home",
+  },
+  {
+    id: 2,
+    title: "Contemporary Home Private Balancing Openness",
+    category: "Commercial",
+    description:
+      "Discover design principles that bring natural materials and clean lines together for a timeless kitchen that serves as the heart of the home.",
+    image:
+      "https://images.pexels.com/photos/618079/pexels-photo-618079.jpeg",
+    path: "/blog/contemporary-home-private",
+  },
+  {
+    id: 3,
+    title: "Balancing Private Contemporary Home Openness",
+    category: "Luxury",
+    description:
+      "From floor-to-ceiling windows to thoughtful zoning, learn how top architects achieve the perfect balance between openness and intimacy.",
+    image:
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
+    path: "/blog/balancing-private-contemporary",
+  },
+];
