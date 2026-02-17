@@ -1,131 +1,123 @@
 "use client";
 
 import React, { useState } from "react";
-import { searchTabs, categoryOptions } from "../../utils/data";
+import { searchTabs, categoryOptions } from "@/utils/data";
 
-const ChevronDown = () => (
-  <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-  </svg>
-);
-
-const SearchIcon = () => (
-  <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-  </svg>
-);
-
-const MapPinIcon = () => (
-  <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-  </svg>
-);
+type SearchTab = (typeof searchTabs)[number];
 
 const HeroSearchCard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<(typeof searchTabs)[number]>("Buy");
-  const [category, setCategory] = useState("Residential");
-  const [location, setLocation] = useState("");
+  const [activeTab, setActiveTab] = useState<SearchTab>("Buy");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const categories = categoryOptions[activeTab] || categoryOptions.Buy;
+  const categories = categoryOptions[activeTab] ?? [];
 
-  const inputBase =
-    "w-full h-12 px-4 text-sm text-gray-900 bg-white border border-gray-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0d365e]/20 focus:border-[#0d365e] transition-all duration-200 placeholder:text-gray-400";
-  const labelClass = "block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wider";
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log({
+      tab: activeTab,
+      category: selectedCategory || null,
+      query: searchQuery,
+    });
+  };
 
   return (
-    <div className="w-full max-w-5xl mx-auto bg-white/95 backdrop-blur-xl rounded-3xl shadow-[0_20px_60px_rgba(13,54,94,0.15)] border border-white/50 overflow-hidden">
-      {/* Tabs with refined styling */}
-      <div className="flex border-b border-gray-100">
-        {searchTabs.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => {
-              setActiveTab(tab);
-              setCategory(categoryOptions[tab][0]);
-            }}
-            className={`
-              relative flex-1 py-4 px-4 text-sm font-semibold transition-all duration-300
-              ${
-                activeTab === tab
-                  ? "text-[#0d365e]"
-                  : "text-gray-500 hover:text-gray-700 hover:bg-gray-50/50"
-              }
-            `}
-          >
-            {tab}
-            {activeTab === tab && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0d365e] to-[#1a5a8e]" />
-            )}
-          </button>
-        ))}
-      </div>
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4 md:space-y-5 max-w-2xl"
+    >
+      <fieldset className="space-y-4 md:space-y-5">
+        <legend className="sr-only">
+          Property search: choose transaction type, category, and enter
+          search
+        </legend>
 
-      {/* Filter fields with enhanced spacing */}
-      <div className="p-6 sm:p-7 lg:p-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-5 lg:gap-6">
-          {/* Category */}
-          <div className="lg:col-span-2">
-            <label className={labelClass}>Category</label>
-            <div className="relative">
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className={`${inputBase} pr-10 appearance-none cursor-pointer font-medium`}
-              >
-                {categories.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                <ChevronDown />
-              </span>
-            </div>
-          </div>
-
-          {/* Location - enhanced with icon */}
-          <div className="lg:col-span-3">
-            <label className={labelClass}>Location</label>
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                <MapPinIcon />
-              </span>
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="Search by city, building, or community"
-                className={`${inputBase} pl-11`}
-              />
-            </div>
-          </div>
-
-          {/* Search button - premium styling */}
-          <div className="sm:col-span-2 lg:col-span-2">
-            <label className={labelClass}>&nbsp;</label>
+        {/* Tabs: Buy | Rent | Sell */}
+        <div
+          role="tablist"
+          aria-label="Transaction type"
+          className="flex gap-1 p-1 rounded-lg bg-white/10 backdrop-blur-sm w-fit"
+        >
+          {searchTabs.map((tab) => (
             <button
+              key={tab}
               type="button"
-              className="
-                w-full h-12 px-6 text-sm font-semibold text-white 
-                bg-gradient-to-r from-[#0d365e] to-[#1a5a8e]
-                rounded-xl 
-                hover:from-[#0f4274] hover:to-[#1e6aa3]
-                active:scale-[0.98]
-                transition-all duration-200
-                flex items-center justify-center gap-2.5
-                shadow-lg shadow-[#0d365e]/20
-                hover:shadow-xl hover:shadow-[#0d365e]/30
-              "
+              role="tab"
+              aria-selected={activeTab === tab}
+              aria-controls={`panel-${tab}`}
+              id={`tab-${tab}`}
+              onClick={() => {
+                setActiveTab(tab);
+                setSelectedCategory("");
+              }}
+              className={`min-w-[72px] md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
+                activeTab === tab
+                  ? "bg-white text-[#0d365e]"
+                  : "text-white/90 hover:text-white hover:bg-white/10"
+              }`}
             >
-              <SearchIcon />
-              <span>Search Properties</span>
+              {tab}
             </button>
+          ))}
+        </div>
+
+        {/* Category pills */}
+        <div role="group" aria-labelledby="category-label">
+          <span id="category-label" className="sr-only">
+            Category for {activeTab}
+          </span>
+          <div
+            id={`panel-${activeTab}`}
+            role="tabpanel"
+            aria-labelledby={`tab-${activeTab}`}
+            className="flex flex-wrap gap-2"
+          >
+            {categories.map((category) => (
+              <button
+                key={category}
+                type="button"
+                aria-pressed={selectedCategory === category}
+                aria-label={`Select ${category}`}
+                onClick={() =>
+                  setSelectedCategory((prev) =>
+                    prev === category ? "" : category
+                  )
+                }
+                className={`min-h-[44px] px-4 py-2.5 text-sm font-medium rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
+                  selectedCategory === category
+                    ? "bg-[#c3ad95] text-[#081f3a] border-2 border-[#c3ad95]"
+                    : "bg-white/10 text-white/90 border-2 border-white/30 hover:bg-white/20 hover:border-white/50"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
           </div>
         </div>
-      </div>
-    </div>
+
+        {/* Search bar + button */}
+        <div className="flex flex-col sm:flex-row gap-3">
+          <label htmlFor="hero-search" className="sr-only">
+            Search for properties, locations, or keywords
+          </label>
+          <input
+            id="hero-search"
+            type="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search location, property, or keyword..."
+            className="flex-1 min-h-[48px] md:min-h-[52px] px-4 md:px-5 rounded-lg bg-white/95 text-[#333333] placeholder:text-[#333333]/60 border-0 focus:ring-1 focus:ring-[#c3ad95] focus:ring-offset-1 focus:ring-offset-transparent focus:outline-none text-base"
+            autoComplete="off"
+          />
+          <button
+            type="submit"
+            className="min-h-[48px] md:min-h-[52px] px-6 md:px-8 rounded-lg bg-[#0d365e] hover:bg-[#1c4e80] text-white font-semibold text-base transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0 sm:w-auto w-full"
+          >
+            Search
+          </button>
+        </div>
+      </fieldset>
+    </form>
   );
 };
 
