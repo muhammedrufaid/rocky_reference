@@ -179,7 +179,7 @@ const Footer: React.FC = () => {
                 <section className="mt-12 pt-10 border-t border-white/20" aria-label="Popular searches and areas">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <h3 className="text-xs font-semibold uppercase tracking-wider text-blue-200 mb-3">Popular Searches</h3>
+                            <h3 className="text-xs font-semibold uppercase tracking-wider text-white mb-3">Popular Searches</h3>
                             <div className="flex flex-wrap gap-2">
                                 {popularSearches.map((area) => (
                                     <Link
