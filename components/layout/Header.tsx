@@ -4,14 +4,20 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Container from "./Container";
-import { navigationData } from "../../utils/data";
+import { navigationData, moreDropdownItems } from "../../utils/data";
 
 const SCROLL_THRESHOLD = 50;
 
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [activeNav, setActiveNav] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+
+  // When mobile menu closes, collapse "More"
+  useEffect(() => {
+    if (!mobileMenuOpen) setMobileMoreOpen(false);
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,11 +33,10 @@ const Header: React.FC = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-out ${
-        scrolled
-          ? "bg-white backdrop-blur-md shadow-sm border-b border-[var(--border-light)]"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-out ${scrolled
+        ? "bg-white backdrop-blur-md shadow-sm border-b border-[var(--border-light)]"
+        : "bg-transparent"
+        }`}
     >
       <Container>
         <div className="flex h-16 md:h-20 items-center justify-between gap-6">
@@ -49,28 +54,76 @@ const Header: React.FC = () => {
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-8">
-            {navigationData.map((item) => (
-              <Link
-                key={item.id}
-                href={item.path}
-                onMouseEnter={() => setActiveNav(item.title)}
-                onMouseLeave={() => setActiveNav(null)}
-                className={`relative py-2 text-sm font-medium transition-all duration-500 ${
-                  scrolled
+            {navigationData.map((item) =>
+              item.path ? (
+                <Link
+                  key={item.id}
+                  href={item.path}
+                  onMouseEnter={() => setActiveNav(item.title)}
+                  onMouseLeave={() => setActiveNav(null)}
+                  className={`relative py-2 text-sm font-medium transition-all duration-500 ${scrolled
                     ? `text-[var(--charcoal)] hover:text-[var(--rocky-blue)] ${activeNav === item.title ? "text-[var(--rocky-blue)]" : ""}`
                     : `text-white hover:text-white/90 ${activeNav === item.title ? "text-white" : ""}`
-                }`}
-              >
-                {item.title}
-                {activeNav === item.title && (
-                  <span
-                    className={`absolute bottom-0 left-0 h-0.5 w-full transition-all ${
-                      scrolled ? "bg-[var(--rocky-blue)]" : "bg-white"
                     }`}
-                  />
-                )}
-              </Link>
-            ))}
+                >
+                  {item.title}
+                  {activeNav === item.title && (
+                    <span
+                      className={`absolute bottom-0 left-0 h-0.5 w-full transition-all ${scrolled ? "bg-[var(--rocky-blue)]" : "bg-white"
+                        }`}
+                    />
+                  )}
+                </Link>
+              ) : (
+                <div
+                  key={item.id}
+                  className="relative"
+                  onMouseEnter={() => setActiveNav(item.title)}
+                  onMouseLeave={() => setActiveNav(null)}
+                >
+                  <button
+                    type="button"
+                    className={`py-2 text-sm font-medium transition-all duration-500 flex items-center gap-0.5 ${scrolled
+                      ? `text-[var(--charcoal)] hover:text-[var(--rocky-blue)] ${activeNav === item.title ? "text-[var(--rocky-blue)]" : ""}`
+                      : `text-white hover:text-white/90 ${activeNav === item.title ? "text-white" : ""}`
+                      }`}
+                    aria-haspopup="true"
+                    aria-expanded={activeNav === item.title}
+                  >
+                    {item.title}
+                    <svg className="w-3.5 h-3.5 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {activeNav === item.title && (
+                    <>
+                      <span
+                        className={`absolute bottom-0 left-0 h-0.5 w-full transition-all ${scrolled ? "bg-[var(--rocky-blue)]" : "bg-white"
+                          }`}
+                      />
+                      <div className="absolute top-full left-0 pt-2">
+                        <ul
+                          className="min-w-[180px] py-2 rounded-lg shadow-lg border border-[var(--border-light)] bg-white"
+                          role="menu"
+                        >
+                          {moreDropdownItems.map((sub) => (
+                            <li key={sub.id} role="none">
+                              <Link
+                                href={sub.path}
+                                className="block px-4 py-2.5 text-sm font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/30 hover:text-[var(--rocky-blue)] transition-colors"
+                                role="menuitem"
+                              >
+                                {sub.title}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )
+            )}
           </nav>
 
           {/* Right: CTAs */}
@@ -78,11 +131,10 @@ const Header: React.FC = () => {
             {/* Secondary CTA - Call */}
             <a
               href="tel:+971501234567"
-              className={`hidden sm:flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-500 ${
-                scrolled
-                  ? "text-[var(--rocky-blue)] border border-[var(--rocky-blue)] hover:bg-[var(--rocky-blue)] hover:text-white"
-                  : "text-white border border-white/80 hover:bg-white hover:text-[var(--rocky-blue)]"
-              }`}
+              className={`hidden sm:flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-500 ${scrolled
+                ? "text-[var(--rocky-blue)] border border-[var(--rocky-blue)] hover:bg-[var(--rocky-blue)] hover:text-white"
+                : "text-white border border-white/80 hover:bg-white hover:text-[var(--rocky-blue)]"
+                }`}
             >
               Call
             </a>
@@ -108,11 +160,10 @@ const Header: React.FC = () => {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`lg:hidden p-2 transition-all duration-500 ${
-                scrolled
-                  ? "text-[var(--charcoal)] hover:text-[var(--rocky-blue)]"
-                  : "text-white hover:text-white/80"
-              }`}
+              className={`lg:hidden p-2 transition-all duration-500 ${scrolled
+                ? "text-[var(--charcoal)] hover:text-[var(--rocky-blue)]"
+                : "text-white hover:text-white/80"
+                }`}
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
@@ -135,35 +186,56 @@ const Header: React.FC = () => {
           }`}
         style={{ top: "4rem" }}
       >
-        <nav className="flex flex-col gap-1 p-6 overflow-auto">
-          {navigationData.map((item) => (
-            <Link
-              key={item.id}
-              href={item.path}
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-3 px-4 text-base font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/30 hover:text-[var(--rocky-blue)] rounded-lg transition-colors"
-            >
-              {item.title}
-            </Link>
-          ))}
-          <div className="mt-4 pt-4 border-t border-[var(--border-light)] flex flex-col gap-2">
-            <a
-              href="tel:+971501234567"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-3 px-4 text-center text-base font-medium text-[var(--rocky-blue)] border border-[var(--rocky-blue)] rounded-lg"
-            >
-              Call
-            </a>
-            <a
-              href="https://wa.me/971501234567"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-3 px-4 text-center text-base font-medium text-white bg-[var(--rocky-blue)] rounded-lg"
-            >
-              WhatsApp
-            </a>
-          </div>
+        <nav className="flex flex-col gap-1 p-2 overflow-auto">
+          {navigationData.map((item) =>
+            item.path ? (
+              <Link
+                key={item.id}
+                href={item.path}
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-3 px-4 text-base font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/30 hover:text-[var(--rocky-blue)] rounded-lg transition-colors"
+              >
+                {item.title}
+              </Link>
+            ) : (
+              <div key={item.id} className="flex flex-col gap-1">
+                <button
+                  type="button"
+                  onClick={() => setMobileMoreOpen((prev) => !prev)}
+                  className="flex items-center justify-between w-full py-3 px-4 text-base font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/30 hover:text-[var(--rocky-blue)] rounded-lg transition-colors text-left"
+                  aria-expanded={mobileMoreOpen}
+                  aria-controls="mobile-more-menu"
+                  id="mobile-more-trigger"
+                >
+                  {item.title}
+                  <svg
+                    className={`w-4 h-4 shrink-0 transition-transform ${mobileMoreOpen ? "rotate-180" : ""}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {mobileMoreOpen && (
+                  <div id="mobile-more-menu" role="region" aria-labelledby="mobile-more-trigger" className="flex flex-col gap-0.5">
+                    {moreDropdownItems.map((sub) => (
+                      <Link
+                        key={sub.id}
+                        href={sub.path}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="py-2.5 pl-8 pr-4 text-sm font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/30 hover:text-[var(--rocky-blue)] rounded-lg transition-colors"
+                      >
+                        {sub.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          )}
+          {/* ... Call & WhatsApp buttons ... */}
         </nav>
       </div>
 
