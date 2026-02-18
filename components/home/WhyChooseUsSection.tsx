@@ -22,10 +22,10 @@ const WhyChooseUsSection: React.FC = () => {
     >
       <Container>
         {/* ROW 1: Small image + heading/text */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center mb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center">
           {/* Smaller image */}
           <figure
-            className="relative w-full max-w-lg mx-auto lg:mx-0 aspect-[4/3] overflow-hidden rounded-2xl"
+            className="relative w-full max-w-xl mx-auto lg:mx-0 aspect-[4/3] overflow-hidden rounded-2xl"
             style={{ boxShadow: "0 6px 28px rgba(13, 54, 94, 0.10)" }}
           >
             <Image
@@ -84,14 +84,14 @@ const WhyChooseUsSection: React.FC = () => {
         </div>
 
         {/* Divider */}
-        <div
+        {/* <div
           className="w-full h-px mb-14"
           style={{ backgroundColor: "#e8e0d8" }}
           aria-hidden
-        />
+        /> */}
 
         {/* ROW 2: Benefits grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {benefits.map((benefit, index) => (
             <div
               key={index}
@@ -122,7 +122,7 @@ const WhyChooseUsSection: React.FC = () => {
               </p>
             </div>
           ))}
-        </div>
+        </div> */}
       </Container>
     </section>
   );
