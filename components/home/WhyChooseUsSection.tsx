@@ -57,7 +57,7 @@ const WhyChooseUsSection: React.FC = () => {
               className="text-2xl sm:text-3xl md:text-4xl font-medium leading-tight tracking-tight"
               style={{ color: "#0d365e" }}
             >
-              Why Choose Rocky Real Estate
+              Why Choose Rocky Real Estate?
             </h2>
             <p
               className="mt-5 text-base md:text-lg leading-relaxed"
