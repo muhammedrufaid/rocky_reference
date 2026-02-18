@@ -4,12 +4,12 @@ import Container from "./Container";
 import Image from "next/image";
 
 const footerServices = [
-    { title: "Buy Properties", path: "/buy" },
-    { title: "Rent Properties", path: "/rent" },
-    { title: "Sell Property", path: "/sell" },
-    { title: "Off-Plan Projects", path: "/off-plan" },
+    { title: "Short Term Rentals", path: "/short-term-rentals" },
+    { title: "Property Listing", path: "/property-listing" },
     { title: "Property Management", path: "/property-management" },
-    { title: "New Developments", path: "/new-developments" },
+    { title: "Mortgage", path: "/mortgage" },
+    { title: "Brokerage", path: "/brokerage" },
+    { title: "After Sales Support", path: "/after-sales-support" },
 ];
 
 const footerCompany = [
