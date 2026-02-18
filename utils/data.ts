@@ -1,15 +1,3 @@
-// export const navigationData = [
-//   { id: 1, title: "Buy", path: "/buy" },
-//   { id: 2, title: "Rent", path: "/rent" },
-//   // { id: 3, title: "Sell", path: "/sell" },
-//   { id: 4, title: "Off Plan", path: "/off-plan" },
-//   // { id: 5, title: "Areas", path: "/areas" },
-//   { id: 6, title: "Agents", path: "/agents" },
-//   // { id: 7, title: "About", path: "/about" },
-//   { id: 8, title: "Contact", path: "/contact" },
-//   { id: 9, title: "More", path: "" },
-// ];
-
 export interface OffPlanProject {
   id: number;
   title: string;
@@ -20,6 +8,30 @@ export interface OffPlanProject {
   path: string;
   completionYear?: string;
 }
+
+export interface Testimonial {
+  id: number;
+  quote: string;
+  author: string;
+  rating: number;
+}
+
+export interface BlogPost {
+  id: number;
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+  path: string;
+}
+
+export interface Developer {
+  id: number;
+  name: string;
+  logo: string;
+  path?: string;
+}
+
 
 export const featuredOffPlanProjects: OffPlanProject[] = [
   {
@@ -91,15 +103,6 @@ export const categoryOptions: Record<string, string[]> = {
   Sell: ["Residential", "Commercial", "Offplan"],
 };
 
-export interface BlogPost {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  image: string;
-  path: string;
-}
-
 export const blogPosts: BlogPost[] = [
   {
     id: 1,
@@ -143,13 +146,6 @@ export const blogPosts: BlogPost[] = [
   },
 ];
 
-export interface Testimonial {
-  id: number;
-  quote: string;
-  author: string;
-  rating: number;
-}
-
 export const testimonials: Testimonial[] = [
   {
     id: 1,
@@ -185,5 +181,62 @@ export const testimonials: Testimonial[] = [
       "Rocky's market insights and professional approach made our property search stress-free. We couldn't be happier with our new home.",
     author: "Priya Sharma",
     rating: 5,
+  },
+];
+
+export const developers: Developer[] = [
+  {
+    id: 1,
+    name: "Majid Al Futtaim",
+    logo: "/assets/developers/01.png",
+    path: "/developers/majid-al-futtaim",
+  },
+  {
+    id: 2,
+    name: "Damac Properties",
+    logo: "/assets/developers/02.png",
+    path: "/developers/damac",
+  },
+  {
+    id: 3,
+    name: "Meraas",
+    logo: "/assets/developers/03.png",
+    path: "/developers/meraas",
+  },
+  {
+    id: 4,
+    name: "Sobha Realty",
+    logo: "/assets/developers/04.png",
+    path: "/developers/sobha",
+  },
+  {
+    id: 5,
+    name: "Emaar Properties",
+    logo: "/assets/developers/05.png",
+    path: "/developers/emaar",
+  },
+  {
+    id: 6,
+    name: "Ellington Properties",
+    logo: "/assets/developers/06.webp",
+    path: "/developers/ellington",
+  },
+  {
+    id: 7,
+    name: "Danube Properties",
+    logo: "/assets/developers/07.webp",
+    path: "/developers/danube",
+  },
+  {
+    id: 8,
+    name: "Nakheel",
+    logo: "/assets/developers/08.webp",
+    path: "/developers/nakheel",
+  },
+  {
+    id: 9,
+    name: "Select Group",
+    logo: "/assets/developers/09.webp",
+    path: "/developers/select-group",
   },
 ];
