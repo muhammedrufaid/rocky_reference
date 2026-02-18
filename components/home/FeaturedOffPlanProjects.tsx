@@ -59,7 +59,7 @@ const FeaturedOffPlanProjects: React.FC = () => {
             </span> */}
             <h2
               id="off-plan-section-heading"
-              className="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight"
+              className="text-2xl sm:text-3xl md:text-4xl font-medium leading-tight"
               style={{ color: "#0d365e" }}
             >
               Featured Off Plan Projects

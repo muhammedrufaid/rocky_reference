@@ -54,7 +54,7 @@ const WhyChooseUsSection: React.FC = () => {
             />
             <h2
               id="why-choose-heading"
-              className="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight tracking-tight"
+              className="text-2xl sm:text-3xl md:text-4xl font-medium leading-tight tracking-tight"
               style={{ color: "#0d365e" }}
             >
               Why Choose Rocky Real Estate
