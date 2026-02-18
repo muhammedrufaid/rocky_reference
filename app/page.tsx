@@ -2,6 +2,7 @@ import FeaturedOffPlanProjects from "@/components/home/FeaturedOffPlanProjects";
 import Hero from "@/components/home/Hero";
 import BlogSection from "@/components/home/BlogSection";
 import TestimonialSection from "@/components/home/TestimonialSection";
+import WhyChooseUsSection from "@/components/home/WhyChooseUsSection";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 
@@ -11,6 +12,7 @@ export default function Home() {
       <Header />
       <Hero />
       <FeaturedOffPlanProjects />
+      <WhyChooseUsSection />
       <TestimonialSection />
       <BlogSection />
       <Footer />
