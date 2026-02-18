@@ -25,7 +25,7 @@ const WhyChooseUsSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center mb-14">
           {/* Smaller image */}
           <figure
-            className="relative w-full max-w-md mx-auto lg:mx-0 aspect-[4/3] overflow-hidden rounded-2xl"
+            className="relative w-full max-w-lg mx-auto lg:mx-0 aspect-[4/3] overflow-hidden rounded-2xl"
             style={{ boxShadow: "0 6px 28px rgba(13, 54, 94, 0.10)" }}
           >
             <Image
@@ -37,12 +37,12 @@ const WhyChooseUsSection: React.FC = () => {
               priority={false}
             />
             {/* Overlay badge */}
-            <div
+            {/* <div
               className="absolute bottom-4 left-4 px-4 py-2 rounded-lg text-xs font-semibold tracking-wide uppercase"
               style={{ backgroundColor: "#0d365e", color: "#ffffff" }}
             >
               Dubai's Trusted Experts
-            </div>
+            </div> */}
           </figure>
 
           {/* Text content */}
