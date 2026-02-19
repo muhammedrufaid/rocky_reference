@@ -62,15 +62,15 @@ const SocialIcon = ({ name, className }: { name: string; className?: string }) =
         ),
         facebook: (
             <svg
-              className={className}
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
+                className={className}
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
             >
-              <path d="M24 12C24 5.37 18.63 0 12 0S0 5.37 0 12c0 5.99 4.39 10.95 10.13 11.85v-8.39H7.08v-3.46h3.05V9.41c0-3 1.79-4.67 4.53-4.67 1.31 0 2.68.23 2.68.23v2.95h-1.51c-1.49 0-1.95.92-1.95 1.87v2.24h3.33l-.53 3.46h-2.8v8.39C19.61 22.95 24 17.99 24 12z" />
+                <path d="M24 12C24 5.37 18.63 0 12 0S0 5.37 0 12c0 5.99 4.39 10.95 10.13 11.85v-8.39H7.08v-3.46h3.05V9.41c0-3 1.79-4.67 4.53-4.67 1.31 0 2.68.23 2.68.23v2.95h-1.51c-1.49 0-1.95.92-1.95 1.87v2.24h3.33l-.53 3.46h-2.8v8.39C19.61 22.95 24 17.99 24 12z" />
             </svg>
-          ),
-          
+        ),
+
     };
     return icons[name] ?? null;
 };
@@ -176,36 +176,72 @@ const Footer: React.FC = () => {
                 </div>
 
                 {/* SEO – Popular Searches & Areas */}
-                <section className="mt-12 pt-10 border-t border-white/20" aria-label="Popular searches and areas">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <section
+                    className="mt-12 pt-10 border-t border-white/20"
+                    aria-labelledby="footer-extra-heading"
+                >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+
+                        {/* Newsletter Signup */}
                         <div>
-                            <h3 className="text-xs font-semibold uppercase tracking-wider text-white mb-3">Popular Searches</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {popularSearches.map((area) => (
-                                    <Link
-                                        key={area}
-                                        href={`/areas?q=${encodeURIComponent(area)}`}
-                                        className="text-xs text-blue-200 hover:text-white py-1 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
-                                    >
-                                        {area}
-                                    </Link>
-                                ))}
-                            </div>
+                            <h3
+                                id="footer-newsletter-heading"
+                                className="text-xs font-semibold uppercase tracking-wider text-white mb-1"
+                            >
+                                Stay in the loop
+                            </h3>
+                            <p className="text-sm text-blue-100 mb-3">
+                                Sign up to our weekly newsletter for market updates
+                            </p>
+                            <form
+                                action="/api/newsletter"
+                                method="POST"
+                                aria-labelledby="footer-newsletter-heading"
+                                className="flex gap-2 max-w-sm"
+                            >
+                                <label htmlFor="footer-email" className="sr-only">
+                                    Email address
+                                </label>
+                                <input
+                                    id="footer-email"
+                                    name="email"
+                                    type="email"
+                                    autoComplete="email"
+                                    required
+                                    placeholder="Enter your email"
+                                    className="flex-1 min-w-0 px-3 py-2 rounded text-sm bg-white/10 border border-white/20 text-white placeholder-blue-300/70 focus:outline-none focus:ring-1 focus:ring-white/60 focus:border-white/40 transition"
+                                />
+                                <button
+                                    type="submit"
+                                    className="px-4 py-2 rounded bg-white text-[#0d365e] text-sm font-semibold hover:bg-blue-50 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 shrink-0"
+                                >
+                                    Subscribe
+                                </button>
+                            </form> 
                         </div>
-                        {/* <div>
-                            <h3 className="text-xs font-semibold uppercase tracking-wider text-blue-200 mb-3">Areas We Cover</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {areasWeCover.map((area) => (
-                                    <Link
-                                        key={area}
-                                        href={`/areas/${area.toLowerCase().replace(/\s+/g, "-")}`}
-                                        className="text-xs text-blue-200 hover:text-white py-1 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
-                                    >
-                                        {area}
-                                    </Link>
+
+                        {/* Popular Searches */}
+                        <nav aria-labelledby="footer-popular-heading">
+                            <h3
+                                id="footer-popular-heading"
+                                className="text-xs font-semibold uppercase tracking-wider text-white mb-3"
+                            >
+                                Popular Searches
+                            </h3>
+                            <ul className="flex flex-wrap gap-2">
+                                {popularSearches.map((area) => (
+                                    <li key={area}>
+                                        <Link
+                                            href={`/areas?q=${encodeURIComponent(area)}`}
+                                            className="text-xs text-blue-200 hover:text-white py-1 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
+                                        >
+                                            {area}
+                                        </Link>
+                                    </li>
                                 ))}
-                            </div>
-                        </div> */}
+                            </ul>
+                        </nav>
+
                     </div>
                 </section>
 
