@@ -100,11 +100,11 @@ const FeaturedOffPlanProjects: React.FC = () => {
         </header>
 
         {/* Grid — 1 col → 2 col → 4 col */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 overflow-visible">
           {featuredOffPlanProjects.map((project, index) => (
             <motion.article
               key={project.id}
-              className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:-translate-y-1"
+              className="group relative z-0 flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:-translate-y-1 hover:z-10"
               style={{
                 boxShadow: "0 2px 12px rgba(13,54,94,0.07)",
               }}
