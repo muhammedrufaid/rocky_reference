@@ -126,7 +126,7 @@ const TestimonialSection: React.FC = () => {
           {testimonials.map((testimonial, index) => (
             <SwiperSlide key={testimonial.id}>
               <motion.article
-                className="relative bg-white/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow duration-300 border border-white/60 h-full flex flex-col"
+                className="group relative bg-white/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-sm h-full flex flex-col border border-[var(--charcoal)]/10 transition-all duration-300 hover:border-[var(--rocky-blue)]/50 hover:shadow-md"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-30px" }}
@@ -147,7 +147,7 @@ const TestimonialSection: React.FC = () => {
                 </div>
 
                 {/* Testimonial quote – comfortable line spacing */}
-                <blockquote className="text-[var(--charcoal)] line-clamp-4 text-[15px] md:text-base leading-relaxed tracking-tight pr-8 min-h-[4.5rem]">
+                <blockquote className="text-[var(--charcoal)] line-clamp-4 text-[15px] md:text-base leading-relaxed tracking-tight pr-8 min-h-0 flex-1 overflow-hidden">
                   &ldquo;{testimonial.quote}&rdquo;
                 </blockquote>
 
