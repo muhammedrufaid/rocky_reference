@@ -213,7 +213,7 @@ const Footer: React.FC = () => {
                                 />
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 rounded bg-white text-[#0d365e] text-sm font-semibold hover:bg-blue-50 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 shrink-0"
+                                    className="px-4 py-2 rounded bg-[#c3ad95] text-[#0d365e] text-sm font-semibold hover:bg-blue-50 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 shrink-0"
                                 >
                                     Subscribe
                                 </button>
