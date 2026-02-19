@@ -144,9 +144,12 @@ const ExplorePropertySection: React.FC = () => {
                                         style={{
                                             backgroundColor:
                                                 property.type === "Buy"
-                                                    ? "rgba(13,54,94,0.92)"
-                                                    : "rgba(195,173,149,0.95)",
-                                            color: "#fff",
+                                                    ? "#1c4e80"
+                                                    : "#e7dccd",
+                                            color:
+                                            property.type === "Buy"
+                                                    ? "#ffffff"
+                                                    : "#000000",
                                             backdropFilter: "blur(6px)",
                                         }}
                                     >

@@ -87,11 +87,10 @@ const HeroSearchCard: React.FC = () => {
                 setActiveTab(tab);
                 setSelectedCategory("");
               }}
-              className={`min-w-[72px] md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
-                activeTab === tab
+              className={`min-w-[72px] md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${activeTab === tab
                   ? "bg-white text-[#0d365e]"
                   : "text-white/90 hover:text-white hover:bg-white/10"
-              }`}
+                }`}
             >
               {tab}
             </button>
@@ -123,9 +122,8 @@ const HeroSearchCard: React.FC = () => {
                   {selectedCategory || categories[0] || "Category"}
                 </span>
                 <svg
-                  className={`w-3.5 h-3.5 shrink-0 text-[#333333]/60 transition-transform ${
-                    dropdownOpen ? "rotate-180" : ""
-                  }`}
+                  className={`w-3.5 h-3.5 shrink-0 text-[#333333]/60 transition-transform ${dropdownOpen ? "rotate-180" : ""
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -157,11 +155,10 @@ const HeroSearchCard: React.FC = () => {
                         );
                         setDropdownOpen(false);
                       }}
-                      className={`px-4 py-2.5 text-sm cursor-pointer transition-colors ${
-                        selectedCategory === category
+                      className={`px-4 py-2.5 text-sm cursor-pointer transition-colors ${selectedCategory === category
                           ? "bg-[#e7dccd]/40 text-[#0d365e] font-medium"
                           : "text-[#333333] hover:bg-[#f5f0ea]"
-                      }`}
+                        }`}
                     >
                       {category}
                     </li>
@@ -186,10 +183,11 @@ const HeroSearchCard: React.FC = () => {
 
           <button
             type="submit"
-            className="min-h-[48px] md:min-h-[52px] px-6 md:px-8 rounded-lg bg-[#0d365e] hover:bg-[#1c4e80] text-white font-semibold text-base transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0 sm:w-auto w-full"
+            className="min-h-[48px] md:min-h-[52px] px-6 md:px-8 rounded-lg bg-[#c3ad95] hover:bg-[#9f8870] active:bg-[#a38c73] cursor-pointer text-[#000000] font-semibold text-base transition-all duration-200 ease-out hover:shadow-md active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0 sm:w-auto w-full"
           >
             Search
           </button>
+
         </motion.div>
       </fieldset>
     </motion.form>

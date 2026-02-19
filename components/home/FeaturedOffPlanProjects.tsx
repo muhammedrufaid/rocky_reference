@@ -216,7 +216,7 @@ const FeaturedOffPlanProjects: React.FC = () => {
                 <div className="px-4 pb-4 pt-0 flex gap-2">
                   <a
                     href="tel:+97144476644"
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-semibold rounded-lg transition-colors duration-200 border hover:bg-[#0d365e] hover:text-white"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-semibold rounded-lg transition-colors duration-200 border hover:bg-[#0d365e] hover:text-white!"
                     style={{
                       borderColor: "#0d365e",
                       color: "#0d365e",
