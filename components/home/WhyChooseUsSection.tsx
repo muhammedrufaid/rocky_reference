@@ -50,9 +50,9 @@ const WhyChooseUsSection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="pb-16 md:pb-20 lg:pb-24"
+      className="py-16 md:py-20 lg:py-24"
       aria-labelledby="why-choose-heading"
-      style={{ backgroundColor: "#FFFFFF" }}
+      // style={{ backgroundColor: "#FFFFFF" }}
     >
       <Container>
         {/* ROW 1: Small image + heading/text */}
