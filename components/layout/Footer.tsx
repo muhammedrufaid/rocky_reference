@@ -217,7 +217,7 @@ const Footer: React.FC = () => {
                                 >
                                     Subscribe
                                 </button>
-                            </form> 
+                            </form>
                         </div>
 
                         {/* Popular Searches */}
