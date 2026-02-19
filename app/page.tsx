@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import DevelopmentPartnersSection from "@/components/home/DevelopmentPartnersSection";
 import ServiceSection from "@/components/home/ServiceSection";
+import ValuationCTA from "@/components/home/ValuationCTA";
 
 
 export default function Home() {
@@ -18,12 +19,15 @@ export default function Home() {
       <Hero />
       {/* no background color , title and desc left align*/}
       <FeaturedOffPlanProjects />
-     {/* no background color , title and desc center align*/}
+      {/* no background color , title and desc center align*/}
       <DevelopmentPartnersSection />
-     {/* background color , title and desc center align*/}
+      {/* background color , title and desc center align*/}
       <ServiceSection />
       {/* no background color , 2 grid  left image right contentn*/}
       <WhyChooseUsSection />
+
+      <ValuationCTA />
+
       {/* background color , title and desc left align*/}
       <TestimonialSection />
       {/* no background color , title and desc center align*/}
