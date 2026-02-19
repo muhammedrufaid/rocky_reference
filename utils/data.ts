@@ -79,10 +79,11 @@ export const featuredOffPlanProjects: OffPlanProject[] = [
 export const navigationData = [
   { id: 1, title: "Buy", path: "/buy" },
   { id: 2, title: "Rent", path: "/rent" },
-  { id: 4, title: "Off Plan", path: "/off-plan" },
-  // { id: 6, title: "Agents", path: "/agents" },
-  { id: 8, title: "Contact", path: "/contact" },
-  { id: 9, title: "More", path: "" },
+  { id: 3, title: "Off Plan", path: "/off-plan" },
+  { id: 4, title: "Services", path: "/services" },
+  { id: 5, title: "Contact", path: "/contact" },
+  { id: 6, title: "More", path: "" },
+  // { id: 7, title: "Agents", path: "/agents" },
 ];
 
 export const moreDropdownItems = [
@@ -181,6 +182,45 @@ export const testimonials: Testimonial[] = [
       "Rocky's market insights and professional approach made our property search stress-free. We couldn't be happier with our new home.",
     author: "Priya Sharma",
     rating: 5,
+  },
+];
+
+export interface Service {
+  id: number;
+  title: string;
+  description: string;
+}
+
+export const services: Service[] = [
+  {
+    id: 1,
+    title: "Short Term Rental",
+    description: "Flexible holiday lets and Airbnb management for maximum returns on your property investment.",
+  },
+  {
+    id: 2,
+    title: "Property Listing",
+    description: "Professional marketing and listing services to showcase your property to the right buyers.",
+  },
+  {
+    id: 3,
+    title: "Property Management",
+    description: "Full-service management covering maintenance, tenant relations, and rental collection.",
+  },
+  {
+    id: 4,
+    title: "Mortgage Services",
+    description: "Expert guidance on financing options and mortgage solutions tailored to your needs.",
+  },
+  {
+    id: 5,
+    title: "Brokerage",
+    description: "Licensed brokerage services for buy, sell, and rent transactions across Dubai.",
+  },
+  {
+    id: 6,
+    title: "After Sales Support",
+    description: "Ongoing assistance post-purchase—handover, registration, and continued care.",
   },
 ];
 
