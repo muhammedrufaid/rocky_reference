@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 import { featuredOffPlanProjects } from "@/utils/data";
 
@@ -51,40 +52,69 @@ const FeaturedOffPlanProjects: React.FC = () => {
         {/* Header */}
         <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 md:mb-14">
           <div>
-            {/* <span
-              className="inline-block text-xs font-semibold tracking-[0.18em] uppercase mb-3 px-3 py-1 rounded-full"
-              style={{ backgroundColor: "#EEF3F8", color: "#0d365e" }}
-            >
-              New Launches
-            </span> */}
-            <h2
+            <motion.h2
               id="off-plan-section-heading"
               className="text-2xl sm:text-3xl md:text-4xl font-medium leading-tight"
               style={{ color: "#0d365e" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
             >
               Featured Off Plan Projects
-            </h2>
-            <p className="mt-3 text-sm md:text-base max-w-lg" style={{ color: "#555" }}>
+            </motion.h2>
+            <motion.p
+              className="mt-3 text-sm md:text-base max-w-lg"
+              style={{ color: "#555" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{
+                duration: 0.5,
+                delay: 0.1,
+                ease: [0.22, 1, 0.36, 1] as const,
+              }}
+            >
               Explore top off-plan properties in Dubai with prime locations and exceptional value.
-            </p>
+            </motion.p>
           </div>
-          <Link
-            href="/off-plan"
-            className="self-start sm:self-auto flex-shrink-0 inline-flex items-center gap-2 text-sm font-semibold border-b-2 pb-0.5 transition-colors"
-            style={{ color: "#0d365e", borderColor: "#c3ad95" }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{
+              duration: 0.5,
+              delay: 0.15,
+              ease: [0.22, 1, 0.36, 1] as const,
+            }}
+            className="self-start sm:self-auto"
           >
-            View All Projects <ArrowIcon />
-          </Link>
+            <Link
+              href="/off-plan"
+              className="flex-shrink-0 inline-flex items-center gap-2 text-sm font-semibold border-b-2 pb-0.5 transition-colors"
+              style={{ color: "#0d365e", borderColor: "#c3ad95" }}
+            >
+              View All Projects <ArrowIcon />
+            </Link>
+          </motion.div>
         </header>
 
         {/* Grid — 1 col → 2 col → 4 col */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {featuredOffPlanProjects.map((project) => (
-            <article
+          {featuredOffPlanProjects.map((project, index) => (
+            <motion.article
               key={project.id}
               className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:-translate-y-1"
               style={{
                 boxShadow: "0 2px 12px rgba(13,54,94,0.07)",
+              }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.1,
+                ease: [0.22, 1, 0.36, 1] as const,
               }}
             >
               <Link href={project.path} className="flex flex-col flex-1">
@@ -161,7 +191,7 @@ const FeaturedOffPlanProjects: React.FC = () => {
                   </span>
                 </div>
               </Link>
-            </article>
+            </motion.article>
           ))}
         </div>
       </Container>

@@ -4,6 +4,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/layout/Container";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const benefits = [
   { icon: "◆", title: "Market-Leading Expertise", desc: "Deep knowledge of Dubai's real estate landscape" },
@@ -13,9 +15,41 @@ const benefits = [
   { icon: "◆", title: "Dedicated Management", desc: "Personalised client relationship at every step" },
 ];
 
+// Reusable variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const, delay },
+  }),
+};
+
+const fadeLeft = {
+  hidden: { opacity: 0, x: -48 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
+
+const fadeRight = {
+  hidden: { opacity: 0, x: 48 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
+
 const WhyChooseUsSection: React.FC = () => {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
+
   return (
     <section
+      ref={sectionRef}
       className="pb-16 md:pb-20 lg:pb-24"
       aria-labelledby="why-choose-heading"
       style={{ backgroundColor: "#FFFFFF" }}
@@ -23,11 +57,30 @@ const WhyChooseUsSection: React.FC = () => {
       <Container>
         {/* ROW 1: Small image + heading/text */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center">
-          {/* Smaller image */}
-          <figure
+          {/* Image — slides in from left */}
+          <motion.figure
+            variants={fadeLeft}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
             className="relative w-full max-w-xl mx-auto lg:mx-0 aspect-[4/3] overflow-hidden rounded-2xl"
             style={{ boxShadow: "0 6px 28px rgba(13, 54, 94, 0.10)" }}
           >
+            {/* Shimmer overlay that sweeps away once loaded */}
+            <motion.div
+              className="absolute inset-0 z-10 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.45) 50%, transparent 60%)",
+                backgroundSize: "200% 100%",
+              }}
+              initial={{ backgroundPosition: "-100% 0", opacity: 1 }}
+              animate={
+                isInView
+                  ? { backgroundPosition: "200% 0", opacity: 0 }
+                  : { backgroundPosition: "-100% 0", opacity: 1 }
+              }
+              transition={{ duration: 1.1, ease: "easeInOut", delay: 0.2 }}
+            />
             <Image
               src="/assets/common/whychooseus.jpg"
               alt="Luxury Dubai real estate - Rocky Real Estate expertise"
@@ -36,38 +89,57 @@ const WhyChooseUsSection: React.FC = () => {
               sizes="(max-width: 1024px) 384px, 40vw"
               priority={false}
             />
-            {/* Overlay badge */}
-            {/* <div
-              className="absolute bottom-4 left-4 px-4 py-2 rounded-lg text-xs font-semibold tracking-wide uppercase"
-              style={{ backgroundColor: "#0d365e", color: "#ffffff" }}
-            >
-              Dubai's Trusted Experts
-            </div> */}
-          </figure>
+          </motion.figure>
 
-          {/* Text content */}
-          <article className="flex flex-col justify-center">
-            <div
-              className="mb-4 w-12 h-0.5"
-              style={{ backgroundColor: "#c3ad95" }}
+          {/* Text content — slides in from right, children stagger */}
+          <motion.article
+            variants={fadeRight}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            className="flex flex-col justify-center"
+          >
+            {/* Accent line */}
+            <motion.div
+              className="mb-4 h-0.5"
+              style={{ backgroundColor: "#c3ad95", originX: 0 }}
+              initial={{ scaleX: 0, width: 48 }}
+              animate={isInView ? { scaleX: 1, width: 48 } : { scaleX: 0 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const, delay: 0.25 }}
               aria-hidden
             />
-            <h2
+
+            <motion.h2
               id="why-choose-heading"
               className="text-2xl sm:text-3xl md:text-4xl font-medium leading-tight tracking-tight"
               style={{ color: "#0d365e" }}
+              variants={fadeUp}
+              custom={0.3}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
             >
               Why Choose Rocky Real Estate?
-            </h2>
-            <p
+            </motion.h2>
+
+            <motion.p
               className="mt-5 text-base md:text-lg leading-relaxed"
               style={{ color: "#555555" }}
+              variants={fadeUp}
+              custom={0.42}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
             >
               As Dubai's real estate experts, we deliver exceptional value across
               off-plan properties and luxury investment. Our commitment to
               excellence ensures you find the perfect opportunity.
-            </p>
-            <div className="mt-8">
+            </motion.p>
+
+            <motion.div
+              className="mt-8"
+              variants={fadeUp}
+              custom={0.54}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+            >
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center px-7 py-3.5 text-sm font-semibold rounded-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(13,54,94,0.28)]"
@@ -79,50 +151,9 @@ const WhyChooseUsSection: React.FC = () => {
               >
                 Get in Touch
               </Link>
-            </div>
-          </article>
+            </motion.div>
+          </motion.article>
         </div>
-
-        {/* Divider */}
-        {/* <div
-          className="w-full h-px mb-14"
-          style={{ backgroundColor: "#e8e0d8" }}
-          aria-hidden
-        /> */}
-
-        {/* ROW 2: Benefits grid */}
-        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-          {benefits.map((benefit, index) => (
-            <div
-              key={index}
-              className="flex flex-col gap-3 p-5 rounded-2xl transition-shadow duration-300 hover:shadow-md"
-              style={{
-                backgroundColor: "#f9f7f5",
-                border: "1px solid #ede8e2",
-              }}
-            >
-              <span
-                className="text-xs"
-                style={{ color: "#c3ad95" }}
-                aria-hidden
-              >
-                ◆
-              </span>
-              <h3
-                className="text-sm font-semibold leading-snug"
-                style={{ color: "#0d365e" }}
-              >
-                {benefit.title}
-              </h3>
-              <p
-                className="text-xs leading-relaxed"
-                style={{ color: "#666666" }}
-              >
-                {benefit.desc}
-              </p>
-            </div>
-          ))}
-        </div> */}
       </Container>
     </section>
   );
