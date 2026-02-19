@@ -61,7 +61,7 @@ const ExplorePropertySection: React.FC = () => {
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
                         >
-                            Featured Off Plan Projects
+                            Explore Dubai Properties
                         </motion.h2>
                         <motion.p
                             className="mt-3 text-sm md:text-base max-w-lg"
@@ -75,7 +75,7 @@ const ExplorePropertySection: React.FC = () => {
                                 ease: [0.22, 1, 0.36, 1] as const,
                             }}
                         >
-                            Explore top off-plan properties in Dubai with prime locations and exceptional value.
+                            Handpicked properties for sale and rent across Dubai&apos;s most sought-after neighbourhoods.
                         </motion.p>
                     </div>
                     <motion.div
