@@ -8,6 +8,7 @@ import Header from "@/components/layout/Header";
 import DevelopmentPartnersSection from "@/components/home/DevelopmentPartnersSection";
 import ServiceSection from "@/components/home/ServiceSection";
 import ValuationCTA from "@/components/home/ValuationCTA";
+import ExplorePropertySection from "@/components/home/ExplorePropertySection";
 
 
 export default function Home() {
@@ -19,7 +20,9 @@ export default function Home() {
       <Hero />
       {/* no background color , title and desc left align*/}
       <FeaturedOffPlanProjects />
-      {/* no background color , title and desc center align*/}
+
+      {/* Discover Dubai Properties — buy & rent listings, center aligned */}
+      <ExplorePropertySection />
       <DevelopmentPartnersSection />
       {/* background color , title and desc center align*/}
       <ServiceSection />

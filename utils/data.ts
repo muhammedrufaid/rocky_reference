@@ -9,6 +9,18 @@ export interface OffPlanProject {
   completionYear?: string;
 }
 
+export interface Property {
+  id: number;
+  title: string;
+  type: "Buy" | "Rent";
+  location: string;
+  price: string;
+  image: string;
+  path: string;
+  beds?: number;
+  baths?: number;
+}
+
 export interface Testimonial {
   id: number;
   quote: string;
@@ -73,6 +85,75 @@ export const featuredOffPlanProjects: OffPlanProject[] = [
     image: "/assets/offplan/difc_zabeel_district_residential.webp",
     path: "/off-plan/the-palm-tower",
     completionYear: "2029",
+  },
+];
+
+export const featuredProperties: Property[] = [
+  {
+    id: 1,
+    title: "Luxury Marina Apartment",
+    type: "Buy",
+    location: "Dubai Marina",
+    price: "AED 4,200,000",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",
+    path: "/buy/marina-luxury-apartment",
+    beds: 3,
+    baths: 3,
+  },
+  {
+    id: 2,
+    title: "Modern Villa with Private Pool",
+    type: "Buy",
+    location: "Palm Jumeirah",
+    price: "AED 12,500,000",
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&h=400&fit=crop",
+    path: "/buy/palm-villa",
+    beds: 5,
+    baths: 6,
+  },
+  {
+    id: 3,
+    title: "Downtown View Apartment",
+    type: "Rent",
+    location: "Downtown Dubai",
+    price: "AED 185,000/year",
+    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",
+    path: "/rent/downtown-apartment",
+    beds: 2,
+    baths: 2,
+  },
+  {
+    id: 4,
+    title: "Grand Polo Club & Resort",
+    type: "Buy",
+    location: "Dubailand",
+    price: "AED 5,100,000",
+    image: "/assets/offplan/grand_polo_by_emaar.webp",
+    path: "/off-plan/marina-heights",
+    beds: 4,
+    baths: 4,
+  },
+  {
+    id: 5,
+    title: "JBR Beachfront Studio",
+    type: "Rent",
+    location: "JBR",
+    price: "AED 95,000/year",
+    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop",
+    path: "/rent/jbr-studio",
+    beds: 1,
+    baths: 1,
+  },
+  {
+    id: 6,
+    title: "Business Bay Penthouse",
+    type: "Buy",
+    location: "Business Bay",
+    price: "AED 8,900,000",
+    image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&h=400&fit=crop",
+    path: "/buy/business-bay-penthouse",
+    beds: 4,
+    baths: 5,
   },
 ];
 
