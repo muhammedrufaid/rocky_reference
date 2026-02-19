@@ -54,7 +54,7 @@ const TestimonialSection: React.FC = () => {
   const nextRef = useRef<HTMLButtonElement>(null);
   return (
     <section
-      className="py-16 md:py-20 lg:py-24 bg-[#e7dccd] overflow-x-hidden"
+      className="py-16 md:py-20 lg:py-24 bg-[#faf9f7] overflow-x-hidden"
       aria-labelledby="testimonials-heading"
     >
       <Container>
@@ -147,7 +147,7 @@ const TestimonialSection: React.FC = () => {
                 </div>
 
                 {/* Testimonial quote – comfortable line spacing */}
-                <blockquote className="text-[var(--charcoal)] text-[15px] md:text-base leading-relaxed tracking-tight pr-8 min-h-[4.5rem]">
+                <blockquote className="text-[var(--charcoal)] line-clamp-4 text-[15px] md:text-base leading-relaxed tracking-tight pr-8 min-h-[4.5rem]">
                   &ldquo;{testimonial.quote}&rdquo;
                 </blockquote>
 
