@@ -52,7 +52,7 @@ const WhyChooseUsSection: React.FC = () => {
       ref={sectionRef}
       className="py-16 md:py-20 lg:py-24"
       aria-labelledby="why-choose-heading"
-      // style={{ backgroundColor: "#FFFFFF" }}
+    // style={{ backgroundColor: "#FFFFFF" }}
     >
       <Container>
         {/* ROW 1: Small image + heading/text */}
@@ -128,9 +128,7 @@ const WhyChooseUsSection: React.FC = () => {
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
             >
-              As Dubai's real estate experts, we deliver exceptional value across
-              off-plan properties and luxury investment. Our commitment to
-              excellence ensures you find the perfect opportunity.
+              With an ever-growing portfolio and a team of seasoned experts, we ensure every service is personalised as per the client’s needs.
             </motion.p>
 
             <motion.div
