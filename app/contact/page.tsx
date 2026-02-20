@@ -19,8 +19,8 @@ export default function ContactPage() {
       <main>
         <ContactHero />
         <ContactSection />
-        {/* <ContactMap />
-        <ContactFAQ />
+        <ContactMap />
+        {/* <ContactFAQ />
         <ContactCTA /> */}
       </main>
       <Footer />

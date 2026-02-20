@@ -11,12 +11,12 @@ const MAP_EMBED_URL =
 const ContactMap: React.FC = () => {
   return (
     <section
-      className="py-16 md:py-20 lg:py-24"
+      className="pb-16 md:pb-20 lg:pb-24"
       style={{ backgroundColor: "#ffffff" }}
       aria-labelledby="map-heading"
     >
       <Container>
-        <motion.h2
+        {/* <motion.h2
           id="map-heading"
           className="text-2xl sm:text-3xl md:text-4xl font-medium mb-10 md:mb-12"
           style={{ color: "#0d365e" }}
@@ -26,7 +26,7 @@ const ContactMap: React.FC = () => {
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
           Visit Our Office
-        </motion.h2>
+        </motion.h2> */}
 
         <motion.div
           className="relative rounded-lg overflow-hidden"
@@ -40,7 +40,7 @@ const ContactMap: React.FC = () => {
         >
           <div
             className="aspect-[16/9] sm:aspect-[21/9] min-h-[280px] sm:min-h-[320px]"
-            style={{ backgroundColor: "#e7dccd" }}
+            style={{ backgroundColor: "#ffffff" }}
           >
             <iframe
               src={MAP_EMBED_URL}
