@@ -8,7 +8,12 @@ import { navigationData, moreDropdownItems } from "../../utils/data";
 
 const SCROLL_THRESHOLD = 50;
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  /** When true, always show solid header (for pages with white/light hero) */
+  forceSolid?: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [activeNav, setActiveNav] = useState<string | null>(null);
@@ -31,9 +36,11 @@ const Header: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isSolid = forceSolid || scrolled;
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-out ${scrolled
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-out ${isSolid
         ? "bg-white backdrop-blur-md shadow-sm border-b border-[var(--border-light)]"
         : "bg-transparent"
         }`}
@@ -41,7 +48,7 @@ const Header: React.FC = () => {
       <Container>
         <div className="flex h-16 md:h-20 items-center justify-between gap-6">
           {/* Logo */}
-          <Link href="/" className={`shrink-0 transition-all duration-500 ${scrolled ? "" : "brightness-0 invert"}`}>
+          <Link href="/" className={`shrink-0 transition-all duration-500 ${isSolid ? "" : "brightness-0 invert"}`}>
             <Image
               src="/assets/common/Rocky-Logo-Original.svg"
               alt="Rocky Real Estate"
@@ -61,7 +68,7 @@ const Header: React.FC = () => {
                   href={item.path}
                   onMouseEnter={() => setActiveNav(item.title)}
                   onMouseLeave={() => setActiveNav(null)}
-                  className={`relative py-2 text-sm font-medium transition-all duration-500 ${scrolled
+                  className={`relative py-2 text-sm font-medium transition-all duration-500 ${isSolid
                     ? `text-[var(--charcoal)] hover:text-[var(--rocky-blue)] ${activeNav === item.title ? "text-[var(--rocky-blue)]" : ""}`
                     : `text-white hover:text-white/90 ${activeNav === item.title ? "text-white" : ""}`
                     }`}
@@ -69,7 +76,7 @@ const Header: React.FC = () => {
                   {item.title}
                   {activeNav === item.title && (
                     <span
-                      className={`absolute bottom-0 left-0 h-0.5 w-full transition-all ${scrolled ? "bg-[var(--rocky-blue)]" : "bg-white"
+                      className={`absolute bottom-0 left-0 h-0.5 w-full transition-all ${isSolid ? "bg-[var(--rocky-blue)]" : "bg-white"
                         }`}
                     />
                   )}
@@ -83,7 +90,7 @@ const Header: React.FC = () => {
                 >
                   <button
                     type="button"
-                    className={`py-2 text-sm font-medium transition-all duration-500 flex items-center gap-0.5 ${scrolled
+                    className={`py-2 text-sm font-medium transition-all duration-500 flex items-center gap-0.5 ${isSolid
                       ? `text-[var(--charcoal)] hover:text-[var(--rocky-blue)] ${activeNav === item.title ? "text-[var(--rocky-blue)]" : ""}`
                       : `text-white hover:text-white/90 ${activeNav === item.title ? "text-white" : ""}`
                       }`}
@@ -98,7 +105,7 @@ const Header: React.FC = () => {
                   {activeNav === item.title && (
                     <>
                       <span
-                        className={`absolute bottom-0 left-0 h-0.5 w-full transition-all ${scrolled ? "bg-[var(--rocky-blue)]" : "bg-white"
+                        className={`absolute bottom-0 left-0 h-0.5 w-full transition-all ${isSolid ? "bg-[var(--rocky-blue)]" : "bg-white"
                           }`}
                       />
                       <div className="absolute top-full left-0 pt-2">
@@ -131,7 +138,7 @@ const Header: React.FC = () => {
             {/* Secondary CTA - Call */}
             <a
               href="tel:+971501234567"
-              className={`hidden sm:flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-500 ${scrolled
+              className={`hidden sm:flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-500 ${isSolid
                 ? "text-[var(--rocky-blue)] border border-[var(--rocky-blue)] hover:bg-[var(--rocky-blue)] hover:text-white"
                 : "text-white border border-white/80 hover:bg-white hover:text-[var(--rocky-blue)]"
                 }`}
@@ -160,7 +167,7 @@ const Header: React.FC = () => {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`lg:hidden p-2 transition-all duration-500 ${scrolled
+              className={`lg:hidden p-2 transition-all duration-500 ${isSolid
                 ? "text-[var(--charcoal)] hover:text-[var(--rocky-blue)]"
                 : "text-white hover:text-white/80"
                 }`}
