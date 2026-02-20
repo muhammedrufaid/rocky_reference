@@ -47,7 +47,7 @@ const ContactSection: React.FC = () => {
     fullName: "",
     email: "",
     phone: "",
-    inquiryType: "" as "" | (typeof INQUIRY_TYPES)[number],
+    inquiryType: "General" as (typeof INQUIRY_TYPES)[number],
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
