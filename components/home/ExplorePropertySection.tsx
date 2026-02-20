@@ -91,8 +91,8 @@ const ExplorePropertySection: React.FC = () => {
                     >
                         <Link
                             href="/off-plan"
-                            className="flex-shrink-0 inline-flex items-center gap-2 text-sm font-semibold border-b-2 pb-0.5 transition-colors"
-                            style={{ color: "#0d365e", borderColor: "#c3ad95" }}
+                            className="flex-shrink-0 inline-flex items-center gap-2 text-sm font-semibold pb-0.5 transition-colors"
+                            style={{ color: "#0d365e"}}
                         >
                             View All Projects <ArrowIcon />
                         </Link>
