@@ -177,12 +177,12 @@ export const moreDropdownItems = [
 
 // ... rest (searchTabs, categoryOptions)
 
-export const searchTabs = ["Buy", "Rent", "Sell"] as const;
+export const searchTabs = ["Buy", "Rent"] as const;
 
 export const categoryOptions: Record<string, string[]> = {
   Buy: ["Residential", "Commercial", "Offplan"],
   Rent: ["Residential", "Commercial"],
-  Sell: ["Residential", "Commercial", "Offplan"],
+  // Sell: ["Residential", "Commercial", "Offplan"],
 };
 
 export const blogPosts: BlogPost[] = [
