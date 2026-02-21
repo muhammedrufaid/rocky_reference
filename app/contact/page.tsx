@@ -5,6 +5,8 @@ import ContactSection from "@/components/contact/ContactSection";
 import ContactMap from "@/components/contact/ContactMap";
 import ContactFAQ from "@/components/contact/ContactFAQ";
 import ContactCTA from "@/components/contact/ContactCTA";
+import FaqsSection from "@/components/common/FaqsSection";
+
 
 export const metadata = {
   title: "Contact Us | Rocky Real Estate",
@@ -20,8 +22,9 @@ export default function ContactPage() {
         <ContactHero />
         <ContactSection />
         <ContactMap />
-        {/* <ContactFAQ />
-        <ContactCTA /> */}
+        <FaqsSection />
+        {/* <ContactFAQ /> */}
+        <ContactCTA />
       </main>
       <Footer />
     </div>

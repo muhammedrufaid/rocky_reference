@@ -11,7 +11,7 @@ const MAP_EMBED_URL =
 const ContactMap: React.FC = () => {
   return (
     <section
-      className="pb-16 md:pb-20 lg:pb-24"
+      className="py-16 md:py-20 lg:py-24"
       style={{ backgroundColor: "#ffffff" }}
       aria-labelledby="map-heading"
     >

@@ -7,29 +7,72 @@ import Container from "@/components/layout/Container";
 const INQUIRY_TYPES = ["Buy", "Sell", "Rent", "General"] as const;
 
 const LocationIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden
+  >
     <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
     <circle cx="12" cy="10" r="3" />
   </svg>
 );
 
 const PhoneIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden
+  >
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
   </svg>
 );
 
 const MailIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden
+  >
     <rect width="20" height="16" x="2" y="4" rx="2" />
     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
   </svg>
 );
 
-const ClockIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-    <circle cx="12" cy="12" r="10" />
-    <polyline points="12 6 12 12 16 14" />
+const CheckIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden
+  >
+    <path d="M20 6 9 17l-5-5" />
   </svg>
 );
 
@@ -38,7 +81,11 @@ const fadeUp = {
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] } as const,
+    transition: {
+      duration: 0.55,
+      delay: i * 0.08,
+      ease: [0.22, 1, 0.36, 1],
+    } as const,
   }),
 };
 
@@ -58,7 +105,9 @@ const ContactSection: React.FC = () => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
@@ -67,29 +116,29 @@ const ContactSection: React.FC = () => {
   const contacts = [
     {
       id: "visit",
+      label: "Visit Us",
       icon: LocationIcon,
       value: "Al Khaimah 2, Al Barsha 1\nDubai, UAE",
       href: undefined,
     },
     {
       id: "call",
+      label: "Call Us",
       icon: PhoneIcon,
       value: "+971 4 447 6644",
       href: "tel:+97144476644",
     },
     {
       id: "write",
+      label: "Write to Us",
       icon: MailIcon,
       value: "info@rockyrealestate.com",
       href: "mailto:info@rockyrealestate.com",
     },
-    // {
-    //   id: "hours",
-    //   icon: ClockIcon,
-    //   value: "Sun – Thu  9:00 – 18:00\nSat  10:00 – 16:00",
-    //   href: undefined,
-    // },
   ] as const;
+
+  const inputBase =
+    "w-full h-11 rounded-lg border border-stone-200 bg-white px-4 text-sm text-stone-800 placeholder:text-stone-400 outline-none transition-all duration-200 focus:border-stone-400 focus:ring-2 focus:ring-stone-200";
 
   return (
     <section
@@ -97,216 +146,302 @@ const ContactSection: React.FC = () => {
       aria-labelledby="contact-section-heading"
       className="relative overflow-hidden py-16 md:py-20 lg:py-24"
     >
-      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ background: "#ffffff" }} />
+      {/* Subtle background */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "#faf9f7" }}
+      />
 
       <Container className="relative">
-        {/* gap-2 on mobile, gap-8 on md+ */}
-        <div className="grid grid-cols-1 gap-2 md:gap-8 md:grid-cols-[1fr_1.55fr]">
 
-          {/* ── LEFT: Contact details ── */}
+
+        <div className="mb-4 md:mb-8">
+          <motion.h2
+            id="off-plan-section-heading"
+            className="text-2xl sm:text-3xl md:text-4xl font-medium leading-tight"
+            style={{ color: "#0d365e" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
+          >
+            Get in Touch
+          </motion.h2>
+          {/* <motion.p
+            className="mt-3 text-sm md:text-base max-w-lg"
+            style={{ color: "#555" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{
+              duration: 0.5,
+              delay: 0.1,
+              ease: [0.22, 1, 0.36, 1] as const,
+            }}
+          >
+            Whether you're looking to buy, sell, or simply explore Dubai's
+            finest properties, our team is ready to assist with tailored
+            guidance.
+          </motion.p> */}
+        </div>
+
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12 lg:gap-16">
+          {/* ── LEFT: Contact Info ── */}
+          <motion.div
+            className="flex flex-col gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+          >
+            {/* Intro text */}
+            <motion.p
+              className="text-sm leading-relaxed text-[#0d365e]"
+              variants={fadeUp}
+              custom={1}
+            >
+              Whether you're looking to buy, sell, or simply explore Dubai's
+              finest properties, our team is ready to assist with tailored
+              guidance.
+            </motion.p>
+
+            {/* Contact details panel */}
+            <motion.div
+              className="rounded-2xl border border-stone-100 bg-white p-6 md:p-8"
+              variants={fadeUp}
+              custom={2}
+            >
+              <div className="flex flex-col gap-6">
+                {contacts.map((contact, i) => {
+                  const Icon = contact.icon;
+                  const lines = contact.value.split("\n");
+                  return (
+                    <motion.div
+                      key={contact.id}
+                      className="flex items-center gap-4"
+                      variants={fadeUp}
+                      custom={3 + i}
+                    >
+                      {/* Icon badge */}
+                      <span
+                        className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-stone-100 bg-stone-50 text-stone-500"
+                        aria-hidden
+                      >
+                        <Icon />
+                      </span>
+
+                      <div className="min-w-0">
+                        {/* <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.14em] text-stone-400">
+                          {contact.label}
+                        </p> */}
+                        {contact.href ? (
+                          <a
+                            href={contact.href}
+                            className="text-sm text-stone-700 transition-colors duration-150 hover:text-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-300 focus-visible:ring-offset-2 rounded"
+                          >
+                            {lines[0]}
+                          </a>
+                        ) : (
+                          <address className="not-italic text-sm text-stone-700">
+                            {lines.map((line, idx) => (
+                              <React.Fragment key={idx}>
+                                {line}
+                                {idx < lines.length - 1 && <br />}
+                              </React.Fragment>
+                            ))}
+                          </address>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+
+            {/* Decorative tagline */}
+            {/* <motion.p
+              className="text-xs text-stone-400 italic"
+              variants={fadeUp}
+              custom={6}
+            >
+              "Exceptional properties deserve exceptional service."
+            </motion.p> */}
+          </motion.div>
+
+          {/* ── RIGHT: Contact Form ── */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}
-            className="flex flex-col justify-between"
           >
-            <div>
-              {/* Headline */}
-              <motion.h2
-                id="contact-section-heading"
-                custom={1}
-                variants={fadeUp}
-                className="text-[clamp(36px,4.5vw,54px)] leading-[1.07] tracking-[-0.02em] text-[#081f3a]"
-              >
-                Get in <span className="text-[#9f8870]">Touch</span>
-              </motion.h2>
-
-              {/* Thin rule — tighter margins on mobile */}
+            {submitted ? (
               <motion.div
-                custom={3}
+                className="flex h-full min-h-[400px] flex-col items-center justify-center rounded-2xl border border-stone-100 bg-white p-8 text-center"
                 variants={fadeUp}
-                className="mt-6 mb-6 md:mt-10 md:mb-12 h-px bg-[#e7dccd]"
-                style={{ width: 40 }}
-              />
-
-              {/* Contact rows */}
-              <div className="flex flex-col">
-                {contacts.map((item, i) => {
-                  const Icon = item.icon;
-                  return (
-                  <motion.div
-                    key={item.id}
-                    custom={i + 4}
-                    variants={fadeUp}
-                    className="flex items-start py-3 md:py-5 border-b border-[#f0ebe3] first:border-t first:border-[#f0ebe3]"
-                  >
-                    <span className="text-[#c3ad95] w-6 shrink-0 pt-[2px] flex items-center" aria-hidden>
-                      <Icon />
-                    </span>
-
-                    {item.href ? (
-                      <a
-                        href={item.href}
-                        className="font-['DM_Sans',sans-serif] text-[13px] leading-relaxed text-[#081f3a] no-underline transition-opacity duration-200 hover:opacity-40 whitespace-pre-line"
-                      >
-                        {item.value}
-                      </a>
-                    ) : (
-                      <p className="m-0 font-['DM_Sans',sans-serif] text-[13px] leading-relaxed text-[#4a5568] whitespace-pre-line">
-                        {item.value}
-                      </p>
-                    )}
+                custom={1}
+              >
+                <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-stone-600">
+                  <CheckIcon />
+                </span>
+                <h3 className="mb-2 font-serif text-xl font-light text-stone-800">
+                  Message Received
+                </h3>
+                <p className="max-w-xs text-sm text-stone-500">
+                  Thank you for reaching out. A member of our team will be in
+                  touch with you shortly.
+                </p>
+                <button
+                  onClick={() => {
+                    setSubmitted(false);
+                    setFormState({
+                      fullName: "",
+                      email: "",
+                      phone: "",
+                      inquiryType: "General",
+                      message: "",
+                    });
+                  }}
+                  className="mt-6 text-xs font-medium text-stone-400 underline underline-offset-4 hover:text-stone-600 transition-colors"
+                >
+                  Send another message
+                </button>
+              </motion.div>
+            ) : (
+              <motion.form
+                onSubmit={handleSubmit}
+                className="rounded-2xl border border-stone-100 bg-white p-6 md:p-8"
+                noValidate
+                aria-label="Contact form"
+                variants={fadeUp}
+                custom={1}
+              >
+                <div className="flex flex-col gap-4">
+                  {/* Full Name */}
+                  <motion.div variants={fadeUp} custom={2}>
+                    <label
+                      htmlFor="fullName"
+                      className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
+                    >
+                      Full Name <span aria-hidden>*</span>
+                    </label>
+                    <input
+                      id="fullName"
+                      name="fullName"
+                      type="text"
+                      autoComplete="name"
+                      required
+                      placeholder="Jane Smith"
+                      value={formState.fullName}
+                      onChange={handleChange}
+                      className={inputBase}
+                      aria-required="true"
+                    />
                   </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-          </motion.div>
 
-          {/* ── RIGHT: Form panel ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.55, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center"
-          >
-            <div
-              className="w-full px-6 py-8 md:px-12 md:py-12 rounded-2xl border border-neutral-300"
-              style={{ background: "transparent"}}
-            >
-              {submitted ? (
-                <div className="py-16">
-                  <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center mb-6 text-sm"
-                    style={{ background: "#0d365e", color: "#fff", border: "1px solid #0d365e" }}
-                  >
-                    ✓
-                  </div>
-                  <p className="font-['Cormorant_Garamond',Georgia,serif] text-[28px] font-light text-[#081f3a] mb-2">
-                    Message received.
-                  </p>
-                  <p className="font-['DM_Sans',sans-serif] text-[13px] text-[#9f8870]">
-                    We'll be in touch within one business day.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-0">
-                  <p className="font-['DM_Sans',sans-serif] text-[9px] tracking-[0.28em] uppercase text-[#0d365e] mb-2">
-                    Send a Message
-                  </p>
-
-                  {[
-                    { id: "fullName", label: "Full Name", type: "text", placeholder: "John Smith", required: true },
-                    { id: "email", label: "Email", type: "email", placeholder: "john@example.com", required: true },
-                    { id: "phone", label: "Phone", type: "tel", placeholder: "+971 50 123 4567", required: false },
-                  ].map(({ id, label, type, placeholder, required }) => (
-                    <div key={id} className="relative group">
+                  {/* Email + Phone row */}
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <motion.div variants={fadeUp} custom={3}>
                       <label
-                        htmlFor={id}
-                        className="block font-['DM_Sans',sans-serif] text-[9px] tracking-[0.28em] uppercase text-[#0d365e] pt-5 mb-1.5"
+                        htmlFor="email"
+                        className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
                       >
-                        {label}{required && <span className="ml-[3px]">*</span>}
+                        Email <span aria-hidden>*</span>
                       </label>
                       <input
-                        id={id}
-                        name={id}
-                        type={type}
-                        required={required}
-                        value={(formState as Record<string, string>)[id]}
+                        id="email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        required
+                        placeholder="jane@example.com"
+                        value={formState.email}
                         onChange={handleChange}
-                        placeholder={placeholder}
-                        className="block w-full pb-3 bg-transparent border-none outline-none font-['DM_Sans',sans-serif] text-[13px] text-[#081f3a] placeholder:text-[#0d365e]/30 caret-[#0d365e]"
+                        className={inputBase}
+                        aria-required="true"
                       />
-                      <div className="absolute bottom-0 left-0 right-0 h-px bg-[#0d365e]/20" />
-                      <div className="absolute bottom-0 left-0 h-px bg-[#0d365e] w-0 group-focus-within:w-full transition-all duration-500 ease-out" />
-                    </div>
-                  ))}
+                    </motion.div>
 
-                  <div className="relative pt-5 pb-4">
-                    <p className="font-['DM_Sans',sans-serif] text-[9px] tracking-[0.28em] uppercase text-[#0d365e] mb-3">
-                      Inquiry Type *
-                    </p>
-                    <div className="flex gap-2 flex-wrap">
-                      {INQUIRY_TYPES.map((type) => {
-                        const active = formState.inquiryType === type;
-                        return (
-                          <button
-                            key={type}
-                            type="button"
-                            onClick={() => setFormState((prev) => ({ ...prev, inquiryType: type }))}
-                            className="font-['DM_Sans',sans-serif] text-[10px] rounded-full tracking-[0.16em] uppercase px-5 py-2 transition-all duration-200 cursor-pointer"
-                            style={
-                              active
-                                ? { background: "#e7dccd", color: "#000000" }
-                                : { background: "transparent", color: "#0d365e" }
-                            }
-                          >
-                            {type}
-                          </button>
-                        );
-                      })}
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 h-px bg-[#0d365e]/20" />
+                    <motion.div variants={fadeUp} custom={4}>
+                      <label
+                        htmlFor="phone"
+                        className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
+                      >
+                        Phone
+                      </label>
+                      <input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        autoComplete="tel"
+                        placeholder="+971 50 000 0000"
+                        value={formState.phone}
+                        onChange={handleChange}
+                        className={inputBase}
+                      />
+                    </motion.div>
                   </div>
 
-                  <div className="relative group pt-5">
+                  {/* Inquiry Type */}
+                  <motion.div variants={fadeUp} custom={5}>
+                    <label
+                      htmlFor="inquiryType"
+                      className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
+                    >
+                      Inquiry Type
+                    </label>
+                    <select
+                      id="inquiryType"
+                      name="inquiryType"
+                      value={formState.inquiryType}
+                      onChange={handleChange}
+                      className={`${inputBase} cursor-pointer appearance-none bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a8a29e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")] bg-[position:right_1rem_center] bg-no-repeat pr-10`}
+                      aria-label="Select inquiry type"
+                    >
+                      {INQUIRY_TYPES.map((type) => (
+                        <option key={type} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </select>
+                  </motion.div>
+
+                  {/* Message */}
+                  <motion.div variants={fadeUp} custom={6}>
                     <label
                       htmlFor="message"
-                      className="block font-['DM_Sans',sans-serif] text-[9px] tracking-[0.28em] uppercase text-[#0d365e] mb-2.5"
+                      className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
                     >
-                      Message *
+                      Message <span aria-hidden>*</span>
                     </label>
                     <textarea
                       id="message"
                       name="message"
-                      rows={4}
                       required
+                      rows={4}
+                      placeholder="Tell us about your property requirements…"
                       value={formState.message}
                       onChange={handleChange}
-                      placeholder="Tell us about your property requirements…"
-                      className="block w-full pb-3 bg-transparent border-none outline-none resize-none font-['DM_Sans',sans-serif] text-[13px] text-[#081f3a] placeholder:text-[#0d365e]/30 caret-[#0d365e]"
+                      className="w-full resize-none rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm text-stone-800 placeholder:text-stone-400 outline-none transition-all duration-200 focus:border-stone-400 focus:ring-2 focus:ring-stone-200"
+                      aria-required="true"
                     />
-                    <div className="absolute bottom-0 left-0 right-0 h-px bg-[#0d365e]/20" />
-                    <div className="absolute bottom-0 left-0 h-px bg-[#0d365e] w-0 group-focus-within:w-full transition-all duration-500 ease-out" />
-                  </div>
+                  </motion.div>
 
-                  <div className="mt-10 flex items-center gap-5 flex-wrap">
+                  {/* Submit */}
+                  <motion.div variants={fadeUp} custom={7}>
                     <button
                       type="submit"
-                      className="group/btn inline-flex items-center gap-4 font-['DM_Sans',sans-serif] text-[10px] tracking-[0.22em] uppercase font-medium rounded-full cursor-pointer py-[14px] pr-8 pl-[14px] transition-colors duration-250"
-                      style={{ background: "#0d365e", color: "#fff", border: "1px solid #0d365e" }}
-                      onMouseEnter={(e) => {
-                        const el = e.currentTarget as HTMLButtonElement;
-                        el.style.background = "#1c4e80";
-                        el.style.borderColor = "#1c4e80";
-                      }}
-                      onMouseLeave={(e) => {
-                        const el = e.currentTarget as HTMLButtonElement;
-                        el.style.background = "#0d365e";
-                        el.style.borderColor = "#0d365e";
-                      }}
+                      className="w-full rounded-lg bg-[#0d365e] px-6 py-3 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:bg-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-600 focus-visible:ring-offset-2 active:scale-[0.99]"
                     >
-                      <span
-                        className="inline-flex items-center justify-center w-7 h-7 rounded-full shrink-0 transition-transform duration-300 group-hover/btn:translate-x-0.5"
-                        style={{ border: "1px solid rgba(255,255,255,0.25)" }}
-                      >
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                          <line x1="5" y1="12" x2="19" y2="12" />
-                          <polyline points="12 5 19 12 12 19" />
-                        </svg>
-                      </span>
-                      Send Message
+                      Send Inquiry
                     </button>
-                    <p className="font-['DM_Sans',sans-serif] text-[11px] text-[#0d365e]/60">
-                      We respond within 1 business day.
-                    </p>
-                  </div>
-                </form>
-              )}
-            </div>
+                    {/* <p className="mt-3 text-center text-[11px] text-stone-400">
+                      We typically respond within one business day.
+                    </p> */}
+                  </motion.div>
+                </div>
+              </motion.form>
+            )}
           </motion.div>
-
         </div>
       </Container>
     </section>
