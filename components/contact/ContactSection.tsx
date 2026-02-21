@@ -430,7 +430,7 @@ const ContactSection: React.FC = () => {
                   <motion.div variants={fadeUp} custom={7}>
                     <button
                       type="submit"
-                      className="w-full rounded-lg bg-[#0d365e] px-6 py-3 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:bg-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-600 focus-visible:ring-offset-2 active:scale-[0.99]"
+                      className="w-full rounded-lg bg-[#0d365e] px-6 py-3 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:bg-[#1c4e80] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-600 focus-visible:ring-offset-2 active:scale-[0.99]"
                     >
                       Send Inquiry
                     </button>

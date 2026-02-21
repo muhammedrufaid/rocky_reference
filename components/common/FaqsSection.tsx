@@ -11,43 +11,55 @@ interface FaqItem {
 }
 
 const faqs: FaqItem[] = [
-  {
-    id: "faq-1",
-    question: "How do I schedule a property viewing?",
-    answer:
-      "You can schedule a viewing directly through our contact form, by calling our office, or by emailing your preferred agent. We accommodate early morning, evening, and weekend appointments to suit your schedule. A confirmation with all details will be sent within 24 hours of your request.",
-  },
-  {
-    id: "faq-2",
-    question: "What documents do I need to prepare for a property purchase?",
-    answer:
-      "For a standard purchase, you will need a valid government-issued ID, proof of funds or a mortgage pre-approval letter, your tax returns for the past two years, recent bank statements, and employment verification. Our agents will guide you through any additional documentation specific to your transaction.",
-  },
-  {
-    id: "faq-3",
-    question: "How long does the buying process typically take?",
-    answer:
-      "From accepted offer to closing, the process generally takes 30 to 60 days, depending on financing, inspections, and any negotiations that arise. Cash transactions can close considerably faster. Our team actively manages each milestone to keep your purchase on track and on schedule.",
-  },
-  {
-    id: "faq-4",
-    question: "Do you assist with property valuations before listing?",
-    answer:
-      "Absolutely. We offer complimentary comparative market analyses for homeowners considering selling. Our advisors assess recent sales, current inventory, property condition, and local market trends to provide an accurate and realistic valuation — with no obligation to list.",
-  },
-  {
-    id: "faq-5",
-    question: "What areas do you serve?",
-    answer:
-      "We specialize in luxury residential and investment properties across the metropolitan region, including the urban core, suburban enclaves, and select coastal communities. Contact our office to confirm coverage in your specific neighborhood or to be connected with a trusted partner in adjacent markets.",
-  },
-  {
-    id: "faq-6",
-    question: "Can you help with investment or rental properties?",
-    answer:
-      "Yes. Our investment advisory team works with both first-time investors and seasoned portfolio holders. We provide cap rate analysis, rental yield projections, tenant placement support, and property management referrals — ensuring your asset performs at its highest potential from day one.",
-  },
-];
+    {
+      id: "faq-1",
+      question: "What does Rocky Real Estate’s Property Management include?",
+      answer:
+        "At Rocky Real Estate, we provide end-to-end service. That covers screening, rent collection, legal compliance, maintenance, detailed financial reporting, and more. We currently manage over 300 buildings, treating every unit like our own.",
+    },
+    {
+      id: "faq-2",
+      question: "Why should you choose Rocky Real Estate?",
+      answer:
+        "With a legacy of over 49 years, we offer \"Local Intelligence\" and have navigated every market cycle in Dubai, providing a stable, transparent partnership for nearly 5 decades.",
+    },
+    {
+      id: "faq-3",
+      question: "Does Rocky Real Estate offer property snagging services?",
+      answer:
+        "Yes. Before you take possession of a new property, our experts conduct a professional snagging inspection to identify construction defects or unfinished work, ensuring the developer rectifies them before you move in or rent it out.",
+    },
+    {
+      id: "faq-4",
+      question: "Is it safe to buy off-plan property in Dubai?",
+      answer:
+        "Yes. The Dubai Land Department (DLD) and RERA have implemented strict regulations. All payments are deposited into a project-specific Escrow Account and are released to the developer only upon verified construction milestones.",
+    },
+    {
+      id: "faq-5",
+      question: "Can I sell my off-plan property before completion?",
+      answer:
+        "Most developers allow you to resell after paying a percentage of the total property value (typically 30% to 40%). Rocky Real Estate can manage the entire resale process for you.",
+    },
+    {
+      id: "faq-6",
+      question: "What are the hidden costs of buying property in Dubai?",
+      answer:
+        "Beyond the purchase price, you must factor in the 4% DLD fee, a registration trustee fee (approx. AED 4,000), and agency commission (typically 2%). For off-plan, there is also an Oqood (Pre-Title Deed) registration fee.",
+    },
+    {
+      id: "faq-7",
+      question: "Does buying property qualify me for a UAE Golden Visa?",
+      answer:
+        "If your property investment value is at Dh2 million or more, you are eligible for the 10-year Golden Visa. This qualification applies to both ready and off-plan properties (provided the investment reaches the threshold).",
+    },
+    {
+      id: "faq-8",
+      question: "Can I manage my property if I live outside the UAE?",
+      answer:
+        "Absolutely. Through our Remote Management services and Power of Attorney (POA) arrangements, Rocky Real Estate can handle everything from utility setup (DEWA) to tenant disputes while you remain abroad.",
+    },
+  ];
 
 const containerVariants = {
   hidden: {},
