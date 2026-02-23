@@ -116,7 +116,7 @@ const HeroSearchCard: React.FC = () => {
                 aria-expanded={dropdownOpen}
                 aria-label={`Category: ${selectedCategory || "All"}`}
                 onClick={() => setDropdownOpen((prev) => !prev)}
-                className="flex items-center gap-1.5 h-full px-3 md:px-4 text-sm font-medium text-[#333333] border-r border-[#e5e7eb] hover:bg-[#f5f0ea] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#c3ad95] whitespace-nowrap"
+                className="flex items-center gap-1.5 h-full px-3 md:px-4 text-sm font-medium text-[#333333] border-r border-[#e5e7eb] hover:bg-[#f5f0ea] transition-colors rounded-l-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#c3ad95] whitespace-nowrap"
               >
                 <span className="max-w-[90px] truncate">
                   {selectedCategory || categories[0] || "Category"}
