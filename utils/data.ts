@@ -273,10 +273,12 @@ export interface Service {
 }
 
 export const services: Service[] = [
+  
+  
   {
     id: 1,
-    title: "Short Term Rental",
-    description: "Flexible holiday lets and Airbnb management for maximum returns on your property investment.",
+    title: "Property Management",
+    description: "Full-service management covering maintenance, tenant relations, and rental collection.",
   },
   {
     id: 2,
@@ -285,8 +287,8 @@ export const services: Service[] = [
   },
   {
     id: 3,
-    title: "Property Management",
-    description: "Full-service management covering maintenance, tenant relations, and rental collection.",
+    title: "Property Inspection",
+    description: "Flexible holiday lets and Airbnb management for maximum returns on your property investment.",
   },
   {
     id: 4,

@@ -21,13 +21,13 @@ const faqs: FaqItem[] = [
     id: "faq-2",
     question: "Why should you choose Rocky Real Estate?",
     answer:
-      "With a legacy of over 49 years, we offer 'Local Intelligence' and have navigated every market cycle in Dubai, providing a stable, transparent partnership for nearly 5 decades.",
+      "With a legacy of over 50 years, we offer 'Local Intelligence' and have navigated every market cycle in Dubai, providing a stable, transparent partnership.",
   },
   {
     id: "faq-3",
-    question: "Does Rocky Real Estate offer property snagging services?",
+    question: "Does Rocky Real Estate offer property inspection services?",
     answer:
-      "Yes. Before you take possession of a new property, our experts conduct a professional snagging inspection to identify construction defects or unfinished work, ensuring the developer rectifies them before you move in or rent it out.",
+      "Yes. Before you take possession of a new property, our experts conduct a professional inspection to identify construction defects or unfinished work, ensuring the developer rectifies them before you move in or rent it out.",
   },
   {
     id: "faq-4",

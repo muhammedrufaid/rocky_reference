@@ -142,7 +142,7 @@ const ServiceSection: React.FC = () => {
                         </motion.article>
                     ))}
                 </div>
-
+{/* 
                 <motion.div
                     className="mt-12 flex justify-center md:mt-16"
                     variants={fadeUp}
@@ -160,7 +160,7 @@ const ServiceSection: React.FC = () => {
                     >
                         View All Services <ArrowIcon />
                     </Link>
-                </motion.div>
+                </motion.div> */}
             </Container>
         </section>
     );
