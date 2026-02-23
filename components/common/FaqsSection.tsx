@@ -11,55 +11,55 @@ interface FaqItem {
 }
 
 const faqs: FaqItem[] = [
-    {
-      id: "faq-1",
-      question: "What does Rocky Real Estate’s Property Management include?",
-      answer:
-        "At Rocky Real Estate, we provide end-to-end service. That covers screening, rent collection, legal compliance, maintenance, detailed financial reporting, and more. We currently manage over 300 buildings, treating every unit like our own.",
-    },
-    {
-      id: "faq-2",
-      question: "Why should you choose Rocky Real Estate?",
-      answer:
-        "With a legacy of over 49 years, we offer \"Local Intelligence\" and have navigated every market cycle in Dubai, providing a stable, transparent partnership for nearly 5 decades.",
-    },
-    {
-      id: "faq-3",
-      question: "Does Rocky Real Estate offer property snagging services?",
-      answer:
-        "Yes. Before you take possession of a new property, our experts conduct a professional snagging inspection to identify construction defects or unfinished work, ensuring the developer rectifies them before you move in or rent it out.",
-    },
-    {
-      id: "faq-4",
-      question: "Is it safe to buy off-plan property in Dubai?",
-      answer:
-        "Yes. The Dubai Land Department (DLD) and RERA have implemented strict regulations. All payments are deposited into a project-specific Escrow Account and are released to the developer only upon verified construction milestones.",
-    },
-    {
-      id: "faq-5",
-      question: "Can I sell my off-plan property before completion?",
-      answer:
-        "Most developers allow you to resell after paying a percentage of the total property value (typically 30% to 40%). Rocky Real Estate can manage the entire resale process for you.",
-    },
-    {
-      id: "faq-6",
-      question: "What are the hidden costs of buying property in Dubai?",
-      answer:
-        "Beyond the purchase price, you must factor in the 4% DLD fee, a registration trustee fee (approx. AED 4,000), and agency commission (typically 2%). For off-plan, there is also an Oqood (Pre-Title Deed) registration fee.",
-    },
-    {
-      id: "faq-7",
-      question: "Does buying property qualify me for a UAE Golden Visa?",
-      answer:
-        "If your property investment value is at Dh2 million or more, you are eligible for the 10-year Golden Visa. This qualification applies to both ready and off-plan properties (provided the investment reaches the threshold).",
-    },
-    {
-      id: "faq-8",
-      question: "Can I manage my property if I live outside the UAE?",
-      answer:
-        "Absolutely. Through our Remote Management services and Power of Attorney (POA) arrangements, Rocky Real Estate can handle everything from utility setup (DEWA) to tenant disputes while you remain abroad.",
-    },
-  ];
+  {
+    id: "faq-1",
+    question: "What does Rocky Real Estate’s Property Management include?",
+    answer:
+      "At Rocky Real Estate, we provide end-to-end service: screening, rent collection, legal compliance, maintenance, detailed financial reporting, and more. We currently manage over 300 buildings, treating every unit like our own.",
+  },
+  {
+    id: "faq-2",
+    question: "Why should you choose Rocky Real Estate?",
+    answer:
+      "With a legacy of over 49 years, we offer 'Local Intelligence' and have navigated every market cycle in Dubai, providing a stable, transparent partnership for nearly 5 decades.",
+  },
+  {
+    id: "faq-3",
+    question: "Does Rocky Real Estate offer property snagging services?",
+    answer:
+      "Yes. Before you take possession of a new property, our experts conduct a professional snagging inspection to identify construction defects or unfinished work, ensuring the developer rectifies them before you move in or rent it out.",
+  },
+  {
+    id: "faq-4",
+    question: "Is it safe to buy off-plan property in Dubai?",
+    answer:
+      "Yes. The Dubai Land Department (DLD) and RERA have implemented strict regulations. All payments are deposited into a project-specific Escrow Account and are released to the developer only upon verified construction milestones.",
+  },
+  {
+    id: "faq-5",
+    question: "Can I sell my off-plan property before completion?",
+    answer:
+      "Most developers allow you to resell after paying a percentage of the total property value (typically 30% to 40%). Rocky Real Estate can manage the entire resale process for you.",
+  },
+  {
+    id: "faq-6",
+    question: "What are the hidden costs of buying property in Dubai?",
+    answer:
+      "Beyond the purchase price, you must factor in the 4% DLD fee, a registration trustee fee (approx. AED 4,000), and agency commission (typically 2%). For off-plan, there is also an Oqood (Pre-Title Deed) registration fee.",
+  },
+  {
+    id: "faq-7",
+    question: "Does buying property qualify me for a UAE Golden Visa?",
+    answer:
+      "If your property investment value is at Dh2 million or more, you are eligible for the 10-year Golden Visa. This qualification applies to both ready and off-plan properties (provided the investment reaches the threshold).",
+  },
+  {
+    id: "faq-8",
+    question: "Can I manage my property if I live outside the UAE?",
+    answer:
+      "Absolutely. Through our Remote Management services and Power of Attorney (POA) arrangements, Rocky Real Estate can handle everything from utility setup (DEWA) to tenant disputes while you remain abroad.",
+  },
+];
 
 const containerVariants = {
   hidden: {},
@@ -105,53 +105,49 @@ const FaqsSection: React.FC = () => {
     <section
       id="faqs-section"
       aria-labelledby="faqs-section-heading"
-      className="relative overflow-hidden py-16 md:py-20 lg:py-24"
+      className="relative overflow-hidden py-16 md:py-20 lg:py-24 bg-[#faf9f7]"
     >
-      {/* Subtle background */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "#faf9f7" }}
-      />
 
       <Container className="relative">
         {/* Section Header */}
-        <motion.div
-          className="mb-12 md:mb-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={headingVariants}
-        >
-          <p
-            className="mb-3 text-xs uppercase tracking-[0.2em] font-medium"
-            style={{ color: "#a89880", fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-          >
-            Common Questions
-          </p>
-          <h2
+        {/* Section Header */}
+        <header className="mb-4 md:mb-8">
+          <motion.h2
             id="faqs-section-heading"
-            className="text-3xl md:text-4xl lg:text-5xl font-light leading-tight"
-            style={{
-              color: "#1c1a18",
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              letterSpacing: "-0.01em",
+            className="text-2xl font-medium sm:text-3xl md:text-4xl lg:text-[2.5rem] tracking-tight"
+            style={{ color: "#333333" }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={headingVariants}
+          >
+            Frequently Asked Questions
+          </motion.h2>
+
+          {/* <motion.p
+            // Removed mx-auto to keep it left-aligned
+            className="mt-4 max-w-2xl text-base md:text-lg"
+            style={{ color: "var(--charcoal)" }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { delay: 0.1, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }
+              }
             }}
           >
-            Frequently Asked
-            <br />
-            <span style={{ fontStyle: "italic", color: "#7a6a56" }}>Questions</span>
-          </h2>
-          <div
-            className="mt-5 h-px w-16"
-            style={{ background: "linear-gradient(to right, #c9b99a, transparent)" }}
-            aria-hidden
-          />
-        </motion.div>
+            Find answers to common questions about property management, investments,
+            and the real estate landscape in Dubai.
+          </motion.p> */}
+        </header>
 
         {/* FAQ Accordion */}
         <motion.div
-          className="max-w-3xl"
+          // className="max-w-3xl"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
@@ -164,40 +160,28 @@ const FaqsSection: React.FC = () => {
               <motion.div
                 key={faq.id}
                 variants={itemVariants}
-                className="border-b"
-                style={{ borderColor: "#e8e0d5" }}
+                className="border-b border-[var(--charcoal)]/10"
               >
                 <button
                   id={`${faq.id}-btn`}
                   aria-expanded={isOpen}
                   aria-controls={`${faq.id}-panel`}
                   onClick={() => toggle(faq.id)}
-                  className="group flex w-full items-start justify-between gap-4 py-6 text-left transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                  style={
-                    {
-                      "--tw-ring-color": "#c9b99a",
-                      color: "#1c1a18",
-                    } as React.CSSProperties
-                  }
+                  className="group flex w-full items-start justify-between gap-4 py-4 text-left transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--rocky-blue)]"
                 >
                   <span
-                    className="text-base md:text-lg font-light leading-snug transition-colors duration-200"
-                    style={{
-                      fontFamily: "'Cormorant Garamond', Georgia, serif",
-                      color: isOpen ? "#7a6a56" : "#1c1a18",
-                      fontSize: "clamp(1rem, 2vw, 1.15rem)",
-                    }}
+                    className={`text-base md:text-lg font-medium leading-snug transition-colors duration-200 ${isOpen ? "text-[var(--rocky-blue)]" : "text-[var(--charcoal)]"
+                      }`}
                   >
                     {faq.question}
                   </span>
 
                   {/* Icon */}
                   <span
-                    className="mt-1 flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full border transition-all duration-300"
-                    style={{
-                      borderColor: isOpen ? "#a89880" : "#d5cab8",
-                      background: isOpen ? "#a89880" : "transparent",
-                    }}
+                    className={`mt-1 flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full border transition-all duration-300 ${isOpen
+                      ? "border-[var(--rocky-blue)] bg-[var(--rocky-blue)]"
+                      : "border-[var(--charcoal)]/20"
+                      }`}
                     aria-hidden
                   >
                     <motion.svg
@@ -213,7 +197,7 @@ const FaqsSection: React.FC = () => {
                         y1="1"
                         x2="5"
                         y2="9"
-                        stroke={isOpen ? "#faf9f7" : "#a89880"}
+                        stroke={isOpen ? "white" : "var(--rocky-blue)"}
                         strokeWidth="1.5"
                         strokeLinecap="round"
                       />
@@ -222,7 +206,7 @@ const FaqsSection: React.FC = () => {
                         y1="5"
                         x2="9"
                         y2="5"
-                        stroke={isOpen ? "#faf9f7" : "#a89880"}
+                        stroke={isOpen ? "white" : "var(--rocky-blue)"}
                         strokeWidth="1.5"
                         strokeLinecap="round"
                       />
@@ -248,13 +232,7 @@ const FaqsSection: React.FC = () => {
                       style={{ overflow: "hidden" }}
                     >
                       <p
-                        className="pb-7 pr-10 text-sm md:text-base leading-relaxed"
-                        style={{
-                          color: "#6b5f52",
-                          fontFamily: "'Jost', sans-serif",
-                          fontWeight: 300,
-                          lineHeight: "1.8",
-                        }}
+                        className="pb-7 pr-10 text-sm md:text-base leading-relaxed text-[var(--charcoal)]/70"
                       >
                         {faq.answer}
                       </p>
@@ -267,7 +245,7 @@ const FaqsSection: React.FC = () => {
         </motion.div>
 
         {/* Footer note */}
-       
+
       </Container>
     </section>
   );
