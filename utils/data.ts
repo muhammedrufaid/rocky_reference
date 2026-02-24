@@ -287,12 +287,12 @@ export const services: Service[] = [
   },
   {
     id: 3,
-    title: "Brokerage Services",
+    title: "Brokerage",
     description: "Practical, data-driven advice to help you buy, sell, or lease a property.",
   },
   {
     id: 4,
-    title: "Mortgage Services",
+    title: "Mortgage",
     description: "We work with trusted banking partners and mortgage advisors to get you the best deals.",
   },
   {

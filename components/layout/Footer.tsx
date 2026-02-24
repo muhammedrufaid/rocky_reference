@@ -4,7 +4,7 @@ import Container from "./Container";
 import Image from "next/image";
 
 const footerServices = [
-    { title: "Short Term Rentals", path: "/short-term-rentals" },
+    { title: "Professional Inspection", path: "/professional-inspection" },
     { title: "Property Listing", path: "/property-listing" },
     { title: "Property Management", path: "/property-management" },
     { title: "Mortgage", path: "/mortgage" },
@@ -98,9 +98,9 @@ const Footer: React.FC = () => {
 
                     {/* Column 2 – Services */}
                     <section aria-labelledby="footer-services-heading">
-                        <h3 id="footer-services-heading" className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
+                        <h6 id="footer-services-heading" className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
                             Services
-                        </h3>
+                        </h6>
                         <nav aria-label="Footer services">
                             <ul className="space-y-3">
                                 {footerServices.map((item) => (
@@ -119,9 +119,9 @@ const Footer: React.FC = () => {
 
                     {/* Column 3 – Company */}
                     <section aria-labelledby="footer-company-heading">
-                        <h3 id="footer-company-heading" className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
+                        <h6 id="footer-company-heading" className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
                             Company
-                        </h3>
+                        </h6>
                         <nav aria-label="Footer company links">
                             <ul className="space-y-3">
                                 {footerCompany.map((item) => (
@@ -140,9 +140,9 @@ const Footer: React.FC = () => {
 
                     {/* Column 4 – Contact + Social */}
                     <section aria-labelledby="footer-contact-heading">
-                        <h3 id="footer-contact-heading" className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
+                        <h6 id="footer-contact-heading" className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
                             Contact
-                        </h3>
+                        </h6>
                         <address className="not-italic space-y-3 text-sm text-blue-100">
                             <p>
                                 <a href="tel:+97144476644" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded">
@@ -184,12 +184,12 @@ const Footer: React.FC = () => {
 
                         {/* Newsletter Signup */}
                         <div>
-                            <h3
+                            <h6
                                 id="footer-newsletter-heading"
                                 className="text-xs font-semibold uppercase tracking-wider text-white mb-1"
                             >
                                 Stay in the loop
-                            </h3>
+                            </h6>
                             <p className="text-sm text-blue-100 mb-3">
                                 Sign up to our weekly newsletter for market updates
                             </p>
@@ -222,12 +222,12 @@ const Footer: React.FC = () => {
 
                         {/* Popular Searches */}
                         <nav aria-labelledby="footer-popular-heading">
-                            <h3
+                            <h6
                                 id="footer-popular-heading"
                                 className="text-xs font-semibold uppercase tracking-wider text-white mb-3"
                             >
                                 Popular Searches
-                            </h3>
+                            </h6>
                             <ul className="flex flex-wrap gap-2">
                                 {popularSearches.map((area) => (
                                     <li key={area}>
