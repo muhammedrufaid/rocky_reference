@@ -88,14 +88,14 @@ const TestimonialSection: React.FC = () => {
           <div className="flex gap-2 justify-end md:justify-start">
             <button
               ref={prevRef}
-              className="swiper-nav-btn rounded-full border border-[var(--charcoal)]/20 bg-white/80 p-2 shadow hover:bg-white transition disabled:opacity-40"
+              className="swiper-nav-btn rounded-full border border-[var(--charcoal)]/20 bg-white/80 p-2 shadow hover:bg-white transition disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
               aria-label="Previous testimonial"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
             <button
               ref={nextRef}
-              className="swiper-nav-btn rounded-full border border-[var(--charcoal)]/20 bg-white/80 p-2 shadow hover:bg-white transition disabled:opacity-40"
+              className="swiper-nav-btn rounded-full border border-[var(--charcoal)]/20 bg-white/80 p-2 shadow hover:bg-white transition disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
               aria-label="Next testimonial"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>

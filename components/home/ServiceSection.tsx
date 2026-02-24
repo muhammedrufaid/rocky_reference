@@ -111,7 +111,7 @@ const ServiceSection: React.FC = () => {
                     {services.map((service, index) => (
                         <motion.article
                             key={service.id}
-                            className="group relative flex flex-col rounded-2xl p-6 md:p-8 transition-all duration-300 bg-white border border-[var(--border-light)] hover:border-[var(--sandstone-taupe)]/40 hover:shadow-[0_12px_40px_rgba(13,54,94,0.08)]"
+                            className="group cursor-pointer relative flex flex-col rounded-2xl p-6 md:p-8 transition-all duration-300 bg-white border border-[var(--border-light)] hover:border-[var(--sandstone-taupe)]/40 hover:shadow-[0_12px_40px_rgba(13,54,94,0.08)]"
                             variants={fadeUp}
                             initial="hidden"
                             animate={isInView ? "visible" : "hidden"}

@@ -87,7 +87,7 @@ const HeroSearchCard: React.FC = () => {
                 setActiveTab(tab);
                 setSelectedCategory("");
               }}
-              className={`min-w-[72px] md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${activeTab === tab
+              className={`min-w-[72px] cursor-pointer md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${activeTab === tab
                   ? "bg-white text-[#0d365e]"
                   : "text-white/90 hover:text-white hover:bg-white/10"
                 }`}
@@ -116,7 +116,7 @@ const HeroSearchCard: React.FC = () => {
                 aria-expanded={dropdownOpen}
                 aria-label={`Category: ${selectedCategory || "All"}`}
                 onClick={() => setDropdownOpen((prev) => !prev)}
-                className="flex items-center gap-1.5 h-full px-3 md:px-4 text-sm font-medium text-[#333333] border-r border-[#e5e7eb] hover:bg-[#f5f0ea] transition-colors rounded-l-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#c3ad95] whitespace-nowrap"
+                className="flex items-center cursor-pointer gap-1.5 h-full px-3 md:px-4 text-sm font-medium text-[#333333] border-r border-[#e5e7eb] hover:bg-[#f5f0ea] transition-colors rounded-l-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#c3ad95] whitespace-nowrap"
               >
                 <span className="max-w-[90px] truncate">
                   {selectedCategory || categories[0] || "Category"}
