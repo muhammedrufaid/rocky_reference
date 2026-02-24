@@ -21,19 +21,17 @@ export default function ContactPage() {
       <Header forceSolid />
       <main>
         <PageHero
-          title="Contact Us"
-          description="Let's help you find your perfect property."
+          title="Our Services"
+          description="Comprehensive real estate solutions tailored to your needs."
           breadcrumb={[
             { label: "Home", href: "/" },
-            { label: "Contact" },
+            { label: "Services" },
           ]}
         />
         <ContactSection />
         <ContactMap />
         <TestimonialSection />
-        {/* <FaqsSection /> */}
-        {/* <ContactFAQ /> */}
-        {/* <ContactCTA /> */}
+
       </main>
       <Footer />
     </div>
