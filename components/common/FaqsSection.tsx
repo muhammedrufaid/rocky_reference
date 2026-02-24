@@ -167,7 +167,7 @@ const FaqsSection: React.FC = () => {
                   aria-expanded={isOpen}
                   aria-controls={`${faq.id}-panel`}
                   onClick={() => toggle(faq.id)}
-                  className="group flex w-full items-start justify-between gap-4 py-4 text-left transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--rocky-blue)]"
+                  className="group cursor-pointer flex w-full items-start justify-between gap-4 py-4 text-left transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--rocky-blue)]"
                 >
                   <span
                     className={`text-base md:text-lg font-medium leading-snug transition-colors duration-200 ${isOpen ? "text-[var(--rocky-blue)]" : "text-[var(--charcoal)]"
