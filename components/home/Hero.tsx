@@ -54,7 +54,7 @@ const Hero: React.FC<HeroProps> = ({
               animate={fadeInUp.animate}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              Find Your Dream Property in Dubai
+              Find Your Dream Home in Dubai
             </motion.h1>
             <motion.p
               className="mt-3 md:mt-4 text-base md:text-lg text-white/90 max-w-xl"
@@ -66,8 +66,7 @@ const Hero: React.FC<HeroProps> = ({
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
-              Premium homes, penthouses, and investment opportunities across
-              Dubai&apos;s most sought-after communities.
+              Luxury villas, penthouses, apartments, and more. Explore properties you can buy or invest in across Dubai.
             </motion.p>
           </header>
 

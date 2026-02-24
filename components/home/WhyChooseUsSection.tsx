@@ -128,7 +128,7 @@ const WhyChooseUsSection: React.FC = () => {
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
             >
-              With an ever-growing portfolio and a team of seasoned experts, we ensure every service is personalised as per the client’s needs.
+              With over 5 decades of experience, an ever-growing portfolio, and a team of seasoned experts, we ensure every service is personalised as per the client’s needs.
             </motion.p>
 
             <motion.div

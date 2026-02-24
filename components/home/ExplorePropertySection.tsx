@@ -61,7 +61,7 @@ const ExplorePropertySection: React.FC = () => {
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
                         >
-                            Explore Dubai Properties
+                            Top Dubai Properties
                         </motion.h2>
                         <motion.p
                             className="mt-3 text-sm md:text-base max-w-lg"
@@ -75,7 +75,7 @@ const ExplorePropertySection: React.FC = () => {
                                 ease: [0.22, 1, 0.36, 1] as const,
                             }}
                         >
-                            Handpicked properties for sale and rent across Dubai&apos;s most sought-after neighbourhoods.
+                            Explore our premium list of properties for sale and rent across Dubai.
                         </motion.p>
                     </div>
                     <motion.div
@@ -92,7 +92,7 @@ const ExplorePropertySection: React.FC = () => {
                         <Link
                             href="/off-plan"
                             className="flex-shrink-0 inline-flex items-center gap-2 text-sm font-semibold pb-0.5 transition-colors"
-                            style={{ color: "#0d365e"}}
+                            style={{ color: "#0d365e" }}
                         >
                             View All Projects <ArrowIcon />
                         </Link>
@@ -147,7 +147,7 @@ const ExplorePropertySection: React.FC = () => {
                                                     ? "#1c4e80"
                                                     : "#e7dccd",
                                             color:
-                                            property.type === "Buy"
+                                                property.type === "Buy"
                                                     ? "#ffffff"
                                                     : "#000000",
                                             backdropFilter: "blur(6px)",

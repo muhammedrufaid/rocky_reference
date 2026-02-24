@@ -105,7 +105,7 @@ const FeaturedOffPlanProjects: React.FC = () => {
                 ease: [0.22, 1, 0.36, 1] as const,
               }}
             >
-              Explore top off-plan properties in Dubai with prime locations and exceptional value.
+              Explore and invest in top off-plan projects located in prime areas in Dubai.
             </motion.p>
           </div>
           <motion.div

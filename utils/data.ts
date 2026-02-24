@@ -278,32 +278,32 @@ export const services: Service[] = [
   {
     id: 1,
     title: "Property Management",
-    description: "Full-service management covering maintenance, tenant relations, and rental collection.",
+    description: "End-to-end property management services to maximise your returns while ensuring excellent property condition.",
   },
   {
     id: 2,
-    title: "Property Listing",
-    description: "Professional marketing and listing services to showcase your property to the right buyers.",
+    title: "Professional Inspection",
+    description: "Professional Inspections arranged to identify and solve defects before the official handover.",
   },
   {
     id: 3,
-    title: "Property Inspection",
-    description: "Flexible holiday lets and Airbnb management for maximum returns on your property investment.",
+    title: "Brokerage Services",
+    description: "Practical, data-driven advice to help you buy, sell, or lease a property.",
   },
   {
     id: 4,
     title: "Mortgage Services",
-    description: "Expert guidance on financing options and mortgage solutions tailored to your needs.",
+    description: "We work with trusted banking partners and mortgage advisors to get you the best deals.",
   },
   {
     id: 5,
-    title: "Brokerage",
-    description: "Licensed brokerage services for buy, sell, and rent transactions across Dubai.",
+    title: "Property Listing & Marketing",
+    description: "We ensure your property is marketed effectively on real estate portals, social media platforms, and more.",
   },
   {
     id: 6,
     title: "After Sales Support",
-    description: "Ongoing assistance post-purchase—handover, registration, and continued care.",
+    description: "Paperwork to handover, we manage everything for our clients, even after the sale is done.",
   },
 ];
 

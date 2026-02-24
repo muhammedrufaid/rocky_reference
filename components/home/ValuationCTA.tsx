@@ -74,7 +74,7 @@ const ValuationCTA: React.FC = () => {
                             animate={isInView ? "visible" : "hidden"}
                             custom={0.18}
                         >
-                            Curious what your property could achieve? Our specialists provide honest, data-driven valuations tailored to the luxury market.
+                            Wondering what your property is truly worth? Our specialists provide strategic, data-driven caluations tailored to the luxury market
                         </motion.p>
 
                         <motion.div

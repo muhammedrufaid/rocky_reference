@@ -103,7 +103,7 @@ const ServiceSection: React.FC = () => {
                         animate={isInView ? "visible" : "hidden"}
                         custom={0.12}
                     >
-                        End-to-end real estate solutions tailored for Dubai&apos;s dynamic market.
+                        Paperwork to handover, our experienced team offers solutions tailored for Dubai’s dynamic market
                     </motion.p>
                 </header>
 
