@@ -256,16 +256,16 @@ const Footer: React.FC = () => {
                                         Privacy Policy
                                     </Link>
                                 </li>
-                                <li className="border-r border-white/20 pr-4">
+                                <li className="">
                                     <Link href="/terms" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded">
                                         Terms of Use
                                     </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link href="/sitemap" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded">
                                         Sitemap
                                     </Link>
-                                </li>
+                                </li> */}
                             </ul>
                         </nav>
                     </div>

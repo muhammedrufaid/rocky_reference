@@ -167,7 +167,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`lg:hidden p-2 transition-all duration-500 ${isSolid
+              className={`lg:hidden transition-all duration-500 ${isSolid
                 ? "text-[var(--charcoal)] hover:text-[var(--rocky-blue)]"
                 : "text-white hover:text-white/80"
                 }`}
