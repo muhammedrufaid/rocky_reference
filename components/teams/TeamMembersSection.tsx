@@ -104,7 +104,7 @@ const TeamMembersSection: React.FC = () => {
         
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10 md:mb-12">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10 md:mb-12 max-w-2xl">
           <div className="relative flex-1 w-full min-w-0">
             <span
               className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-400"
@@ -121,7 +121,7 @@ const TeamMembersSection: React.FC = () => {
               className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm text-gray-700 placeholder-gray-400 border border-gray-200 rounded-lg bg-white outline-none transition-all duration-200 focus:border-[#0d365e] focus:ring-2 focus:ring-[#0d365e]/20"
             />
           </div>
-          <div className="relative w-full sm:w-48 flex-shrink-0">
+          <div className="relative w-full sm:w-auto sm:min-w-[220px] flex-shrink-0">
             <select
               value={departmentFilter}
               onChange={(e) => setDepartmentFilter(e.target.value)}
