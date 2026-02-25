@@ -15,14 +15,14 @@ const fadeUp = {
     }),
 };
 
-const ValuationCTA: React.FC = () => {
+const ValuationCTA: React.FC<{ className?: string }> = ({ className }) => {
     const sectionRef = useRef<HTMLElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: "-60px" });
 
     return (
         <section
             ref={sectionRef}
-            className="pb-16 md:pb-20 lg:pb-24"
+            className={className ?? "pb-16 md:pb-20 lg:pb-24"}
             aria-labelledby="valuation-heading"
         >
             <Container>

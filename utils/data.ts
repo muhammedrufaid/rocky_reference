@@ -272,6 +272,46 @@ export interface Service {
   description: string;
 }
 
+export interface WhyChooseItem {
+  id: number;
+  icon: "expertise" | "transparency" | "support" | "market" | "end-to-end";
+  title: string;
+  description: string;
+}
+
+export const whyChooseServicesData: WhyChooseItem[] = [
+  {
+    id: 1,
+    icon: "expertise",
+    title: "Deep Dubai Market Knowledge",
+    description: "Our team brings decades of combined experience in Dubai's real estate market, from off-plan to resale.",
+  },
+  {
+    id: 2,
+    icon: "transparency",
+    title: "Transparent & Honest Service",
+    description: "Clear communication, no hidden fees, and straightforward advice at every step of your journey.",
+  },
+  {
+    id: 3,
+    icon: "support",
+    title: "End-to-End Support",
+    description: "From paperwork to handover and beyond — we stay with you even after the deal is done.",
+  },
+  {
+    id: 4,
+    icon: "market",
+    title: "Data-Driven Advisory",
+    description: "Investment decisions backed by market intelligence, trends, and strategic insights.",
+  },
+  {
+    id: 5,
+    icon: "end-to-end",
+    title: "Dedicated Client Relationship",
+    description: "A single point of contact who understands your needs and delivers personalised solutions.",
+  },
+];
+
 export const services: Service[] = [
   
   

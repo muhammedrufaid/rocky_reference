@@ -33,7 +33,7 @@ export default function ServicesPage() {
         <WhychooseSection />
         {/* <DevelopmentPartnersSection /> */}
         {/* <FaqsSection />   */}
-        <ValuationCTA />
+        <ValuationCTA className="py-16 md:py-20 lg:py-24" />
         <TestimonialSection/>
 
       </main>
