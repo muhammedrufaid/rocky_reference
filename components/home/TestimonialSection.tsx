@@ -49,12 +49,12 @@ const StarRating = ({ rating }: { rating: number }) => (
 );
 
 
-const TestimonialSection: React.FC = () => {
+const TestimonialSection: React.FC<{ backgroundColor?: string, className?: string }> = ({ backgroundColor = "#faf9f7", className = "py-16 md:py-20 lg:py-24" }) => {
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   return (
     <section
-      className="py-16 md:py-20 lg:py-24 bg-[#faf9f7] overflow-x-hidden"
+      className={` bg-[${backgroundColor}] overflow-x-hidden ${className}`}
       aria-labelledby="testimonials-heading"
     >
       <Container>

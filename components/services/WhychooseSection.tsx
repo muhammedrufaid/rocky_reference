@@ -97,7 +97,7 @@ const WhychooseSection: React.FC = () => {
             animate={isInView ? "visible" : "hidden"}
             custom={0.08}
           >
-            From paperwork to handover, we deliver clarity, integrity, and results — backed by deep market expertise and a commitment to your success.
+            We deliver clarity, integrity, and results — backed by deep market expertise and a commitment to your success.
           </motion.p>
         </header>
 

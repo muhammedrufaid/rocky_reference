@@ -70,7 +70,7 @@ const PageHero: React.FC<PageHeroProps> = ({
         <div className="relative z-10 max-w-xl">
           {/* Breadcrumb */}
           <motion.nav
-            className="mb-6 flex items-center gap-1.5 text-xs font-medium tracking-widest uppercase"
+            className="mb-6 flex items-center gap-1.5 text-xs font-medium tracking-widest capitalize"
             style={{ color: "rgba(195, 173, 149, 0.75)" }}
             variants={fadeUp}
             initial="hidden"
