@@ -70,16 +70,16 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <nav
-      className={`flex flex-wrap items-center justify-end gap-4 ${className}`}
+      className={`flex flex-wrap items-center justify-between gap-4 ${className}`}
       aria-label="Pagination"
     >
-      {/* {totalItems != null ? (
+      {totalItems != null ? (
         <p className="text-sm text-gray-500 order-2 sm:order-1">
           Showing {startItem}&ndash;{endItem} of {totalItems}
         </p>
       ) : (
         <div />
-      )} */}
+      )}
       <div className="flex items-center gap-1 order-1 sm:order-2">
         <button
           type="button"
