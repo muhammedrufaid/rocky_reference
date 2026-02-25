@@ -101,7 +101,7 @@ const Pagination: React.FC<PaginationProps> = ({
               <button
                 key={p}
                 type="button"
-                onClick={() => onPageChange(p)}
+                onClick={() => onPageChange(p as number)}
                 aria-label={`Page ${p}`}
                 aria-current={p === currentPage ? "page" : undefined}
                 className={`min-w-[2rem] h-8 px-2 rounded-lg text-sm font-medium transition-colors ${
