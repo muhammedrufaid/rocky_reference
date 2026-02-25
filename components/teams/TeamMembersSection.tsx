@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/layout/Container";
+import Pagination from "@/components/common/Pagination";
 import { teamMembers } from "@/utils/data";
+
+const ITEMS_PER_PAGE = 12;
 
 const SearchIcon = () => (
   <svg
@@ -77,6 +80,7 @@ const cardVariants = {
 const TeamMembersSection: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const departments = useMemo(() => {
     return [...new Set(teamMembers.map((m) => m.department))].sort();
@@ -92,6 +96,16 @@ const TeamMembersSection: React.FC = () => {
         !departmentFilter || member.department === departmentFilter;
       return matchesSearch && matchesDepartment;
     });
+  }, [searchQuery, departmentFilter]);
+
+  const totalPages = Math.ceil(filteredMembers.length / ITEMS_PER_PAGE);
+  const paginatedMembers = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredMembers.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredMembers, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
   }, [searchQuery, departmentFilter]);
 
   return (
@@ -144,11 +158,23 @@ const TeamMembersSection: React.FC = () => {
           </div>
         </div>
 
+        {/* Pagination - above cards */}
+        {filteredMembers.length > 0 && totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            totalItems={filteredMembers.length}
+            pageSize={ITEMS_PER_PAGE}
+            className="mb-6 sm:mb-8"
+          />
+        )}
+
         {/* Grid - image and content separated */}
         <AnimatePresence mode="popLayout">
           {filteredMembers.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
-              {filteredMembers.map((member, index) => (
+              {paginatedMembers.map((member, index) => (
                 <motion.article
                   key={member.id}
                   variants={cardVariants}
@@ -161,7 +187,7 @@ const TeamMembersSection: React.FC = () => {
                   <Link href={member.path ?? "#"} className="block">
                     <div className="group flex flex-col gap-4 sm:gap-5">
                       {/* Image - separate block */}
-                      <div className="relative w-full aspect-[4/5] overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 border border-gray-100 shadow-sm">
+                      <div className="relative w-full aspect-[6/7] overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 border border-gray-100 shadow-sm">
                         <div className="absolute inset-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110">
                           <Image
                             src={member.image}

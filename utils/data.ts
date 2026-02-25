@@ -236,6 +236,27 @@ export const teamMembers: TeamMember[] = [
     image: "/assets/teams/team10.png",
     path: "/our-team/aisha-patel",
   },
+  {
+    id:11,
+    name: "Fatima Al-Nahyan",
+    department: "Finance",
+    image: "/assets/teams/team8.jpg",
+    path: "/our-team/fatima-al-nahyan",
+  },
+  {
+    id: 12,
+    name: "David Williams",
+    department: "Sales",
+    image: "/assets/teams/team9.jpg",
+    path: "/our-team/david-williams",
+  },
+  {
+    id: 13,
+    name: "Aisha Patel",
+    department: "Leasing",
+    image: "/assets/teams/team10.png",
+    path: "/our-team/aisha-patel",
+  },
 ];
 
 export const navigationData = [
