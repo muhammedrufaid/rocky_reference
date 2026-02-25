@@ -71,41 +71,49 @@ const fadeUp = {
     }),
 };
 
-const ServiceSection: React.FC = () => {
+interface ServiceSectionProps {
+    hideHeading?: boolean;
+    backgroundColor?: string;
+    className?: string;
+}
+
+const ServiceSection: React.FC<ServiceSectionProps> = ({ hideHeading = false, backgroundColor = "#faf9f7", className }) => {
     const sectionRef = useRef(null);
     const isInView = useInView(sectionRef, { once: true, margin: "-60px" });
 
     return (
         <section
             ref={sectionRef}
-            className="py-16 md:py-20 lg:py-24"
-            style={{ backgroundColor: "#faf9f7" }}
-            aria-labelledby="services-heading"
+            className={className ?? "pb-16 md:pb-20 lg:pb-24"}
+            style={{ backgroundColor: backgroundColor }}
+            aria-labelledby={hideHeading ? undefined : "services-heading"}
         >
             <Container>
-                <header className="mb-12 text-center md:mb-16">
-                    <motion.h2
-                        id="services-heading"
-                        className="text-2xl font-medium sm:text-3xl md:text-4xl lg:text-[2.5rem] tracking-tight"
-                        style={{ color: "var(--rocky-blue)" }}
-                        variants={fadeUp}
-                        initial="hidden"
-                        animate={isInView ? "visible" : "hidden"}
-                        custom={0.05}
-                    >
-                        Our Services
-                    </motion.h2>
-                    <motion.p
-                        className="mx-auto mt-4 max-w-2xl text-base md:text-lg"
-                        style={{ color: "var(--charcoal)" }}
-                        variants={fadeUp}
-                        initial="hidden"
-                        animate={isInView ? "visible" : "hidden"}
-                        custom={0.12}
-                    >
-                        Paperwork to handover, our experienced team offers solutions tailored for Dubai’s dynamic market
-                    </motion.p>
-                </header>
+                {!hideHeading && (
+                    <header className="mb-12 text-center md:mb-16">
+                        <motion.h2
+                            id="services-heading"
+                            className="text-2xl font-medium sm:text-3xl md:text-4xl lg:text-[2.5rem] tracking-tight"
+                            style={{ color: "var(--rocky-blue)" }}
+                            variants={fadeUp}
+                            initial="hidden"
+                            animate={isInView ? "visible" : "hidden"}
+                            custom={0.05}
+                        >
+                            Our Services
+                        </motion.h2>
+                        <motion.p
+                            className="mx-auto mt-4 max-w-2xl text-base md:text-lg"
+                            style={{ color: "var(--charcoal)" }}
+                            variants={fadeUp}
+                            initial="hidden"
+                            animate={isInView ? "visible" : "hidden"}
+                            custom={0.12}
+                        >
+                            Paperwork to handover, our experienced team offers solutions tailored for Dubai’s dynamic market
+                        </motion.p>
+                    </header>
+                )}
 
                 <div className="grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
                     {services.map((service, index) => (
@@ -142,7 +150,7 @@ const ServiceSection: React.FC = () => {
                         </motion.article>
                     ))}
                 </div>
-{/* 
+                {/* 
                 <motion.div
                     className="mt-12 flex justify-center md:mt-16"
                     variants={fadeUp}

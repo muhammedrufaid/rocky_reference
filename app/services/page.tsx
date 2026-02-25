@@ -2,13 +2,17 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/common/PageHero";
 import TestimonialSection from "@/components/home/TestimonialSection";
-import ServiceCardsSection from "@/components/services/ServiceCardsSection";
+import ServiceSection from "@/components/home/ServiceSection";
+import ServiceIntroSection from "@/components/services/ServiceIntroSection";
+import ValuationCTA from "@/components/home/ValuationCTA";
+import WhychooseSection from "@/components/services/WhychooseSection";
+import DevelopmentPartnersSection from "@/components/home/DevelopmentPartnersSection";
 
 
 export const metadata = {
-  title: "Contact Us | Rocky Real Estate",
+  title: "Our Services | Rocky Real Estate",
   description:
-    "Get in touch with Rocky Real Estate. Schedule a consultation, visit our Dubai office, or reach us via phone, email, or WhatsApp.",
+    "Paperwork to handover — property management, brokerage, mortgage, professional inspection, listing & marketing, and after-sales support. Solutions tailored for Dubai's dynamic market.",
 };
 
 export default function ServicesPage() {
@@ -24,10 +28,13 @@ export default function ServicesPage() {
             { label: "Services" },
           ]}
         />
-        <ServiceCardsSection />
-        {/* <ContactSection />
-        <ContactMap /> */}
-        <TestimonialSection />
+        <ServiceIntroSection />
+        <ServiceSection hideHeading backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24" />
+        <WhychooseSection />
+        {/* <DevelopmentPartnersSection /> */}
+        {/* <FaqsSection />   */}
+        <ValuationCTA />
+        <TestimonialSection/>
 
       </main>
       <Footer />
