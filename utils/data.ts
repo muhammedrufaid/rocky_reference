@@ -381,6 +381,39 @@ export interface WhyChooseItem {
   description: string;
 }
 
+export const whyChooseAgentsData: WhyChooseItem[] = [
+  {
+    id: 1,
+    icon: "expertise",
+    title: "Dubai Specialists",
+    description: "Our agents live and breathe Dubai's property market. From Marina to Palm Jumeirah, we know every neighbourhood, price trend, and hidden opportunity.",
+  },
+  {
+    id: 2,
+    icon: "transparency",
+    title: "Personalised, One-on-One Service",
+    description: "You get a dedicated agent who learns your needs, budget, and timeline. No generic scripts — just tailored guidance for your property journey.",
+  },
+  {
+    id: 3,
+    icon: "support",
+    title: "Bilingual & Multi-Cultural Team",
+    description: "We communicate fluently in English, Arabic, and more. Our diverse team understands the needs of international buyers and local residents alike.",
+  },
+  {
+    id: 4,
+    icon: "market",
+    title: "Licensed & RERA-Compliant",
+    description: "Every Rocky agent is fully licensed and adheres to RERA regulations. You get professional, accountable service you can trust.",
+  },
+  {
+    id: 5,
+    icon: "end-to-end",
+    title: "From Viewing to Keys",
+    description: "We guide you through viewings, negotiations, paperwork, and handover. Your agent stays with you until you have the keys in hand.",
+  },
+];
+
 export const whyChooseServicesData: WhyChooseItem[] = [
   {
     id: 1,
