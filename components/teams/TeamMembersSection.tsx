@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/layout/Container";
 import { teamMembers } from "@/utils/data";
 
@@ -42,13 +42,44 @@ const ChevronIcon = () => (
   </svg>
 );
 
+const ArrowIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden
+  >
+    <path d="M7 17L17 7M17 7H7M17 7v10" />
+  </svg>
+);
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 32, scale: 0.96 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      delay: i * 0.06,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  }),
+  exit: { opacity: 0, scale: 0.96, transition: { duration: 0.25 } },
+};
+
 const TeamMembersSection: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState<string>("");
 
   const departments = useMemo(() => {
-    const depts = [...new Set(teamMembers.map((m) => m.department))].sort();
-    return depts;
+    return [...new Set(teamMembers.map((m) => m.department))].sort();
   }, []);
 
   const filteredMembers = useMemo(() => {
@@ -65,30 +96,18 @@ const TeamMembersSection: React.FC = () => {
 
   return (
     <section
-      className="py-16 md:py-20 lg:py-24 bg-white"
+      className="pb-12 sm:pb-16 md:pb-20 lg:pb-24"
       aria-labelledby="team-members-heading"
     >
       <Container>
-        {/* Section Heading */}
-        <header className="mb-10 md:mb-12">
-          <h2
-            id="team-members-heading"
-            className="text-2xl sm:text-3xl md:text-4xl font-medium leading-tight"
-            style={{ color: "#0d365e" }}
-          >
-            Meet Our Team
-          </h2>
-          <p className="mt-3 text-sm md:text-base max-w-xl" style={{ color: "#555" }}>
-            Browse our team of specialists across departments.
-          </p>
-        </header>
+        {/* Heading */}
+        
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-10 md:mb-12">
-          {/* Search Input */}
-          <div className="relative flex-1 max-w-md">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10 md:mb-12">
+          <div className="relative flex-1 w-full min-w-0">
             <span
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-400"
               aria-hidden
             >
               <SearchIcon />
@@ -98,20 +117,16 @@ const TeamMembersSection: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name or department..."
-              className="w-full pl-10 pr-4 py-3 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#0d365e]/20 focus:border-[#0d365e] transition-colors"
-              style={{ color: "#333" }}
               aria-label="Search team members"
+              className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm text-gray-700 placeholder-gray-400 border border-gray-200 rounded-lg bg-white outline-none transition-all duration-200 focus:border-[#0d365e] focus:ring-2 focus:ring-[#0d365e]/20"
             />
           </div>
-
-          {/* Department Dropdown */}
-          <div className="relative w-full sm:w-48">
+          <div className="relative w-full sm:w-48 flex-shrink-0">
             <select
               value={departmentFilter}
               onChange={(e) => setDepartmentFilter(e.target.value)}
-              className="w-full appearance-none pl-4 pr-10 py-3 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#0d365e]/20 focus:border-[#0d365e] transition-colors cursor-pointer"
-              style={{ color: "#333" }}
               aria-label="Filter by department"
+              className="w-full pl-4 pr-10 py-2.5 sm:py-3 text-sm text-gray-700 border border-gray-200 rounded-lg bg-white appearance-none outline-none cursor-pointer transition-all duration-200 focus:border-[#0d365e] focus:ring-2 focus:ring-[#0d365e]/20"
             >
               <option value="">All Departments</option>
               {departments.map((dept) => (
@@ -129,62 +144,84 @@ const TeamMembersSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Team Grid */}
-        {filteredMembers.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {filteredMembers.map((member, index) => (
-              <motion.article
-                key={member.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.4,
-                  delay: index * 0.05,
-                  ease: [0.22, 1, 0.36, 1] as const,
-                }}
-              >
-                <Link
-                  href={member.path ?? "#"}
-                  className="group block"
+        {/* Grid - image and content separated */}
+        <AnimatePresence mode="popLayout">
+          {filteredMembers.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+              {filteredMembers.map((member, index) => (
+                <motion.article
+                  key={member.id}
+                  variants={cardVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  custom={index}
+                  layout
                 >
-                  <div className="flex flex-col overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300">
-                    <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        fill
-                        className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      />
+                  <Link href={member.path ?? "#"} className="block">
+                    <div className="group flex flex-col gap-4 sm:gap-5">
+                      {/* Image - separate block */}
+                      <div className="relative w-full aspect-[4/5] overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 border border-gray-100 shadow-sm">
+                        <div className="absolute inset-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110">
+                          <Image
+                            src={member.image}
+                            alt={member.name}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                          />
+                        </div>
+
+                        {/* Overlay on hover */}
+                        <div
+                          className="absolute inset-0 bg-gradient-to-t from-[#0d365e]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          aria-hidden
+                        />
+
+                        {/* Department badge */}
+                        <span
+                          className="absolute top-3 left-3 sm:top-4 sm:left-4 px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-medium tracking-wider uppercase text-[#0d365e] bg-white/95 backdrop-blur-sm rounded-full border border-white/80 shadow-sm"
+                        >
+                          {member.department}
+                        </span>
+
+                        {/* Arrow button */}
+                        <div
+                          className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white text-[#0d365e] flex items-center justify-center shadow-lg opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out"
+                          aria-hidden
+                        >
+                          <ArrowIcon />
+                        </div>
+                      </div>
+
+                      {/* Content - separate block */}
+                      <div className="flex flex-col gap-2">
+                        <h3 className="text-base sm:text-lg font-semibold text-[#0d365e] group-hover:text-[#1a5a96] transition-colors duration-200">
+                          {member.name}
+                        </h3>
+                        <div
+                          className="h-0.5 w-8 rounded-full bg-[var(--rocky-blue)] transition-all duration-300 group-hover:w-12"
+                          aria-hidden
+                        />
+                      </div>
                     </div>
-                    <div className="p-5">
-                      <p
-                        className="text-xs font-medium uppercase tracking-wider"
-                        style={{ color: "#717171" }}
-                      >
-                        {member.department}
-                      </p>
-                      <h3
-                        className="mt-2 text-base font-semibold transition-colors group-hover:opacity-80"
-                        style={{ color: "#0d365e" }}
-                      >
-                        {member.name}
-                      </h3>
-                    </div>
-                  </div>
-                </Link>
-              </motion.article>
-            ))}
-          </div>
-        ) : (
-          <div
-            className="py-16 text-center rounded-xl border border-dashed border-gray-200"
-            style={{ color: "#555" }}
-          >
-            <p className="text-base">No team members match your search.</p>
-            <p className="mt-2 text-sm">Try adjusting your search or filter.</p>
-          </div>
-        )}
+                  </Link>
+                </motion.article>
+              ))}
+            </div>
+          ) : (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="py-16 sm:py-20 text-center rounded-2xl border-2 border-dashed border-gray-200 bg-white"
+            >
+              <p className="text-base text-gray-600">No team members match your search.</p>
+              <p className="mt-2 text-sm text-gray-400">Try adjusting your search or filter.</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Container>
     </section>
   );
