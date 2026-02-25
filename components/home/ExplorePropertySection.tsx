@@ -90,11 +90,10 @@ const ExplorePropertySection: React.FC = () => {
                         className="self-start sm:self-auto"
                     >
                         <Link
-                            href="/off-plan"
-                            className="flex-shrink-0 inline-flex items-center gap-2 text-sm font-semibold pb-0.5 transition-colors"
-                            style={{ color: "#0d365e" }}
+                            href="/blog"
+                            className="inline-flex items-center gap-2 text-sm font-semibold pb-0.5 transition-colors text-[var(--rocky-blue)] hover:opacity-80"
                         >
-                            View All Projects <ArrowIcon />
+                            View All Properties <ArrowIcon />
                         </Link>
                     </motion.div>
                 </header>
