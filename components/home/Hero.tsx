@@ -7,7 +7,6 @@ import HeroSearchCard from "./HeroSearchCard";
 
 interface HeroProps {
   videoSrc?: string;
-  poster?: string;
 }
 
 const fadeInUp = {
@@ -17,25 +16,45 @@ const fadeInUp = {
 
 const Hero: React.FC<HeroProps> = ({
   videoSrc = "https://www.pexels.com/download/video/29575342/",
-  // poster = "/assets/hero/hero.jpg",
 }) => {
+  const [videoLoaded, setVideoLoaded] = React.useState(false);
+  const [videoError, setVideoError] = React.useState(false);
+
   return (
     <main className="relative min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)]">
-      {/* Video background */}
+      {/* Video background - gradient fallback when video not loaded */}
       <div className="absolute inset-0 z-0">
+        {/* Gradient fallback - shows when video hasn't loaded or failed */}
+        <div
+          className={`absolute inset-0 transition-opacity duration-500 ${
+            videoLoaded && !videoError ? "opacity-0" : "opacity-100"
+          }`}
+          style={{
+            background:
+              "linear-gradient(to right, rgba(13, 54, 94, 0.98) 0%, rgba(13, 54, 94, 0.85) 50%, rgba(13, 54, 94, 0.6) 100%)",
+          }}
+          aria-hidden
+        />
         <video
           autoPlay
           muted
           loop
           playsInline
-          // poster={poster}
-          className="absolute inset-0 h-full w-full object-cover"
+          onLoadedData={() => setVideoLoaded(true)}
+          onError={() => setVideoError(true)}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+            videoLoaded && !videoError ? "opacity-100" : "opacity-0"
+          }`}
           aria-hidden
         >
           <source src={videoSrc} type="video/mp4" />
         </video>
         <div
-          className="absolute inset-0 z-[1] bg-gradient-to-b from-[#081f3a]/85 via-[#081f3a]/70 to-[#081f3a]/90"
+          className="absolute inset-0 z-[1]"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(13, 54, 94, 0.88) 0%, rgba(13, 54, 94, 0.65) 50%, rgba(13, 54, 94, 0.35) 100%)",
+          }}
           aria-hidden
         />
       </div>
