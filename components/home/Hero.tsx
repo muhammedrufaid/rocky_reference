@@ -17,7 +17,7 @@ const fadeInUp = {
 
 const Hero: React.FC<HeroProps> = ({
   videoSrc = "https://www.pexels.com/download/video/29575342/",
-  poster = "/assets/hero/hero.jpg",
+  // poster = "/assets/hero/hero.jpg",
 }) => {
   return (
     <main className="relative min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)]">
@@ -28,7 +28,7 @@ const Hero: React.FC<HeroProps> = ({
           muted
           loop
           playsInline
-          poster={poster}
+          // poster={poster}
           className="absolute inset-0 h-full w-full object-cover"
           aria-hidden
         >
