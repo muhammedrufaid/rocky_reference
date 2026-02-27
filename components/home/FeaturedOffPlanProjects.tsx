@@ -5,7 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
-import { featuredOffPlanProjects } from "@/utils/data";
+
+interface FeaturedOffPlanProjectsProps {
+  data: any;
+}
 
 const LocationIcon = () => (
   <svg
@@ -72,7 +75,9 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
-const FeaturedOffPlanProjects: React.FC = () => {
+const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data }) => {
+  const projects = (data?.properties || []).slice(0, 4);
+
   return (
     <section
       className="py-16 md:py-20 lg:py-24"
@@ -120,7 +125,7 @@ const FeaturedOffPlanProjects: React.FC = () => {
             className="self-start sm:self-auto"
           >
             <Link
-              href="/blog"
+              href="/off-plan"
               className="inline-flex items-center gap-2 text-sm font-semibold pb-0.5 transition-colors text-[var(--rocky-blue)] hover:opacity-80"
             >
               View All Projects <ArrowIcon />
@@ -130,9 +135,9 @@ const FeaturedOffPlanProjects: React.FC = () => {
 
         {/* Grid — 1 col → 2 col → 4 col */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 overflow-visible">
-          {featuredOffPlanProjects.map((project, index) => (
+          {projects.map((project: any, index: number) => (
             <motion.article
-              key={project.id}
+              key={project.propertyRefNo}
               className="group relative z-0 flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:-translate-y-1 hover:z-10"
               style={{
                 boxShadow: "0 2px 12px rgba(13,54,94,0.07)",
@@ -147,12 +152,12 @@ const FeaturedOffPlanProjects: React.FC = () => {
               }}
             >
               <div className="flex flex-col flex-1">
-                <Link href={project.path} className="flex flex-col flex-1">
+                <Link href={`/properties/${project.propertyRefNo}`} className="flex flex-col flex-1">
                   {/* Image — aspect-[4/3] suits 4-col layout */}
                   <figure className="relative aspect-[4/3] overflow-hidden">
                     <Image
-                      src={project.image}
-                      alt={project.title}
+                      src={project.images?.[0] ?? "https://placehold.co/400x300/f0ede8/0d365e?text=Property"}
+                      alt={project.propertyTitle}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -170,7 +175,8 @@ const FeaturedOffPlanProjects: React.FC = () => {
                       className="absolute top-3 left-3 text-[10px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full"
                       style={{ backgroundColor: "rgba(255,255,255,0.92)", color: "#0d365e" }}
                     >
-                      {project.developer}
+                      {/* {project.towerName || project.propertyRefNo} */}
+                      Emaar
                     </span>
                   </figure>
 
@@ -180,7 +186,7 @@ const FeaturedOffPlanProjects: React.FC = () => {
                       className="text-base font-semibold leading-snug line-clamp-2"
                       style={{ color: "#0d365e" }}
                     >
-                      {project.title}
+                      {project.towerName || project.propertyRefNo}
                     </h3>
 
                     <div
@@ -190,7 +196,7 @@ const FeaturedOffPlanProjects: React.FC = () => {
                       <span style={{ color: "#c3ad95" }}>
                         <LocationIcon />
                       </span>
-                      <span className="line-clamp-1">{project.location}</span>
+                      <span className="line-clamp-1">{project.locality}</span>
                     </div>
 
                     {/* Divider */}
@@ -206,7 +212,9 @@ const FeaturedOffPlanProjects: React.FC = () => {
                       className="text-sm font-bold mt-0.5"
                       style={{ color: "#0d365e" }}
                     >
-                      {project.priceFrom}
+                      {project.price
+                        ? `AED ${Number(project.price).toLocaleString()}`
+                        : "—"}
                     </p>
                   </div>
                 </Link>
@@ -224,7 +232,7 @@ const FeaturedOffPlanProjects: React.FC = () => {
                     <PhoneIcon /> Call
                   </a>
                   <a
-                    href={`https://wa.me/971564120637?text=${encodeURIComponent(`Hi! I'm interested in ${project.title}. I'm exploring Off Plan opportunities and investment options for upcoming projects. Could you share more details?`)}`}
+                    href={`https://wa.me/971564120637?text=${encodeURIComponent(`Hi! I'm interested in ${project.towerName || project.propertyTitle}. I'm exploring Off Plan opportunities and investment options for upcoming projects. Could you share more details?`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-semibold rounded-lg transition-colors duration-200 border hover:bg-[#0d365e] hover:text-white!"
@@ -232,7 +240,7 @@ const FeaturedOffPlanProjects: React.FC = () => {
                       borderColor: "#0d365e",
                       color: "#0d365e",
                     }}
-                    aria-label={`WhatsApp about ${project.title}`}
+                    aria-label={`WhatsApp about ${project.propertyTitle}`}
                   >
                     <WhatsAppIcon /> WhatsApp
                   </a>
