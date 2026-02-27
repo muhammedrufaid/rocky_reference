@@ -10,17 +10,17 @@ import ServiceSection from "@/components/home/ServiceSection";
 import ValuationCTA from "@/components/home/ValuationCTA";
 import ExplorePropertySection from "@/components/home/ExplorePropertySection";
 import FaqsSection from "@/components/common/FaqsSection";
-import { getOffPlanProperties } from "@/utils/getServices";
+import { getOffPlanProperties, getReadyProperties } from "@/utils/getServices";
 
 export default async function Home() {
   const offPlanPropertiesData = await getOffPlanProperties();
-
+  const readyPropertiesData = await getReadyProperties();
   return (
     <div className="min-h-screen bg-white">
       <Header />
       <Hero />
       <FeaturedOffPlanProjects data={offPlanPropertiesData} />
-      <ExplorePropertySection />
+      <ExplorePropertySection data={readyPropertiesData}/>
       <DevelopmentPartnersSection />
       <ServiceSection />
       <WhyChooseUsSection />

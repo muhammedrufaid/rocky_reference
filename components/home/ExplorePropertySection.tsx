@@ -42,7 +42,9 @@ const ArrowIcon = () => (
     </svg>
 );
 
-const ExplorePropertySection: React.FC = () => {
+const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
+    console.log(data, "data");
+    const projects = (data?.properties || []).slice(0, 6);
     return (
         <section
             className="pb-16 md:pb-20 lg:pb-24"
@@ -103,9 +105,9 @@ const ExplorePropertySection: React.FC = () => {
 
                 {/* Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                    {featuredProperties.map((property, index) => (
+                    {projects.map((project: any, index: number) => (
                         <motion.article
-                            key={property.id}
+                            key={project.propertyRefNo}
                             className="group flex flex-col"
                             initial={{ opacity: 0, y: 28 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -116,15 +118,15 @@ const ExplorePropertySection: React.FC = () => {
                                 ease: [0.22, 1, 0.36, 1],
                             }}
                         >
-                            <Link href={property.path} className="flex flex-col flex-1">
+                            <Link href={`/properties/${project.propertyRefNo}`} className="flex flex-col flex-1">
                                 {/* Image */}
                                 <figure
                                     className="relative overflow-hidden rounded-xl"
                                     style={{ aspectRatio: "3/2" }}
                                 >
                                     <Image
-                                        src={property.image}
-                                        alt={property.title}
+                                        src={project.images?.[0] || "https://placehold.co/400x300/f0ede8/0d365e?text=Property"}
+                                        alt={project.towerName || project.propertyRefNo}
                                         fill
                                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -142,17 +144,17 @@ const ExplorePropertySection: React.FC = () => {
                                         className="absolute top-4 left-4 text-[9px] font-bold tracking-[0.18em] uppercase px-3 py-1 rounded-full"
                                         style={{
                                             backgroundColor:
-                                                property.type === "Buy"
+                                                project?.propertyPurpose === "Buy"
                                                     ? "#1c4e80"
                                                     : "#e7dccd",
                                             color:
-                                                property.type === "Buy"
+                                                project?.propertyPurpose === "Buy"
                                                     ? "#ffffff"
                                                     : "#000000",
                                             backdropFilter: "blur(6px)",
                                         }}
                                     >
-                                        {property.type}
+                                        {project?.propertyPurpose}
                                     </span>
 
                                     {/* Price overlaid on image bottom */}
@@ -163,12 +165,14 @@ const ExplorePropertySection: React.FC = () => {
                                             className="text-base font-semibold"
                                             style={{
                                                 color: "#fff",
-                                                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                                                // fontFamily: "'Cormorant Garamond', Georgia, serif",
                                                 fontSize: "1.1rem",
                                                 letterSpacing: "-0.01em",
                                             }}
                                         >
-                                            {property.price}
+                                            {project.price
+                                                ? `AED ${Number(project.price).toLocaleString()}`
+                                                : "—"}
                                         </p>
                                     </div>
                                 </figure>
@@ -179,7 +183,7 @@ const ExplorePropertySection: React.FC = () => {
                                         className="text-base font-medium leading-snug line-clamp-1 mb-1.5"
                                         style={{ color: "#0d1f2d" }}
                                     >
-                                        {property.title}
+                                        {project.towerName || project.propertyRefNo}
                                     </h3>
 
                                     <div
@@ -189,13 +193,13 @@ const ExplorePropertySection: React.FC = () => {
                                         <span style={{ color: "#c3ad95" }}>
                                             <LocationIcon />
                                         </span>
-                                        <span className="line-clamp-1">{property.location}</span>
+                                        <span className="line-clamp-1">{project.locality}</span>
                                     </div>
 
                                     {/* Specs row */}
-                                    {(property.beds != null || property.baths != null) && (
+                                    {(project?.bedrooms != null || project?.bathrooms != null) && (
                                         <div className="flex items-center gap-4 mt-auto">
-                                            {property.beds != null && (
+                                            {project.bedrooms != null && (
                                                 <div className="flex flex-col">
                                                     <span
                                                         className="text-[10px] uppercase tracking-widest"
@@ -207,14 +211,14 @@ const ExplorePropertySection: React.FC = () => {
                                                         className="text-sm font-medium"
                                                         style={{ color: "#0d365e" }}
                                                     >
-                                                        {property.beds}
+                                                        {project.bedrooms}
                                                     </span>
                                                 </div>
                                             )}
-                                            {property.beds != null && property.baths != null && (
+                                            {project.bedrooms != null && project.bathrooms != null && (
                                                 <div style={{ width: "1px", height: "28px", backgroundColor: "#e5e0d8" }} />
                                             )}
-                                            {property.baths != null && (
+                                            {project.bathrooms != null && (
                                                 <div className="flex flex-col">
                                                     <span
                                                         className="text-[10px] uppercase tracking-widest"
@@ -226,7 +230,7 @@ const ExplorePropertySection: React.FC = () => {
                                                         className="text-sm font-medium"
                                                         style={{ color: "#0d365e" }}
                                                     >
-                                                        {property.baths}
+                                                        {project.bathrooms}
                                                     </span>
                                                 </div>
                                             )}
