@@ -11,9 +11,11 @@ const SCROLL_THRESHOLD = 50;
 interface HeaderProps {
   /** When true, always show solid header (for pages with white/light hero) */
   forceSolid?: boolean;
+  /** When true, hide header when user scrolls (e.g. properties page where filter bar takes over) */
+  hideOnScroll?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
+const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = false }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [activeNav, setActiveNav] = useState<string | null>(null);
@@ -38,9 +40,11 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
 
   const isSolid = forceSolid || scrolled;
 
+  const isHidden = hideOnScroll && scrolled;
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-out ${isSolid
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-out ${isHidden ? "-translate-y-full" : ""} ${isSolid
         ? "bg-white backdrop-blur-md shadow-sm border-b border-[var(--border-light)]"
         : "bg-transparent"
         }`}

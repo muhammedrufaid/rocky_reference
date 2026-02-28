@@ -28,8 +28,8 @@ export default async function PropertiesPage({
 
   return (
     <div className="min-h-screen bg-white">
-      <Header forceSolid />
-      <main>
+      <Header forceSolid hideOnScroll />
+      <main className="pt-16 md:pt-20">
         {/* <PageHero
           title={title}
           description="Discover premium properties across Dubai's most sought-after communities."
@@ -38,6 +38,7 @@ export default async function PropertiesPage({
         <Suspense fallback={<div className="h-24" style={{ backgroundColor: "#faf9f7" }} />}>
           <PropertyFilterBar type={type} />
         </Suspense>
+         
       </main>
       <Footer />
     </div>
