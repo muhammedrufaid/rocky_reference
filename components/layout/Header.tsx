@@ -26,21 +26,30 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
     if (!mobileMenuOpen) setMobileMoreOpen(false);
   }, [mobileMenuOpen]);
 
+  const [footerInView, setFooterInView] = useState(false);
+
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > SCROLL_THRESHOLD);
-    };
-
-    // Set initial state (handles SSR + scroll position on load)
+    const handleScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
     handleScroll();
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!hideOnScroll) return;
+    const footer = document.getElementById("site-footer");
+    if (!footer) return;
+    const io = new IntersectionObserver(
+      ([e]) => setFooterInView(e.isIntersecting),
+      { threshold: 0.6 } // header shows only when ~60% of footer is in view
+    );
+    io.observe(footer);
+    return () => io.disconnect();
+  }, [hideOnScroll]);
+
   const isSolid = forceSolid || scrolled;
 
-  const isHidden = hideOnScroll && scrolled;
+  const isHidden = hideOnScroll && scrolled && !footerInView;
 
   return (
     <header

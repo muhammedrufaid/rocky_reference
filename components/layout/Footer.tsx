@@ -77,7 +77,7 @@ const SocialIcon = ({ name, className }: { name: string; className?: string }) =
 
 const Footer: React.FC = () => {
     return (
-        <footer className="bg-[#0d365e] text-white">
+        <footer id="site-footer" className="bg-[#0d365e] text-white">
             <Container className="py-12 md:py-16 lg:py-20">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
                     {/* Column 1 – Brand */}

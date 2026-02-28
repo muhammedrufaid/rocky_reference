@@ -38,7 +38,31 @@ export default async function PropertiesPage({
         <Suspense fallback={<div className="h-24" style={{ backgroundColor: "#faf9f7" }} />}>
           <PropertyFilterBar type={type} />
         </Suspense>
-         
+        <PageHero
+          title={title}
+          description="Discover premium properties across Dubai's most sought-after communities."
+          breadcrumb={breadcrumb}
+        />
+        <PageHero
+          title={title}
+          description="Discover premium properties across Dubai's most sought-after communities."
+          breadcrumb={breadcrumb}
+        />
+        <PageHero
+          title={title}
+          description="Discover premium properties across Dubai's most sought-after communities."
+          breadcrumb={breadcrumb}
+        />
+        <PageHero
+          title={title}
+          description="Discover premium properties across Dubai's most sought-after communities."
+          breadcrumb={breadcrumb}
+        />
+        <PageHero
+          title={title}
+          description="Discover premium properties across Dubai's most sought-after communities."
+          breadcrumb={breadcrumb}
+        />
       </main>
       <Footer />
     </div>
