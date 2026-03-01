@@ -318,9 +318,6 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                             onClick={() => setMobileMenuOpen(false)}
                             className="flex items-center gap-2.5 py-2.5 px-4 text-sm font-medium text-[var(--charcoal)]/80 hover:bg-[var(--soft-sand)]/40 hover:text-[var(--rocky-blue)] rounded-xl transition-colors"
                           >
-                            <svg className="w-3 h-3 text-[var(--rocky-blue)]/50 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                            </svg>
                             {sub.title}
                           </Link>
                         </li>
