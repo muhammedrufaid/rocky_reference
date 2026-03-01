@@ -271,7 +271,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                   <Link
                     href={item.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 py-3 px-4 text-[15px] font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/40 hover:text-[var(--rocky-blue)] rounded-xl transition-colors group"
+                    className="flex items-center gap-3 py-3 text-[15px] font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/40 hover:text-[var(--rocky-blue)] rounded-xl transition-colors group"
                     style={{ animationDelay: `${idx * 40}ms` }}
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--rocky-blue)] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
@@ -283,7 +283,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                   <button
                     type="button"
                     onClick={() => setMobileMoreOpen((prev) => !prev)}
-                    className="flex items-center gap-3 w-full py-3 px-4 text-[15px] font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/40 hover:text-[var(--rocky-blue)] rounded-xl transition-colors text-left group"
+                    className="flex items-center gap-3 w-full py-3 text-[15px] font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/40 hover:text-[var(--rocky-blue)] rounded-xl transition-colors text-left group"
                     aria-expanded={mobileMoreOpen}
                     aria-controls="mobile-more-menu"
                     id="mobile-more-trigger"
