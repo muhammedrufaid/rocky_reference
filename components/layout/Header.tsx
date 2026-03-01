@@ -53,13 +53,13 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-out ${isHidden ? "-translate-y-full" : ""} ${isSolid
+      className={`fixed top-0 left-0 right-0 z-50 w-full min-w-0 overflow-x-clip transition-all duration-500 ease-out translate-z-0 ${isHidden ? "-translate-y-full" : ""} ${isSolid
         ? "bg-white backdrop-blur-md shadow-sm border-b border-[var(--border-light)]"
         : "bg-transparent"
         }`}
     >
       <Container>
-        <div className="flex h-16 md:h-20 items-center justify-between gap-6">
+        <div className="flex h-16 md:h-20 min-w-0 items-center justify-between gap-6">
           {/* Logo */}
           <Link href="/" className={`shrink-0 transition-all duration-500 ${isSolid ? "" : "brightness-0 invert"}`}>
             <Image

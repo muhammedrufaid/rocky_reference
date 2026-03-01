@@ -20,6 +20,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "rrelistingimages.s3.eu-north-1.amazonaws.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "placehold.co",
         pathname: "/**",
       },
