@@ -259,22 +259,34 @@ export const teamMembers: TeamMember[] = [
   },
 ];
 
-export const navigationData = [
-  { id: 1, title: "Buy", path: "/buy" },
-  { id: 2, title: "Rent", path: "/rent" },
-  { id: 3, title: "Off Plan", path: "/off-plan" },
-  { id: 4, title: "Services", path: "/services" },
-  { id: 5, title: "Contact", path: "/contact" },
-  { id: 6, title: "More", path: "" },
-  // { id: 7, title: "Agents", path: "/agents" },
-];
+export type NavLink = { id: string; path: string; title: string };
+export type NavDropdown = {
+  id: string;
+  path: "";
+  title: string;
+  type: "dropdown";
+  children: NavLink[];
+};
 
-export const moreDropdownItems = [
-  { id: 1, title: "Careers", path: "/careers" },
-  { id: 2, title: "Who We Are", path: "/who-we-are" },
-  { id: 3, title: "Our Story", path: "/our-story" },
-  { id: 4, title: "Our Team", path: "/our-team" },
-  { id: 5, title: "Why Choose Us", path: "/why-choose-us" },
+export const navigationData: (NavLink | NavDropdown)[] = [
+  { id: "1", title: "Buy", path: "/buy" },
+  { id: "2", title: "Rent", path: "/rent" },
+  { id: "3", title: "Off Plan", path: "/off-plan" },
+  { id: "4", title: "Services", path: "/services" },
+  { id: "5", title: "Contact", path: "/contact" },
+  {
+    id: "6",
+    path: "",
+    title: "More",
+    type: "dropdown",
+    children: [
+      { id: "6-1", title: "Careers", path: "/careers" },
+      { id: "6-2", title: "Who We Are", path: "/who-we-are" },
+      { id: "6-3", title: "Our Story", path: "/our-story" },
+      { id: "6-4", title: "Our Team", path: "/our-team" },
+      { id: "6-5", title: "Why Choose Us", path: "/why-choose-us" },
+    ],
+  },
 ];
 
 // ... rest (searchTabs, categoryOptions)
