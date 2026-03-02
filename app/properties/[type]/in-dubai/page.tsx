@@ -1,16 +1,21 @@
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import PageHero from "@/components/common/PageHero";
+import PropertiesList from "@/components/properties/PropertiesList";
+import PropertyListingGrid from "@/components/properties/PropertyListingGrid";
+import { propertyListings } from "@/utils/data";
 import PropertyFilterBar from "@/components/layout/PropertyFilterBar";
+import { Suspense } from "react";
 
 export default async function PropertiesPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ type: string }>;
+  searchParams: Promise<{ q?: string; type?: string; min?: string; max?: string }>;
 }) {
   const { type } = await params;
+  const filters = await searchParams;
   if (type !== "rent" && type !== "buy") {
     notFound();
   }
@@ -38,31 +43,8 @@ export default async function PropertiesPage({
         <Suspense fallback={<div className="h-24" style={{ backgroundColor: "#faf9f7" }} />}>
           <PropertyFilterBar type={type} />
         </Suspense>
-        <PageHero
-          title={title}
-          description="Discover premium properties across Dubai's most sought-after communities."
-          breadcrumb={breadcrumb}
-        />
-        <PageHero
-          title={title}
-          description="Discover premium properties across Dubai's most sought-after communities."
-          breadcrumb={breadcrumb}
-        />
-        <PageHero
-          title={title}
-          description="Discover premium properties across Dubai's most sought-after communities."
-          breadcrumb={breadcrumb}
-        />
-        <PageHero
-          title={title}
-          description="Discover premium properties across Dubai's most sought-after communities."
-          breadcrumb={breadcrumb}
-        />
-        <PageHero
-          title={title}
-          description="Discover premium properties across Dubai's most sought-after communities."
-          breadcrumb={breadcrumb}
-        />
+        <PropertyListingGrid listings={propertyListings} />
+        {/* <PropertiesList type={type} searchParams={filters} /> */}
       </main>
       <Footer />
     </div>

@@ -21,6 +21,22 @@ export interface Property {
   baths?: number;
 }
 
+export interface PropertyListing {
+  id: number;
+  title: string;
+  type: "Buy" | "Rent";
+  location: string;
+  price: string;
+  path: string;
+  images: string[];
+  beds?: number;
+  baths?: number;
+  area?: number; // sq ft
+  propertyType?: "Apartment" | "Penthouse" | "Villa" | "Townhouse" | "Duplex" | "Studio";
+  agent?: { name: string; image: string; language?: string; phone?: string; email?: string; whatsapp?: string };
+  badge?: "Off Plan" | "New";
+}
+
 export interface Testimonial {
   id: number;
   quote: string;
@@ -162,6 +178,122 @@ export const featuredProperties: Property[] = [
     path: "/buy/business-bay-penthouse",
     beds: 4,
     baths: 5,
+  },
+];
+
+const IMG = {
+  marina: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop",
+  marina2: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=300&fit=crop",
+  marina3: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=300&fit=crop",
+  marina4: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop",
+  villa: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&h=600&fit=crop",
+  villa2: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&h=300&fit=crop",
+  villa3: "https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=400&h=300&fit=crop",
+  villa4: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400&h=300&fit=crop",
+  downtown: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop",
+  downtown2: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400&h=300&fit=crop",
+  downtown3: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=400&h=300&fit=crop",
+  downtown4: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=400&h=300&fit=crop",
+  jbr: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop",
+  jbr2: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop",
+  jbr3: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop",
+  jbr4: "https://images.unsplash.com/photo-1580587771525-78b9dba3b4d4?w=400&h=300&fit=crop",
+  penthouse: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&h=600&fit=crop",
+  penthouse2: "https://images.unsplash.com/photo-1613977257363-707ba308822f?w=400&h=300&fit=crop",
+  penthouse3: "https://images.unsplash.com/photo-1600047509798-2d3633317c26?w=400&h=300&fit=crop",
+  penthouse4: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&h=300&fit=crop",
+  dubailand: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop",
+  dubailand2: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=300&fit=crop",
+  dubailand3: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&h=300&fit=crop",
+  dubailand4: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop",
+};
+
+export const propertyListings: PropertyListing[] = [
+  {
+    id: 1,
+    title: "Unobstructed Views | Best For Price",
+    type: "Buy",
+    location: "11 Hills Park, Dubai Science Park, Dubai",
+    price: "AED 730,000",
+    path: "/buy/marina-luxury-apartment",
+    images: [IMG.marina, IMG.marina2, IMG.marina3, IMG.marina4, IMG.marina2],
+    beds: 1,
+    baths: 2,
+    area: 486,
+    propertyType: "Apartment",
+    agent: { name: "Paul Tredger", image: "/assets/teams/team1.png", language: "Speaks English", phone: "+971501234567", email: "paul@rocky.ae", whatsapp: "971501234567" },
+    badge: "New",
+  },
+  {
+    id: 2,
+    title: "Modern Villa with Private Pool",
+    type: "Buy",
+    location: "Mediterranean Villas, Jumeirah Village Triangle, Dubai",
+    price: "AED 12,450,000",
+    path: "/buy/palm-villa",
+    images: [IMG.villa, IMG.villa2, IMG.villa3, IMG.villa4],
+    beds: 4,
+    baths: 5,
+    area: 4200,
+    propertyType: "Villa",
+    agent: { name: "Ahmed Al-Maktoum", image: "/assets/teams/team1.png", language: "Speaks Arabic & English", phone: "+971501234568", email: "ahmed@rocky.ae", whatsapp: "971501234568" },
+  },
+  {
+    id: 3,
+    title: "Downtown View Apartment",
+    type: "Rent",
+    location: "Downtown Dubai, Emaar Boulevard",
+    price: "AED 185,000/year",
+    path: "/rent/downtown-apartment",
+    images: [IMG.downtown, IMG.downtown2, IMG.downtown3, IMG.downtown4],
+    beds: 2,
+    baths: 2,
+    area: 1200,
+    propertyType: "Apartment",
+    agent: { name: "Sarah Johnson", image: "/assets/teams/team2.png", language: "Speaks English", phone: "+971501234569", email: "sarah@rocky.ae", whatsapp: "971501234569" },
+  },
+  {
+    id: 4,
+    title: "JBR Beachfront Studio",
+    type: "Rent",
+    location: "JBR, The Walk",
+    price: "AED 95,000/year",
+    path: "/rent/jbr-studio",
+    images: [IMG.jbr, IMG.jbr2, IMG.jbr3, IMG.jbr4],
+    beds: 1,
+    baths: 1,
+    area: 580,
+    propertyType: "Studio",
+    agent: { name: "Omar Hassan", image: "/assets/teams/team3.jpg", language: "Speaks English", phone: "+971501234570", email: "omar@rocky.ae", whatsapp: "971501234570" },
+  },
+  {
+    id: 5,
+    title: "Business Bay Penthouse",
+    type: "Buy",
+    location: "Business Bay, Dubai",
+    price: "AED 8,900,000",
+    path: "/buy/business-bay-penthouse",
+    images: [IMG.penthouse, IMG.penthouse2, IMG.penthouse3, IMG.penthouse4],
+    beds: 4,
+    baths: 5,
+    area: 3800,
+    propertyType: "Penthouse",
+    agent: { name: "Elena Vasquez", image: "/assets/teams/team4.jpg", language: "Speaks English & Spanish", phone: "+971501234571", email: "elena@rocky.ae", whatsapp: "971501234571" },
+  },
+  {
+    id: 6,
+    title: "Grand Polo Club & Resort",
+    type: "Buy",
+    location: "Dubailand",
+    price: "AED 5,100,000",
+    path: "/off-plan/marina-heights",
+    images: [IMG.dubailand, IMG.dubailand2, IMG.dubailand3, IMG.dubailand4],
+    beds: 4,
+    baths: 4,
+    area: 2800,
+    propertyType: "Townhouse",
+    agent: { name: "Michael Chen", image: "/assets/teams/team5.jpg", language: "Speaks English", phone: "+971501234572", email: "michael@rocky.ae", whatsapp: "971501234572" },
+    badge: "Off Plan",
   },
 ];
 

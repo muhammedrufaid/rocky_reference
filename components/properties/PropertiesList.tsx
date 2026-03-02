@@ -1,0 +1,242 @@
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import Container from "@/components/layout/Container";
+import { propertyListings, type PropertyListing } from "@/utils/data";
+
+const LocationIcon = () => (
+  <svg className="size-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+);
+
+const ChevronIcon = () => (
+  <svg className="size-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+  </svg>
+);
+
+const PhoneIcon = () => (
+  <svg className="size-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+  </svg>
+);
+
+const WhatsAppIcon = () => (
+  <svg className="size-4 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+  </svg>
+);
+
+const SORT_OPTIONS = ["Most Recent", "Price: Low to High", "Price: High to Low", "Newest First"];
+
+const PAGE_DESCRIPTION =
+  "Discover premium properties across Dubai's most sought-after communities. From waterfront apartments to luxury villas.";
+
+interface PropertyListingCardProps {
+  property: PropertyListing;
+}
+
+function PropertyListingCard({ property }: PropertyListingCardProps) {
+  const [isHovering, setIsHovering] = useState(false);
+  const { images, title, location, price, beds, baths, area, agent, path, propertyType, badge } = property;
+  const mainImg = images[0];
+
+  const phoneNumber = "+971501234567";
+  const whatsappLink = `https://wa.me/${phoneNumber.replace(/\+/g, "")}`;
+
+  return (
+    <Link
+      href={path}
+      className="group flex flex-col md:flex-row overflow-hidden rounded-2xl bg-white border border-[#eee] shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/20 focus:ring-offset-2"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      {/* Image section - left, large */}
+      <div className="relative w-full md:w-[45%] lg:w-[40%] min-h-[220px] md:min-h-[280px] aspect-[4/3] md:aspect-auto shrink-0 overflow-hidden">
+        <Image
+          src={mainImg}
+          alt={title}
+          fill
+          className={`object-cover transition-transform duration-500 ease-out rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none ${
+            isHovering ? "scale-105" : "scale-100"
+          }`}
+          sizes="(min-width: 768px) 40vw, 100vw"
+        />
+        {/* Badge - top left */}
+        {badge && (
+          <span className="absolute left-4 top-4 rounded-lg bg-white/95 px-3 py-1.5 text-xs font-semibold text-[var(--charcoal)] shadow-md">
+            {badge}
+          </span>
+        )}
+      </div>
+
+      {/* Content section - right */}
+      <div className="flex flex-1 flex-col p-6 lg:p-8">
+        {/* Price - bold, largest */}
+        <p className="text-2xl lg:text-3xl font-bold text-[var(--charcoal)]">{price}</p>
+
+        {/* Location with icon */}
+        <div className="mt-2 flex items-center gap-2 text-sm text-[var(--charcoal)]/70">
+          <LocationIcon />
+          <span className="truncate">{location}</span>
+        </div>
+
+        {/* Property title - primary accent */}
+        <h3 className="mt-3 line-clamp-2 text-lg font-medium text-[var(--rocky-blue)] group-hover:text-[var(--rocky-blue-hover)] transition-colors">
+          {title}
+        </h3>
+
+        {/* Meta details row */}
+        <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-1 text-sm text-[var(--charcoal)]/65">
+          {propertyType && <span>{propertyType}</span>}
+          {beds != null && <span>{beds} Beds</span>}
+          {baths != null && <span>{baths} Baths</span>}
+          {area != null && <span>{area.toLocaleString()} sq.ft BUA</span>}
+        </div>
+
+        {/* Agent section + Actions - pushed to bottom */}
+        <div className="mt-auto pt-6">
+          {agent && (
+            <div className="mb-4 flex items-center gap-3">
+              <div className="relative size-10 shrink-0 overflow-hidden rounded-full border-2 border-[#eee] bg-[var(--soft-sand)]/30">
+                <Image
+                  src={agent.image}
+                  alt={agent.name}
+                  fill
+                  className="object-cover"
+                  sizes="40px"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-[var(--charcoal)]">{agent.name}</p>
+                {agent.language && (
+                  <p className="text-xs text-[var(--charcoal)]/55">{agent.language}</p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Action buttons row */}
+          <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-[#eee]">
+          <a
+            href={`tel:${phoneNumber}`}
+            onClick={(e) => e.stopPropagation()}
+            className="inline-flex items-center gap-2 rounded-xl border border-[#eee] bg-white px-4 py-2.5 text-sm font-medium text-[var(--charcoal)] shadow-sm transition-all hover:border-[var(--rocky-blue)]/30 hover:bg-[var(--rocky-blue)]/5 hover:shadow"
+          >
+            <PhoneIcon /> Call
+          </a>
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="inline-flex items-center gap-2 rounded-xl border border-[#25D366]/40 bg-[#25D366]/10 px-4 py-2.5 text-sm font-medium text-[#25D366] shadow-sm transition-all hover:bg-[#25D366]/20"
+          >
+            <WhatsAppIcon /> WhatsApp
+          </a>
+          <span className="inline-flex items-center gap-2 rounded-xl bg-[var(--rocky-blue)] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors group-hover:bg-[var(--rocky-blue-hover)]">
+            Book a Viewing
+          </span>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+interface PropertiesListProps {
+  type: "rent" | "buy";
+  searchParams?: { q?: string; type?: string; min?: string; max?: string };
+}
+
+function parsePrice(priceStr: string): number {
+  const match = priceStr.replace(/,/g, "").match(/[\d.]+/);
+  return match ? parseInt(match[0], 10) : 0;
+}
+
+export default function PropertiesList({ type, searchParams }: PropertiesListProps) {
+  const [sortBy, setSortBy] = useState("Most Recent");
+  const listingType = type === "buy" ? "Buy" : "Rent";
+
+  let filtered = propertyListings.filter((p) => p.type === listingType);
+
+  if (searchParams?.q) {
+    const q = searchParams.q.toLowerCase();
+    filtered = filtered.filter(
+      (p) =>
+        p.title.toLowerCase().includes(q) ||
+        p.location.toLowerCase().includes(q)
+    );
+  }
+  if (searchParams?.type) {
+    const pt = searchParams.type;
+    filtered = filtered.filter((p) => p.propertyType === pt || p.title.toLowerCase().includes(pt.toLowerCase()));
+  }
+  if (searchParams?.min) {
+    const min = parseInt(searchParams.min, 10);
+    filtered = filtered.filter((p) => parsePrice(p.price) >= min);
+  }
+  if (searchParams?.max) {
+    const max = parseInt(searchParams.max, 10);
+    filtered = filtered.filter((p) => parsePrice(p.price) <= max);
+  }
+
+  const count = filtered.length;
+  const title = type === "buy" ? "Properties for sale in Dubai" : "Properties for rent in Dubai";
+
+  return (
+    <section className="py-10 md:py-14 lg:py-16" aria-label="Property listings">
+      <Container>
+        {/* Page Header Section */}
+        <div className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-[var(--charcoal)] md:text-3xl lg:text-4xl">
+              {title}
+            </h1>
+            <p className="mt-2 text-sm text-[var(--charcoal)]/60 max-w-xl">
+              {PAGE_DESCRIPTION}{" "}
+              <Link href="/about" className="text-[var(--rocky-blue)]/80 hover:text-[var(--rocky-blue)] underline-offset-2 hover:underline">
+                Read more
+              </Link>
+            </p>
+            <p className="mt-3 text-sm font-medium text-[var(--charcoal)]/70">
+              {count.toLocaleString()} results
+            </p>
+          </div>
+          {/* Sort dropdown - right aligned */}
+          <div className="relative flex shrink-0">
+            <label htmlFor="sort-select" className="sr-only">
+              Sort by
+            </label>
+            <select
+              id="sort-select"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="appearance-none rounded-xl border border-[#eee] bg-white pl-4 pr-10 py-3 text-sm font-medium text-[var(--charcoal)] shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/20 focus:ring-offset-2 min-w-[180px]"
+            >
+              {SORT_OPTIONS.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+            <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[var(--charcoal)]/50">
+              <ChevronIcon />
+            </span>
+          </div>
+        </div>
+
+        {/* Property cards - vertical stack */}
+        <div className="flex flex-col gap-6">
+          {filtered.map((property) => (
+            <PropertyListingCard key={property.id} property={property} />
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
