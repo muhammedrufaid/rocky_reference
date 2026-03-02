@@ -37,6 +37,58 @@ export interface PropertyListing {
   badge?: "Off Plan" | "New";
 }
 
+export interface PropertyFilters {
+  listingType: "rent" | "buy";
+  propertyType?: string; // Apartment, Villa, etc. or "" for all
+  minPrice?: string;
+  maxPrice?: string;
+  searchQuery?: string;
+}
+
+function parsePrice(priceStr: string): number | null {
+  const match = priceStr.replace(/,/g, "").match(/\d+/);
+  return match ? parseInt(match[0], 10) : null;
+}
+
+export function filterPropertyListings(
+  listings: PropertyListing[],
+  filters: PropertyFilters
+): PropertyListing[] {
+  return listings.filter((listing) => {
+    const listingTypeMatch =
+      filters.listingType === "buy"
+        ? listing.type === "Buy"
+        : listing.type === "Rent";
+    if (!listingTypeMatch) return false;
+
+    if (filters.propertyType && filters.propertyType !== "All Types") {
+      if (listing.propertyType !== filters.propertyType) return false;
+    }
+
+    const priceNum = parsePrice(listing.price);
+    if (priceNum != null) {
+      if (filters.minPrice) {
+        const min = parseInt(filters.minPrice, 10);
+        if (priceNum < min) return false;
+      }
+      if (filters.maxPrice) {
+        const max = parseInt(filters.maxPrice, 10);
+        if (priceNum > max) return false;
+      }
+    }
+
+    if (filters.searchQuery && filters.searchQuery.trim()) {
+      const q = filters.searchQuery.trim().toLowerCase();
+      const match =
+        listing.title.toLowerCase().includes(q) ||
+        listing.location.toLowerCase().includes(q);
+      if (!match) return false;
+    }
+
+    return true;
+  });
+}
+
 export interface Testimonial {
   id: number;
   quote: string;

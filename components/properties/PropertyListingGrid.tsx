@@ -119,12 +119,6 @@ const LocationIcon = () => (
   </svg>
 );
 
-const HeartIcon = ({ filled }: { filled: boolean }) => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-  </svg>
-);
-
 const PhotosIcon = () => (
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
@@ -377,53 +371,6 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
   );
 };
 
-// ─── Filter Bar ───────────────────────────────────────────────────────────────
-interface FilterBarProps {
-  activeType: string;
-  activePropertyType: string;
-  onTypeChange: (t: string) => void;
-  onPropertyTypeChange: (t: string) => void;
-}
-
-const FilterBar: React.FC<FilterBarProps> = ({ activeType, activePropertyType, onTypeChange, onPropertyTypeChange }) => {
-  const types = ["All", "Buy", "Rent"];
-  const propertyTypes = ["All", "Apartment", "Villa", "Studio", "Penthouse", "Townhouse"];
-
-  return (
-    <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center mb-8 flex-wrap">
-      <div className="flex items-center bg-gray-100 rounded-xl p-1 gap-0.5">
-        {types.map((t) => (
-          <button
-            key={t}
-            onClick={() => onTypeChange(t)}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer ${
-              activeType === t ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700 hover:scale-[1.02] active:scale-[0.98]"
-            }`}
-          >
-            {t}
-          </button>
-        ))}
-      </div>
-
-      <div className="flex flex-wrap gap-2">
-        {propertyTypes.map((t) => (
-          <button
-            key={t}
-            onClick={() => onPropertyTypeChange(t)}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all duration-200 cursor-pointer ${
-              activePropertyType === t
-                ? "bg-gray-900 border-gray-900 text-white"
-                : "bg-white border-gray-200 text-gray-600 hover:border-gray-400 hover:scale-[1.03] active:scale-[0.97]"
-            }`}
-          >
-            {t}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
-
 // ─── Listing Grid ─────────────────────────────────────────────────────────────
 interface PropertyListingGridProps {
   listings: PropertyListing[];
@@ -431,30 +378,14 @@ interface PropertyListingGridProps {
 }
 
 export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({ listings, isLoading = false }) => {
-  const [activeType, setActiveType] = useState("All");
-  const [activePropertyType, setActivePropertyType] = useState("All");
-
-  const filtered = listings.filter((l) => {
-    const typeOk = activeType === "All" || l.type === activeType;
-    const propOk = activePropertyType === "All" || l.propertyType === activePropertyType;
-    return typeOk && propOk;
-  });
-
   return (
     <section className="container mx-auto px-4 py-10">
       <div className="mb-6">
         <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Property Listings</h2>
         <p className="text-sm text-gray-500 mt-1">
-          {isLoading ? "Loading..." : `${filtered.length} properties found`}
+          {isLoading ? "Loading..." : `${listings.length} properties found`}
         </p>
       </div>
-
-      <FilterBar
-        activeType={activeType}
-        activePropertyType={activePropertyType}
-        onTypeChange={setActiveType}
-        onPropertyTypeChange={setActivePropertyType}
-      />
 
       <div className="flex flex-col gap-5">
         {isLoading ? (
@@ -465,10 +396,10 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({ listin
           </>
         ) : (
           <>
-            {filtered.map((listing, index) => (
+            {listings.map((listing, index) => (
               <PropertyCard key={listing.id} listing={listing} index={index} />
             ))}
-            {filtered.length === 0 && (
+            {listings.length === 0 && (
               <div className="text-center py-20 text-gray-400">
                 <p className="text-lg font-semibold">No properties match your filters.</p>
               </div>

@@ -3,7 +3,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PropertiesList from "@/components/properties/PropertiesList";
 import PropertyListingGrid from "@/components/properties/PropertyListingGrid";
-import { propertyListings } from "@/utils/data";
+import { propertyListings, filterPropertyListings } from "@/utils/data";
 import PropertyFilterBar from "@/components/layout/PropertyFilterBar";
 import { Suspense } from "react";
 
@@ -19,6 +19,14 @@ export default async function PropertiesPage({
   if (type !== "rent" && type !== "buy") {
     notFound();
   }
+
+  const filteredListings = filterPropertyListings(propertyListings, {
+    listingType: type as "rent" | "buy",
+    propertyType: filters.type ?? undefined,
+    minPrice: filters.min ?? undefined,
+    maxPrice: filters.max ?? undefined,
+    searchQuery: filters.q ?? undefined,
+  });
 
   const title =
     type === "rent"
@@ -43,7 +51,7 @@ export default async function PropertiesPage({
         <Suspense fallback={<div className="h-24" style={{ backgroundColor: "#faf9f7" }} />}>
           <PropertyFilterBar type={type} />
         </Suspense>
-        <PropertyListingGrid listings={propertyListings} />
+        <PropertyListingGrid listings={filteredListings} />
         {/* <PropertiesList type={type} searchParams={filters} /> */}
       </main>
       <Footer />

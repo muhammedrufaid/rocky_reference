@@ -275,14 +275,32 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const applySearch = () => {
+  const buildFilterUrl = (overrides?: {
+    q?: string;
+    type?: string;
+    min?: string;
+    max?: string;
+  }) => {
     const params = new URLSearchParams();
-    if (searchQuery) params.set("q", searchQuery);
-    if (propertyType) params.set("type", propertyType);
-    if (minPrice) params.set("min", minPrice);
-    if (maxPrice) params.set("max", maxPrice);
+    const q = overrides?.q ?? searchQuery;
+    const pType = overrides?.type ?? propertyType;
+    const min = overrides?.min ?? minPrice;
+    const max = overrides?.max ?? maxPrice;
+    if (q) params.set("q", q);
+    if (pType) params.set("type", pType);
+    if (min) params.set("min", min);
+    if (max) params.set("max", max);
     const query = params.toString();
-    router.push(`/properties/${type}/in-dubai${query ? `?${query}` : ""}`);
+    return `/properties/${type}/in-dubai${query ? `?${query}` : ""}`;
+  };
+
+  const applySearch = () => {
+    router.push(buildFilterUrl());
+    setFilterPanelOpen(false);
+  };
+
+  const applyFilterChange = (updates: { q?: string; type?: string; min?: string; max?: string }) => {
+    router.push(buildFilterUrl(updates));
     setFilterPanelOpen(false);
   };
 
@@ -432,7 +450,10 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
               <FilterDropdown
                 value={propertyType}
                 options={PROPERTY_TYPES}
-                onChange={setPropertyType}
+                onChange={(v) => {
+                  setPropertyType(v);
+                  applyFilterChange({ type: v });
+                }}
                 placeholder="Property type"
                 label="Property type"
                 open={typeDropdownOpen}
@@ -451,7 +472,10 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
                 <FilterDropdown
                   value={minPrice}
                   options={priceOptions}
-                  onChange={setMinPrice}
+                  onChange={(v) => {
+                    setMinPrice(v);
+                    applyFilterChange({ min: v });
+                  }}
                   placeholder="Min price"
                   label="Minimum price"
                   open={minPriceOpen}
@@ -468,7 +492,10 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
                 <FilterDropdown
                   value={maxPrice}
                   options={priceOptions}
-                  onChange={setMaxPrice}
+                  onChange={(v) => {
+                    setMaxPrice(v);
+                    applyFilterChange({ max: v });
+                  }}
                   placeholder="Max price"
                   label="Maximum price"
                   open={maxPriceOpen}
@@ -557,7 +584,10 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
               <FilterDropdown
                 value={propertyType}
                 options={PROPERTY_TYPES}
-                onChange={setPropertyType}
+                onChange={(v) => {
+                  setPropertyType(v);
+                  applyFilterChange({ type: v });
+                }}
                 placeholder="Property type"
                 label="Property type"
                 open={typeDropdownOpen}
@@ -575,7 +605,10 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
               <FilterDropdown
                 value={minPrice}
                 options={priceOptions}
-                onChange={setMinPrice}
+                onChange={(v) => {
+                  setMinPrice(v);
+                  applyFilterChange({ min: v });
+                }}
                 placeholder="Min price"
                 label="Minimum price"
                 open={minPriceOpen}
@@ -593,7 +626,10 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
               <FilterDropdown
                 value={maxPrice}
                 options={priceOptions}
-                onChange={setMaxPrice}
+                onChange={(v) => {
+                  setMaxPrice(v);
+                  applyFilterChange({ max: v });
+                }}
                 placeholder="Max price"
                 label="Maximum price"
                 open={maxPriceOpen}
