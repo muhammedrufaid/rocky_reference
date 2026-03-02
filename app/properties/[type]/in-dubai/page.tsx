@@ -1,18 +1,24 @@
 import { notFound } from "next/navigation";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import PropertiesList from "@/components/properties/PropertiesList";
 import PropertyListingGrid from "@/components/properties/PropertyListingGrid";
-import { propertyListings, filterPropertyListings } from "@/utils/data";
 import PropertyFilterBar from "@/components/layout/PropertyFilterBar";
 import { Suspense } from "react";
+import {
+  getBuyProperties,
+  getRentProperties,
+  mapApiResponseToPropertyListings,
+  getTotalFromApiResponse,
+} from "@/utils/getServices";
+
+const PAGE_SIZE = 20;
 
 export default async function PropertiesPage({
   params,
   searchParams,
 }: {
   params: Promise<{ type: string }>;
-  searchParams: Promise<{ q?: string; type?: string; min?: string; max?: string }>;
+  searchParams: Promise<{ q?: string; type?: string; min?: string; max?: string; page?: string }>;
 }) {
   const { type } = await params;
   const filters = await searchParams;
@@ -20,24 +26,41 @@ export default async function PropertiesPage({
     notFound();
   }
 
-  const filteredListings = filterPropertyListings(propertyListings, {
-    listingType: type as "rent" | "buy",
-    propertyType: filters.type ?? undefined,
-    minPrice: filters.min ?? undefined,
-    maxPrice: filters.max ?? undefined,
-    searchQuery: filters.q ?? undefined,
-  });
+  const currentPage = Math.max(1, parseInt(filters.page ?? "1", 10) || 1);
 
-  const title =
-    type === "rent"
-      ? "Properties for Rent in Dubai"
-      : "Properties for Buy in Dubai";
+  const apiData =
+    type === "buy"
+      ? await getBuyProperties({
+          page: currentPage,
+          limit: PAGE_SIZE,
+          q: filters.q,
+          type: filters.type,
+          min: filters.min,
+          max: filters.max,
+        })
+      : await getRentProperties({
+          page: currentPage,
+          limit: PAGE_SIZE,
+          q: filters.q,
+          type: filters.type,
+          min: filters.min,
+          max: filters.max,
+        });
 
-  const breadcrumb = [
-    { label: "Home", href: "/" },
-    { label: type === "rent" ? "Rent" : "Buy", href: `/properties/${type}/in-dubai` },
-    { label: "Dubai" },
-  ];
+  const listings = apiData
+    ? mapApiResponseToPropertyListings(apiData, type === "buy" ? "Buy" : "Rent")
+    : [];
+
+  const totalFromApi = apiData ? getTotalFromApiResponse(apiData) : undefined;
+  const totalItems = totalFromApi ?? undefined;
+  const totalPages =
+    totalFromApi != null
+      ? Math.max(1, Math.ceil(totalFromApi / PAGE_SIZE))
+      : listings.length >= PAGE_SIZE
+        ? currentPage + 1
+        : currentPage;
+
+  const basePath = `/properties/${type}/in-dubai`;
 
   return (
     <div className="min-h-screen bg-white">
@@ -51,7 +74,15 @@ export default async function PropertiesPage({
         <Suspense fallback={<div className="h-24" style={{ backgroundColor: "#faf9f7" }} />}>
           <PropertyFilterBar type={type} />
         </Suspense>
-        <PropertyListingGrid listings={filteredListings} />
+        <PropertyListingGrid
+          listings={listings}
+          pagination={{
+            currentPage,
+            totalPages,
+            totalItems,
+            basePath,
+          }}
+        />
         {/* <PropertiesList type={type} searchParams={filters} /> */}
       </main>
       <Footer />

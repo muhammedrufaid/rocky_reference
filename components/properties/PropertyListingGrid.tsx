@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { PropertyListing } from "@/utils/data";
+import PropertiesPagination from "@/components/properties/PropertiesPagination";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface PropertyCardProps {
@@ -34,7 +35,8 @@ const ShimmerBlock = ({ className = "" }: { className?: string }) => (
 // ─── Skeleton Loader ──────────────────────────────────────────────────────────
 const PropertyCardSkeleton = ({ index = 0 }: { index?: number }) => (
   <motion.div
-    className="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden border border-gray-100"
+    className="flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden border"
+    style={{ borderColor: "#F0EDE8", boxShadow: "0 2px 12px rgba(13,54,94,0.07)" }}
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     transition={{ delay: index * 0.08 }}
@@ -70,7 +72,7 @@ const PropertyCardSkeleton = ({ index = 0 }: { index?: number }) => (
           </div>
         ))}
       </div>
-      <div className="h-px bg-gray-100" />
+      <div className="h-px" style={{ backgroundColor: "#F0EDE8" }} />
       <div className="h-7 w-32 rounded-lg overflow-hidden">
         <ShimmerBlock />
       </div>
@@ -152,7 +154,7 @@ const Badge = ({ label }: { label: string }) => {
     "Off Plan": "bg-amber-500 text-white",
   };
   return (
-    <span className={`text-[10px] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full ${styles[label] ?? "bg-gray-800 text-white"}`}>
+    <span className={`text-[10px] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full ${styles[label] ?? "bg-[#0d365e] text-white"}`}>
       {label}
     </span>
   );
@@ -170,7 +172,8 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
 
   return (
     <motion.div
-      className="group relative flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100"
+      className="group relative flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden border"
+      style={{ borderColor: "#F0EDE8", boxShadow: "0 2px 12px rgba(13,54,94,0.07)" }}
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15, margin: "0px 0px -24px 0px" }}
@@ -189,13 +192,21 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
             style={{ minHeight: 280 }}
           />
 
-          {/* Gradient overlay bottom */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+          {/* Gradient overlay bottom — match FeaturedOffPlanProjects */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "linear-gradient(to top, rgba(13,54,94,0.35) 0%, transparent 55%)",
+            }}
+          />
 
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10">
             {listing.badge && <Badge label={listing.badge} />}
-            <span className="text-[10px] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-white/90 text-gray-700 backdrop-blur-sm">
+            <span
+              className="text-[10px] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full backdrop-blur-sm"
+              style={{ backgroundColor: "rgba(255,255,255,0.92)", color: "#0d365e" }}
+            >
               {listing.type}
             </span>
           </div>
@@ -239,10 +250,10 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
                 <button
                   key={i}
                   onClick={() => setActiveImg(imgIdx)}
-                  className={`relative flex-1 overflow-hidden rounded-xl transition-all duration-200 cursor-pointer ${
+                  className={`relative flex-1 overflow-hidden rounded-xl transition-all duration-200 cursor-pointer ring-2 ${
                     activeImg === imgIdx
-                      ? "ring-2 ring-blue-500"
-                      : "hover:brightness-110 hover:scale-[1.02] active:scale-[0.98]"
+                      ? "ring-[#0d365e]"
+                      : "ring-transparent hover:brightness-110 hover:scale-[1.02] active:scale-[0.98]"
                   }`}
                   style={{ minHeight: 0 }}
                 >
@@ -256,7 +267,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
                   )}
                   {/* Active indicator */}
                   {activeImg === imgIdx && (
-                    <div className="absolute inset-0 ring-2 ring-inset ring-blue-500 rounded-xl pointer-events-none" />
+                    <div className="absolute inset-0 ring-2 ring-inset ring-[#0d365e] rounded-xl pointer-events-none" />
                   )}
                 </button>
               );
@@ -269,12 +280,14 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
       <div className="flex flex-col justify-between flex-1 p-5">
         {/* Top */}
         <div>
-          <h3 className="text-base font-bold text-gray-900 leading-snug mb-1.5 line-clamp-2">
+          <h3 className="text-base font-bold leading-snug mb-1.5 line-clamp-2" style={{ color: "#0d365e" }}>
             {listing.title}
           </h3>
 
-          <div className="flex items-center gap-1 text-gray-500 text-xs mb-4">
-            <LocationIcon />
+          <div className="flex items-center gap-1.5 text-xs mb-4" style={{ color: "#888" }}>
+            <span style={{ color: "#c3ad95" }}>
+              <LocationIcon />
+            </span>
             <span className="line-clamp-1">{listing.location}</span>
           </div>
 
@@ -286,18 +299,18 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
               { icon: <AreaIcon />, value: listing.area != null ? `${listing.area.toLocaleString()} sqft` : "—", label: "Area" },
             ].map(({ icon, value, label }) => (
               <div key={label} className="flex flex-col items-start gap-0.5">
-                <div className="flex items-center gap-1 text-gray-400">{icon}</div>
-                <span className="text-sm font-semibold text-gray-800">{value}</span>
-                <span className="text-[10px] text-gray-400 uppercase tracking-wider">{label}</span>
+                <div className="flex items-center gap-1" style={{ color: "#c3ad95" }}>{icon}</div>
+                <span className="text-sm font-semibold" style={{ color: "#0d365e" }}>{value}</span>
+                <span className="text-[10px] uppercase tracking-wider" style={{ color: "#888" }}>{label}</span>
               </div>
             ))}
           </div>
 
           {/* Divider */}
-          <div className="h-px bg-gray-100 mb-4" />
+          <div className="h-px mb-4" style={{ backgroundColor: "#F0EDE8" }} />
 
           {/* Price */}
-          <p className="text-xl font-extrabold text-gray-900 tracking-tight mb-4">
+          <p className="text-xl font-extrabold tracking-tight mb-4" style={{ color: "#0d365e" }}>
             {listing.price}
           </p>
         </div>
@@ -310,20 +323,21 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
                 <img
                   src={listing.agent.image}
                   alt={listing.agent.name}
-                  className="w-8 h-8 rounded-full object-cover ring-2 ring-gray-100"
+                  className="w-8 h-8 rounded-full object-cover ring-2 ring-[#F0EDE8]"
                 />
                 <div>
-                  <p className="text-xs font-semibold text-gray-800 leading-none mb-0.5">{listing.agent.name}</p>
-                  {listing.agent.language && <p className="text-[10px] text-gray-400">{listing.agent.language}</p>}
+                  <p className="text-xs font-semibold leading-none mb-0.5" style={{ color: "#0d365e" }}>{listing.agent.name}</p>
+                  {listing.agent.language && <p className="text-[10px]" style={{ color: "#888" }}>{listing.agent.language}</p>}
                 </div>
               </div>
 
-              {/* Call, WhatsApp, Email */}
+              {/* Call, WhatsApp, Email — match FeaturedOffPlanProjects */}
               <div className="flex items-center gap-2">
                 {listing.agent.phone && (
                   <a
                     href={`tel:${listing.agent.phone.replace(/\s/g, "")}`}
-                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 hover:bg-emerald-500 hover:text-white text-gray-600 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
+                    className="flex items-center justify-center w-8 h-8 rounded-lg border transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer hover:bg-[#0d365e] hover:text-white hover:border-[#0d365e]"
+                    style={{ borderColor: "#0d365e", color: "#0d365e", backgroundColor: "transparent" }}
                     title="Call"
                     aria-label="Call agent"
                   >
@@ -335,7 +349,8 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
                     href={`https://wa.me/${listing.agent.whatsapp.replace(/\D/g, "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 hover:bg-[#25D366] hover:text-white text-gray-600 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
+                    className="flex items-center justify-center w-8 h-8 rounded-lg border transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer hover:bg-[#25D366] hover:text-white hover:border-[#25D366]"
+                    style={{ borderColor: "#0d365e", color: "#0d365e", backgroundColor: "transparent" }}
                     title="WhatsApp"
                     aria-label="WhatsApp agent"
                   >
@@ -345,7 +360,8 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
                 {listing.agent.email && (
                   <a
                     href={`mailto:${listing.agent.email}`}
-                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 hover:bg-blue-500 hover:text-white text-gray-600 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
+                    className="flex items-center justify-center w-8 h-8 rounded-lg border transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer hover:bg-[#0d365e] hover:text-white hover:border-[#0d365e]"
+                    style={{ borderColor: "#0d365e", color: "#0d365e", backgroundColor: "transparent" }}
                     title="Email"
                     aria-label="Email agent"
                   >
@@ -358,7 +374,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
 
           <Link
             href={listing.path}
-            className="inline-flex items-center justify-center gap-1.5 bg-gray-900 hover:bg-blue-600 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all duration-200 w-fit hover:scale-[1.02] active:scale-[0.98] cursor-pointer group/btn"
+            className="inline-flex items-center justify-center gap-1.5 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all duration-200 w-fit hover:scale-[1.02] active:scale-[0.98] cursor-pointer group/btn bg-[var(--rocky-blue)] hover:bg-[var(--rocky-blue-hover)]"
           >
             View Details
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-200 group-hover/btn:translate-x-0.5">
@@ -372,18 +388,34 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
 };
 
 // ─── Listing Grid ─────────────────────────────────────────────────────────────
+interface PaginationInfo {
+  currentPage: number;
+  totalPages: number;
+  totalItems?: number;
+  basePath: string;
+}
+
 interface PropertyListingGridProps {
   listings: PropertyListing[];
   isLoading?: boolean;
+  pagination?: PaginationInfo;
 }
 
-export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({ listings, isLoading = false }) => {
+export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
+  listings,
+  isLoading = false,
+  pagination,
+}) => {
   return (
     <section className="container mx-auto px-4 py-10">
       <div className="mb-6">
-        <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Property Listings</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          {isLoading ? "Loading..." : `${listings.length} properties found`}
+        <h2 className="text-2xl font-extrabold tracking-tight" style={{ color: "#0d365e" }}>Property Listings</h2>
+        <p className="text-sm mt-1" style={{ color: "#555" }}>
+          {isLoading
+            ? "Loading..."
+            : pagination?.totalItems != null
+              ? `${listings.length} of ${pagination.totalItems} properties`
+              : `${listings.length} properties found`}
         </p>
       </div>
 
@@ -400,13 +432,22 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({ listin
               <PropertyCard key={listing.id} listing={listing} index={index} />
             ))}
             {listings.length === 0 && (
-              <div className="text-center py-20 text-gray-400">
+              <div className="text-center py-20" style={{ color: "#888" }}>
                 <p className="text-lg font-semibold">No properties match your filters.</p>
               </div>
             )}
           </>
         )}
       </div>
+
+      {pagination && pagination.totalPages > 1 && (
+        <PropertiesPagination
+          currentPage={pagination.currentPage}
+          totalPages={pagination.totalPages}
+          totalItems={pagination.totalItems}
+          basePath={pagination.basePath}
+        />
+      )}
     </section>
   );
 };
