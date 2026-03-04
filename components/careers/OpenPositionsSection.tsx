@@ -81,15 +81,9 @@ const OpenPositionsSection: React.FC<OpenPositionsSectionProps> = ({
                                     delay: index >= visibleCount - JOBS_PER_PAGE ? (index % JOBS_PER_PAGE) * 0.05 : 0,
                                     ease: [0.22, 1, 0.36, 1] as const,
                                 }}
-                                className="group relative rounded-xl border bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#c8d6e5]"
+                                className="group cursor-pointer relative rounded-xl border bg-white p-6 shadow-sm transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_rgba(13,54,94,0.08)] hover:bg-[#fcfdfe]"
                                 style={{ borderColor: "#e8edf3" }}
                             >
-                                {/* Top accent */}
-                                <div
-                                    className="absolute top-0 left-0 right-0 h-1 rounded-t-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                                    style={{ backgroundColor: "#0d365e" }}
-                                />
-
                                 <div className="flex flex-col h-full">
                                     <div className="mb-4">
                                         <h3
