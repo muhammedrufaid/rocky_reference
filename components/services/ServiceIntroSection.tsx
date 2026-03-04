@@ -42,10 +42,7 @@ const ServiceIntroSection: React.FC = () => {
                                     ease: [0.22, 1, 0.36, 1] as const,
                                 }}
                             >
-                                Rocky Real Estate offers a comprehensive suite of real estate
-                                services to ensure buyers, sellers, investors, and property
-                                owners understand and capitalize on Dubai's ever-changing
-                                marketplace.
+                                At Rocky Real Estate, we provide end-to-end services, including property listings, property management, and more, and ensure our buyers, sellers, investors, and property owners capitalize on the ever-changing marketplace.
                             </motion.p>
                         </header>
 
@@ -61,21 +58,19 @@ const ServiceIntroSection: React.FC = () => {
                             }}
                         >
                             <h3 className="text-lg md:text-xl font-medium" style={{ color: "#333" }}>
-                                What can we do for you?
+                                What do we offer?
                             </h3>
 
                             <p className="mt-4 text-sm md:text-base max-w-lg leading-relaxed" style={{ color: "#555" }}>
-                                Whether you are purchasing a new home, seeking short-term
-                                accommodation, or requiring professional property management, our
-                                experienced team delivers strategic, seamless, and meaningful
-                                real estate solutions.
+                            With over five decades of experience, our team ensures that it delivers strategic and seamless real estate solutions, while being completely transparent and professional – whether you are purchasing a new home or need professional property management.
+
                             </p>
 
-                            <p className="mt-4 text-sm md:text-base max-w-lg leading-relaxed" style={{ color: "#555" }}>
+                            {/* <p className="mt-4 text-sm md:text-base max-w-lg leading-relaxed" style={{ color: "#555" }}>
                                 Every interaction is handled with clarity, integrity, and
                                 professionalism. Explore our core services below and discover how
                                 we can support your real estate journey.
-                            </p>
+                            </p> */}
 
                             {/* <div className="mt-8">
                                 <motion.div

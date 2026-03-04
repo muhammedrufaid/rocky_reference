@@ -627,7 +627,7 @@ export const whyChooseServicesData: WhyChooseItem[] = [
     id: 3,
     icon: "support",
     title: "End-to-End Support",
-    description: "From paperwork to handover and beyond — we stay with you even after the deal is done.",
+    description: "paperwork to handover and beyond — we stay with you even after the deal is done.",
   },
   {
     id: 4,
