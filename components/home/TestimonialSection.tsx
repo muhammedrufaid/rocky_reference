@@ -153,7 +153,7 @@ const TestimonialSection: React.FC<{ backgroundColor?: string, className?: strin
 
                 {/* Author – stronger font weight */}
                 <footer className="mt-6 pt-4 border-t border-[var(--charcoal)]/10">
-                  <cite className="not-italic text-[var(--charcoal)] font-semibold text-[15px]">
+                  <cite className="not-italic text-[var(--charcoal)] font-medium text-[15px]">
                     {testimonial.author}
                   </cite>
                 </footer>

@@ -183,7 +183,7 @@ const HeroSearchCard: React.FC = () => {
 
           <button
             type="submit"
-            className="min-h-[48px] md:min-h-[52px] px-6 md:px-8 rounded-lg bg-[#c3ad95] hover:bg-[#9f8870] active:bg-[#a38c73] cursor-pointer text-[#000000] font-semibold text-base transition-all duration-200 ease-out hover:shadow-md active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0 sm:w-auto w-full"
+            className="min-h-[48px] md:min-h-[52px] px-6 md:px-8 rounded-lg bg-[#c3ad95] hover:bg-[#9f8870] active:bg-[#a38c73] cursor-pointer text-[#000000] font-medium text-base transition-all duration-200 ease-out hover:shadow-md active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0 sm:w-auto w-full"
           >
             Search
           </button>

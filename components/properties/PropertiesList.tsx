@@ -68,7 +68,7 @@ function PropertyListingCard({ property }: PropertyListingCardProps) {
         />
         {/* Badge - top left */}
         {badge && (
-          <span className="absolute left-4 top-4 rounded-lg bg-white/95 px-3 py-1.5 text-xs font-semibold text-[var(--charcoal)] shadow-md">
+          <span className="absolute left-4 top-4 rounded-lg bg-white/95 px-3 py-1.5 text-xs font-medium text-[var(--charcoal)] shadow-md">
             {badge}
           </span>
         )}
@@ -138,7 +138,7 @@ function PropertyListingCard({ property }: PropertyListingCardProps) {
           >
             <WhatsAppIcon /> WhatsApp
           </a>
-          <span className="inline-flex items-center gap-2 rounded-xl bg-[var(--rocky-blue)] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors group-hover:bg-[var(--rocky-blue-hover)]">
+          <span className="inline-flex items-center gap-2 rounded-xl bg-[var(--rocky-blue)] px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-colors group-hover:bg-[var(--rocky-blue-hover)]">
             Book a Viewing
           </span>
           </div>

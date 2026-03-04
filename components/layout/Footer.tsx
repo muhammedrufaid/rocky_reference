@@ -98,7 +98,7 @@ const Footer: React.FC = () => {
 
                     {/* Column 2 – Services */}
                     <section aria-labelledby="footer-services-heading">
-                        <h6 id="footer-services-heading" className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
+                        <h6 id="footer-services-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
                             Services
                         </h6>
                         <nav aria-label="Footer services">
@@ -119,7 +119,7 @@ const Footer: React.FC = () => {
 
                     {/* Column 3 – Company */}
                     <section aria-labelledby="footer-company-heading">
-                        <h6 id="footer-company-heading" className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
+                        <h6 id="footer-company-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
                             Company
                         </h6>
                         <nav aria-label="Footer company links">
@@ -140,7 +140,7 @@ const Footer: React.FC = () => {
 
                     {/* Column 4 – Contact + Social */}
                     <section aria-labelledby="footer-contact-heading">
-                        <h6 id="footer-contact-heading" className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
+                        <h6 id="footer-contact-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
                             Contact
                         </h6>
                         <address className="not-italic space-y-3 text-sm text-blue-100">
@@ -186,7 +186,7 @@ const Footer: React.FC = () => {
                         <div>
                             <h6
                                 id="footer-newsletter-heading"
-                                className="text-xs font-semibold uppercase tracking-wider text-white mb-1"
+                                className="text-xs font-medium uppercase tracking-wider text-white mb-1"
                             >
                                 Stay in the loop
                             </h6>
@@ -213,7 +213,7 @@ const Footer: React.FC = () => {
                                 />
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 rounded bg-[#c3ad95] hover:bg-[#9f8870] cursor-pointer text-[#0d365e] text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 shrink-0"
+                                    className="px-4 py-2 rounded bg-[#c3ad95] hover:bg-[#9f8870] cursor-pointer text-[#0d365e] text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 shrink-0"
                                 >
                                     Subscribe
                                 </button>
@@ -224,7 +224,7 @@ const Footer: React.FC = () => {
                         <nav aria-labelledby="footer-popular-heading">
                             <h6
                                 id="footer-popular-heading"
-                                className="text-xs font-semibold uppercase tracking-wider text-white mb-3"
+                                className="text-xs font-medium uppercase tracking-wider text-white mb-3"
                             >
                                 Popular Searches
                             </h6>

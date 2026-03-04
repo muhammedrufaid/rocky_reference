@@ -86,7 +86,7 @@ const ValuationCTA: React.FC<{ className?: string }> = ({ className }) => {
                         >
                             <Link
                                 href="/contact"
-                                className="inline-flex items-center justify-center rounded-xl px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)]"
+                                className="inline-flex items-center justify-center rounded-xl px-7 py-3.5 text-sm font-medium text-white transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)]"
                                 style={{
                                     backgroundColor: "#c3ad95",   // Sandstone Taupe
                                     color: "#081f3a",              // Midnight Blue text for contrast

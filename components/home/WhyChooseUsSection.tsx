@@ -140,7 +140,7 @@ const WhyChooseUsSection: React.FC = () => {
             >
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center px-7 py-3.5 text-sm font-semibold rounded-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(13,54,94,0.28)]"
+                className="inline-flex items-center justify-center px-7 py-3.5 text-sm font-medium rounded-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(13,54,94,0.28)]"
                 style={{
                   backgroundColor: "#0d365e",
                   color: "#ffffff",

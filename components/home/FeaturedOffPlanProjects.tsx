@@ -126,7 +126,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data 
           >
             <Link
               href="/off-plan"
-              className="inline-flex items-center gap-2 text-sm font-semibold pb-0.5 transition-colors text-[var(--rocky-blue)] hover:opacity-80"
+              className="inline-flex items-center gap-2 text-sm font-medium pb-0.5 transition-colors text-[var(--rocky-blue)] hover:opacity-80"
             >
               View All Projects <ArrowIcon />
             </Link>
@@ -172,7 +172,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data 
                     />
                     {/* Developer badge over image */}
                     <span
-                      className="absolute top-3 left-3 text-[10px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full"
+                      className="absolute top-3 left-3 text-[10px] font-medium tracking-wide uppercase px-2.5 py-1 rounded-full"
                       style={{ backgroundColor: "rgba(255,255,255,0.92)", color: "#0d365e" }}
                     >
                       {/* {project.towerName || project.propertyRefNo} */}
@@ -183,7 +183,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data 
                   {/* Content */}
                   <div className="p-4 flex flex-col flex-1">
                     <h3
-                      className="text-base font-semibold leading-snug line-clamp-2"
+                      className="text-base font-medium leading-snug line-clamp-2"
                       style={{ color: "#0d365e" }}
                     >
                       {project.towerName || project.propertyRefNo}
@@ -223,7 +223,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data 
                 <div className="px-4 pb-4 pt-0 flex gap-2">
                   <a
                     href="tel:+971564120637"
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-semibold rounded-lg transition-colors duration-200 border hover:bg-[#0d365e] hover:text-white!"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-medium rounded-lg transition-colors duration-200 border hover:bg-[#0d365e] hover:text-white!"
                     style={{
                       borderColor: "#0d365e",
                       color: "#0d365e",
@@ -235,7 +235,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data 
                     href={`https://wa.me/971564120637?text=${encodeURIComponent(`Hi! I'm interested in ${project.towerName || project.propertyTitle}. I'm exploring Off Plan opportunities and investment options for upcoming projects. Could you share more details?`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-semibold rounded-lg transition-colors duration-200 border hover:bg-[#0d365e] hover:text-white!"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-medium rounded-lg transition-colors duration-200 border hover:bg-[#0d365e] hover:text-white!"
                     style={{
                       borderColor: "#0d365e",
                       color: "#0d365e",

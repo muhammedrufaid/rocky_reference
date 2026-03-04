@@ -375,7 +375,7 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
               >
                   {/* Popup header */}
                   <div className="flex shrink-0 items-center justify-between border-b border-[var(--border-light)] bg-white px-5 py-4">
-                    <h3 className="text-base font-semibold" style={{ color: "var(--rocky-blue)" }}>
+                    <h3 className="text-base font-medium" style={{ color: "var(--rocky-blue)" }}>
                       Filters
                     </h3>
                     <button
@@ -401,7 +401,7 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
                   aria-haspopup="listbox"
                   aria-expanded={listingDropdownOpen}
                   aria-label={`Listing type: ${type === "rent" ? "Rent" : "Buy"}`}
-                  className="flex h-11 w-full items-center justify-between gap-2 rounded-lg border bg-white px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
+                  className="flex h-11 w-full items-center justify-between gap-2 rounded-lg border bg-white px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
                   style={{
                     color: "var(--rocky-blue)",
                     borderColor: "var(--rocky-blue)",
@@ -513,7 +513,7 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
               <button
                 type="button"
                 onClick={applySearch}
-                className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[var(--rocky-blue)] text-white font-semibold shadow-sm transition-all hover:bg-[var(--rocky-blue-hover)] hover:shadow-md"
+                className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[var(--rocky-blue)] text-white font-medium shadow-sm transition-all hover:bg-[var(--rocky-blue-hover)] hover:shadow-md"
               >
                 <SearchIcon /> Search
               </button>
@@ -533,7 +533,7 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
                 aria-haspopup="listbox"
                 aria-expanded={listingDropdownOpen}
                 aria-label={`Listing type: ${type === "rent" ? "Rent" : "Buy"}`}
-                className="flex h-11 min-w-[120px] items-center justify-between gap-2 rounded-lg border bg-white px-4 py-2.5 text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
+                className="flex h-11 min-w-[120px] items-center justify-between gap-2 rounded-lg border bg-white px-4 py-2.5 text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
                 style={{
                   color: "var(--rocky-blue)",
                   borderColor: "var(--rocky-blue)",

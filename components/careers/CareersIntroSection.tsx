@@ -124,7 +124,7 @@ const CareersIntroSection: React.FC = () => {
                       {p.icon}
                     </span>
                     <div>
-                      <p className="text-base font-semibold text-charcoal">{p.title}</p>
+                      <p className="text-base font-medium text-charcoal">{p.title}</p>
                       <p className="mt-0.5 text-sm md:text-base text-neutral-500 leading-relaxed">{p.desc}</p>
                     </div>
                   </motion.li>

@@ -136,7 +136,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ hideHeading = false, ba
                                 {serviceIcons[service.id as keyof typeof serviceIcons]}
                             </div>
                             <h3
-                                className="text-lg font-semibold md:text-xl"
+                                className="text-lg font-medium md:text-xl"
                                 style={{ color: "var(--rocky-blue)" }}
                             >
                                 {service.title}
@@ -160,7 +160,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ hideHeading = false, ba
                 >
                     <Link
                         href="/services"
-                        className="inline-flex items-center gap-2 rounded-lg border-1 px-6 py-3 text-sm font-semibold transition-colors hover:bg-[var(--rocky-blue)] hover:text-white!"
+                        className="inline-flex items-center gap-2 rounded-lg border-1 px-6 py-3 text-sm font-medium transition-colors hover:bg-[var(--rocky-blue)] hover:text-white!"
                         style={{
                             borderColor: "var(--rocky-blue)",
                             color: "var(--rocky-blue)",

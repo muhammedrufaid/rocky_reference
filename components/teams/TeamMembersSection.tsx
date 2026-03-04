@@ -222,7 +222,7 @@ const TeamMembersSection: React.FC = () => {
 
                       {/* Content - separate block */}
                       <div className="flex flex-col gap-2">
-                        <h3 className="text-base sm:text-lg font-semibold text-[#0d365e] group-hover:text-[#1a5a96] transition-colors duration-200">
+                        <h3 className="text-base sm:text-lg font-medium text-[#0d365e] group-hover:text-[#1a5a96] transition-colors duration-200">
                           {member.name}
                         </h3>
                         <div

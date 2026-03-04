@@ -135,7 +135,7 @@ const WhychooseSection: React.FC = () => {
               >
                 {/* Number circle - pops in */}
                 <motion.div
-                  className="relative z-10 flex size-7 md:size-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+                  className="relative z-10 flex size-7 md:size-8 shrink-0 items-center justify-center rounded-full text-xs font-medium"
                   style={{
                     backgroundColor: "var(--rocky-blue)",
                     color: "white",
@@ -149,7 +149,7 @@ const WhychooseSection: React.FC = () => {
                 {/* Content */}
                 <div className="flex-1 min-w-0 pt-0.5">
                   <h3
-                    className="text-base font-semibold md:text-lg"
+                    className="text-base font-medium md:text-lg"
                     style={{ color: "var(--rocky-blue)" }}
                   >
                     {item.title}
@@ -176,12 +176,12 @@ const WhychooseSection: React.FC = () => {
           custom={0.85}
         >
           <div className="flex items-center gap-3">
-            <span className="text-2xl md:text-3xl font-semibold tabular-nums" style={{ color: "var(--rocky-blue)" }}>{yearsCount}+</span>
+            <span className="text-2xl md:text-3xl font-medium tabular-nums" style={{ color: "var(--rocky-blue)" }}>{yearsCount}+</span>
             <span className="text-sm md:text-base" style={{ color: "var(--charcoal)", opacity: 0.8 }}>Years of experience</span>
           </div>
           <div className="hidden sm:block w-px h-8" style={{ backgroundColor: "var(--charcoal)", opacity: 0.15 }} />
           <div className="flex items-center gap-3">
-            <span className="text-2xl md:text-3xl font-semibold tabular-nums" style={{ color: "var(--rocky-blue)" }}>{transparencyCount}%</span>
+            <span className="text-2xl md:text-3xl font-medium tabular-nums" style={{ color: "var(--rocky-blue)" }}>{transparencyCount}%</span>
             <span className="text-sm md:text-base" style={{ color: "var(--charcoal)", opacity: 0.8 }}>Transparent service</span>
           </div>
         </motion.div>

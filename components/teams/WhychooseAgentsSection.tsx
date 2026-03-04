@@ -110,7 +110,7 @@ const WhychooseAgentsSection: React.FC = () => {
                                 variants={listItemVariants}
                             >
                                 <motion.div
-                                    className="relative z-10 flex size-7 md:size-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+                                    className="relative z-10 flex size-7 md:size-8 shrink-0 items-center justify-center rounded-full text-xs font-medium"
                                     style={{
                                         backgroundColor: "var(--rocky-blue)",
                                         color: "white",
@@ -122,7 +122,7 @@ const WhychooseAgentsSection: React.FC = () => {
                                 </motion.div>
                                 <div className="flex-1 min-w-0 pt-0.5">
                                     <h3
-                                        className="text-base font-semibold md:text-lg"
+                                        className="text-base font-medium md:text-lg"
                                         style={{ color: "var(--rocky-blue)" }}
                                     >
                                         {item.title}

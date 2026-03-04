@@ -154,7 +154,7 @@ const Badge = ({ label }: { label: string }) => {
     "Off Plan": "bg-amber-500 text-white",
   };
   return (
-    <span className={`text-[10px] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full ${styles[label] ?? "bg-[#0d365e] text-white"}`}>
+    <span className={`text-[10px] font-medium tracking-widest uppercase px-2.5 py-1 rounded-full ${styles[label] ?? "bg-[#0d365e] text-white"}`}>
       {label}
     </span>
   );
@@ -204,7 +204,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
           <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10">
             {listing.badge && <Badge label={listing.badge} />}
             <span
-              className="text-[10px] font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full backdrop-blur-sm"
+              className="text-[10px] font-medium tracking-widest uppercase px-2.5 py-1 rounded-full backdrop-blur-sm"
               style={{ backgroundColor: "rgba(255,255,255,0.92)", color: "#0d365e" }}
             >
               {listing.type}
@@ -213,14 +213,14 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
 
           {/* Property type pill — bottom left */}
           {listing.propertyType && (
-            <span className="absolute bottom-3 left-3 text-[10px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full bg-black/50 text-white backdrop-blur-sm z-10">
+            <span className="absolute bottom-3 left-3 text-[10px] font-medium tracking-wider uppercase px-2.5 py-1 rounded-full bg-black/50 text-white backdrop-blur-sm z-10">
               {listing.propertyType}
             </span>
           )}
 
           {/* Photo count pill — bottom right */}
           {images.length > 1 && (
-            <span className="absolute bottom-3 right-3 flex items-center gap-1 text-[10px] font-semibold text-white bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full z-10">
+            <span className="absolute bottom-3 right-3 flex items-center gap-1 text-[10px] font-medium text-white bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full z-10">
               <PhotosIcon />
               {images.length} photos
             </span>
@@ -300,7 +300,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
             ].map(({ icon, value, label }) => (
               <div key={label} className="flex flex-col items-start gap-0.5">
                 <div className="flex items-center gap-1" style={{ color: "#c3ad95" }}>{icon}</div>
-                <span className="text-sm font-semibold" style={{ color: "#0d365e" }}>{value}</span>
+                <span className="text-sm font-medium" style={{ color: "#0d365e" }}>{value}</span>
                 <span className="text-[10px] uppercase tracking-wider" style={{ color: "#888" }}>{label}</span>
               </div>
             ))}
@@ -326,7 +326,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
                   className="w-8 h-8 rounded-full object-cover ring-2 ring-[#F0EDE8]"
                 />
                 <div>
-                  <p className="text-xs font-semibold leading-none mb-0.5" style={{ color: "#0d365e" }}>{listing.agent.name}</p>
+                  <p className="text-xs font-medium leading-none mb-0.5" style={{ color: "#0d365e" }}>{listing.agent.name}</p>
                   {listing.agent.language && <p className="text-[10px]" style={{ color: "#888" }}>{listing.agent.language}</p>}
                 </div>
               </div>
@@ -374,7 +374,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
 
           <Link
             href={listing.path}
-            className="inline-flex items-center justify-center gap-1.5 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all duration-200 w-fit hover:scale-[1.02] active:scale-[0.98] cursor-pointer group/btn bg-[var(--rocky-blue)] hover:bg-[var(--rocky-blue-hover)]"
+            className="inline-flex items-center justify-center gap-1.5 text-white text-xs font-medium px-4 py-2 rounded-xl transition-all duration-200 w-fit hover:scale-[1.02] active:scale-[0.98] cursor-pointer group/btn bg-[var(--rocky-blue)] hover:bg-[var(--rocky-blue-hover)]"
           >
             View Details
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-200 group-hover/btn:translate-x-0.5">
@@ -433,7 +433,7 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
             ))}
             {listings.length === 0 && (
               <div className="text-center py-20" style={{ color: "#888" }}>
-                <p className="text-lg font-semibold">No properties match your filters.</p>
+                <p className="text-lg font-medium">No properties match your filters.</p>
               </div>
             )}
           </>

@@ -81,7 +81,7 @@ const BlogSection: React.FC = () => {
           >
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-sm font-semibold pb-0.5 transition-colors text-[var(--rocky-blue)] hover:opacity-80"
+              className="inline-flex items-center gap-2 text-sm font-medium pb-0.5 transition-colors text-[var(--rocky-blue)] hover:opacity-80"
             >
               View All Blogs <ArrowIcon />
             </Link>
@@ -123,7 +123,7 @@ const BlogSection: React.FC = () => {
                       {post.category}
                     </p>
 
-                    <h3 className="mt-2 text-base font-semibold transition-colors line-clamp-2">
+                    <h3 className="mt-2 text-base font-medium transition-colors line-clamp-2">
                       {post.description}
                     </h3>
                     {/* <p className="mt-3 text-[15px] leading-relaxed text-[var(--charcoal)] line-clamp-2">

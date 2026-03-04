@@ -32,7 +32,7 @@ const ContactCTA: React.FC = () => {
           <div className="mt-10">
             <Link
               href="tel:+97144476644"
-              className="inline-flex items-center justify-center px-8 py-4 text-sm font-semibold rounded-lg transition-colors duration-200 hover:bg-[#e7dccd]"
+              className="inline-flex items-center justify-center px-8 py-4 text-sm font-medium rounded-lg transition-colors duration-200 hover:bg-[#e7dccd]"
               style={{
                 backgroundColor: "#ffffff",
                 color: "#0d365e",

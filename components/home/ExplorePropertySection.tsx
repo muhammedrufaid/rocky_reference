@@ -93,7 +93,7 @@ const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
                     >
                         <Link
                             href="/blog"
-                            className="inline-flex items-center gap-2 text-sm font-semibold pb-0.5 transition-colors text-[var(--rocky-blue)] hover:opacity-80"
+                            className="inline-flex items-center gap-2 text-sm font-medium pb-0.5 transition-colors text-[var(--rocky-blue)] hover:opacity-80"
                         >
                             View All Properties <ArrowIcon />
                         </Link>
@@ -162,7 +162,7 @@ const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
                                         className="absolute bottom-0 left-0 right-0 px-5 py-4"
                                     >
                                         <p
-                                            className="text-base font-semibold"
+                                            className="text-base font-medium"
                                             style={{
                                                 color: "#fff",
                                                 // fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -237,7 +237,7 @@ const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
 
                                             {/* View Details — inline right */}
                                             <span
-                                                className="ml-auto flex items-center gap-1.5 text-[11px] font-semibold tracking-wide uppercase transition-all duration-200 group-hover:gap-2.5"
+                                                className="ml-auto flex items-center gap-1.5 text-[11px] font-medium tracking-wide uppercase transition-all duration-200 group-hover:gap-2.5"
                                                 style={{ color: "#0d365e" }}
                                             >
                                                 View <ArrowIcon />

@@ -60,7 +60,7 @@ const ContactMap: React.FC = () => {
             className="absolute bottom-4 left-4 right-4 sm:left-6 sm:right-auto sm:max-w-[280px] p-4 rounded-lg bg-white shadow-lg"
             style={{ boxShadow: "0 4px 20px rgba(13, 54, 94, 0.12)" }}
           >
-            <p className="text-sm font-semibold mb-2" style={{ color: "#0d365e" }}>
+            <p className="text-sm font-medium mb-2" style={{ color: "#0d365e" }}>
               Rocky Real Estate
             </p>
             <p className="text-sm" style={{ color: "#555" }}>
