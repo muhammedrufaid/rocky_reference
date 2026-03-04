@@ -103,7 +103,7 @@ const CareersIntroSection: React.FC = () => {
                   variants={slideUp}
                   className="mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-medium leading-tight tracking-tight text-charcoal"
                 >
-                  Grow Your Real Estate Career in Dubai’s Fastest Moving Market
+                  Join Dubai’s Leading Real Estate Team
                 </motion.h2>
 
                 <motion.p variants={slideUp} className="mt-8 max-w-md text-base md:text-lg leading-[1.7] text-neutral-600">
