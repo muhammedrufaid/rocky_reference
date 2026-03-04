@@ -7,7 +7,7 @@ import Container from "@/components/layout/Container";
 
 const highlights = [
   {
-    title: "Dubai's No.1 Brokerage",
+    title: "Brokerage Built for Long-Term Success",
     number: "01",
     icon: (
       <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
@@ -16,7 +16,7 @@ const highlights = [
     ),
   },
   {
-    title: "40 Years of Market Experience",
+    title: "50+ Years of Market Experience",
     number: "02",
     icon: (
       <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
@@ -25,7 +25,7 @@ const highlights = [
     ),
   },
   {
-    title: "Award-Winning Team",
+    title: "Award-Winning and Industry Recognized Professionals",
     number: "03",
     icon: (
       <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
@@ -34,7 +34,7 @@ const highlights = [
     ),
   },
   {
-    title: "Market-Leading Training",
+    title: "Training Designed for Growth",
     number: "04",
     icon: (
       <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
@@ -43,7 +43,7 @@ const highlights = [
     ),
   },
   {
-    title: "1M+ Active Client Database",
+    title: "Access to Active Clients & Listings",
     number: "05",
     icon: (
       <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
@@ -52,7 +52,7 @@ const highlights = [
     ),
   },
   {
-    title: "Largest Portal Spend In The Region",
+    title: "Marketing Power That Drives Deals",
     number: "06",
     icon: (
       <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
