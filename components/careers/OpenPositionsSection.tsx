@@ -178,7 +178,7 @@ const OpenPositionsSection: React.FC<OpenPositionsSectionProps> = ({
                         <button
                             type="button"
                             onClick={loadMore}
-                            className="px-8 py-3 text-sm font-medium rounded-lg border-2 transition-all duration-200 hover:bg-[#0d365e] hover:text-white! cursor-pointer hover:border-[#0d365e] focus:outline-none focus:ring-2 focus:ring-[#0d365e] focus:ring-offset-2"
+                            className="px-8 py-3 text-sm font-medium rounded-lg border-1 transition-all duration-200 hover:bg-[#0d365e] hover:text-white! cursor-pointer hover:border-[#0d365e] focus:outline-none focus:ring-2 focus:ring-[#0d365e] focus:ring-offset-2"
                             style={{
                                 borderColor: "#0d365e",
                                 color: "#0d365e",
