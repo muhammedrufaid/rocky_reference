@@ -84,7 +84,7 @@ const CareersIntroSection: React.FC = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
-            className="relative flex flex-col justify-between rounded-3xl border border-neutral-100 bg-neutral-50 p-10 md:p-12 xl:p-14 overflow-hidden min-h-[540px]"
+            className="relative flex flex-col justify-between rounded-3xl border border-[#faf9f7] bg-neutral-50 p-10 md:p-12 xl:p-14 overflow-hidden min-h-[540px]"
           >
             <div className="flex flex-col gap-8">
 

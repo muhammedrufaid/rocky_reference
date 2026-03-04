@@ -4,6 +4,9 @@ import PageHero from "@/components/common/PageHero";
 import FaqsSection from "@/components/common/FaqsSection";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import CareersIntroSection from "@/components/careers/CareersIntroSection";
+import CareersBenefitsSection from "@/components/careers/CareersBenefitsSection";
+import OpenPositionsSection from "@/components/careers/OpenPositionsSection";
+import WhyRockySection from "@/components/careers/WhyRockySection";
 
 
 export const metadata = {
@@ -26,11 +29,12 @@ export default function CareersPage() {
                     ]}
                 />
                 <CareersIntroSection />
-                {/* <CareersBenefitsSection />
+                <CareersBenefitsSection />
+                <WhyRockySection />
                 <OpenPositionsSection />
-                <CareersApplySection /> */}
+                {/* <CareersApplySection /> */}
                 <TestimonialSection />
-                <FaqsSection />
+                {/* <FaqsSection /> */}
             </main>
             <Footer />
         </div>

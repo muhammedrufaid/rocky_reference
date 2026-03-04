@@ -120,6 +120,16 @@ export interface TeamMember {
   path?: string;
 }
 
+export interface JobPosition {
+  id: number;
+  title: string;
+  department: string;
+  location: string;
+  jobType: "Full-time" | "Part-time" | "Remote";
+  description: string;
+  applyPath: string;
+}
+
 
 export const featuredOffPlanProjects: OffPlanProject[] = [
   {
@@ -675,6 +685,117 @@ export const services: Service[] = [
     id: 6,
     title: "After Sales Support",
     description: "Paperwork to handover, we manage everything for our clients, even after the sale is done.",
+  },
+];
+
+export const openPositions: JobPosition[] = [
+  {
+    id: 1,
+    title: "Senior Sales Associate",
+    department: "Sales",
+    location: "Dubai Marina Office",
+    jobType: "Full-time",
+    description: "Lead property viewings and negotiations for high-value clients in Dubai's premium market.",
+    applyPath: "/careers/apply?job=senior-sales-associate",
+  },
+  {
+    id: 2,
+    title: "Marketing Coordinator",
+    department: "Marketing",
+    location: "Dubai",
+    jobType: "Full-time",
+    description: "Develop and execute digital marketing campaigns for off-plan and resale properties.",
+    applyPath: "/careers/apply?job=marketing-coordinator",
+  },
+  {
+    id: 3,
+    title: "Leasing Consultant",
+    department: "Leasing",
+    location: "Dubai Marina Office",
+    jobType: "Full-time",
+    description: "Manage rental listings and assist tenants with lease agreements across Dubai.",
+    applyPath: "/careers/apply?job=leasing-consultant",
+  },
+  {
+    id: 4,
+    title: "Property Management Specialist",
+    department: "Property Management",
+    location: "Dubai",
+    jobType: "Full-time",
+    description: "Oversee day-to-day operations for landlord portfolios and tenant relations.",
+    applyPath: "/careers/apply?job=property-management-specialist",
+  },
+  {
+    id: 5,
+    title: "Content Writer",
+    department: "Marketing",
+    location: "Dubai",
+    jobType: "Remote",
+    description: "Create compelling property descriptions, blog posts, and market insights content.",
+    applyPath: "/careers/apply?job=content-writer",
+  },
+  {
+    id: 6,
+    title: "Finance Analyst",
+    department: "Finance",
+    location: "Dubai Marina Office",
+    jobType: "Full-time",
+    description: "Support financial reporting, budgeting, and commission structures for the sales team.",
+    applyPath: "/careers/apply?job=finance-analyst",
+  },
+  {
+    id: 7,
+    title: "Off-Plan Sales Representative",
+    department: "Sales",
+    location: "Dubai Marina Office",
+    jobType: "Full-time",
+    description: "Specialise in off-plan projects and new developments across Dubai.",
+    applyPath: "/careers/apply?job=off-plan-sales",
+  },
+  {
+    id: 8,
+    title: "Customer Success Manager",
+    department: "Operations",
+    location: "Dubai",
+    jobType: "Full-time",
+    description: "Ensure client satisfaction from first inquiry through to post-sale support.",
+    applyPath: "/careers/apply?job=customer-success-manager",
+  },
+  {
+    id: 9,
+    title: "Part-Time Receptionist",
+    department: "Operations",
+    location: "Dubai Marina Office",
+    jobType: "Part-time",
+    description: "Greet visitors, manage calls, and support front-desk operations.",
+    applyPath: "/careers/apply?job=receptionist",
+  },
+  {
+    id: 10,
+    title: "Digital Marketing Specialist",
+    department: "Marketing",
+    location: "Dubai",
+    jobType: "Remote",
+    description: "Manage SEO, paid campaigns, and social media for property listings.",
+    applyPath: "/careers/apply?job=digital-marketing-specialist",
+  },
+  {
+    id: 11,
+    title: "Valuation Analyst",
+    department: "Finance",
+    location: "Dubai Marina Office",
+    jobType: "Full-time",
+    description: "Conduct property valuations and market analysis for investment clients.",
+    applyPath: "/careers/apply?job=valuation-analyst",
+  },
+  {
+    id: 12,
+    title: "Sales Support Administrator",
+    department: "Sales",
+    location: "Dubai",
+    jobType: "Full-time",
+    description: "Handle paperwork, CRM updates, and administrative support for the sales team.",
+    applyPath: "/careers/apply?job=sales-support",
   },
 ];
 
