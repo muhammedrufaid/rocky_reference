@@ -578,6 +578,7 @@ export interface SubService {
   id: number;
   title: string;
   description: string;
+  icon?: string;
 }
 
 export interface Service {
@@ -585,6 +586,7 @@ export interface Service {
   slug: string;
   title: string;
   description: string;
+  icon?: string;
   subservices: SubService[];
 }
 
@@ -666,73 +668,79 @@ export const services: Service[] = [
     id: 1,
     slug: "property-management",
     title: "Property Management",
+    icon: "property-management",
     description: "End-to-end property management services to maximise your returns while ensuring excellent property condition.",
     subservices: [
-      { id: 1, title: "Tenant Screening & Placement", description: "Rigorous vetting and selection of quality tenants to minimise vacancies and maximise rental yield." },
-      { id: 2, title: "Rent Collection & Financial Reporting", description: "Timely rent collection, expense tracking, and transparent monthly financial reports for landlords." },
-      { id: 3, title: "Maintenance & Repairs Coordination", description: "Prompt handling of maintenance requests and coordination with trusted contractors to keep properties in top condition." },
-      { id: 4, title: "Vacancy Management", description: "Strategic pricing and marketing to minimise void periods and ensure smooth tenant transitions." },
-      { id: 5, title: "Compliance & Handover Support", description: "DEWA, Ejari, and regulatory compliance management for hassle-free property operations." },
+      { id: 1, title: "Tenant Screening & Placement", icon:"",  description: "Rigorous vetting and selection of quality tenants to minimise vacancies and maximise rental yield." },
+      { id: 2, title: "Rent Collection & Financial Reporting", icon:"",description: "Timely rent collection, expense tracking, and transparent monthly financial reports for landlords." },
+      { id: 3, title: "Maintenance & Repairs Coordination", icon:"", description: "Prompt handling of maintenance requests and coordination with trusted contractors to keep properties in top condition." },
+      { id: 4, title: "Vacancy Management", icon:"", description: "Strategic pricing and marketing to minimise void periods and ensure smooth tenant transitions." },
+      { id: 5, title: "Compliance & Handover Support", icon:"", description: "DEWA, Ejari, and regulatory compliance management for hassle-free property operations." },
     ],
   },
   {
     id: 2,
     slug: "professional-inspection",
     title: "Professional Inspection",
+    icon: "professional-inspection",
     description: "Professional Inspections arranged to identify and solve defects before the official handover.",
     subservices: [
-      { id: 1, title: "Snagging Inspections", description: "Detailed snagging reports before handover to ensure developers address all defects timely." },
-      { id: 2, title: "Pre-Purchase Inspections", description: "Thorough inspection of resale properties to identify structural and cosmetic issues before you buy." },
-      { id: 3, title: "Defect Resolution Follow-Up", description: "Liaison with developers and contractors to track and ensure defect rectification." },
-      { id: 4, title: "Quality Assurance Checks", description: "Final walkthrough and quality verification prior to key handover." },
+      { id: 1, title: "Snagging Inspections", icon:"", description: "Detailed snagging reports before handover to ensure developers address all defects timely." },
+      { id: 2, title: "Pre-Purchase Inspections", icon:"", description: "Thorough inspection of resale properties to identify structural and cosmetic issues before you buy." },
+      { id: 3, title: "Defect Resolution Follow-Up", icon:"", description: "Liaison with developers and contractors to track and ensure defect rectification." },
+      { id: 4, title: "Quality Assurance Checks", icon:"", description: "Final walkthrough and quality verification prior to key handover." },
     ],
   },
   {
     id: 3,
     slug: "brokerage",
     title: "Brokerage",
+    icon: "brokerage",
     description: "Practical, data-driven advice to help you buy, sell, or lease a property.",
     subservices: [
-      { id: 1, title: "Buy", description: "Expert guidance on purchasing off-plan and resale properties with market intelligence and negotiation support." },
-      { id: 2, title: "Sell", description: "Strategic pricing, staging advice, and marketing to achieve the best sale price in the shortest time." },
-      { id: 3, title: "Lease", description: "Tenant representation and landlord advisory for residential and commercial leasing across Dubai." },
-      { id: 4, title: "Off-Plan Advisory", description: "Analysis of new developments, payment plans, and developer track records for informed off-plan investment." },
+      { id: 1, title: "Buy", icon:"", description: "Expert guidance on purchasing off-plan and resale properties with market intelligence and negotiation support." },
+      { id: 2, title: "Sell", icon:"", description: "Strategic pricing, staging advice, and marketing to achieve the best sale price in the shortest time." },
+      { id: 3, title: "Lease", icon:"", description: "Tenant representation and landlord advisory for residential and commercial leasing across Dubai." },
+      { id: 4, title: "Off-Plan Advisory", icon:"", description: "Analysis of new developments, payment plans, and developer track records for informed off-plan investment." },
     ],
   },
   {
     id: 4,
     slug: "mortgage",
     title: "Mortgage",
+    icon: "mortgage",
     description: "We work with trusted banking partners and mortgage advisors to get you the best deals.",
     subservices: [
-      { id: 1, title: "Mortgage Pre-Approval", description: "Fast pre-approval from leading banks to strengthen your offer and streamline the buying process." },
-      { id: 2, title: "Rate Comparison & Advisory", description: "Comparison of interest rates, terms, and offers from multiple lenders for the best fit." },
-      { id: 3, title: "Documentation Support", description: "Guidance on required documents and liaising with banks to simplify the mortgage application." },
-      { id: 4, title: "Refinancing & Restructuring", description: "Review of existing mortgages and support for better rates or terms when market conditions allow." },
+      { id: 1, title: "Mortgage Pre-Approval", icon:"", description: "Fast pre-approval from leading banks to strengthen your offer and streamline the buying process." },
+      { id: 2, title: "Rate Comparison & Advisory", icon:"", description: "Comparison of interest rates, terms, and offers from multiple lenders for the best fit." },
+      { id: 3, title: "Documentation Support", icon:"", description: "Guidance on required documents and liaising with banks to simplify the mortgage application." },
+      { id: 4, title: "Refinancing & Restructuring", icon:"", description: "Review of existing mortgages and support for better rates or terms when market conditions allow." },
     ],
   },
   {
     id: 5,
     slug: "property-listing-marketing",
     title: "Property Listing & Marketing",
+    icon: "property-listing-marketing",
     description: "We ensure your property is marketed effectively on real estate portals, social media platforms, and more.",
     subservices: [
-      { id: 1, title: "Multi-Channel Listing", description: "Listings on Property Finder, Bayut, Dubizzle, and key portals for maximum visibility." },
-      { id: 2, title: "Photography & Virtual Tours", description: "Professional photography, 3D virtual tours, and video walkthroughs to showcase your property." },
-      { id: 3, title: "Social Media & Digital Campaigns", description: "Targeted campaigns on Instagram, Facebook, and LinkedIn to reach qualified buyers and tenants." },
-      { id: 4, title: "Listing Optimisation", description: "Optimised descriptions, SEO-friendly content, and strategic pricing for quicker results." },
+      { id: 1, title: "Multi-Channel Listing", icon:"", description: "Listings on Property Finder, Bayut, Dubizzle, and key portals for maximum visibility." },
+      { id: 2, title: "Photography & Virtual Tours", icon:"", description: "Professional photography, 3D virtual tours, and video walkthroughs to showcase your property." },
+      { id: 3, title: "Social Media & Digital Campaigns", icon:"", description: "Targeted campaigns on Instagram, Facebook, and LinkedIn to reach qualified buyers and tenants." },
+      { id: 4, title: "Listing Optimisation", icon:"", description: "Optimised descriptions, SEO-friendly content, and strategic pricing for quicker results." },
     ],
   },
   {
     id: 6,
     slug: "after-sales-support",
     title: "After Sales Support",
+    icon: "after-sales-support",
     description: "Paperwork to handover, we manage everything for our clients, even after the sale is done.",
     subservices: [
-      { id: 1, title: "Documentation & Transfer", description: "Handling of Oqood, title deeds, NOC, and transfer processes with authorities." },
-      { id: 2, title: "DEWA & Ejari Setup", description: "Utility connection and Ejari registration support for smooth handover." },
-      { id: 3, title: "Handover Coordination", description: "Scheduling and attending handover with developers or sellers to ensure a seamless key handover." },
-      { id: 4, title: "Post-Sale Advisory", description: "Ongoing support for rentals, furnishing, and property management referrals after purchase." },
+      { id: 1, title: "Documentation & Transfer", icon:"", description: "Handling of Oqood, title deeds, NOC, and transfer processes with authorities." },
+      { id: 2, title: "DEWA & Ejari Setup", icon:"", description: "Utility connection and Ejari registration support for smooth handover." },
+      { id: 3, title: "Handover Coordination", icon:"", description: "Scheduling and attending handover with developers or sellers to ensure a seamless key handover." },
+      { id: 4, title: "Post-Sale Advisory", icon:"", description: "Ongoing support for rentals, furnishing, and property management referrals after purchase." },
     ],
   },
 ];
