@@ -14,6 +14,8 @@ export interface PageHeroProps {
   title: string;
   description?: string;
   breadcrumb: BreadcrumbItem[];
+  /** Background image path. When provided, image shows with overlay. Otherwise uses gradient background. */
+  image?: string;
 }
 
 const fadeUp = {
@@ -25,25 +27,47 @@ const fadeUp = {
   }),
 };
 
+const gradientBg =
+  "linear-gradient(135deg, rgba(13, 54, 94, 0.97) 0%, rgba(8, 31, 58, 0.95) 50%, rgba(13, 54, 94, 0.88) 100%)";
+const imageOverlay =
+  "linear-gradient(135deg, rgba(13, 54, 94, 0.82) 0%, rgba(8, 31, 58, 0.78) 50%, rgba(13, 54, 94, 0.75) 100%)";
+
 const PageHero: React.FC<PageHeroProps> = ({
   title,
   description,
   breadcrumb,
+  image,
 }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-40px" });
+
+  const sectionStyle = image
+    ? {
+        backgroundImage: `url(${image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundColor: "#081f3a",
+      }
+    : {
+        background: gradientBg,
+        backgroundColor: "#081f3a",
+      };
 
   return (
     <section
       ref={sectionRef}
       className="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-20 lg:pt-36 lg:pb-24"
       aria-labelledby="page-hero-heading"
-      style={{
-        background:
-          "linear-gradient(135deg, rgba(13, 54, 94, 0.97) 0%, rgba(8, 31, 58, 0.95) 50%, rgba(13, 54, 94, 0.88) 100%)",
-        backgroundColor: "#081f3a",
-      }}
+      style={sectionStyle}
     >
+      {/* Semi-transparent overlay when image is used — image shows through, text stays readable */}
+      {image && (
+        <div
+          className="pointer-events-none absolute inset-0 z-0"
+          style={{ background: imageOverlay }}
+          aria-hidden
+        />
+      )}
       {/* Subtle radial glow — matches Hero overlay depth */}
       <div
         className="pointer-events-none absolute inset-0 z-0"

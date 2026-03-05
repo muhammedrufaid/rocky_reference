@@ -587,6 +587,7 @@ export interface Service {
   title: string;
   description: string;
   icon?: string;
+  image?: string;
   subservices: SubService[];
 }
 
@@ -668,6 +669,7 @@ export const services: Service[] = [
     id: 1,
     slug: "property-management",
     title: "Property Management",
+    image: "https://images.pexels.com/photos/7937684/pexels-photo-7937684.jpeg",
     icon: "property-management",
     description: "End-to-end property management services to maximise your returns while ensuring excellent property condition.",
     subservices: [
@@ -684,6 +686,7 @@ export const services: Service[] = [
     id: 2,
     slug: "professional-inspection",
     title: "Professional Inspection",
+    image: "https://images.pexels.com/photos/7415041/pexels-photo-7415041.jpeg",
     icon: "professional-inspection",
     description: "This service identifies every construction defect or unfinished work and records them before you take possession or move into your new property.",
     subservices: [
@@ -698,6 +701,7 @@ export const services: Service[] = [
     id: 3,
     slug: "brokerage",
     title: "Brokerage",
+    image: "https://images.pexels.com/photos/7937328/pexels-photo-7937328.jpeg",
     icon: "brokerage",
     description: "Practical, data-driven advice to help you buy, sell, or lease a property.",
     subservices: [
@@ -711,6 +715,7 @@ export const services: Service[] = [
     id: 4,
     slug: "mortgage",
     title: "Mortgage",
+    image: "https://images.pexels.com/photos/8439700/pexels-photo-8439700.jpeg",
     icon: "mortgage",
     description: "We work with trusted banking partners and mortgage advisors to get you the best deals.",
     subservices: [
@@ -726,6 +731,7 @@ export const services: Service[] = [
     id: 5,
     slug: "property-listing-marketing",
     title: "Property Listing & Marketing",
+    image: "https://images.pexels.com/photos/8439700/pexels-photo-8439700.jpeg",
     icon: "property-listing-marketing",
     description: "We ensure your property is marketed effectively on real estate portals, social media platforms, and more.",
     subservices: [
@@ -741,6 +747,7 @@ export const services: Service[] = [
     id: 6,
     slug: "after-sales-support",
     title: "After Sales Support",
+    image: "https://images.pexels.com/photos/7414964/pexels-photo-7414964.jpeg",
     icon: "after-sales-support",
     description: "Paperwork to handover, we manage everything for our clients, even after the sale is done.",
     subservices: [

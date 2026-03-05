@@ -41,6 +41,7 @@ export default async function ServiceIndividualPage({ params }: Props) {
             { label: "Services", href: "/services" },
             { label: service.title },
           ]}
+          image={service?.image || ""}
         />
         <ServiceIntroSection />
         <ServiceSection
@@ -55,7 +56,7 @@ export default async function ServiceIndividualPage({ params }: Props) {
         {/* <DevelopmentPartnersSection /> */}
         {/* <FaqsSection />   */}
         <ValuationCTA className="py-16 md:py-20 lg:py-24" />
-        <TestimonialSection/>
+        <TestimonialSection />
 
       </main>
       <Footer />
