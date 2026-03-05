@@ -133,7 +133,7 @@ const CareersIntroSection: React.FC = () => {
             </div>
 
             {/* Bottom: CTAs */}
-            <motion.div variants={slideUp} className="flex flex-wrap items-center gap-4 pt-6">
+            {/* <motion.div variants={slideUp} className="flex flex-wrap items-center gap-4 pt-6">
               <Link
                 href="/careers/apply"
                 className="group inline-flex items-center gap-2 rounded-full bg-[#0b2d4e] px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-[#0b2d4e]/90"
@@ -149,7 +149,7 @@ const CareersIntroSection: React.FC = () => {
               >
                 Our Culture
               </Link>
-            </motion.div>
+            </motion.div> */}
           </motion.div>
 
           {/* ── RIGHT PANEL: Image + metrics ── */}
@@ -253,12 +253,14 @@ const CareersIntroSection: React.FC = () => {
                   </motion.div>
                 ))}
               </div>
-              <Link
-                href="/careers/apply"
-                className="mt-1 text-sm font-medium text-[#0b2d4e] hover:underline"
+              <button
+                onClick={() =>
+                  document.getElementById("open-positions")?.scrollIntoView({ behavior: "smooth" })
+                }
+                className="mt-1 text-sm font-medium text-[#0b2d4e] hover:underline cursor-pointer"
               >
                 View all open roles →
-              </Link>
+              </button>
             </motion.div>
           </div>
 

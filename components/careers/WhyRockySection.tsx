@@ -67,12 +67,12 @@ const WhyRockySection: React.FC<{
   className?: string;
 }> = ({
   backgroundColor = "#faf9f7",
-  className = "py-16 md:py-20 lg:py-24",
+  className = "pb-16 md:pb-20 lg:pb-24",
 }) => {
   return (
     <section
       className={`relative overflow-hidden ${className}`}
-      style={{ backgroundColor }}
+      // style={{ backgroundColor }}
       aria-labelledby="why-rocky-heading"
     >
       <Container>
@@ -142,7 +142,7 @@ const WhyRockySection: React.FC<{
               Why Rocky Real Estate?
             </motion.h2>
 
-            <div className="divide-y mb-10 md:mb-12" style={{ borderColor: "#e3e8ef" }}>
+            <div className="divide-y" style={{ borderColor: "#e3e8ef" }}>
               {highlights.map((item) => (
                 <motion.div
                   key={item.title}

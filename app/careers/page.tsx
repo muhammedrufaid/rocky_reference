@@ -29,8 +29,8 @@ export default function CareersPage() {
                     ]}
                 />
                 <CareersIntroSection />
-                <CareersBenefitsSection />
                 <WhyRockySection />
+                <CareersBenefitsSection />
                 <OpenPositionsSection />
                 {/* <CareersApplySection /> */}
                 <TestimonialSection />

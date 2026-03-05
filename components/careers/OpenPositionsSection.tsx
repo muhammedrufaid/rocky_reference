@@ -26,6 +26,7 @@ const OpenPositionsSection: React.FC<OpenPositionsSectionProps> = ({
 
     return (
         <section
+            id="open-positions"
             className="py-16 md:py-20 lg:py-24"
             aria-labelledby="open-positions-heading"
         >
