@@ -7,6 +7,7 @@ import ServiceIntroSection from "@/components/services/ServiceIntroSection";
 import ValuationCTA from "@/components/home/ValuationCTA";
 import WhychooseSection from "@/components/services/WhychooseSection";
 import DevelopmentPartnersSection from "@/components/home/DevelopmentPartnersSection";
+import { services } from "@/utils/data";
 
 
 export const metadata = {
@@ -30,7 +31,7 @@ export default function ServicesPage() {
           ]}
         />
         <ServiceIntroSection />
-        <ServiceSection hideHeading backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24" />
+        <ServiceSection data={services} hideHeading backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24" />
         {/* <WhychooseSection /> */}
         {/* <DevelopmentPartnersSection /> */}
         {/* <FaqsSection />   */}

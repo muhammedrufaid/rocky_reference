@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useRef } from "react";
-import Link from "next/link";
 import Container from "@/components/layout/Container";
-import { services } from "@/utils/data";
+import type { Service } from "@/utils/data";
 import { motion, useInView } from "framer-motion";
 
 const ArrowIcon = () => (
@@ -72,12 +71,13 @@ const fadeUp = {
 };
 
 interface ServiceSectionProps {
+    data: Service[];
     hideHeading?: boolean;
     backgroundColor?: string;
     className?: string;
 }
 
-const ServiceSection: React.FC<ServiceSectionProps> = ({ hideHeading = false, backgroundColor = "#faf9f7", className }) => {
+const ServiceSection: React.FC<ServiceSectionProps> = ({ data, hideHeading = false, backgroundColor = "#faf9f7", className }) => {
     const sectionRef = useRef(null);
     const isInView = useInView(sectionRef, { once: true, margin: "-60px" });
 
@@ -116,7 +116,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ hideHeading = false, ba
                 )}
 
                 <div className="grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                    {services.map((service, index) => (
+                    {data.map((service, index) => (
                         <motion.article
                             key={service.id}
                             className="group cursor-pointer relative flex flex-col rounded-2xl p-6 md:p-8 transition-all duration-300 bg-white border border-[var(--border-light)] hover:border-[var(--sandstone-taupe)]/40 hover:shadow-[0_12px_40px_rgba(13,54,94,0.08)]"

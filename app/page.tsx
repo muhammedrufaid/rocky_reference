@@ -11,6 +11,7 @@ import ValuationCTA from "@/components/home/ValuationCTA";
 import ExplorePropertySection from "@/components/home/ExplorePropertySection";
 import FaqsSection from "@/components/common/FaqsSection";
 import { getOffPlanProperties, getReadyProperties } from "@/utils/getServices";
+import { services } from "@/utils/data";
 
 export default async function Home() {
   const offPlanPropertiesData = await getOffPlanProperties();
@@ -22,7 +23,7 @@ export default async function Home() {
       <FeaturedOffPlanProjects data={offPlanPropertiesData} />
       <ExplorePropertySection data={readyPropertiesData}/>
       <DevelopmentPartnersSection />
-      <ServiceSection />
+      <ServiceSection data={services} />
       <WhyChooseUsSection />
       <ValuationCTA />
       <TestimonialSection />
