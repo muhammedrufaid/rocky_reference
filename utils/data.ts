@@ -456,7 +456,7 @@ export const teamMembers: TeamMember[] = [
 export type NavLink = { id: string; path: string; title: string };
 export type NavDropdown = {
   id: string;
-  path: "";
+  path: string;
   title: string;
   type: "dropdown";
   children: NavLink[];
@@ -466,12 +466,26 @@ export const navigationData: (NavLink | NavDropdown)[] = [
   { id: "1", title: "Buy", path: "/properties/buy/in-dubai" },
   { id: "2", title: "Rent", path: "/properties/rent/in-dubai" },
   { id: "3", title: "Off Plan", path: "/off-plan-properties/in-dubai" },
-  { id: "4", title: "Services", path: "/services" },
+  {
+    id: "4",
+    path: "/services",
+    title: "Services",
+    type: "dropdown",
+    children: [
+      // { id: "4-0", title: "All Services", path: "/services" },
+      { id: "4-1", title: "Property Management", path: "/services/property-management" },
+      { id: "4-2", title: "Professional Inspection", path: "/services/professional-inspection" },
+      { id: "4-3", title: "Brokerage", path: "/services/brokerage" },
+      { id: "4-4", title: "Mortgage", path: "/services/mortgage" },
+      { id: "4-5", title: "Property Listing & Marketing", path: "/services/property-listing-marketing" },
+      { id: "4-6", title: "After Sales Support", path: "/services/after-sales-support" },
+    ],
+  },
   { id: "5", title: "Contact", path: "/contact" },
   {
     id: "6",
     path: "",
-    title: "More",
+    title: "About",
     type: "dropdown",
     children: [
       { id: "6-1", title: "Careers", path: "/careers" },
