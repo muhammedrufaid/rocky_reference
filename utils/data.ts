@@ -364,14 +364,14 @@ export const teamMembers: TeamMember[] = [
     id: 1,
     name: "Ahmed Al-Maktoum",
     department: "Directors",
-    image: "/assets/teams/new.png",
+    image: "/assets/teams/image.png",
     path: "/our-team/ahmed-al-maktoum",
   },
   {
     id: 2,
     name: "Sarah Johnson",
     department: "Finance",
-    image: "/assets/teams/new2.png",
+    image: "/assets/teams/123.png",
     path: "/our-team/sarah-johnson",
   },
   {
