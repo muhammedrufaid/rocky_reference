@@ -61,7 +61,7 @@ const pillars = [
       </svg>
     ),
     title: "Global Network",
-    desc: "38 nationalities, 120+ agents, and cross-border referral pipelines.",
+    desc: "38 nationalities, 123+ agents, and cross-border referral pipelines.",
   },
 ];
 
@@ -107,8 +107,7 @@ const CareersIntroSection: React.FC = () => {
                 </motion.h2>
 
                 <motion.p variants={slideUp} className="mt-8 max-w-md text-base md:text-lg leading-[1.7] text-neutral-600">
-                  Rocky Real Estate gives you the data, the brand, and the team to
-                  accelerate your real estate career in Dubai — without compromise.
+                At Rocky Real Estate, you get the brand reputation, market insights, and the experienced team to accelerate your real estate career in Dubai.
                 </motion.p>
               </header>
 

@@ -22,7 +22,7 @@ export default function CareersPage() {
             <main>
                 <PageHero
                     title="Careers at Rocky Real Estate"
-                    description="Join our growing team in Dubai and build a rewarding career in the real estate industry."
+                    description="Build a rewarding future in real estate by joining our expanding team"
                     breadcrumb={[
                         { label: "Home", href: "/" },
                         { label: "Careers" },
