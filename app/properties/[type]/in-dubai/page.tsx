@@ -10,6 +10,8 @@ import {
   mapApiResponseToPropertyListings,
   getTotalFromApiResponse,
 } from "@/utils/getServices";
+import PropertySearchBar from "@/components/properties/PropertySearchBar";
+import PageHero from "@/components/common/PageHero";
 
 const PAGE_SIZE = 20;
 
@@ -31,21 +33,21 @@ export default async function PropertiesPage({
   const apiData =
     type === "buy"
       ? await getBuyProperties({
-          page: currentPage,
-          limit: PAGE_SIZE,
-          q: filters.q,
-          type: filters.type,
-          min: filters.min,
-          max: filters.max,
-        })
+        page: currentPage,
+        limit: PAGE_SIZE,
+        q: filters.q,
+        type: filters.type,
+        min: filters.min,
+        max: filters.max,
+      })
       : await getRentProperties({
-          page: currentPage,
-          limit: PAGE_SIZE,
-          q: filters.q,
-          type: filters.type,
-          min: filters.min,
-          max: filters.max,
-        });
+        page: currentPage,
+        limit: PAGE_SIZE,
+        q: filters.q,
+        type: filters.type,
+        min: filters.min,
+        max: filters.max,
+      });
 
   const listings = apiData
     ? mapApiResponseToPropertyListings(apiData, type === "buy" ? "Buy" : "Rent")
@@ -71,8 +73,11 @@ export default async function PropertiesPage({
           description="Discover premium properties across Dubai's most sought-after communities."
           breadcrumb={breadcrumb}
         /> */}
-        <Suspense fallback={<div className="h-24" style={{ backgroundColor: "#faf9f7" }} />}>
+        {/* <Suspense fallback={<div className="h-24" style={{ backgroundColor: "#faf9f7" }} />}>
           <PropertyFilterBar type={type} />
+        </Suspense> */}
+        <Suspense fallback={<div className="h-[72px]" />}>
+          <PropertySearchBar defaultType={type as "buy" | "rent"} />
         </Suspense>
         <PropertyListingGrid
           listings={listings}
@@ -82,6 +87,42 @@ export default async function PropertiesPage({
             totalItems,
             basePath,
           }}
+        />
+        <PageHero
+          title="Properties in Dubai"
+          description="Discover premium properties across Dubai's most sought-after communities."
+          breadcrumb={[
+            { label: "Home", href: "/" },
+            { label: "Properties", href: "/properties" },
+            { label: "In Dubai" },
+          ]}
+        />
+        <PageHero
+          title="Properties in Dubai"
+          description="Discover premium properties across Dubai's most sought-after communities."
+          breadcrumb={[
+            { label: "Home", href: "/" },
+            { label: "Properties", href: "/properties" },
+            { label: "In Dubai" },
+          ]}
+        />
+        <PageHero
+          title="Properties in Dubai"
+          description="Discover premium properties across Dubai's most sought-after communities."
+          breadcrumb={[
+            { label: "Home", href: "/" },
+            { label: "Properties", href: "/properties" },
+            { label: "In Dubai" },
+          ]}
+        />
+        <PageHero
+          title="Properties in Dubai"
+          description="Discover premium properties across Dubai's most sought-after communities."
+          breadcrumb={[
+            { label: "Home", href: "/" },
+            { label: "Properties", href: "/properties" },
+            { label: "In Dubai" },
+          ]}
         />
         {/* <PropertiesList type={type} searchParams={filters} /> */}
       </main>
