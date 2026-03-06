@@ -465,7 +465,16 @@ export type NavDropdown = {
 export const navigationData: (NavLink | NavDropdown)[] = [
   { id: "1", title: "Buy", path: "/properties/buy/in-dubai" },
   { id: "2", title: "Rent", path: "/properties/rent/in-dubai" },
-  { id: "3", title: "Off Plan", path: "/off-plan-properties/in-dubai" },
+  // { id: "3", title: "Off Plan", path: "/off-plan-properties/in-dubai" },
+  {
+    id: "3",
+    path: "/off-plan-properties/in-dubai",
+    title: "Off Plan",
+    type: "dropdown",
+    children: [
+      { id: "3-1", title: "Developers", path: "/developers" },
+    ],
+  },
   {
     id: "4",
     path: "/services",
