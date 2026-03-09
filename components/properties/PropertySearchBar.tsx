@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Container from "@/components/layout/Container";
+import { getPropertyTypes } from "@/utils/getServices";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -14,42 +15,34 @@ interface PropertySearchBarProps {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const PROPERTY_TYPES = [
-  { label: "All Types", value: "" },
-  { label: "Apartment", value: "Apartment" },
-  { label: "Penthouse", value: "Penthouse" },
-  { label: "Villa", value: "Villa" },
-  { label: "Townhouse", value: "Townhouse" },
-  { label: "Duplex", value: "Duplex" },
-  { label: "Studio", value: "Studio" },
-];
+const DEFAULT_PROPERTY_TYPES = [{ label: "All Types", value: "" }];
 
 const RENT_PRICES = [
   { label: "Any", value: "" },
-  { label: "50,000", value: "50000" },
-  { label: "100,000", value: "100000" },
-  { label: "150,000", value: "150000" },
-  { label: "200,000", value: "200000" },
-  { label: "300,000", value: "300000" },
-  { label: "500,000", value: "500000" },
-  { label: "750,000", value: "750000" },
-  { label: "1,000,000", value: "1000000" },
-  { label: "1,500,000", value: "1500000" },
-  { label: "2,000,000+", value: "2000000" },
+  { label: "AED 50,000", value: "50000" },
+  { label: "AED 100,000", value: "100000" },
+  { label: "AED 150,000", value: "150000" },
+  { label: "AED 200,000", value: "200000" },
+  { label: "AED 300,000", value: "300000" },
+  { label: "AED 500,000", value: "500000" },
+  { label: "AED 750,000", value: "750000" },
+  { label: "AED 1,000,000", value: "1000000" },
+  { label: "AED 1,500,000", value: "1500000" },
+  { label: "AED 2,000,000+", value: "2000000" },
 ];
 
 const BUY_PRICES = [
   { label: "Any", value: "" },
-  { label: "500,000", value: "500000" },
-  { label: "1M", value: "1000000" },
-  { label: "2M", value: "2000000" },
-  { label: "3M", value: "3000000" },
-  { label: "5M", value: "5000000" },
-  { label: "7.5M", value: "7500000" },
-  { label: "10M", value: "10000000" },
-  { label: "15M", value: "15000000" },
-  { label: "25M", value: "25000000" },
-  { label: "50M+", value: "50000000" },
+  { label: "AED 50,000", value: "50000" },
+  { label: "AED 100,000", value: "100000" },
+  { label: "AED 150,000", value: "150000" },
+  { label: "AED 200,000", value: "200000" },
+  { label: "AED 300,000", value: "300000" },
+  { label: "AED 500,000", value: "500000" },
+  { label: "AED 750,000", value: "750000" },
+  { label: "AED 1,000,000", value: "1000000" },
+  { label: "AED 1,500,000", value: "1500000" },
+  { label: "AED 2,000,000+", value: "2000000" },
 ];
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -144,7 +137,7 @@ function FilterDropdown({ value, options, onChange, placeholder, label }: Dropdo
       {open && (
         <ul
           role="listbox"
-          className="absolute left-0 right-0 top-full z-50 mt-1.5 max-h-56 overflow-auto rounded-xl bg-white py-2 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.07),0_10px_24px_-2px_rgba(0,0,0,0.08)] ring-1 ring-black/[0.04]"
+          className="absolute left-0 top-full z-50 mt-1.5 min-w-full w-max max-h-56 overflow-auto rounded-xl bg-white py-2 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.07),0_10px_24px_-2px_rgba(0,0,0,0.08)] ring-1 ring-black/[0.04]"
         >
           {options.map((opt) => (
             <li
@@ -155,11 +148,10 @@ function FilterDropdown({ value, options, onChange, placeholder, label }: Dropdo
                 onChange(opt.value);
                 setOpen(false);
               }}
-              className={`cursor-pointer px-4 py-3 text-sm transition-colors duration-150 ${
-                value === opt.value
-                  ? "bg-[var(--rocky-blue)]/8 font-medium"
-                  : "hover:bg-[var(--soft-sand)]/40"
-              }`}
+              className={`cursor-pointer whitespace-nowrap px-4 py-3 text-sm transition-colors duration-150 ${value === opt.value
+                ? "bg-[var(--rocky-blue)]/8 font-medium"
+                : "hover:bg-[var(--soft-sand)]/40"
+                }`}
               style={{
                 color: value === opt.value ? "var(--rocky-blue)" : "var(--charcoal)",
               }}
@@ -223,11 +215,10 @@ function ListingDropdown({
                   setOpen(false);
                   onSelect(tx);
                 }}
-                className={`flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium capitalize transition-colors ${
-                  isSelected
-                    ? "bg-[var(--rocky-blue)]/8"
-                    : "hover:bg-[var(--soft-sand)]/40"
-                }`}
+                className={`flex cursor-pointer items-center justify-between px-4 py-3 text-sm font-medium capitalize transition-colors ${isSelected
+                  ? "bg-[var(--rocky-blue)]/8"
+                  : "hover:bg-[var(--soft-sand)]/40"
+                  }`}
                 style={{
                   color: isSelected ? "var(--rocky-blue)" : "var(--charcoal)",
                 }}
@@ -269,6 +260,22 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
   const transactionType: TransactionType =
     pathname.includes("/rent/") ? "rent" : pathname.includes("/buy/") ? "buy" : defaultType;
   const priceOptions = transactionType === "rent" ? RENT_PRICES : BUY_PRICES;
+
+  const [propertyTypeOptions, setPropertyTypeOptions] = useState(DEFAULT_PROPERTY_TYPES);
+
+  // Fetch property types from API
+  useEffect(() => {
+    let cancelled = false;
+    getPropertyTypes().then((data) => {
+      if (cancelled || !Array.isArray(data)) return;
+      const options = [
+        { label: "All Types", value: "" },
+        ...data.map((t: string) => ({ label: t, value: t })),
+      ];
+      setPropertyTypeOptions(options);
+    });
+    return () => { cancelled = true; };
+  }, []);
 
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
   const [propertyType, setPropertyType] = useState(searchParams.get("type") ?? "");
@@ -361,11 +368,10 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
           onClick={() => setFilterPanelOpen((p) => !p)}
           aria-expanded={filterPanelOpen}
           aria-label={filterPanelOpen ? "Close filters" : "Open filters"}
-          className={`relative flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1 ${
-            filterPanelOpen || hasActiveFilters
-              ? "border-[var(--rocky-blue)] bg-[var(--rocky-blue)] text-white"
-              : "border-[var(--border-light)] bg-white text-[var(--charcoal)]"
-          }`}
+          className={`relative flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1 ${filterPanelOpen || hasActiveFilters
+            ? "border-[var(--rocky-blue)] bg-[var(--rocky-blue)] text-white"
+            : "border-[var(--border-light)] bg-white text-[var(--charcoal)]"
+            }`}
         >
           <FilterIcon />
           {hasActiveFilters && (
@@ -413,7 +419,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
                 />
                 <FilterDropdown
                   value={propertyType}
-                  options={PROPERTY_TYPES}
+                  options={propertyTypeOptions}
                   onChange={setPropertyType}
                   placeholder="Property type"
                   label="Property type"
@@ -474,7 +480,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
         <div className="shrink-0 min-w-[140px]">
           <FilterDropdown
             value={propertyType}
-            options={PROPERTY_TYPES}
+            options={propertyTypeOptions}
             onChange={setPropertyType}
             placeholder="Property type"
             label="Property type"
@@ -519,9 +525,8 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
       {/* Static bar */}
       <div
         ref={barRef}
-        className={`w-full transition-opacity duration-300 ${
-          isSticky ? "invisible opacity-0" : "visible opacity-100"
-        }`}
+        className={`w-full transition-opacity duration-300 ${isSticky ? "invisible opacity-0" : "visible opacity-100"
+          }`}
       >
         <section className={sectionClass} style={sectionStyle} aria-label="Property search">
           <Container>{barContent}</Container>
@@ -530,11 +535,10 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
 
       {/* Sticky bar */}
       <div
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-out ${
-          isSticky && !isHiddenByFooter
-            ? "translate-y-0 opacity-100"
-            : "-translate-y-full opacity-0"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-out ${isSticky && !isHiddenByFooter
+          ? "translate-y-0 opacity-100"
+          : "-translate-y-full opacity-0"
+          }`}
         aria-hidden={!isSticky || isHiddenByFooter}
       >
         <section className={sectionClass} style={sectionStyle} aria-label="Property search">
