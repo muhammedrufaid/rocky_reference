@@ -92,7 +92,7 @@ const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
                         className="self-start sm:self-auto"
                     >
                         <Link
-                            href="/blog"
+                            href="/properties/buy/in-dubai"
                             className="inline-flex items-center gap-2 text-sm font-medium pb-0.5 transition-colors text-[var(--rocky-blue)] hover:opacity-80"
                         >
                             View All Properties <ArrowIcon />
