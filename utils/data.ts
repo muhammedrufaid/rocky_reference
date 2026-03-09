@@ -62,7 +62,7 @@ export function filterPropertyListings(
     if (!listingTypeMatch) return false;
 
     if (filters.propertyType && filters.propertyType !== "All Types") {
-      if (listing.propertyType !== filters.propertyType) return false;
+      if (listing.propertyType?.toLowerCase() !== filters.propertyType.toLowerCase()) return false;
     }
 
     const priceNum = parsePrice(listing.price);
@@ -81,7 +81,8 @@ export function filterPropertyListings(
       const q = filters.searchQuery.trim().toLowerCase();
       const match =
         listing.title.toLowerCase().includes(q) ||
-        listing.location.toLowerCase().includes(q);
+        listing.location.toLowerCase().includes(q) ||
+        (listing.propertyType?.toLowerCase().includes(q) ?? false);
       if (!match) return false;
     }
 

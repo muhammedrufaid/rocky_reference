@@ -275,7 +275,7 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
         <header className="mb-6 md:mb-10">
           <motion.h2
             id="properties-listing-heading"
-            className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight tracking-tight"
+            className="text-xl sm:text-2xl md:text-3xl font-medium leading-tight tracking-tight"
             style={{ color: "#0d365e" }}
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}

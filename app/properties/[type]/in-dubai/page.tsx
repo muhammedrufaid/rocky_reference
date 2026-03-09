@@ -2,18 +2,18 @@ import { notFound } from "next/navigation";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PropertyListingGrid from "@/components/properties/PropertyListingGrid";
-import PropertyFilterBar from "@/components/layout/PropertyFilterBar";
 import { Suspense } from "react";
 import {
   getBuyProperties,
   getRentProperties,
   mapApiResponseToPropertyListings,
-  getTotalFromApiResponse,
 } from "@/utils/getServices";
+import { filterPropertyListings } from "@/utils/data";
 import PropertySearchBar from "@/components/properties/PropertySearchBar";
-import PageHero from "@/components/common/PageHero";
 
 const PAGE_SIZE = 20;
+/** Fetch a large batch so we can filter & paginate on the frontend */
+const FETCH_LIMIT = 500;
 
 export default async function PropertiesPage({
   params,
@@ -30,37 +30,35 @@ export default async function PropertiesPage({
 
   const currentPage = Math.max(1, parseInt(filters.page ?? "1", 10) || 1);
 
+  // Fetch ALL properties without filter params (API doesn't support filtering)
   const apiData =
     type === "buy"
-      ? await getBuyProperties({
-        page: currentPage,
-        limit: PAGE_SIZE,
-        q: filters.q,
-        type: filters.type,
-        min: filters.min,
-        max: filters.max,
-      })
-      : await getRentProperties({
-        page: currentPage,
-        limit: PAGE_SIZE,
-        q: filters.q,
-        type: filters.type,
-        min: filters.min,
-        max: filters.max,
-      });
+      ? await getBuyProperties({ page: 1, limit: FETCH_LIMIT })
+      : await getRentProperties({ page: 1, limit: FETCH_LIMIT });
 
-  const listings = apiData
+  const allListings = apiData
     ? mapApiResponseToPropertyListings(apiData, type === "buy" ? "Buy" : "Rent")
     : [];
 
-  const totalFromApi = apiData ? getTotalFromApiResponse(apiData) : undefined;
-  const totalItems = totalFromApi ?? undefined;
-  const totalPages =
-    totalFromApi != null
-      ? Math.max(1, Math.ceil(totalFromApi / PAGE_SIZE))
-      : listings.length >= PAGE_SIZE
-        ? currentPage + 1
-        : currentPage;
+  // ── Client-side filtering ──────────────────────────────────────────────────
+  const hasFilters = !!(filters.q || filters.type || filters.min || filters.max);
+
+  const filteredListings = hasFilters
+    ? filterPropertyListings(allListings, {
+        listingType: type as "buy" | "rent",
+        propertyType: filters.type,
+        minPrice: filters.min,
+        maxPrice: filters.max,
+        searchQuery: filters.q,
+      })
+    : allListings;
+
+  // ── Pagination on filtered results ─────────────────────────────────────────
+  const totalItems = filteredListings.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const startIdx = (safeCurrentPage - 1) * PAGE_SIZE;
+  const listings = filteredListings.slice(startIdx, startIdx + PAGE_SIZE);
 
   const basePath = `/properties/${type}/in-dubai`;
 
@@ -76,13 +74,13 @@ export default async function PropertiesPage({
         {/* <Suspense fallback={<div className="h-24" style={{ backgroundColor: "#faf9f7" }} />}>
           <PropertyFilterBar type={type} />
         </Suspense> */}
-        <Suspense fallback={<div className="h-[72px]" />}>
-          <PropertySearchBar defaultType={type as "buy" | "rent"} />
+        <Suspense fallback={<div className="h-18" />}>
+          <PropertySearchBar/>
         </Suspense>
         <PropertyListingGrid
           listings={listings}
           pagination={{
-            currentPage,
+            currentPage: safeCurrentPage,
             totalPages,
             totalItems,
             basePath,
