@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { searchTabs, categoryOptions } from "@/utils/data";
 
 type SearchTab = (typeof searchTabs)[number];
 
 const HeroSearchCard: React.FC = () => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<SearchTab>("Buy");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,11 +19,12 @@ const HeroSearchCard: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({
-      tab: activeTab,
-      category: selectedCategory || null,
-      query: searchQuery,
-    });
+    const txType = activeTab === "Rent" ? "rent" : "buy";
+    const params = new URLSearchParams();
+    if (searchQuery.trim()) params.set("q", searchQuery.trim());
+    if (selectedCategory) params.set("type", selectedCategory);
+    const query = params.toString();
+    router.push(`/properties/${txType}/in-dubai${query ? `?${query}` : ""}`);
   };
 
   useEffect(() => {
