@@ -88,42 +88,7 @@ export default async function PropertiesPage({
             basePath,
           }}
         />
-        <PageHero
-          title="Properties in Dubai"
-          description="Discover premium properties across Dubai's most sought-after communities."
-          breadcrumb={[
-            { label: "Home", href: "/" },
-            { label: "Properties", href: "/properties" },
-            { label: "In Dubai" },
-          ]}
-        />
-        <PageHero
-          title="Properties in Dubai"
-          description="Discover premium properties across Dubai's most sought-after communities."
-          breadcrumb={[
-            { label: "Home", href: "/" },
-            { label: "Properties", href: "/properties" },
-            { label: "In Dubai" },
-          ]}
-        />
-        <PageHero
-          title="Properties in Dubai"
-          description="Discover premium properties across Dubai's most sought-after communities."
-          breadcrumb={[
-            { label: "Home", href: "/" },
-            { label: "Properties", href: "/properties" },
-            { label: "In Dubai" },
-          ]}
-        />
-        <PageHero
-          title="Properties in Dubai"
-          description="Discover premium properties across Dubai's most sought-after communities."
-          breadcrumb={[
-            { label: "Home", href: "/" },
-            { label: "Properties", href: "/properties" },
-            { label: "In Dubai" },
-          ]}
-        />
+        
         {/* <PropertiesList type={type} searchParams={filters} /> */}
       </main>
       <Footer />

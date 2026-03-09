@@ -612,6 +612,10 @@ export interface Service {
   icon?: string;
   image?: string;
   subservices: SubService[];
+  /** Value-focused heading for the overview section (not the hero title). */
+  overviewHeading?: string;
+  /** Detailed narrative paragraphs for the overview section. Avoids repeating hero description. */
+  overview?: string[];
 }
 
 export interface WhyChooseItem {
@@ -695,6 +699,12 @@ export const services: Service[] = [
     image: "https://images.pexels.com/photos/7937684/pexels-photo-7937684.jpeg",
     icon: "property-management",
     description: "End-to-end property management services to maximise your returns while ensuring excellent property condition.",
+    overviewHeading: "Why Professional Management Matters",
+    overview: [
+      "Owning investment property in Dubai comes with unique opportunities and responsibilities. Without dedicated oversight, landlords often face challenges ranging from tenant disputes to missed rent payments and unexpected maintenance costs. Our approach removes these burdens so you can enjoy the benefits of ownership without the day-to-day stress.",
+      "We act as your local partner, handling everything from finding and vetting tenants to coordinating repairs and ensuring full compliance with Dubai tenancy regulations. Our team understands the nuances of the UAE market and works to protect your asset while maximising your rental income.",
+      "Whether you live abroad or simply prefer a hands-off approach, our property management service gives you peace of mind. You receive clear, regular reporting on your property's performance while we handle the operational details professionally and transparently.",
+    ],
     subservices: [
       { id: 1, title: "Tenant selection & screening", icon: "tenant-selection", description: "We first professionally promote your property, and then screen every prospective tenant to ensure financial stability and long-term occupancy." },
       { id: 2, title: "Rent & financial management", icon: "rent-financial", description: "Our seasoned team then manages all financial aspects, including rent collection, income tracking, consistent cash flow, and rental returns." },
@@ -712,6 +722,12 @@ export const services: Service[] = [
     image: "https://images.pexels.com/photos/7415041/pexels-photo-7415041.jpeg",
     icon: "professional-inspection",
     description: "This service identifies every construction defect or unfinished work and records them before you take possession or move into your new property.",
+    overviewHeading: "Protecting Your Investment Before Handover",
+    overview: [
+      "New-build and off-plan properties often arrive with minor defects, unfinished finishes, or items that don't meet the agreed specification. Without a thorough inspection, these issues can go unnoticed until after you've taken possession—when resolving them becomes more difficult and costly.",
+      "A professional inspection gives you a clear, documented record of every defect before handover. This protects your interests and provides the developer with a precise list of items to address. Our inspectors are trained to spot issues that are easy to miss, from cosmetic flaws to potential structural concerns.",
+      "We work closely with developers to ensure all identified issues are resolved to a high standard. A follow-up inspection confirms that nothing has been overlooked, so you can move in or rent out your property with confidence.",
+    ],
     subservices: [
       { id: 1, title: "Detailed property inspection", icon: "detailed-inspection", description: "Fixtures, finishes, and every single part of the property are inspected to make sure nothing’s missing" },
       { id: 2, title: "Inspection report documentation", icon: "inspection-report", description: "A full report is then filed, including descriptions and photographic evidence, to identify all defects or incomplete work." },
@@ -727,6 +743,12 @@ export const services: Service[] = [
     image: "https://images.pexels.com/photos/7937328/pexels-photo-7937328.jpeg",
     icon: "brokerage",
     description: "Practical, data-driven advice to help you buy, sell, or lease a property.",
+    overviewHeading: "Expert Guidance Through Every Transaction",
+    overview: [
+      "Buying, selling, or leasing property in Dubai requires more than just market knowledge—it demands a trusted advisor who understands your goals and can navigate the complexities of the transaction. Our brokerage team combines local expertise with a client-first approach to deliver outcomes that align with your objectives.",
+      "We take the time to understand your needs, budget, and timeline before recommending properties or strategies. Whether you are a first-time buyer, a seasoned investor, or looking to lease your home, we tailor our approach to your situation and keep you informed at every step.",
+      "From initial consultation through to handover, we manage negotiations, paperwork, and coordination with developers or landlords. Our aim is to make your property journey smooth, transparent, and successful.",
+    ],
     subservices: [
       { id: 1, title: "Understanding your vision:", icon: "understanding-vision", description: "We ensure that we understand your property goals and requirements." },
       { id: 2, title: "Smart Matching", icon: "smart-matching", description: "After a thorough screening, we connect you to the right buyers, tenants, or properties." },
@@ -741,6 +763,12 @@ export const services: Service[] = [
     image: "https://images.pexels.com/photos/8439700/pexels-photo-8439700.jpeg",
     icon: "mortgage",
     description: "We work with trusted banking partners and mortgage advisors to get you the best deals.",
+    overviewHeading: "Simplifying Your Path to Property Ownership",
+    overview: [
+      "Securing the right mortgage can make the difference between a stressful purchase and a smooth path to homeownership. The UAE mortgage market offers a range of products, rates, and terms—navigating them alone can be overwhelming. We work with trusted banking partners and advisors to help you find the best fit for your situation.",
+      "Our team understands the requirements for residents and non-residents alike, including the specific criteria that UAE banks use when assessing applications. We guide you through pre-approval, documentation, and the approval process so you can move forward with confidence.",
+      "Whether you are buying your first home or expanding your portfolio, we provide clear, practical advice tailored to your financial goals. Our aim is to secure favourable terms while keeping the process straightforward and transparent.",
+    ],
     subservices: [
       { id: 1, title: "Mortgage pre-approval", icon: "pre-approval", description: "Before you begin your property search, we help establish your borrowing capacity and obtain pre-approval." },
       { id: 2, title: "Bank comparison & rate negotiation", icon: "bank-comparison", description: "Our advisors evaluate and compare mortgage options across leading UAE banks, in both fixed and variable rates, to secure the best terms for you." },
@@ -757,6 +785,12 @@ export const services: Service[] = [
     image: "https://images.pexels.com/photos/8439700/pexels-photo-8439700.jpeg",
     icon: "property-listing-marketing",
     description: "We ensure your property is marketed effectively on real estate portals, social media platforms, and more.",
+    overviewHeading: "Reaching the Right Buyers and Tenants",
+    overview: [
+      "A great property can sit on the market for months if it isn't presented and promoted effectively. In Dubai's competitive landscape, visibility matters—and so does the quality of your listing. Buyers and tenants make quick decisions based on photos, descriptions, and pricing.",
+      "We create listings that stand out. From professional photography and virtual tours to SEO-optimised descriptions, we ensure your property makes a strong first impression. We list on the UAE's leading portals and use targeted campaigns to reach qualified prospects.",
+      "Pricing is equally important. We use market data to position your property competitively, balancing speed of sale with maximum return. Our internal network of investors and renters also means your property reaches pre-screened, serious buyers and tenants.",
+    ],
     subservices: [
       { id: 1, title: "Exposure on leading portals", icon: "exposure-portals", description: "Your property is listed on the UAE’s prominent real estate portals like Bayut, Property Finder, and more." },
       { id: 2, title: "Targeted social media campaigns", icon: "social-media", description: "Your listing is promoted through targeted advertising across social media platforms." },
@@ -773,6 +807,12 @@ export const services: Service[] = [
     image: "https://images.pexels.com/photos/7414964/pexels-photo-7414964.jpeg",
     icon: "after-sales-support",
     description: "Paperwork to handover, we manage everything for our clients, even after the sale is done.",
+    overviewHeading: "Support That Continues After the Sale",
+    overview: [
+      "The moment you receive the keys is just the beginning of your property journey. Registration, utility connections, and handover inspections are critical steps that can be time-consuming and confusing without the right support. Our after-sales service ensures these processes run smoothly so you can settle in without stress.",
+      "We coordinate with developers, authorities, and service providers to handle the administrative work on your behalf. Whether you need help with title deed registration, utility setup, or connecting with trusted fit-out specialists, we are here to guide you through each step.",
+      "Our relationship with you does not end at the sale. We remain available to assist with any questions or needs that arise after handover, including future resale or rental considerations. Your success is our priority, long after the transaction is complete.",
+    ],
     subservices: [
       { id: 1, title: "Title deed preparation & registration", icon: "title-deed", description: "We manage the registration and ownership process, ensuring everything is handled efficiently." },
       { id: 2, title: "Utility connection & registration", icon: "utility-connection", description: "We oversee all utility registrations, which include water, electricity, cooling, and internet, for a smooth transition." },

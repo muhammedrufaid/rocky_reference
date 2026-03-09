@@ -7,6 +7,7 @@ import ServiceSection from "@/components/home/ServiceSection";
 import ServiceIntroSection from "@/components/services/ServiceIntroSection";
 import ValuationCTA from "@/components/home/ValuationCTA";
 import { services, getServiceBySlug } from "@/utils/data";
+import ServiceOverviewSection from "@/components/services/ServiceOverViewSection";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -43,7 +44,8 @@ export default async function ServiceIndividualPage({ params }: Props) {
           ]}
           image={service?.image || ""}
         />
-        <ServiceIntroSection />
+        {/* <ServiceIntroSection /> */}
+        <ServiceOverviewSection service={service} />
         <ServiceSection
           data={service.subservices}
           hideHeading
