@@ -66,22 +66,6 @@ const ServiceIntroSection: React.FC = () => {
 
                             </p>
 
-                            {/* <p className="mt-4 text-sm md:text-base max-w-lg leading-relaxed" style={{ color: "#555" }}>
-                                Every interaction is handled with clarity, integrity, and
-                                professionalism. Explore our core services below and discover how
-                                we can support your real estate journey.
-                            </p> */}
-
-                            {/* <div className="mt-8">
-                                <motion.div
-                                    className="h-1 w-12"
-                                    style={{ backgroundColor: "#c3ad95", transformOrigin: "left" }}
-                                    initial={{ scaleX: 0 }}
-                                    animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
-                                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const, delay: 0.25 }}
-                                    aria-hidden
-                                />
-                            </div> */}
                         </motion.div>
                     </div>
 

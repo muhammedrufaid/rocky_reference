@@ -168,22 +168,6 @@ const ContactSection: React.FC = () => {
           >
             Get in Touch
           </motion.h2>
-          {/* <motion.p
-            className="mt-3 text-sm md:text-base max-w-lg"
-            style={{ color: "#555" }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{
-              duration: 0.5,
-              delay: 0.1,
-              ease: [0.22, 1, 0.36, 1] as const,
-            }}
-          >
-            Whether you're looking to buy, sell, or simply explore Dubai's
-            finest properties, our team is ready to assist with tailored
-            guidance.
-          </motion.p> */}
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12 lg:gap-16">
@@ -258,14 +242,6 @@ const ContactSection: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Decorative tagline */}
-            {/* <motion.p
-              className="text-xs text-stone-400 italic"
-              variants={fadeUp}
-              custom={6}
-            >
-              "Exceptional properties deserve exceptional service."
-            </motion.p> */}
           </motion.div>
 
           {/* ── RIGHT: Contact Form ── */}
@@ -434,9 +410,6 @@ const ContactSection: React.FC = () => {
                     >
                       Send Inquiry
                     </button>
-                    {/* <p className="mt-3 text-center text-[11px] text-stone-400">
-                      We typically respond within one business day.
-                    </p> */}
                   </motion.div>
                 </div>
               </motion.form>
