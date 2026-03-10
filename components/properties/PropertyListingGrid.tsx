@@ -266,7 +266,7 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
 }) => {
   return (
     <section
-      className="py-12 md:py-16 lg:py-20"
+      className="pt-8 md:pt-12"
       // style={{ backgroundColor: "#faf9f7" }}
       aria-labelledby="properties-listing-heading"
     >

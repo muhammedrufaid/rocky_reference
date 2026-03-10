@@ -5,11 +5,14 @@ import PropertyListingGrid from "@/components/properties/PropertyListingGrid";
 import { Suspense } from "react";
 import {
   getBuyProperties,
+  getOffPlanProperties,
   getRentProperties,
   mapApiResponseToPropertyListings,
 } from "@/utils/getServices";
 import { filterPropertyListings } from "@/utils/data";
 import PropertySearchBar from "@/components/properties/PropertySearchBar";
+import TestimonialSection from "@/components/home/TestimonialSection";
+import FeaturedOffPlanProjects from "@/components/home/FeaturedOffPlanProjects";
 
 const PAGE_SIZE = 20;
 /** Fetch a large batch so we can filter & paginate on the frontend */
@@ -27,7 +30,7 @@ export default async function PropertiesPage({
   if (type !== "rent" && type !== "buy") {
     notFound();
   }
-
+  const offPlanPropertiesData = await getOffPlanProperties();
   const currentPage = Math.max(1, parseInt(filters.page ?? "1", 10) || 1);
 
   // Fetch ALL properties without filter params (API doesn't support filtering)
@@ -45,12 +48,12 @@ export default async function PropertiesPage({
 
   const filteredListings = hasFilters
     ? filterPropertyListings(allListings, {
-        listingType: type as "buy" | "rent",
-        propertyType: filters.type,
-        minPrice: filters.min,
-        maxPrice: filters.max,
-        searchQuery: filters.q,
-      })
+      listingType: type as "buy" | "rent",
+      propertyType: filters.type,
+      minPrice: filters.min,
+      maxPrice: filters.max,
+      searchQuery: filters.q,
+    })
     : allListings;
 
   // ── Pagination on filtered results ─────────────────────────────────────────
@@ -75,7 +78,7 @@ export default async function PropertiesPage({
           <PropertyFilterBar type={type} />
         </Suspense> */}
         <Suspense fallback={<div className="h-18" />}>
-          <PropertySearchBar/>
+          <PropertySearchBar />
         </Suspense>
         <PropertyListingGrid
           listings={listings}
@@ -86,7 +89,9 @@ export default async function PropertiesPage({
             basePath,
           }}
         />
-        
+        <FeaturedOffPlanProjects data={offPlanPropertiesData} />
+        <TestimonialSection />
+
         {/* <PropertiesList type={type} searchParams={filters} /> */}
       </main>
       <Footer />
