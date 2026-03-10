@@ -96,14 +96,14 @@ const ChevronRight = () => (
 /* ═══════════════════════════════════════════════════════════════════════════ */
 /*  Stat Chip                                                                 */
 /* ═══════════════════════════════════════════════════════════════════════════ */
-const StatChip = ({ icon, value, label }: { icon: React.ReactNode; value: React.ReactNode; label: string }) => (
+const StatChip = ({ icon, value, label }: { icon: React.ReactNode; value: React.ReactNode; label?: string }) => (
   <div
     className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg"
     style={{ backgroundColor: "#faf8f5" }}
   >
     <span style={{ color: "#c3ad95" }}>{icon}</span>
     <span className="text-[11px] font-bold" style={{ color: "#0d365e" }}>{value}</span>
-    <span className="text-[9px] uppercase tracking-wide" style={{ color: "#b0a99e" }}>{label}</span>
+    {label ? <span className="text-[9px] uppercase tracking-wide" style={{ color: "#b0a99e" }}>{label}</span> : null}
   </div>
 );
 
@@ -204,7 +204,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
         <div className="flex flex-wrap items-center gap-1.5 mb-3">
           <StatChip icon={<BedIcon />} value={listing.beds ?? "—"} label="Beds" />
           <StatChip icon={<BathIcon />} value={listing.baths ?? "—"} label="Baths" />
-          <StatChip icon={<AreaIcon />} value={listing.area != null ? listing.area.toLocaleString() : "—"} label="sqft" />
+          <StatChip icon={<AreaIcon />} value={listing.propertySize != null ? `${Number(listing.propertySize).toLocaleString()} ${(listing.propertySizeUnit ?? "SQFT").toLowerCase()}` : "—"} />
         </div>
 
         {/* Divider */}

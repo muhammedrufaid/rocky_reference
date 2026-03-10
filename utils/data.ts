@@ -31,7 +31,9 @@ export interface PropertyListing {
   images: string[];
   beds?: number;
   baths?: number;
-  area?: number; // sq ft
+  area?: number; // deprecated, use propertySize
+  propertySize?: string | number;
+  propertySizeUnit?: string; // e.g. "SQFT"
   propertyType?: "Apartment" | "Penthouse" | "Villa" | "Townhouse" | "Duplex" | "Studio";
   agent?: { name: string; image: string; language?: string; phone?: string; email?: string; whatsapp?: string };
   badge?: "Off Plan" | "New";

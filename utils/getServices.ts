@@ -28,6 +28,8 @@ function mapApiPropertyToListing(item: any, index: number, listingType: "Buy" | 
     beds: item.beds ?? item.bedrooms,
     baths: item.baths ?? item.bathrooms,
     area: item.area ?? item.sqft ?? item.squareFeet,
+    propertySize: item.propertySize ?? item.area ?? item.sqft ?? item.squareFeet,
+    propertySizeUnit: item.propertySizeUnit ?? "SQFT",
     propertyType: item.propertyType ?? item.property_type,
     agent: item.agent,
     badge: item.badge,
