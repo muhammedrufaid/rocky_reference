@@ -13,6 +13,7 @@ import { filterPropertyListings } from "@/utils/data";
 import PropertySearchBar from "@/components/properties/PropertySearchBar";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import FeaturedOffPlanProjects from "@/components/home/FeaturedOffPlanProjects";
+import ValuationCTA from "@/components/home/ValuationCTA";
 
 const PAGE_SIZE = 20;
 /** Fetch a large batch so we can filter & paginate on the frontend */
@@ -90,6 +91,7 @@ export default async function PropertiesPage({
           }}
         />
         <FeaturedOffPlanProjects data={offPlanPropertiesData} />
+        <ValuationCTA />
         <TestimonialSection />
 
         {/* <PropertiesList type={type} searchParams={filters} /> */}

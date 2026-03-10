@@ -8,6 +8,7 @@ import Container from "@/components/layout/Container";
 
 interface FeaturedOffPlanProjectsProps {
   data: any;
+  backgroundColor?: string;
 }
 
 const LocationIcon = () => (
@@ -75,13 +76,14 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
-const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data }) => {
+const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data, backgroundColor = "#ffffff" }) => {
   const projects = (data?.properties || []).slice(0, 4);
 
   return (
     <section
       className="py-16 md:py-20 lg:py-24"
       aria-labelledby="off-plan-section-heading"
+      style={{ backgroundColor: backgroundColor }}
     >
       <Container>
         {/* Header */}
