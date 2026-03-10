@@ -233,7 +233,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
               className="inline-flex items-center gap-1 text-white text-[10px] font-bold tracking-wide px-3 py-1.5 rounded-lg transition-all duration-200 hover:opacity-90 group/btn"
               style={{ backgroundColor: "#0d365e" }}
             >
-              Details
+              View
               <span className="transition-transform duration-200 group-hover/btn:translate-x-0.5"><ChevronRight /></span>
             </Link>
           </div>
