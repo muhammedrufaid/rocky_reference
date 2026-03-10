@@ -196,54 +196,52 @@ const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
                                         <span className="line-clamp-1">{project.locality}</span>
                                     </div>
 
-                                    {/* Specs row */}
-                                    {(project?.bedrooms != null || project?.bathrooms != null) && (
-                                        <div className="flex items-center gap-4 mt-auto">
-                                            {project.bedrooms != null && (
-                                                <div className="flex flex-col">
-                                                    <span
-                                                        className="text-[10px] uppercase tracking-widest"
-                                                        style={{ color: "#c3ad95" }}
-                                                    >
-                                                        Bed
-                                                    </span>
-                                                    <span
-                                                        className="text-sm font-medium"
-                                                        style={{ color: "#0d365e" }}
-                                                    >
-                                                        {project.bedrooms}
-                                                    </span>
-                                                </div>
-                                            )}
-                                            {project.bedrooms != null && project.bathrooms != null && (
-                                                <div style={{ width: "1px", height: "28px", backgroundColor: "#e5e0d8" }} />
-                                            )}
-                                            {project.bathrooms != null && (
-                                                <div className="flex flex-col">
-                                                    <span
-                                                        className="text-[10px] uppercase tracking-widest"
-                                                        style={{ color: "#c3ad95" }}
-                                                    >
-                                                        Bath
-                                                    </span>
-                                                    <span
-                                                        className="text-sm font-medium"
-                                                        style={{ color: "#0d365e" }}
-                                                    >
-                                                        {project.bathrooms}
-                                                    </span>
-                                                </div>
-                                            )}
+                                    {/* Specs row + View button (View always visible) */}
+                                    <div className="flex items-center gap-4 mt-auto">
+                                        {project.bedrooms != null && (
+                                            <div className="flex flex-col">
+                                                <span
+                                                    className="text-[10px] uppercase tracking-widest"
+                                                    style={{ color: "#c3ad95" }}
+                                                >
+                                                    Bed
+                                                </span>
+                                                <span
+                                                    className="text-sm font-medium"
+                                                    style={{ color: "#0d365e" }}
+                                                >
+                                                    {project.bedrooms}
+                                                </span>
+                                            </div>
+                                        )}
+                                        {project.bedrooms != null && project.bathrooms != null && (
+                                            <div style={{ width: "1px", height: "28px", backgroundColor: "#e5e0d8" }} />
+                                        )}
+                                        {project.bathrooms != null && (
+                                            <div className="flex flex-col">
+                                                <span
+                                                    className="text-[10px] uppercase tracking-widest"
+                                                    style={{ color: "#c3ad95" }}
+                                                >
+                                                    Bath
+                                                </span>
+                                                <span
+                                                    className="text-sm font-medium"
+                                                    style={{ color: "#0d365e" }}
+                                                >
+                                                    {project.bathrooms}
+                                                </span>
+                                            </div>
+                                        )}
 
-                                            {/* View Details — inline right */}
-                                            <span
-                                                className="ml-auto flex items-center gap-1.5 text-[11px] font-medium tracking-wide uppercase transition-all duration-200 group-hover:gap-2.5"
-                                                style={{ color: "#0d365e" }}
-                                            >
-                                                View <ArrowIcon />
-                                            </span>
-                                        </div>
-                                    )}
+                                        {/* View Details — always visible */}
+                                        <span
+                                            className="ml-auto flex items-center gap-1.5 text-[11px] font-medium tracking-wide uppercase transition-all duration-200 group-hover:gap-2.5"
+                                            style={{ color: "#0d365e" }}
+                                        >
+                                            View <ArrowIcon />
+                                        </span>
+                                    </div>
                                 </div>
 
                                 {/* Bottom line accent */}
