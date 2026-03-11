@@ -119,6 +119,7 @@ export interface TeamMember {
   id: number;
   name: string;
   department: string;
+  designation?: string;
   image: string;
   path?: string;
 }
@@ -374,6 +375,7 @@ export const teamMembers: TeamMember[] = [
     id: 1,
     name: "Manali",
     department: "Off Plan",
+    designation: "Team Leader",
     image: "/assets/teams/offplan_teams/manali2.webp",
     // path: "/our-team/sarah-johnson",
   },
@@ -381,6 +383,7 @@ export const teamMembers: TeamMember[] = [
     id: 2,
     name: "Nevin",
     department: "Off Plan",
+    designation: "Property Consultant",
     image: "/assets/teams/offplan_teams/nevin2.webp",
     // path: "/our-team/ahmed-al-maktoum",
   },
@@ -388,6 +391,7 @@ export const teamMembers: TeamMember[] = [
     id: 3,
     name: "Heena",
     department: "Off Plan",
+    designation: "Property Consultant",
     image: "/assets/teams/offplan_teams/heena2.webp",
     // path: "/our-team/omar-hassan",
   },
@@ -395,6 +399,7 @@ export const teamMembers: TeamMember[] = [
     id: 4,
     name: "Mahul",
     department: "Off Plan",
+    designation: "Property Consultant",
     image: "/assets/teams/offplan_teams/mahul2.webp",
     // path: "/our-team/sarah-johnson",
   },
@@ -402,80 +407,10 @@ export const teamMembers: TeamMember[] = [
     id: 5,
     name: "Tousif",
     department: "Off Plan",
+    designation: "Property Consultant",
     image: "/assets/teams/offplan_teams/tousif2.webp",
     // path: "/our-team/sarah-johnson",
   },
- 
-  // {
-  //   id: 4,
-  //   name: "Heena",
-  //   department: "Leasing",
-  //   image: "/assets/teams/offplan_teams/heena.webp",
-  //   // path: "/our-team/elena-vasquez",
-  // },
-  // {
-  //   id: 5,
-  //   name: "Michael Chen",
-  //   department: "Property Management",
-  //   image: "/assets/teams/offplan_teams/honey.webp",
-  //   // path: "/our-team/michael-chen",
-  // },
-  // {
-  //   id: 6,
-  //   name: "Priya Sharma",
-  //   department: "Marketing",
-  //   image: "/assets/teams/team6.jpg",
-  //   path: "/our-team/priya-sharma",
-  // },
-  // {
-  //   id: 7,
-  //   name: "James Al-Rashid",
-  //   department: "Directors",
-  //   image: "/assets/teams/team7.png",
-  //   path: "/our-team/james-al-rashid",
-  // },
-  // {
-  //   id: 8,
-  //   name: "Fatima Al-Nahyan",
-  //   department: "Finance",
-  //   image: "/assets/teams/team8.jpg",
-  //   path: "/our-team/fatima-al-nahyan",
-  // },
-  // {
-  //   id: 9,
-  //   name: "David Williams",
-  //   department: "Sales",
-  //   image: "/assets/teams/team9.jpg",
-  //   path: "/our-team/david-williams",
-  // },
-  // {
-  //   id: 10,
-  //   name: "Aisha Patel",
-  //   department: "Leasing",
-  //   image: "/assets/teams/team10.png",
-  //   path: "/our-team/aisha-patel",
-  // },
-  // {
-  //   id:11,
-  //   name: "Fatima Al-Nahyan",
-  //   department: "Finance",
-  //   image: "/assets/teams/team8.jpg",
-  //   path: "/our-team/fatima-al-nahyan",
-  // },
-  // {
-  //   id: 12,
-  //   name: "David Williams",
-  //   department: "Sales",
-  //   image: "/assets/teams/team9.jpg",
-  //   path: "/our-team/david-williams",
-  // },
-  // {
-  //   id: 13,
-  //   name: "Aisha Patel",
-  //   department: "Leasing",
-  //   image: "/assets/teams/team10.png",
-  //   path: "/our-team/aisha-patel",
-  // },
 ];
 
 export type NavLink = { id: string; path: string; title: string };

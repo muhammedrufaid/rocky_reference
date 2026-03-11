@@ -225,6 +225,11 @@ const TeamMembersSection: React.FC = () => {
                         <h3 className="text-base sm:text-lg font-medium text-[#0d365e] group-hover:text-[#1a5a96] transition-colors duration-200">
                           {member.name}
                         </h3>
+                        {member.designation && (
+                          <p className="text-sm text-[#9f8870] group-hover:text-[#0d365e]/80 transition-colors duration-200">
+                            {member.designation}
+                          </p>
+                        )}
                         <div
                           className="h-0.5 w-8 rounded-full bg-[var(--rocky-blue)] transition-all duration-300 group-hover:w-12"
                           aria-hidden
