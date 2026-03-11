@@ -372,7 +372,7 @@ export const teamMembers: TeamMember[] = [
   // },
   {
     id: 1,
-    name: "Mahul",
+    name: "Manali",
     department: "Off Plan",
     image: "/assets/teams/offplan_teams/manali2.webp",
     // path: "/our-team/sarah-johnson",
@@ -400,7 +400,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 5,
-    name: "Mahul",
+    name: "Tousif",
     department: "Off Plan",
     image: "/assets/teams/offplan_teams/tousif2.webp",
     // path: "/our-team/sarah-johnson",
