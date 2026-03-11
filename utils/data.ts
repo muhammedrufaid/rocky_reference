@@ -372,10 +372,10 @@ export const teamMembers: TeamMember[] = [
   // },
   {
     id: 1,
-    name: "Heena",
-    department: "Sales",
-    image: "/assets/teams/offplan_teams/heena2.webp",
-    // path: "/our-team/omar-hassan",
+    name: "Mahul",
+    department: "Off Plan",
+    image: "/assets/teams/offplan_teams/manali2.webp",
+    // path: "/our-team/sarah-johnson",
   },
   {
     id: 2,
@@ -386,9 +386,23 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 3,
+    name: "Heena",
+    department: "Off Plan",
+    image: "/assets/teams/offplan_teams/heena2.webp",
+    // path: "/our-team/omar-hassan",
+  },
+  {
+    id: 4,
     name: "Mahul",
-    department: "Finance",
+    department: "Off Plan",
     image: "/assets/teams/offplan_teams/mahul2.webp",
+    // path: "/our-team/sarah-johnson",
+  },
+  {
+    id: 5,
+    name: "Mahul",
+    department: "Off Plan",
+    image: "/assets/teams/offplan_teams/tousif2.webp",
     // path: "/our-team/sarah-johnson",
   },
  
