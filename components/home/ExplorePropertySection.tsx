@@ -118,15 +118,17 @@ const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
                                 ease: [0.22, 1, 0.36, 1],
                             }}
                         >
-                            <Link href={`/properties/${project.propertyRefNo}`} className="flex flex-col flex-1">
+                            <Link 
+                            href={`/properties/${(project?.propertyPurpose || "Buy").toLowerCase()}/in-dubai/${project.propertyRefNo}`}
+                            className="flex flex-col flex-1">
                                 {/* Image */}
                                 <figure
                                     className="relative overflow-hidden rounded-xl"
                                     style={{ aspectRatio: "3/2" }}
                                 >
                                     <Image
-                                        src={project.images?.[0] || "https://placehold.co/400x300/f0ede8/0d365e?text=Property"}
-                                        alt={project.towerName || project.propertyRefNo}
+                                        src={project?.images?.[0] || "https://placehold.co/400x300/f0ede8/0d365e?text=Property"}
+                                        alt={project?.towerName || project?.propertyRefNo}
                                         fill
                                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
