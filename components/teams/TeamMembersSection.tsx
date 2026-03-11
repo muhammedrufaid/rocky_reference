@@ -187,7 +187,7 @@ const TeamMembersSection: React.FC = () => {
                   <Link href={member.path ?? "#"} className="block">
                     <div className="group flex flex-col gap-4 sm:gap-5">
                       {/* Image - separate block */}
-                      <div className="relative w-full aspect-[6/7] overflow-hidden rounded-xl sm:rounded-2xl bg-[#FAF9F7] border border-gray-100 shadow-sm">
+                      <div className="relative w-full aspect-[6/7] overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-bl from-[#0d365e]/10 via-[#f5f3f0] to-[#e7dccd] border border-gray-100/80 shadow-sm">
                         <div className="absolute inset-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110">
                           <Image
                             src={member.image}
