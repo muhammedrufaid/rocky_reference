@@ -381,14 +381,14 @@ export const teamMembers: TeamMember[] = [
     id: 2,
     name: "Nevin",
     department: "Off Plan",
-    image: "/assets/teams/offplan_teams/nevin.webp",
+    image: "/assets/teams/offplan_teams/nevin2.webp",
     // path: "/our-team/ahmed-al-maktoum",
   },
   {
     id: 3,
     name: "Mahul",
     department: "Finance",
-    image: "/assets/teams/offplan_teams/mahul.webp",
+    image: "/assets/teams/offplan_teams/mahul2.webp",
     // path: "/our-team/sarah-johnson",
   },
  
