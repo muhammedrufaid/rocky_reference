@@ -424,7 +424,7 @@ export const teamMembers: TeamMember[] = [
     name: "Amit",
     department: "Off Plan",
     designation: "Property Consultant",
-    image: "/assets/teams/offplan_teams/amit.webp",
+    image: "/assets/teams/offplan_teams/amit2.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
