@@ -440,7 +440,7 @@ export const teamMembers: TeamMember[] = [
     name: "Honey",
     department: "Off Plan",
     designation: "Property Consultant",
-    image: "/assets/teams/offplan_teams/honey.webp",
+    image: "/assets/teams/offplan_teams/honey2.webp",
     // path: "/our-team/sarah-johnson",
   },
 ];
