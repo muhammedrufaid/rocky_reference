@@ -379,13 +379,14 @@ export const teamMembers: TeamMember[] = [
     image: "/assets/teams/offplan_teams/manali2.webp",
     // path: "/our-team/sarah-johnson",
   },
+ 
   {
     id: 2,
-    name: "Nevin",
+    name: "Gopal",
     department: "Off Plan",
     designation: "Property Consultant",
-    image: "/assets/teams/offplan_teams/nevin2.webp",
-    // path: "/our-team/ahmed-al-maktoum",
+    image: "/assets/teams/offplan_teams/gopal.webp",
+    // path: "/our-team/sarah-johnson",
   },
   {
     id: 3,
@@ -397,12 +398,13 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 4,
-    name: "Mahul",
+    name: "Honey",
     department: "Off Plan",
     designation: "Property Consultant",
-    image: "/assets/teams/offplan_teams/mahul2.webp",
+    image: "/assets/teams/offplan_teams/honey2.webp",
     // path: "/our-team/sarah-johnson",
   },
+  
   {
     id: 5,
     name: "Tousif",
@@ -429,18 +431,18 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 8,
-    name: "Gopal",
+    name: "Nevin",
     department: "Off Plan",
     designation: "Property Consultant",
-    image: "/assets/teams/offplan_teams/gopal.webp",
-    // path: "/our-team/sarah-johnson",
+    image: "/assets/teams/offplan_teams/nevin2.webp",
+    // path: "/our-team/ahmed-al-maktoum",
   },
   {
     id: 9,
-    name: "Honey",
+    name: "Mahul",
     department: "Off Plan",
     designation: "Property Consultant",
-    image: "/assets/teams/offplan_teams/honey2.webp",
+    image: "/assets/teams/offplan_teams/mahul2.webp",
     // path: "/our-team/sarah-johnson",
   },
 ];
