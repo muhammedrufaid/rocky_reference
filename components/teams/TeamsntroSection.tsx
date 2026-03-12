@@ -60,7 +60,7 @@ const TeamsIntroSection: React.FC = () => {
                                 Use the search bar to find a specific advisor or browse through our departments to explore our team. Each member is committed to delivering transparent, client-focused service.
                             </p>
 
-                            <div className="mt-8 p-6 rounded-xl border border-gray-100 bg-gray-50/50">
+                            {/* <div className="mt-8 p-6 rounded-xl border border-gray-100 bg-gray-50/50">
                                 <p className="text-sm md:text-base font-medium" style={{ color: "#333" }}>
                                     Need personalized advice?
                                 </p>
@@ -83,7 +83,7 @@ const TeamsIntroSection: React.FC = () => {
                                     </Link>
                                     .
                                 </p>
-                            </div>
+                            </div> */}
                         </motion.div>
                     </div>
 
