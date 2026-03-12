@@ -419,6 +419,30 @@ export const teamMembers: TeamMember[] = [
     image: "/assets/teams/offplan_teams/ann.webp",
     // path: "/our-team/sarah-johnson",
   },
+  {
+    id: 7,
+    name: "Amit",
+    department: "Off Plan",
+    designation: "Property Consultant",
+    image: "/assets/teams/offplan_teams/amit.webp",
+    // path: "/our-team/sarah-johnson",
+  },
+  {
+    id: 8,
+    name: "Gopal",
+    department: "Off Plan",
+    designation: "Property Consultant",
+    image: "/assets/teams/offplan_teams/gopal.webp",
+    // path: "/our-team/sarah-johnson",
+  },
+  {
+    id: 9,
+    name: "Honey",
+    department: "Off Plan",
+    designation: "Property Consultant",
+    image: "/assets/teams/offplan_teams/honey.webp",
+    // path: "/our-team/sarah-johnson",
+  },
 ];
 
 export type NavLink = { id: string; path: string; title: string };
