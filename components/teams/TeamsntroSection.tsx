@@ -42,49 +42,11 @@ const TeamsIntroSection: React.FC = () => {
                                     ease: [0.22, 1, 0.36, 1] as const,
                                 }}
                             >
-                                Our specialists bring decades of combined experience across sales, leasing, off-plan investments, and property management. Whether you&apos;re a first-time buyer or a seasoned investor, our advisors are here to guide you.
+                                With over 5 decades of experience in the United Arab Emirates across sales, leasing, property management, and more, our team of experts will guide you through every process – whether you’re a first-time buyer or investor.
                             </motion.p>
                         </header>
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{
-                                duration: 0.5,
-                                delay: 0.15,
-                                ease: [0.22, 1, 0.36, 1] as const,
-                            }}
-                        >
-                            <p className="text-sm md:text-base leading-relaxed max-w-lg" style={{ color: "#555" }}>
-                                Use the search bar to find a specific advisor or browse through our departments to explore our team. Each member is committed to delivering transparent, client-focused service.
-                            </p>
-
-                            {/* <div className="mt-8 p-6 rounded-xl border border-gray-100 bg-gray-50/50">
-                                <p className="text-sm md:text-base font-medium" style={{ color: "#333" }}>
-                                    Need personalized advice?
-                                </p>
-                                <p className="mt-2 text-sm md:text-base" style={{ color: "#555" }}>
-                                    Call us at{" "}
-                                    <a
-                                        href="tel:+97144476644"
-                                        className="font-medium underline decoration-2 underline-offset-2 transition-colors hover:opacity-80"
-                                        style={{ color: "#0d365e" }}
-                                    >
-                                        +971 4 447 6644
-                                    </a>
-                                    {" "}to speak with our team, or{" "}
-                                    <Link
-                                        href="/contact"
-                                        className="font-medium underline decoration-2 underline-offset-2 transition-colors hover:opacity-80"
-                                        style={{ color: "#0d365e" }}
-                                    >
-                                        contact us today
-                                    </Link>
-                                    .
-                                </p>
-                            </div> */}
-                        </motion.div>
+                        
                     </div>
 
                     {/* Right: Image */}

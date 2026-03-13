@@ -624,31 +624,31 @@ export const whyChooseAgentsData: WhyChooseItem[] = [
     id: 1,
     icon: "expertise",
     title: "Dubai Specialists",
-    description: "Our agents live and breathe Dubai's property market. From Marina to Palm Jumeirah, we know every neighbourhood, price trend, and hidden opportunity.",
+    description: "Our agents live and breathe Dubai’s property market. Every price trend, neighborhood, hidden opportunity, and more – they know everything.",
   },
   {
     id: 2,
     icon: "transparency",
-    title: "Personalised, One-on-One Service",
-    description: "You get a dedicated agent who learns your needs, budget, and timeline. No generic scripts — just tailored guidance for your property journey.",
+    title: "Our agents live and breathe Dubai’s property market. Every price trend, neighborhood, hidden opportunity, and more – they know everything.",
+    description: "You get tailored guidance with a dedicated agent who learns all your needs and delivers a seamless property journey.",
   },
   {
     id: 3,
     icon: "support",
     title: "Bilingual & Multi-Cultural Team",
-    description: "We communicate fluently in English, Arabic, and more. Our diverse team understands the needs of international buyers and local residents alike.",
+    description: "English, Arabic, French, Hindi, Urdu, and more. Our diverse team understands the needs of every client – whether local or international.",
   },
   {
     id: 4,
     icon: "market",
     title: "Licensed & RERA-Compliant",
-    description: "Every Rocky agent is fully licensed and adheres to RERA regulations. You get professional, accountable service you can trust.",
+    description: "At Rocky Real Estate, all the agents are fully licensed and adhere to RERA regulations. A professional agent you can trust.",
   },
   {
     id: 5,
     icon: "end-to-end",
     title: "From Viewing to Keys",
-    description: "We guide you through viewings, negotiations, paperwork, and handover. Your agent stays with you until you have the keys in hand.",
+    description: "Our agents will guide you through your property journey, from paperwork to handover.",
   },
 ];
 

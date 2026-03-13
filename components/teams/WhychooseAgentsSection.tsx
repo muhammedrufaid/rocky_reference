@@ -64,7 +64,7 @@ const WhychooseAgentsSection: React.FC = () => {
                         animate={isInView ? "visible" : "hidden"}
                         custom={0}
                     >
-                        Why choose Rocky real estate agents in Dubai?
+                       Why choose Rocky Real Estate agents in Dubai?
                     </motion.h2>
                     <motion.p
                         className="mt-4 text-sm md:text-base leading-relaxed"
@@ -74,7 +74,7 @@ const WhychooseAgentsSection: React.FC = () => {
                         animate={isInView ? "visible" : "hidden"}
                         custom={0.08}
                     >
-                        We deliver clarity, integrity, and results — backed by deep market expertise and a commitment to your success.
+                        Built on clarity and integrity, we deliver results backed by deep market expertise and a focus on your success.
                     </motion.p>
                 </header>
 
