@@ -120,3 +120,44 @@ export async function getRentProperties(options: PropertiesFetchOptions = {}): P
       console.error('Failed to fetch rent properties:', error)
     }
 }
+
+/** API response shape for a single property by propertyRefNo */
+export interface ApiPropertyDetail {
+  propertyRefNo: string
+  permitNumber?: string
+  propertyStatus?: string
+  propertyPurpose?: string
+  propertyType?: string
+  propertySize?: string
+  propertySizeUnit?: string
+  bedrooms?: string
+  bathrooms?: string
+  offPlan?: string
+  lastUpdated?: string
+  city?: string
+  locality?: string
+  subLocality?: string
+  towerName?: string
+  propertyTitle?: string
+  propertyDescription?: string
+  price?: string
+  furnished?: string
+  rentFrequency?: string | null
+  listingAgentEmail?: string
+  listingAgent?: string
+  listingAgentPhone?: string
+  features?: string[]
+  portals?: string[]
+  images?: string[]
+}
+
+/** Fetches a single property by propertyRefNo from the API */
+export async function getPropertyByRefNo(propertyRefNo: string): Promise<ApiPropertyDetail | null> {
+  try {
+    const data = await getData<ApiPropertyDetail>(`frontend/properties/${encodeURIComponent(propertyRefNo)}`, 60)
+    return data ?? null
+  } catch (error) {
+    console.error('Failed to fetch property by ref:', propertyRefNo, error)
+    return null
+  }
+}
