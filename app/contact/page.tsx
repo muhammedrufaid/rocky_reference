@@ -7,6 +7,7 @@ import ContactFAQ from "@/components/contact/ContactFAQ";
 import ContactCTA from "@/components/contact/ContactCTA";
 import FaqsSection from "@/components/common/FaqsSection";
 import TestimonialSection from "@/components/home/TestimonialSection";
+import OfficeGallerySection from "@/components/contact/OfficeGallerySection";
 
 
 export const metadata = {
@@ -30,6 +31,7 @@ export default function ContactPage() {
         />
         <ContactSection />
         <ContactMap />
+        <OfficeGallerySection />
         <TestimonialSection />
         {/* <FaqsSection /> */}
         {/* <ContactFAQ /> */}
