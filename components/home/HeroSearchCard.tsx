@@ -4,17 +4,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { searchTabs, categoryOptions } from "@/utils/data";
+import {
+  getPropertySuggestions,
+  type PropertySuggestion,
+} from "@/utils/getServices";
 
 type SearchTab = (typeof searchTabs)[number];
-type PropertySuggestion = {
-  propertyRefNo: string;
-  towerName?: string;
-  propertyPurpose?: string;
-  propertyType?: string;
-  locality?: string;
-  subLocality?: string;
-};
-
 const HeroSearchCard: React.FC = () => {
   const MAX_SUGGESTIONS = 6;
   const SEARCH_DEBOUNCE_MS = 200;
@@ -67,6 +62,7 @@ const HeroSearchCard: React.FC = () => {
     if (!query) {
       setSuggestions([]);
       setIsFetchingSuggestions(false);
+      setSuggestionsOpen(false);
       return;
     }
 
@@ -75,45 +71,12 @@ const HeroSearchCard: React.FC = () => {
 
     const timer = window.setTimeout(async () => {
       setIsFetchingSuggestions(true);
+      setSuggestionsOpen(true);
       try {
-        const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL ?? "").replace(
-          /\/$/,
-          ""
-        );
-        const params = new URLSearchParams({
-          q: query,
-          limit: String(MAX_SUGGESTIONS),
-        });
-        const endpoints = [
-          `${baseUrl}/api/frontend/properties/search?${params.toString()}`,
-          `${baseUrl}/api/properties/search?${params.toString()}`,
-        ];
-        let data: { suggestions?: PropertySuggestion[] } | null = null;
-
-        for (const endpoint of endpoints) {
-          const response = await fetch(endpoint, {
-            method: "GET",
-            headers: { Accept: "application/json" },
-            signal: controller.signal,
-          });
-
-          if (response.ok) {
-            data = (await response.json()) as { suggestions?: PropertySuggestion[] };
-            break;
-          }
-
-          if (response.status !== 404) {
-            throw new Error(`Search suggestions failed: ${response.status}`);
-          }
-        }
-
-        if (!data) {
-          throw new Error("Search suggestions endpoint not available");
-        }
-
-        const nextSuggestions = (data?.suggestions ?? []).slice(
-          0,
-          MAX_SUGGESTIONS
+        const nextSuggestions = await getPropertySuggestions(
+          query,
+          MAX_SUGGESTIONS,
+          controller.signal
         );
 
         if (requestId === lastRequestIdRef.current) {

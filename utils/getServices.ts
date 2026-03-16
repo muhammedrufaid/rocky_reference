@@ -1,6 +1,8 @@
 import { getData } from './getData'
 import type { PropertyListing } from './data'
 
+let preferredSuggestionsEndpointIndex: number | null = null
+
 /** Maps API property object to PropertyListing format */
 function mapApiPropertyToListing(item: any, index: number, listingType: "Buy" | "Rent"): PropertyListing {
   const id = item.id ?? item.propertyRefNo ?? index + 1
@@ -149,6 +151,101 @@ export interface ApiPropertyDetail {
   features?: string[]
   portals?: string[]
   images?: string[]
+}
+
+export interface PropertySuggestion {
+  propertyRefNo: string
+  towerName?: string
+  propertyPurpose?: string
+  propertyType?: string
+  locality?: string
+  subLocality?: string
+}
+
+interface PropertySuggestionsResponse {
+  suggestions?: PropertySuggestion[]
+}
+
+/**
+ * Fetches property suggestions for search autocomplete.
+ * Tries both new and legacy API endpoints for compatibility.
+ */
+export async function getPropertySuggestions(
+  query: string,
+  limit: number = 6,
+  signal?: AbortSignal
+): Promise<PropertySuggestion[]> {
+  const trimmedQuery = query.trim()
+  if (!trimmedQuery) return []
+
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL ?? '').replace(/\/$/, '')
+  const params = new URLSearchParams({
+    q: trimmedQuery,
+    limit: String(limit),
+  })
+  const endpoints = [
+    `${baseUrl}/api/frontend/properties/search?${params.toString()}`,
+    `${baseUrl}/api/properties/search?${params.toString()}`,
+  ]
+
+  const parseSuggestions = async (endpointIndex: number): Promise<PropertySuggestion[] | null> => {
+    const response = await fetch(endpoints[endpointIndex], {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+      signal,
+    })
+
+    if (response.ok) {
+      const data = (await response.json()) as PropertySuggestionsResponse
+      preferredSuggestionsEndpointIndex = endpointIndex
+      return (data.suggestions ?? []).slice(0, limit)
+    }
+
+    if (response.status === 404) {
+      return null
+    }
+
+    throw new Error(`Search suggestions failed: ${response.status}`)
+  }
+
+  // After first successful response, prefer that endpoint to avoid repeated fallback latency.
+  if (preferredSuggestionsEndpointIndex != null) {
+    const fallbackIndex = preferredSuggestionsEndpointIndex === 0 ? 1 : 0
+    const prioritizedIndexes = [preferredSuggestionsEndpointIndex, fallbackIndex]
+
+    for (const endpointIndex of prioritizedIndexes) {
+      const suggestions = await parseSuggestions(endpointIndex)
+      if (suggestions) return suggestions
+    }
+
+    throw new Error('Search suggestions endpoint not available')
+  }
+
+  // First lookup: race both endpoints in parallel so initial typing feels faster.
+  const settled = await Promise.allSettled([parseSuggestions(0), parseSuggestions(1)])
+  let firstNonAbortError: Error | null = null
+
+  for (const result of settled) {
+    if (result.status === 'fulfilled' && result.value) {
+      return result.value
+    }
+
+    if (result.status === 'rejected') {
+      const error = result.reason
+      if (error instanceof Error && error.name === 'AbortError') {
+        throw error
+      }
+      if (!firstNonAbortError && error instanceof Error) {
+        firstNonAbortError = error
+      }
+    }
+  }
+
+  if (firstNonAbortError) {
+    throw firstNonAbortError
+  }
+
+  throw new Error('Search suggestions endpoint not available')
 }
 
 /** Fetches a single property by propertyRefNo from the API */
