@@ -6,14 +6,29 @@ import { motion } from "framer-motion";
 import { searchTabs, categoryOptions } from "@/utils/data";
 
 type SearchTab = (typeof searchTabs)[number];
+type PropertySuggestion = {
+  propertyRefNo: string;
+  towerName?: string;
+  propertyPurpose?: string;
+  propertyType?: string;
+  locality?: string;
+  subLocality?: string;
+};
 
 const HeroSearchCard: React.FC = () => {
+  const MAX_SUGGESTIONS = 6;
+  const SEARCH_DEBOUNCE_MS = 200;
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<SearchTab>("Buy");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState<PropertySuggestion[]>([]);
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const searchBoxRef = useRef<HTMLDivElement>(null);
+  const lastRequestIdRef = useRef(0);
 
   const categories = categoryOptions[activeTab] ?? [];
 
@@ -35,10 +50,118 @@ const HeroSearchCard: React.FC = () => {
       ) {
         setDropdownOpen(false);
       }
+      if (
+        searchBoxRef.current &&
+        !searchBoxRef.current.contains(e.target as Node)
+      ) {
+        setSuggestionsOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    const query = searchQuery.trim();
+
+    if (!query) {
+      setSuggestions([]);
+      setIsFetchingSuggestions(false);
+      return;
+    }
+
+    const requestId = ++lastRequestIdRef.current;
+    const controller = new AbortController();
+
+    const timer = window.setTimeout(async () => {
+      setIsFetchingSuggestions(true);
+      try {
+        const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL ?? "").replace(
+          /\/$/,
+          ""
+        );
+        const params = new URLSearchParams({
+          q: query,
+          limit: String(MAX_SUGGESTIONS),
+        });
+        const endpoints = [
+          `${baseUrl}/api/frontend/properties/search?${params.toString()}`,
+          `${baseUrl}/api/properties/search?${params.toString()}`,
+        ];
+        let data: { suggestions?: PropertySuggestion[] } | null = null;
+
+        for (const endpoint of endpoints) {
+          const response = await fetch(endpoint, {
+            method: "GET",
+            headers: { Accept: "application/json" },
+            signal: controller.signal,
+          });
+
+          if (response.ok) {
+            data = (await response.json()) as { suggestions?: PropertySuggestion[] };
+            break;
+          }
+
+          if (response.status !== 404) {
+            throw new Error(`Search suggestions failed: ${response.status}`);
+          }
+        }
+
+        if (!data) {
+          throw new Error("Search suggestions endpoint not available");
+        }
+
+        const nextSuggestions = (data?.suggestions ?? []).slice(
+          0,
+          MAX_SUGGESTIONS
+        );
+
+        if (requestId === lastRequestIdRef.current) {
+          setSuggestions(nextSuggestions);
+          setSuggestionsOpen(true);
+        }
+      } catch (error) {
+        if (
+          error instanceof Error &&
+          error.name !== "AbortError" &&
+          requestId === lastRequestIdRef.current
+        ) {
+          setSuggestions([]);
+          setSuggestionsOpen(false);
+        }
+      } finally {
+        if (requestId === lastRequestIdRef.current) {
+          setIsFetchingSuggestions(false);
+        }
+      }
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => {
+      window.clearTimeout(timer);
+      controller.abort();
+    };
+  }, [searchQuery]);
+
+  const handleSuggestionClick = (suggestion: PropertySuggestion) => {
+    const purpose = suggestion.propertyPurpose?.toLowerCase();
+    const txType =
+      purpose === "rent" || purpose === "buy"
+        ? purpose
+        : activeTab === "Rent"
+        ? "rent"
+        : "buy";
+
+    setSearchQuery(
+      [suggestion.towerName, suggestion.locality].filter(Boolean).join(", ")
+    );
+    setSuggestions([]);
+    setSuggestionsOpen(false);
+    router.push(
+      `/properties/${txType}/in-dubai/${encodeURIComponent(
+        suggestion.propertyRefNo
+      )}`
+    );
+  };
 
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
@@ -110,7 +233,10 @@ const HeroSearchCard: React.FC = () => {
             delay: 0.5,
           }}
         >
-          <div className="flex flex-1 min-h-[48px] md:min-h-[52px] rounded-lg bg-white/95">
+          <div
+            ref={searchBoxRef}
+            className="relative flex flex-1 min-h-[48px] md:min-h-[52px] rounded-lg bg-white/95"
+          >
             {/* Category dropdown */}
             <div ref={dropdownRef} className="relative shrink-0">
               <button
@@ -178,10 +304,58 @@ const HeroSearchCard: React.FC = () => {
               type="search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => {
+                if (suggestions.length > 0) {
+                  setSuggestionsOpen(true);
+                }
+              }}
               placeholder="Search location, property"
               className="flex-1 min-w-0 min-h-[48px] md:min-h-[52px] px-3 md:px-4 py-2.5 md:py-3 bg-transparent text-[#333333] placeholder:text-[#333333]/50 border-0 focus:ring-0 focus:outline-none text-base"
               autoComplete="off"
             />
+
+            {suggestionsOpen && searchQuery.trim() && (
+              <div className="absolute left-0 right-0 top-[calc(100%+6px)] z-30 rounded-lg border border-[#e5e7eb] bg-white shadow-lg overflow-hidden">
+                {isFetchingSuggestions ? (
+                  <div className="px-4 py-3 text-sm text-[#666666]">
+                    Searching...
+                  </div>
+                ) : suggestions.length > 0 ? (
+                  <ul role="listbox" aria-label="Property suggestions">
+                    {suggestions.map((suggestion) => (
+                      <li key={suggestion.propertyRefNo}>
+                        <button
+                          type="button"
+                          onClick={() => handleSuggestionClick(suggestion)}
+                          className="w-full cursor-pointer px-4 py-3 text-left hover:bg-[#f5f0ea] transition-colors border-b border-[#f3f4f6] last:border-b-0"
+                        >
+                          <p className="text-sm font-semibold text-[#0d365e]">
+                            {suggestion.propertyRefNo}{" "}
+                            {suggestion.towerName
+                              ? `- ${suggestion.towerName}`
+                              : ""}
+                          </p>
+                          <p className="text-xs text-[#555555] mt-1">
+                            {[
+                              suggestion.propertyPurpose,
+                              suggestion.propertyType,
+                              suggestion.locality,
+                              suggestion.subLocality,
+                            ]
+                              .filter(Boolean)
+                              .join(" | ")}
+                          </p>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="px-4 py-3 text-sm text-[#666666]">
+                    No matching properties found.
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <button
