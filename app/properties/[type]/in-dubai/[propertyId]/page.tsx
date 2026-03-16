@@ -4,6 +4,7 @@ import Footer from "@/components/layout/Footer";
 import PropertyGallery from "@/components/properties/PropertyGallery";
 import { getPropertyByRefNo } from "@/utils/getServices";
 import PropertyHeader from "@/components/properties/PropertyHeader";
+import PropertyHighlights from "@/components/properties/PropertyHighlights";
 
 export default async function PropertiesPage({
   params,
@@ -31,6 +32,7 @@ export default async function PropertiesPage({
             propertyTitle={propertyTitle}
           />
           <PropertyHeader data={property} />
+          <PropertyHighlights data={property} />
       </main>
       <Footer />
     </div>
