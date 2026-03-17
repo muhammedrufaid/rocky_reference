@@ -6,6 +6,7 @@ import { getPropertyByRefNo } from "@/utils/getServices";
 import PropertyHeader from "@/components/properties/PropertyHeader";
 import PropertyHighlights from "@/components/properties/PropertyHighlights";
 import PropertyDescription from "@/components/properties/PropertyDescription";
+import PropertyFeatures from "@/components/properties/PropertyFeatures";
 
 export default async function PropertiesPage({
   params,

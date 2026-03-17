@@ -178,9 +178,9 @@ export default function PropertyHeader({ data }: PropertyHeaderProps) {
               )}
             </div>
 
-            <hr className="border-[var(--border-light)]" />
+            {/* <hr className="border-[var(--border-light)]" /> */}
 
-            <div className="grid gap-3 sm:grid-cols-3">
+            {/* <div className="grid gap-3 sm:grid-cols-3">
               <StatItem
                 icon={<BedDouble size={17} aria-hidden="true" />}
                 label={bedroomsLabel}
@@ -196,7 +196,7 @@ export default function PropertyHeader({ data }: PropertyHeaderProps) {
                 label={sizeLabel}
                 value={data?.propertySize}
               />
-            </div>
+            </div> */}
 
             {data?.permitNumber && (
               <>
