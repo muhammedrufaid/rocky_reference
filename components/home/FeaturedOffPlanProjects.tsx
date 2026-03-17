@@ -98,7 +98,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
             >
-              Featured Off Plan Projects
+              Featured Off Plan Properties
             </motion.h2>
             <motion.p
               className="mt-3 text-sm md:text-base max-w-lg"
