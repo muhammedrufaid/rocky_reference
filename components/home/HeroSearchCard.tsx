@@ -27,14 +27,25 @@ const HeroSearchCard: React.FC = () => {
 
   const categories = categoryOptions[activeTab] ?? [];
 
+  const buildListingsUrl = (
+    txType: "buy" | "rent",
+    overrides?: { query?: string; propertyType?: string }
+  ) => {
+    const params = new URLSearchParams();
+    const query = overrides?.query ?? searchQuery.trim();
+    const propertyType = overrides?.propertyType ?? selectedCategory;
+
+    if (query) params.set("q", query);
+    if (propertyType) params.set("type", propertyType);
+
+    const queryString = params.toString();
+    return `/properties/${txType}/in-dubai${queryString ? `?${queryString}` : ""}`;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const txType = activeTab === "Rent" ? "rent" : "buy";
-    const params = new URLSearchParams();
-    if (searchQuery.trim()) params.set("q", searchQuery.trim());
-    if (selectedCategory) params.set("type", selectedCategory);
-    const query = params.toString();
-    router.push(`/properties/${txType}/in-dubai${query ? `?${query}` : ""}`);
+    router.push(buildListingsUrl(txType));
   };
 
   useEffect(() => {
@@ -114,15 +125,20 @@ const HeroSearchCard: React.FC = () => {
         ? "rent"
         : "buy";
 
-    setSearchQuery(
-      [suggestion.towerName, suggestion.locality].filter(Boolean).join(", ")
-    );
+    const typedQuery = searchQuery.trim();
+    const suggestionQuery =
+      typedQuery ||
+      suggestion.towerName?.trim() ||
+      suggestion.locality?.trim() ||
+      suggestion.propertyRefNo;
+
+    setSearchQuery(suggestionQuery);
     setSuggestions([]);
     setSuggestionsOpen(false);
     router.push(
-      `/properties/${txType}/in-dubai/${encodeURIComponent(
-        suggestion.propertyRefNo
-      )}`
+      buildListingsUrl(txType, {
+        query: suggestionQuery,
+      })
     );
   };
 
