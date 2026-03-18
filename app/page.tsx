@@ -12,6 +12,7 @@ import ExplorePropertySection from "@/components/home/ExplorePropertySection";
 import FaqsSection from "@/components/common/FaqsSection";
 import { getOffPlanProperties, getReadyProperties } from "@/utils/getServices";
 import { services } from "@/utils/data";
+import WhyChooseUsSection2 from "@/components/home/WhyChooseUsSection2";
 
 export default async function Home() {
   const offPlanPropertiesData = await getOffPlanProperties();
