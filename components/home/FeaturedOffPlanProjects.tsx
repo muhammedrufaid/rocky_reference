@@ -173,13 +173,13 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
                       }}
                     />
                     {/* Developer badge over image */}
-                    <span
+                    {/* <span
                       className="absolute top-3 left-3 text-[10px] font-medium tracking-wide uppercase px-2.5 py-1 rounded-full"
                       style={{ backgroundColor: "rgba(255,255,255,0.92)", color: "#0d365e" }}
                     >
-                      {/* {project.towerName || project.propertyRefNo} */}
+                      {project.towerName || project.propertyRefNo}
                       Emaar
-                    </span>
+                    </span> */}
                   </figure>
 
                   {/* Content */}
@@ -188,7 +188,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
                       className="text-base font-medium leading-snug line-clamp-2"
                       style={{ color: "#0d365e" }}
                     >
-                      {project.towerName || project.propertyRefNo}
+                      {project.towerName || project.subLocality}
                     </h3>
 
                     <div
