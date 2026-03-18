@@ -12,7 +12,7 @@ function mapApiPropertyToListing(item: any, index: number, listingType: "Buy" | 
         ? `AED ${Number(item.price).toLocaleString()}/year`
         : `AED ${Number(item.price).toLocaleString()}`)
     : "Price on request"
-  const path = item.path ?? `/${listingType.toLowerCase()}/${item.propertyRefNo ?? item.slug ?? id}`
+  const path = item.path ?? `/properties/${listingType.toLowerCase()}/in-dubai/${item.propertyRefNo ?? item.slug ?? id}`
   const images = Array.isArray(item.images)
     ? item.images
     : item.image
