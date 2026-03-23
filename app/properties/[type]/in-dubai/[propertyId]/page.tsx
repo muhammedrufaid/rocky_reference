@@ -7,6 +7,7 @@ import PropertyHeader from "@/components/properties/PropertyHeader";
 import PropertyHighlights from "@/components/properties/PropertyHighlights";
 import PropertyDescription from "@/components/properties/PropertyDescription";
 import PropertyFeatures from "@/components/properties/PropertyFeatures";
+import TestimonialSection from "@/components/home/TestimonialSection";
 
 export default async function PropertiesPage({
   params,
@@ -36,6 +37,7 @@ export default async function PropertiesPage({
           <PropertyHeader data={property} />
           <PropertyHighlights data={property} />
           <PropertyDescription propertyDescription={property.propertyDescription ?? ""} />
+          <TestimonialSection />
       </main>
       <Footer />
     </div>
