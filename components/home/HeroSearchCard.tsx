@@ -11,7 +11,8 @@ import {
 
 type SearchTab = (typeof searchTabs)[number];
 const HeroSearchCard: React.FC = () => {
-  const MAX_SUGGESTIONS = 6;
+  const INITIAL_SUGGESTIONS_LIMIT = 8;
+  const SUGGESTIONS_PAGE_SIZE = 8;
   const SEARCH_DEBOUNCE_MS = 200;
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<SearchTab>("Buy");
@@ -21,6 +22,10 @@ const HeroSearchCard: React.FC = () => {
   const [suggestions, setSuggestions] = useState<PropertySuggestion[]>([]);
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
+  const [suggestionsLimit, setSuggestionsLimit] = useState(
+    INITIAL_SUGGESTIONS_LIMIT
+  );
+  const [hasMoreSuggestions, setHasMoreSuggestions] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchBoxRef = useRef<HTMLDivElement>(null);
   const lastRequestIdRef = useRef(0);
@@ -68,12 +73,18 @@ const HeroSearchCard: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    setSuggestionsLimit(INITIAL_SUGGESTIONS_LIMIT);
+    setHasMoreSuggestions(true);
+  }, [searchQuery]);
+
+  useEffect(() => {
     const query = searchQuery.trim();
 
     if (!query) {
       setSuggestions([]);
       setIsFetchingSuggestions(false);
       setSuggestionsOpen(false);
+      setHasMoreSuggestions(true);
       return;
     }
 
@@ -86,12 +97,13 @@ const HeroSearchCard: React.FC = () => {
       try {
         const nextSuggestions = await getPropertySuggestions(
           query,
-          MAX_SUGGESTIONS,
+          suggestionsLimit,
           controller.signal
         );
 
         if (requestId === lastRequestIdRef.current) {
           setSuggestions(nextSuggestions);
+          setHasMoreSuggestions(nextSuggestions.length >= suggestionsLimit);
           setSuggestionsOpen(true);
         }
       } catch (error) {
@@ -100,8 +112,9 @@ const HeroSearchCard: React.FC = () => {
           error.name !== "AbortError" &&
           requestId === lastRequestIdRef.current
         ) {
-          setSuggestions([]);
-          setSuggestionsOpen(false);
+          // If "load more" fails, don't wipe the already visible suggestions.
+          // Just stop further pagination attempts.
+          setHasMoreSuggestions(false);
         }
       } finally {
         if (requestId === lastRequestIdRef.current) {
@@ -114,7 +127,7 @@ const HeroSearchCard: React.FC = () => {
       window.clearTimeout(timer);
       controller.abort();
     };
-  }, [searchQuery]);
+  }, [searchQuery, suggestionsLimit]);
 
   const handleSuggestionClick = (suggestion: PropertySuggestion) => {
     const purpose = suggestion.propertyPurpose?.toLowerCase();
@@ -122,15 +135,18 @@ const HeroSearchCard: React.FC = () => {
       purpose === "rent" || purpose === "buy"
         ? purpose
         : activeTab === "Rent"
-        ? "rent"
-        : "buy";
+          ? "rent"
+          : "buy";
 
     const typedQuery = searchQuery.trim();
     const suggestionQuery =
       typedQuery ||
+      suggestion.full?.trim() ||
+      suggestion.label?.trim() ||
       suggestion.towerName?.trim() ||
       suggestion.locality?.trim() ||
-      suggestion.propertyRefNo;
+      suggestion.propertyRefNo ||
+      "";
 
     setSearchQuery(suggestionQuery);
     setSuggestions([]);
@@ -140,6 +156,20 @@ const HeroSearchCard: React.FC = () => {
         query: suggestionQuery,
       })
     );
+  };
+
+  const handleSuggestionsScroll = (
+    event: React.UIEvent<HTMLUListElement, UIEvent>
+  ) => {
+    if (isFetchingSuggestions || !hasMoreSuggestions) return;
+
+    const target = event.currentTarget;
+    const isNearBottom =
+      target.scrollTop + target.clientHeight >= target.scrollHeight - 24;
+
+    if (isNearBottom) {
+      setSuggestionsLimit((prev) => prev + SUGGESTIONS_PAGE_SIZE);
+    }
   };
 
   const fadeInUp = {
@@ -193,8 +223,8 @@ const HeroSearchCard: React.FC = () => {
                 setSelectedCategory("");
               }}
               className={`min-w-[72px] cursor-pointer md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${activeTab === tab
-                  ? "bg-white text-[#0d365e]"
-                  : "text-white/90 hover:text-white hover:bg-white/10"
+                ? "bg-white text-[#0d365e]"
+                : "text-white/90 hover:text-white hover:bg-white/10"
                 }`}
             >
               {tab}
@@ -264,8 +294,8 @@ const HeroSearchCard: React.FC = () => {
                         setDropdownOpen(false);
                       }}
                       className={`px-4 py-2.5 text-sm cursor-pointer transition-colors ${selectedCategory === category
-                          ? "bg-[#e7dccd]/40 text-[#0d365e] font-medium"
-                          : "text-[#333333] hover:bg-[#f5f0ea]"
+                        ? "bg-[#e7dccd]/40 text-[#0d365e] font-medium"
+                        : "text-[#333333] hover:bg-[#f5f0ea]"
                         }`}
                     >
                       {category}
@@ -295,39 +325,66 @@ const HeroSearchCard: React.FC = () => {
 
             {suggestionsOpen && searchQuery.trim() && (
               <div className="absolute left-0 right-0 top-[calc(100%+6px)] z-30 rounded-lg border border-[#e5e7eb] bg-white shadow-lg overflow-hidden">
-                {isFetchingSuggestions ? (
-                  <div className="px-4 py-3 text-sm text-[#666666]">
-                    Searching...
-                  </div>
-                ) : suggestions.length > 0 ? (
-                  <ul role="listbox" aria-label="Property suggestions">
+                {suggestions.length > 0 ? (
+                  <ul
+                    role="listbox"
+                    aria-label="Property suggestions"
+                    onScroll={handleSuggestionsScroll}
+                    onMouseDown={(e) => e.stopPropagation()}
+                    className="max-h-80 overflow-y-auto"
+                  >
                     {suggestions.map((suggestion) => (
-                      <li key={suggestion.propertyRefNo}>
+                      <li
+                        key={
+                          suggestion.propertyRefNo ||
+                          suggestion.full ||
+                          suggestion.label ||
+                          `${suggestion.type}-${suggestion.locality || ""}-${suggestion.subLocality || ""}`
+                        }
+                      >
                         <button
                           type="button"
                           onClick={() => handleSuggestionClick(suggestion)}
                           className="w-full cursor-pointer px-4 py-3 text-left hover:bg-[#f5f0ea] transition-colors border-b border-[#f3f4f6] last:border-b-0"
                         >
                           <p className="text-sm font-semibold text-[#0d365e]">
-                            {suggestion.propertyRefNo}{" "}
-                            {suggestion.towerName
-                              ? `- ${suggestion.towerName}`
+                            {suggestion.full ||
+                              suggestion.label ||
+                              suggestion.propertyRefNo ||
+                              suggestion.towerName ||
+                              "Suggestion"}
+                          </p>
+                          {/* <p className="text-xs text-[#555555] mt-1">
+                            {suggestion.type || suggestion.propertyRefNo
+                              ? [
+                                  suggestion.type
+                                    ? suggestion.type === "subLocality"
+                                      ? "Sub Locality"
+                                      : "Tower"
+                                    : undefined,
+                                  suggestion.propertyPurpose,
+                                  suggestion.propertyType,
+                                  suggestion.locality,
+                                  suggestion.subLocality,
+                                ]
+                                  .filter(Boolean)
+                                  .join(" | ")
                               : ""}
-                          </p>
-                          <p className="text-xs text-[#555555] mt-1">
-                            {[
-                              suggestion.propertyPurpose,
-                              suggestion.propertyType,
-                              suggestion.locality,
-                              suggestion.subLocality,
-                            ]
-                              .filter(Boolean)
-                              .join(" | ")}
-                          </p>
+                          </p> */}
                         </button>
                       </li>
                     ))}
+
+                    {isFetchingSuggestions && (
+                      <li className="px-4 py-2 text-xs text-[#666666]">
+                        Loading more...
+                      </li>
+                    )}
                   </ul>
+                ) : isFetchingSuggestions ? (
+                  <div className="px-4 py-3 text-sm text-[#666666]">
+                    Searching...
+                  </div>
                 ) : (
                   <div className="px-4 py-3 text-sm text-[#666666]">
                     No matching properties found.

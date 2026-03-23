@@ -154,12 +154,15 @@ export interface ApiPropertyDetail {
 }
 
 export interface PropertySuggestion {
-  propertyRefNo: string
+  propertyRefNo?: string
   towerName?: string
   propertyPurpose?: string
   propertyType?: string
   locality?: string
   subLocality?: string
+  type?: 'subLocality' | 'tower'
+  label?: string
+  full?: string
 }
 
 interface PropertySuggestionsResponse {
@@ -184,9 +187,34 @@ export async function getPropertySuggestions(
     limit: String(limit),
   })
   const endpoints = [
+    `${baseUrl}/api/frontend/properties/search-by-area?${params.toString()}`,
     `${baseUrl}/api/frontend/properties/search?${params.toString()}`,
     `${baseUrl}/api/properties/search?${params.toString()}`,
   ]
+
+  const normalizeSuggestions = (data: PropertySuggestionsResponse): PropertySuggestion[] =>
+    (data.suggestions ?? [])
+      .map((item) => {
+        // Area endpoint returns `{ type, label, full }`.
+        if (item.label || item.full || item.type) {
+          return {
+            type: item.type,
+            label: item.label,
+            full: item.full,
+          }
+        }
+
+        // Property endpoint returns legacy property fields.
+        return {
+          propertyRefNo: item.propertyRefNo,
+          towerName: item.towerName,
+          propertyPurpose: item.propertyPurpose,
+          propertyType: item.propertyType,
+          locality: item.locality,
+          subLocality: item.subLocality,
+        }
+      })
+      .slice(0, limit)
 
   const parseSuggestions = async (endpointIndex: number): Promise<PropertySuggestion[] | null> => {
     const response = await fetch(endpoints[endpointIndex], {
@@ -198,7 +226,7 @@ export async function getPropertySuggestions(
     if (response.ok) {
       const data = (await response.json()) as PropertySuggestionsResponse
       preferredSuggestionsEndpointIndex = endpointIndex
-      return (data.suggestions ?? []).slice(0, limit)
+      return normalizeSuggestions(data)
     }
 
     if (response.status === 404) {
@@ -247,6 +275,9 @@ export async function getPropertySuggestions(
 
   throw new Error('Search suggestions endpoint not available')
 }
+
+
+//get proeprtysuggestions by areas
 
 /** Fetches a single property by propertyRefNo from the API */
 export async function getPropertyByRefNo(propertyRefNo: string): Promise<ApiPropertyDetail | null> {
