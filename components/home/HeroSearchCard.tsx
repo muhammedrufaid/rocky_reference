@@ -158,6 +158,55 @@ const HeroSearchCard: React.FC = () => {
     );
   };
 
+  const escapeHtml = (value: string) =>
+    value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  const escapeRegExp = (value: string) =>
+    value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  const highlightMatchesToHtml = (text: string, query: string) => {
+    const trimmedQuery = query.trim();
+    if (!trimmedQuery) return escapeHtml(text);
+
+    const escapedQuery = escapeRegExp(trimmedQuery);
+    const regex = new RegExp(escapedQuery, "gi");
+
+    let html = "";
+    let lastIndex = 0;
+
+    // Wrap each exact match occurrence with <b><u>...</u></b>.
+    let match: RegExpExecArray | null;
+    // eslint-disable-next-line no-cond-assign
+    while ((match = regex.exec(text)) !== null) {
+      const start = match.index ?? 0;
+      const end = start + match[0].length;
+
+      html += escapeHtml(text.slice(lastIndex, start));
+      html += `<b><u>${escapeHtml(text.slice(start, end))}</u></b>`;
+      lastIndex = end;
+
+      // Safety: avoid infinite loops if regex matches empty strings.
+      if (match[0].length === 0) break;
+    }
+
+    html += escapeHtml(text.slice(lastIndex));
+    return html;
+  };
+
+  const getSuggestionTitleText = (suggestion: PropertySuggestion) =>
+    String(
+      suggestion.full ||
+        suggestion.label ||
+        suggestion.propertyRefNo ||
+        suggestion.towerName ||
+        "Suggestion"
+    );
+
   const handleSuggestionsScroll = (
     event: React.UIEvent<HTMLUListElement, UIEvent>
   ) => {
@@ -347,13 +396,16 @@ const HeroSearchCard: React.FC = () => {
                           onClick={() => handleSuggestionClick(suggestion)}
                           className="w-full cursor-pointer px-4 py-3 text-left hover:bg-[#f5f0ea] transition-colors border-b border-[#f3f4f6] last:border-b-0"
                         >
-                          <p className="text-sm font-semibold text-[#0d365e]">
-                            {suggestion.full ||
-                              suggestion.label ||
-                              suggestion.propertyRefNo ||
-                              suggestion.towerName ||
-                              "Suggestion"}
-                          </p>
+                          <p
+                            className="text-sm font-normal text-[#0d365e] truncate"
+                            // Highlight query matches in title (case-insensitive, preserve original casing).
+                            dangerouslySetInnerHTML={{
+                              __html: highlightMatchesToHtml(
+                                getSuggestionTitleText(suggestion),
+                                searchQuery
+                              ),
+                            }}
+                          />
                           {/* <p className="text-xs text-[#555555] mt-1">
                             {suggestion.type || suggestion.propertyRefNo
                               ? [
