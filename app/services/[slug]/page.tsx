@@ -42,7 +42,7 @@ export default async function ServiceIndividualPage({ params }: Props) {
             { label: "Services", href: "/services" },
             { label: service.title },
           ]}
-          image={service?.image || ""}
+          // image={service?.image || ""}
         />
         {/* <ServiceIntroSection /> */}
         <ServiceOverviewSection service={service} />
