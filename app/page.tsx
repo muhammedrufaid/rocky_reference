@@ -13,6 +13,7 @@ import FaqsSection from "@/components/common/FaqsSection";
 import { getOffPlanProperties, getReadyProperties } from "@/utils/getServices";
 import { services } from "@/utils/data";
 import WhyChooseUsSection2 from "@/components/home/WhyChooseUsSection2";
+import Newsletter from "@/components/home/Newsletter";
 
 export default async function Home() {
   const offPlanPropertiesData = await getOffPlanProperties();
@@ -27,6 +28,7 @@ export default async function Home() {
       <ServiceSection data={services} />
       {/* <WhyChooseUsSection /> */}
       <WhyChooseUsSection2 />
+      <Newsletter />
       {/* <ValuationCTA /> */}
       <TestimonialSection />
       <BlogSection />
