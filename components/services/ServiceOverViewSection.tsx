@@ -115,7 +115,7 @@ const ServiceOverviewSection: React.FC<ServiceOverviewSectionProps> = ({
                 </motion.p>
               ))}
             </div>
-            <motion.div
+            {/* <motion.div
               className="mt-10"
               variants={fadeUp}
               initial="hidden"
@@ -133,7 +133,7 @@ const ServiceOverviewSection: React.FC<ServiceOverviewSectionProps> = ({
               >
                 Get in Touch
               </Link>
-            </motion.div>
+            </motion.div> */}
           </motion.div>
 
           {/* Right: Image with decorative frame */}
