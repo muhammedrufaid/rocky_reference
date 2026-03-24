@@ -185,7 +185,7 @@ const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
                                         className="text-base font-medium leading-snug line-clamp-1 mb-1.5"
                                         style={{ color: "#0d1f2d" }}
                                     >
-                                        {project.towerName || project.propertyRefNo}
+                                        {project.towerName || project.subLocality}
                                     </h3>
 
                                     <div
