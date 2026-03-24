@@ -128,11 +128,6 @@ const fadeUp: Variants = {
   }),
 }
 
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.4 } },
-}
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
@@ -181,7 +176,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
         .rre-gallery-swiper .swiper-button-next { display: none; }
       `}</style>
 
-      <section className="relative w-full bg-[#081F3A]">
+      <section className="relative w-full">
         {/* ── MAIN HERO ── */}
         <div className="relative w-full" style={{ minHeight: 'min(92vh, 780px)' }}>
 
@@ -212,20 +207,20 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
               ))}
             </Swiper>
 
-            {/* Deep gradient – bottom heavy */}
+            {/* Bottom scrim — keeps text readable */}
             <div
               className="absolute inset-0 z-10 pointer-events-none"
               style={{
                 background:
-                  'linear-gradient(to top, #081F3A 0%, rgba(8,31,58,0.72) 38%, rgba(8,31,58,0.22) 65%, rgba(8,31,58,0.05) 100%)',
+                  'linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.50) 30%, rgba(0,0,0,0.18) 58%, transparent 100%)',
               }}
             />
-            {/* Left side vignette for text legibility */}
+            {/* Left-side scrim — protects text content column only */}
             <div
-              className="absolute inset-0 z-10 pointer-events-none hidden lg:block"
+              className="absolute inset-0 z-10 pointer-events-none"
               style={{
                 background:
-                  'linear-gradient(to right, rgba(8,31,58,0.55) 0%, rgba(8,31,58,0.18) 55%, transparent 100%)',
+                  'linear-gradient(to right, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.35) 35%, rgba(0,0,0,0.08) 60%, transparent 100%)',
               }}
             />
           </div>
@@ -250,11 +245,11 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     <span className="text-[#C3AD95]"><PinIcon /></span>
                     {locationParts.map((part, i) => (
                       <React.Fragment key={i}>
-                        <span className="text-[#C3AD95]/70 text-[11px] tracking-[0.15em] uppercase font-light">
+                        <span className="text-[#C3AD95]/80 text-[11px] tracking-[0.15em] uppercase font-light">
                           {part}
                         </span>
                         {i < locationParts.length - 1 && (
-                          <span className="text-white/20 text-[10px]">·</span>
+                          <span className="text-white/30 text-[10px]">·</span>
                         )}
                       </React.Fragment>
                     ))}
@@ -265,7 +260,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     variants={fadeUp}
                     custom={1}
                     className="text-3xl md:text-4xl xl:text-5xl font-light leading-[1.08] text-white tracking-tight max-w-2xl"
-                    style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
+                    // style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif", textShadow: '0 2px 20px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.5)' }}
                   >
                     {propertyTitle}
                   </motion.h1>
@@ -278,11 +273,11 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                         Off Plan
                       </span>
                     )}
-                    <span className="inline-flex items-center px-3 py-1 rounded-sm text-[10px] tracking-[0.18em] uppercase font-light bg-white/6 border border-white/12 text-white/70">
+                    <span className="inline-flex items-center px-3 py-1 rounded-sm text-[10px] tracking-[0.18em] uppercase font-light bg-white/10 border border-white/18 text-white/80">
                       {propertyType}
                     </span>
                     {handoverDate && (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-[10px] tracking-[0.18em] uppercase font-light bg-white/6 border border-white/12 text-white/70">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-[10px] tracking-[0.18em] uppercase font-light bg-white/10 border border-white/18 text-white/80">
                         Handover {handoverDate}
                       </span>
                     )}
@@ -292,11 +287,11 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                   <motion.div variants={fadeUp} custom={3} className="flex items-baseline gap-3">
                     <span
                       className="text-3xl md:text-4xl font-light text-white tracking-tight"
-                      style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
+                      // style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif", textShadow: '0 2px 16px rgba(0,0,0,0.55)' }}
                     >
                       {price}
                     </span>
-                    <span className="text-[10px] tracking-[0.18em] uppercase text-[#C3AD95]/60 font-light pb-1">
+                    <span className="text-[10px] tracking-[0.18em] uppercase text-white/50 font-light pb-1">
                       Starting Price
                     </span>
                   </motion.div>
@@ -307,16 +302,17 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                       <div
                         key={i}
                         className={[
-                          'flex items-center gap-2.5 px-4 py-3 bg-[#081F3A]/70 backdrop-blur-md border border-white/10',
+                          'flex items-center gap-2.5 px-4 py-3 backdrop-blur-md border border-white/15',
+                          'bg-black/30',
                           i === 0 && 'rounded-l-md',
                           i === highlights.length - 1 && 'rounded-r-md',
                           i > 0 && 'border-l-0',
                         ].filter(Boolean).join(' ')}
                       >
-                        <span className="text-[#C3AD95]/70">{h.icon}</span>
+                        <span className="text-[#C3AD95]/80">{h.icon}</span>
                         <div className="leading-tight">
-                          <span className="block text-[13px] font-medium text-white/90">{h.value}</span>
-                          <span className="block text-[10px] tracking-widest uppercase text-white/40 font-light">{h.label}</span>
+                          <span className="block text-[13px] font-medium text-white/95">{h.value}</span>
+                          <span className="block text-[10px] tracking-widest uppercase text-white/50 font-light">{h.label}</span>
                         </div>
                       </div>
                     ))}
@@ -344,7 +340,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     </div>
                     <button
                       onClick={() => setIsGalleryOpen(true)}
-                      className="flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase text-white/45 hover:text-[#C3AD95] transition-colors duration-200 cursor-pointer"
+                      className="flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase text-white/55 hover:text-[#C3AD95] transition-colors duration-200 cursor-pointer"
                     >
                       <GridIcon />
                       All Photos ({images.length})
@@ -363,10 +359,10 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                   <div
                     className="rounded-lg overflow-hidden"
                     style={{
-                      background: 'linear-gradient(145deg, rgba(28,78,128,0.55) 0%, rgba(8,31,58,0.85) 100%)',
-                      backdropFilter: 'blur(20px)',
-                      border: '1px solid rgba(195,173,149,0.18)',
-                      boxShadow: '0 24px 60px rgba(0,0,0,0.4)',
+                      background: 'rgba(0,0,0,0.45)',
+                      backdropFilter: 'blur(24px)',
+                      border: '1px solid rgba(255,255,255,0.14)',
+                      boxShadow: '0 24px 60px rgba(0,0,0,0.35)',
                     }}
                   >
                     {/* Thin accent line at top */}
@@ -374,19 +370,19 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
 
                     <div className="p-6 flex flex-col gap-4">
                       <div>
-                        <p className="text-[10px] tracking-[0.2em] uppercase text-[#C3AD95]/60 mb-1">Starting From</p>
+                        <p className="text-[10px] tracking-[0.2em] uppercase text-[#C3AD95]/70 mb-1">Starting From</p>
                         <p
                           className="text-[1.65rem] font-light text-white leading-tight"
-                          style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
+                          // style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
                         >
                           {price}
                         </p>
                       </div>
 
                       {handoverDate && (
-                        <div className="flex items-center justify-between py-3 border-t border-white/8">
-                          <span className="text-[10px] tracking-[0.18em] uppercase text-white/40 font-light">Handover</span>
-                          <span className="text-[13px] font-medium text-white/85">{handoverDate}</span>
+                        <div className="flex items-center justify-between py-3 border-t border-white/10">
+                          <span className="text-[10px] tracking-[0.18em] uppercase text-white/45 font-light">Handover</span>
+                          <span className="text-[13px] font-medium text-white/90">{handoverDate}</span>
                         </div>
                       )}
 
@@ -407,7 +403,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                         <button
                           onClick={onDownloadBrochure}
                           className="flex items-center justify-center gap-2 w-full py-3 rounded-md text-[11px] tracking-[0.15em] uppercase font-medium text-[#C3AD95] transition-all duration-200 hover:text-white cursor-pointer"
-                          style={{ background: 'rgba(195,173,149,0.08)', border: '1px solid rgba(195,173,149,0.2)' }}
+                          style={{ background: 'rgba(195,173,149,0.10)', border: '1px solid rgba(195,173,149,0.22)' }}
                         >
                           <DownloadIcon />
                           Download Brochure
@@ -417,7 +413,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                         <button
                           onClick={handleWhatsApp}
                           className="flex items-center justify-center gap-2 w-full py-3 rounded-md text-[11px] tracking-[0.15em] uppercase font-medium text-[#25D366] transition-all duration-200 cursor-pointer"
-                          style={{ background: 'rgba(37,211,102,0.07)', border: '1px solid rgba(37,211,102,0.2)' }}
+                          style={{ background: 'rgba(37,211,102,0.08)', border: '1px solid rgba(37,211,102,0.22)' }}
                         >
                           <WhatsAppIcon />
                           WhatsApp Us
@@ -433,7 +429,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
             {/* ── Slide Counter + Nav (bottom-right, desktop) ── */}
             <div className="absolute bottom-6 right-6 z-20 hidden lg:flex items-center gap-3">
               <span
-                className="text-[11px] tracking-[0.2em] text-white/40"
+                className="text-[11px] tracking-[0.2em] text-white/50"
                 style={{ fontFamily: 'monospace' }}
               >
                 {String(activeIndex + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
@@ -441,16 +437,13 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
               <div className="flex gap-1.5">
                 <button
                   ref={prevRef}
-                  className="w-8 h-8 flex items-center justify-center rounded-full border border-white/15 text-white/50 hover:border-[#C3AD95]/50 hover:text-[#C3AD95] transition-all duration-200 cursor-pointer"
-                  onClick={() => {
-                    // nav via thumbsSwiper's parent — noop, Swiper handles prev/next via ref
-                  }}
+                  className="w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-[#C3AD95]/50 hover:text-[#C3AD95] transition-all duration-200 cursor-pointer"
                 >
                   <ChevronLeft />
                 </button>
                 <button
                   ref={nextRef}
-                  className="w-8 h-8 flex items-center justify-center rounded-full border border-white/15 text-white/50 hover:border-[#C3AD95]/50 hover:text-[#C3AD95] transition-all duration-200 cursor-pointer"
+                  className="w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-[#C3AD95]/50 hover:text-[#C3AD95] transition-all duration-200 cursor-pointer"
                 >
                   <ChevronRight />
                 </button>
