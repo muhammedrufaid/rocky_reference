@@ -102,8 +102,8 @@ const StatChip = ({ icon, value, label }: { icon: React.ReactNode; value: React.
     style={{ backgroundColor: "#faf8f5" }}
   >
     <span style={{ color: "#c3ad95" }}>{icon}</span>
-    <span className="text-[11px] font-bold" style={{ color: "#0d365e" }}>{value}</span>
-    {label ? <span className="text-[9px] uppercase tracking-wide" style={{ color: "#b0a99e" }}>{label}</span> : null}
+    <span className="text-xs font-medium" style={{ color: "#0d365e" }}>{value}</span>
+    {label ? <span className="text-[10px] uppercase tracking-wide" style={{ color: "#b0a99e" }}>{label}</span> : null}
   </div>
 );
 
@@ -141,12 +141,12 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
           {/* Badge top-left */}
           <div className="absolute top-2 left-2 flex flex-col gap-1 z-10">
             {listing.badge && (
-              <span className={`text-[8px] font-bold tracking-widest uppercase px-2 py-0.5 rounded ${listing.badge === "New" ? "bg-emerald-500 text-white" : listing.badge === "Off Plan" ? "bg-amber-500 text-white" : "bg-[#0d365e] text-white"}`}>
+              <span className={`text-[10px] font-medium tracking-wide uppercase px-2.5 py-1 rounded ${listing.badge === "New" ? "bg-emerald-500 text-white" : listing.badge === "Off Plan" ? "bg-amber-500 text-white" : "bg-[#0d365e] text-white"}`}>
                 {listing.badge}
               </span>
             )}
             <span
-              className="text-[8px] font-bold tracking-widest uppercase px-2 py-0.5 rounded"
+              className="text-[10px] font-medium tracking-wide uppercase px-2.5 py-1 rounded"
               style={{ backgroundColor: "rgba(255,255,255,.93)", color: "#0d365e" }}
             >
               {listing.type}
@@ -155,7 +155,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
 
           {/* Photo count */}
           {images.length > 1 && (
-            <span className="absolute top-2 right-2 flex items-center gap-0.5 text-[8px] font-semibold text-white bg-black/40 backdrop-blur-md px-1.5 py-0.5 rounded z-10">
+            <span className="absolute top-2 right-2 flex items-center gap-1 text-[10px] font-medium text-white bg-black/40 backdrop-blur-md px-2 py-1 rounded z-10">
               <PhotosIcon /> {images.length}
             </span>
           )}
@@ -183,20 +183,20 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
       </div>
 
       {/* ── Content ── */}
-      <div className="flex flex-col flex-1 p-4">
+      <div className="flex flex-col flex-1 p-5">
         {/* Property type tag */}
         {listing.propertyType && (
-          <span className="self-start text-[8px] font-bold tracking-widest uppercase px-2 py-0.5 rounded mb-2" style={{ backgroundColor: "#f5f2ee", color: "#9f8870" }}>
+          <span className="self-start text-[10px] font-medium tracking-wide uppercase px-2.5 py-1 rounded mb-2.5" style={{ backgroundColor: "#f5f2ee", color: "#9f8870" }}>
             {listing.propertyType}
           </span>
         )}
 
         {/* Title */}
-        <h3 className="text-[13px] font-bold leading-snug line-clamp-1" style={{ color: "#0d365e" }}>
+        <h3 className="text-base font-medium leading-snug line-clamp-1" style={{ color: "#0d365e" }}>
           {displayTitle}
         </h3>
         {propertyTitle && propertyTitle !== displayTitle && (
-          <p className="mt-1 text-[11px] leading-snug line-clamp-2" style={{ color: "#6f7785" }}>
+          <p className="mt-1.5 text-sm leading-snug line-clamp-2" style={{ color: "#6f7785" }}>
             {propertyTitle}
           </p>
         )}
@@ -204,7 +204,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
         {/* Location */}
         <div className="flex items-center gap-1 mt-1.5 mb-3">
           <span style={{ color: "#c3ad95" }}><LocationIcon /></span>
-          <span className="text-[10px] line-clamp-1" style={{ color: "#999" }}>{listing.location}</span>
+          <span className="text-xs line-clamp-1" style={{ color: "#999" }}>{listing.location}</span>
         </div>
 
         {/* Stats */}
@@ -220,7 +220,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
         {/* Bottom row: Price + actions */}
         <div className="flex items-center justify-between gap-2 mt-auto">
           {/* Price */}
-          <p className="text-sm font-extrabold tracking-tight" style={{ color: "#0d365e" }}>
+          <p className="text-lg font-semibold tracking-tight" style={{ color: "#0d365e" }}>
             {listing.price}
           </p>
 
@@ -237,7 +237,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
             )}
             <Link
               href={listing.path}
-              className="inline-flex items-center gap-1 text-white text-[10px] font-bold tracking-wide px-3 py-1.5 rounded-lg transition-all duration-200 hover:opacity-90 group/btn"
+              className="inline-flex items-center gap-1 text-white text-xs font-medium tracking-wide px-3.5 py-2 rounded-lg transition-all duration-200 hover:opacity-90 group/btn"
               style={{ backgroundColor: "#0d365e" }}
             >
               View
@@ -325,7 +325,7 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
                   className="lg:col-span-2 text-center py-14 rounded-xl"
                   style={{ backgroundColor: "#fff", color: "#999", boxShadow: "0 1px 3px rgba(13,54,94,.06), 0 0 0 1px rgba(13,54,94,.04)" }}
                 >
-                  <p className="text-sm font-semibold" style={{ color: "#0d365e" }}>No properties found</p>
+                  <p className="text-sm font-medium" style={{ color: "#0d365e" }}>No properties found</p>
                   <p className="text-xs mt-1">Try adjusting your search criteria.</p>
                 </div>
               )}
