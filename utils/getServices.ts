@@ -166,7 +166,7 @@ export interface PropertySuggestion {
   propertyType?: string
   locality?: string
   subLocality?: string
-  type?: 'subLocality' | 'tower'
+  type?: string
   label?: string
   full?: string
 }
@@ -244,8 +244,10 @@ export async function getPropertySuggestions(
 
   // After first successful response, prefer that endpoint to avoid repeated fallback latency.
   if (preferredSuggestionsEndpointIndex != null) {
-    const fallbackIndex = preferredSuggestionsEndpointIndex === 0 ? 1 : 0
-    const prioritizedIndexes = [preferredSuggestionsEndpointIndex, fallbackIndex]
+    const fallbackIndexes = endpoints
+      .map((_, index) => index)
+      .filter((index) => index !== preferredSuggestionsEndpointIndex)
+    const prioritizedIndexes = [preferredSuggestionsEndpointIndex, ...fallbackIndexes]
 
     for (const endpointIndex of prioritizedIndexes) {
       const suggestions = await parseSuggestions(endpointIndex)
@@ -255,17 +257,16 @@ export async function getPropertySuggestions(
     throw new Error('Search suggestions endpoint not available')
   }
 
-  // First lookup: race both endpoints in parallel so initial typing feels faster.
-  const settled = await Promise.allSettled([parseSuggestions(0), parseSuggestions(1)])
+  // First lookup: use deterministic endpoint order so UI mirrors
+  // `search-by-area` response ordering and content.
   let firstNonAbortError: Error | null = null
-
-  for (const result of settled) {
-    if (result.status === 'fulfilled' && result.value) {
-      return result.value
-    }
-
-    if (result.status === 'rejected') {
-      const error = result.reason
+  for (let endpointIndex = 0; endpointIndex < endpoints.length; endpointIndex += 1) {
+    try {
+      const suggestions = await parseSuggestions(endpointIndex)
+      if (suggestions) {
+        return suggestions
+      }
+    } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
         throw error
       }

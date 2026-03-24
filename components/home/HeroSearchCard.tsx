@@ -100,8 +100,8 @@ const HeroSearchCard: React.FC = () => {
           suggestionsLimit,
           controller.signal
         );
-        const filteredSuggestions = nextSuggestions.filter(
-          isLocationLikeSuggestion
+        const filteredSuggestions = nextSuggestions.filter((suggestion) =>
+          isLocationLikeSuggestion(suggestion)
         );
 
         if (requestId === lastRequestIdRef.current) {
@@ -173,13 +173,7 @@ const HeroSearchCard: React.FC = () => {
     value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
   const isLocationLikeSuggestion = (suggestion: PropertySuggestion) =>
-    Boolean(
-      suggestion.full?.trim() ||
-        suggestion.label?.trim() ||
-        suggestion.locality?.trim() ||
-        suggestion.subLocality?.trim() ||
-        suggestion.towerName?.trim()
-    );
+    Boolean(suggestion.full?.trim() || suggestion.label?.trim());
 
   const highlightMatchesToHtml = (text: string, query: string) => {
     const trimmedQuery = query.trim();
