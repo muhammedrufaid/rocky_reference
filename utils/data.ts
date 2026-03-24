@@ -24,6 +24,9 @@ export interface Property {
 export interface PropertyListing {
   id: number;
   title: string;
+  propertyTitle?: string;
+  towerName?: string;
+  subLocality?: string;
   type: "Buy" | "Rent";
   location: string;
   price: string;

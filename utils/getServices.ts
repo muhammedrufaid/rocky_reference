@@ -6,7 +6,10 @@ let preferredSuggestionsEndpointIndex: number | null = null
 /** Maps API property object to PropertyListing format */
 function mapApiPropertyToListing(item: any, index: number, listingType: "Buy" | "Rent"): PropertyListing {
   const id = item.id ?? item.propertyRefNo ?? index + 1
-  const title = item.title ?? item.towerName ?? item.propertyRefNo ?? `Property ${id}`
+  const towerName = typeof item.towerName === 'string' ? item.towerName.trim() : ''
+  const subLocality = typeof item.subLocality === 'string' ? item.subLocality.trim() : ''
+  const propertyTitle = typeof item.propertyTitle === 'string' ? item.propertyTitle.trim() : ''
+  const title = towerName || subLocality || item.title || `Property ${id}`
   const price = item.price != null
     ? (listingType === "Rent"
         ? `AED ${Number(item.price).toLocaleString()}/year`
@@ -22,6 +25,9 @@ function mapApiPropertyToListing(item: any, index: number, listingType: "Buy" | 
   return {
     id,
     title,
+    propertyTitle: propertyTitle || undefined,
+    towerName: towerName || undefined,
+    subLocality: subLocality || undefined,
     type: listingType,
     location: item.location ?? item.locality ?? item.area ?? "Dubai",
     price,

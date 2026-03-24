@@ -114,6 +114,8 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
   const [activeImg, setActiveImg] = useState(0);
   const images = listing.images;
   const mainImage = images[activeImg] ?? images[0];
+  const displayTitle = listing.towerName?.trim() || listing.subLocality?.trim() || listing.title;
+  const propertyTitle = listing.propertyTitle?.trim();
 
   const nextImg = () => setActiveImg((p) => (p + 1) % images.length);
   const prevImg = () => setActiveImg((p) => (p - 1 + images.length) % images.length);
@@ -132,7 +134,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
         <div className="relative w-full h-44 sm:h-full sm:min-h-56">
           <img
             src={mainImage}
-            alt={listing.title}
+            alt={displayTitle}
             className="w-full h-full object-cover transition-transform duration-600 ease-out group-hover:scale-105"
           />
 
@@ -191,11 +193,16 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
 
         {/* Title */}
         <h3 className="text-[13px] font-bold leading-snug line-clamp-1" style={{ color: "#0d365e" }}>
-          {listing.title}
+          {displayTitle}
         </h3>
+        {propertyTitle && propertyTitle !== displayTitle && (
+          <p className="mt-1 text-[11px] leading-snug line-clamp-2" style={{ color: "#6f7785" }}>
+            {propertyTitle}
+          </p>
+        )}
 
         {/* Location */}
-        <div className="flex items-center gap-1 mt-1 mb-3">
+        <div className="flex items-center gap-1 mt-1.5 mb-3">
           <span style={{ color: "#c3ad95" }}><LocationIcon /></span>
           <span className="text-[10px] line-clamp-1" style={{ color: "#999" }}>{listing.location}</span>
         </div>
