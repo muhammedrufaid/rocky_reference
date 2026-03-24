@@ -154,7 +154,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
               }}
             >
               <div className="flex flex-col flex-1">
-                <Link href={`/properties/${project.propertyRefNo}`} className="flex flex-col flex-1">
+                <Link href={`/off-plan-properties/in-dubai/${project.propertyRefNo}`} className="flex flex-col flex-1">
                   {/* Image — aspect-[4/3] suits 4-col layout */}
                   <figure className="relative aspect-[4/3] overflow-hidden">
                     <Image
