@@ -25,8 +25,9 @@ export default async function Home() {
       <ExplorePropertySection data={readyPropertiesData}/>
       <DevelopmentPartnersSection />
       <ServiceSection data={services} />
-      <WhyChooseUsSection />
-      <ValuationCTA />
+      {/* <WhyChooseUsSection /> */}
+      <WhyChooseUsSection2 />
+      {/* <ValuationCTA /> */}
       <TestimonialSection />
       <BlogSection />
       <FaqsSection />
