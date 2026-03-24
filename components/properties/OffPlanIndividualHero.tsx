@@ -12,10 +12,12 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/thumbs'
 import Container from '../layout/Container'
+import type { ApiPropertyDetail } from '@/utils/getServices'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface OffPlanHeroProps {
+  data?: ApiPropertyDetail
   images?: string[]
   propertyTitle?: string
   price?: string
@@ -37,12 +39,7 @@ interface OffPlanHeroProps {
 
 // ─── Demo Data ────────────────────────────────────────────────────────────────
 
-const DEMO_IMAGES = [
-  'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1600&q=85',
-  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=85',
-  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=85',
-  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=85',
-]
+
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 
@@ -131,37 +128,52 @@ const fadeUp: Variants = {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
-  images = DEMO_IMAGES,
-  propertyTitle = 'Elara Residences at Palm Jumeirah',
-  price = 'AED 4,200,000',
-  city = 'Dubai',
-  locality = 'Palm Jumeirah',
-  subLocality = 'The Crescent',
+  data,
+  images,
+  propertyTitle,
+  price,
+  city,
+  locality,
+  subLocality,
   towerName,
-  bedrooms = 3,
-  bathrooms = 4,
-  propertySize = '2,840',
-  propertyType = 'Apartment',
-  offPlan = true,
-  handoverDate = 'Q4 2027',
-  whatsappNumber = '971501234567',
+  bedrooms,
+  bathrooms,
+  propertySize,
+  propertyType,
+  offPlan,
+  handoverDate,
+  whatsappNumber,
   onRequestCallback,
   onDownloadBrochure,
 }) => {
+  const resolvedImages = (data?.images ?? images ) as string[]
+  const resolvedPropertyTitle = data?.propertyTitle ?? data?.towerName ?? data?.propertyRefNo ?? propertyTitle
+  const resolvedPrice = data?.price ? `AED ${Number(data.price).toLocaleString()}` : price
+  const resolvedCity = data?.city ?? city
+  const resolvedLocality = data?.locality ?? locality
+  const resolvedSubLocality = data?.subLocality ?? subLocality
+  const resolvedTowerName = data?.towerName ?? towerName
+  const resolvedBedrooms = data?.bedrooms ?? bedrooms
+  const resolvedBathrooms = data?.bathrooms ?? bathrooms
+  const resolvedPropertySize = data?.propertySize ?? propertySize
+  const resolvedPropertyType = data?.propertyType ?? propertyType
+  const resolvedOffPlan = data?.offPlan ? data.offPlan.toLowerCase() === 'yes' : offPlan
+  const resolvedWhatsappNumber = (data?.listingAgentPhone ?? whatsappNumber)?.replace(/\D/g, '') || '971501234567'
+
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isGalleryOpen, setIsGalleryOpen] = useState(false)
   const prevRef = useRef<HTMLButtonElement>(null)
   const nextRef = useRef<HTMLButtonElement>(null)
 
-  const handleWhatsApp = () => window.open(`https://wa.me/${whatsappNumber}`, '_blank')
+  const handleWhatsApp = () => window.open(`https://wa.me/${resolvedWhatsappNumber}`, '_blank')
 
-  const locationParts = [city, locality, subLocality, towerName].filter(Boolean)
+  const locationParts = [resolvedCity, resolvedLocality, resolvedSubLocality, resolvedTowerName].filter(Boolean)
 
   const highlights = [
-    { icon: <BedIcon />, value: bedrooms, label: 'Beds' },
-    { icon: <BathIcon />, value: bathrooms, label: 'Baths' },
-    { icon: <SizeIcon />, value: `${propertySize}`, label: 'sqft' },
+    { icon: <BedIcon />, value: resolvedBedrooms, label: 'Beds' },
+    { icon: <BathIcon />, value: resolvedBathrooms, label: 'Baths' },
+    { icon: <SizeIcon />, value: `${resolvedPropertySize}`, label: 'sqft' },
   ]
 
   return (
@@ -184,15 +196,25 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
           <div className="absolute inset-0 z-0">
             <Swiper
               className="rre-hero-swiper"
-              modules={[Autoplay, EffectFade, Thumbs]}
+              modules={[Autoplay, EffectFade, Thumbs, Navigation]}
               effect="fade"
               autoplay={{ delay: 5000, disableOnInteraction: false }}
               loop
               speed={1000}
+              navigation={{ prevEl: prevRef.current, nextEl: nextRef.current }}
+              onInit={(swiper) => {
+                // Attach custom nav refs after buttons mount.
+                if (swiper.params.navigation && typeof swiper.params.navigation !== 'boolean') {
+                  swiper.params.navigation.prevEl = prevRef.current
+                  swiper.params.navigation.nextEl = nextRef.current
+                }
+                swiper.navigation.init()
+                swiper.navigation.update()
+              }}
               thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
               onSlideChange={(s) => setActiveIndex(s.realIndex)}
             >
-              {images.map((src, i) => (
+              {resolvedImages?.map((src, i) => (
                 <SwiperSlide key={i}>
                   <div className="w-full h-full">
                     <img
@@ -262,19 +284,19 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     className="text-3xl md:text-4xl xl:text-5xl font-light leading-[1.08] text-white tracking-tight max-w-2xl"
                     // style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif", textShadow: '0 2px 20px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.5)' }}
                   >
-                    {propertyTitle}
+                    {resolvedPropertyTitle}
                   </motion.h1>
 
                   {/* Tags row */}
                   <motion.div variants={fadeUp} custom={2} className="flex flex-wrap gap-2">
-                    {offPlan && (
+                    {resolvedOffPlan && (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-[10px] tracking-[0.18em] uppercase font-medium bg-[#C3AD95]/15 border border-[#C3AD95]/30 text-[#C3AD95]">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#C3AD95] animate-pulse" />
                         Off Plan
                       </span>
                     )}
                     <span className="inline-flex items-center px-3 py-1 rounded-sm text-[10px] tracking-[0.18em] uppercase font-light bg-white/10 border border-white/18 text-white/80">
-                      {propertyType}
+                      {resolvedPropertyType}
                     </span>
                     {handoverDate && (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-[10px] tracking-[0.18em] uppercase font-light bg-white/10 border border-white/18 text-white/80">
@@ -289,7 +311,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                       className="text-3xl md:text-4xl font-light text-white tracking-tight"
                       // style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif", textShadow: '0 2px 16px rgba(0,0,0,0.55)' }}
                     >
-                      {price}
+                      {resolvedPrice}
                     </span>
                     <span className="text-[10px] tracking-[0.18em] uppercase text-white/50 font-light pb-1">
                       Starting Price
@@ -329,7 +351,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                         slidesPerView={4}
                         spaceBetween={5}
                       >
-                        {images.map((src, i) => (
+                        {resolvedImages.map((src, i) => (
                           <SwiperSlide key={i}>
                             <div className="h-9 rounded overflow-hidden">
                               <img src={src} alt="" className="w-full h-full object-cover" />
@@ -343,7 +365,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                       className="flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase text-white/55 hover:text-[#C3AD95] transition-colors duration-200 cursor-pointer"
                     >
                       <GridIcon />
-                      All Photos ({images.length})
+                      All Photos ({resolvedImages.length})
                     </button>
                   </motion.div>
                 </motion.div>
@@ -375,7 +397,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                           className="text-[1.65rem] font-light text-white leading-tight"
                           // style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
                         >
-                          {price}
+                          {resolvedPrice}
                         </p>
                       </div>
 
@@ -432,16 +454,18 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                 className="text-[11px] tracking-[0.2em] text-white/50"
                 style={{ fontFamily: 'monospace' }}
               >
-                {String(activeIndex + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
+                {String(activeIndex + 1).padStart(2, '0')} / {String(resolvedImages.length).padStart(2, '0')}
               </span>
               <div className="flex gap-1.5">
                 <button
+                  type="button"
                   ref={prevRef}
                   className="w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-[#C3AD95]/50 hover:text-[#C3AD95] transition-all duration-200 cursor-pointer"
                 >
                   <ChevronLeft />
                 </button>
                 <button
+                  type="button"
                   ref={nextRef}
                   className="w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-[#C3AD95]/50 hover:text-[#C3AD95] transition-all duration-200 cursor-pointer"
                 >
@@ -501,7 +525,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
               </span>
               <div className="flex items-center gap-4">
                 <span className="text-white/30 text-[11px] tracking-widest" style={{ fontFamily: 'monospace' }}>
-                  {images.length} Photos
+                  {resolvedImages.length} Photos
                 </span>
                 <button
                   onClick={() => setIsGalleryOpen(false)}
@@ -522,7 +546,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                 thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
                 style={{ height: '100%' }}
               >
-                {images.map((src, i) => (
+                {resolvedImages.map((src, i) => (
                   <SwiperSlide key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <img
                       src={src}
@@ -557,7 +581,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     1024: { slidesPerView: 10 },
                   }}
                 >
-                  {images.map((src, i) => (
+                  {resolvedImages.map((src, i) => (
                     <SwiperSlide key={i}>
                       <div className="h-12 rounded overflow-hidden">
                         <img src={src} alt="" className="w-full h-full object-cover" />
