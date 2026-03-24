@@ -79,7 +79,7 @@ const ServiceOverviewSection: React.FC<ServiceOverviewSectionProps> = ({
               }}
               aria-hidden
             />
-            <motion.span
+            {/* <motion.span
               className="block text-xs font-medium uppercase tracking-wider mb-3"
               style={{ color: "var(--rocky-blue)", opacity: 0.8 }}
               variants={fadeUp}
@@ -88,7 +88,7 @@ const ServiceOverviewSection: React.FC<ServiceOverviewSectionProps> = ({
               custom={0.05}
             >
               Service Overview
-            </motion.span>
+            </motion.span> */}
             <motion.h2
               id="service-overview-heading"
               className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.25rem] font-medium leading-tight tracking-tight"

@@ -693,11 +693,11 @@ export const services: Service[] = [
     image: "https://images.pexels.com/photos/7937684/pexels-photo-7937684.jpeg",
     icon: "property-management",
     description: "End-to-end property management services to maximise your returns while ensuring excellent property condition.",
-    overviewHeading: "Why Professional Management Matters",
+    overviewHeading: "Why Choose Property Management?",
     overview: [
-      "Owning investment property in Dubai comes with unique opportunities and responsibilities. Without dedicated oversight, landlords often face challenges ranging from tenant disputes to missed rent payments and unexpected maintenance costs. Our approach removes these burdens so you can enjoy the benefits of ownership without the day-to-day stress.",
-      "We act as your local partner, handling everything from finding and vetting tenants to coordinating repairs and ensuring full compliance with Dubai tenancy regulations. Our team understands the nuances of the UAE market and works to protect your asset while maximising your rental income.",
-      "Whether you live abroad or simply prefer a hands-off approach, our property management service gives you peace of mind. You receive clear, regular reporting on your property's performance while we handle the operational details professionally and transparently.",
+      "Several challenges come up when owning an investment property, including tenant disputes, missed rent payments, and more.",
+      "With our approach at Rocky Real Estate, you will not have to worry about such challenges. We offer property owners a seamless, efficient process by managing their properties professionally and transparently. Through this service, owners can manage their property, remain compliant, and maximise their profit potential.",
+      "Whether you’re in Dubai or live abroad, we provide end-to-end property management services, ensuring a seamless, professional, and transparent process.",
     ],
     subservices: [
       { id: 1, title: "Tenant selection & screening", icon: "tenant-selection", description: "We first professionally promote your property, and then screen every prospective tenant to ensure financial stability and long-term occupancy." },
@@ -716,11 +716,11 @@ export const services: Service[] = [
     image: "https://images.pexels.com/photos/7415041/pexels-photo-7415041.jpeg",
     icon: "professional-inspection",
     description: "This service identifies every construction defect or unfinished work and records them before you take possession or move into your new property.",
-    overviewHeading: "Protecting Your Investment Before Handover",
+    overviewHeading: "Protect Your Investment Before Handover",
     overview: [
-      "New-build and off-plan properties often arrive with minor defects, unfinished finishes, or items that don't meet the agreed specification. Without a thorough inspection, these issues can go unnoticed until after you've taken possession—when resolving them becomes more difficult and costly.",
-      "A professional inspection gives you a clear, documented record of every defect before handover. This protects your interests and provides the developer with a precise list of items to address. Our inspectors are trained to spot issues that are easy to miss, from cosmetic flaws to potential structural concerns.",
-      "We work closely with developers to ensure all identified issues are resolved to a high standard. A follow-up inspection confirms that nothing has been overlooked, so you can move in or rent out your property with confidence.",
+      "New-build and off-plan properties are often delivered with minor defects that usually go unnoticed. ",
+      "Our Professional Inspection or Property Snagging services are conducted to identify any defects or unfinished work in your newly renovated home before you purchase it – a thorough check before it’s officially your place.",
+      "Painting defects to plumbing, and lights to floors, every single aspect is inspected, reported, and resolved before handover.",
     ],
     subservices: [
       { id: 1, title: "Detailed property inspection", icon: "detailed-inspection", description: "Fixtures, finishes, and every single part of the property are inspected to make sure nothing’s missing" },
@@ -739,9 +739,8 @@ export const services: Service[] = [
     description: "Practical, data-driven advice to help you buy, sell, or lease a property.",
     overviewHeading: "Expert Guidance Through Every Transaction",
     overview: [
-      "Buying, selling, or leasing property in Dubai requires more than just market knowledge—it demands a trusted advisor who understands your goals and can navigate the complexities of the transaction. Our brokerage team combines local expertise with a client-first approach to deliver outcomes that align with your objectives.",
-      "We take the time to understand your needs, budget, and timeline before recommending properties or strategies. Whether you are a first-time buyer, a seasoned investor, or looking to lease your home, we tailor our approach to your situation and keep you informed at every step.",
-      "From initial consultation through to handover, we manage negotiations, paperwork, and coordination with developers or landlords. Our aim is to make your property journey smooth, transparent, and successful.",
+      "At Rocky Real Estate, we aim to guide you to the right opportunities across commercial, residential, and investment real estate.",
+      "We take the time to understand your vision, budget, and timeline and offer end-to-end support through our experienced, RERA-certified consultants. And every transaction is data-driven and fully transparent.",
     ],
     subservices: [
       { id: 1, title: "Understanding your vision:", icon: "understanding-vision", description: "We ensure that we understand your property goals and requirements." },
@@ -759,9 +758,8 @@ export const services: Service[] = [
     description: "We work with trusted banking partners and mortgage advisors to get you the best deals.",
     overviewHeading: "Simplifying Your Path to Property Ownership",
     overview: [
-      "Securing the right mortgage can make the difference between a stressful purchase and a smooth path to homeownership. The UAE mortgage market offers a range of products, rates, and terms—navigating them alone can be overwhelming. We work with trusted banking partners and advisors to help you find the best fit for your situation.",
-      "Our team understands the requirements for residents and non-residents alike, including the specific criteria that UAE banks use when assessing applications. We guide you through pre-approval, documentation, and the approval process so you can move forward with confidence.",
-      "Whether you are buying your first home or expanding your portfolio, we provide clear, practical advice tailored to your financial goals. Our aim is to secure favourable terms while keeping the process straightforward and transparent.",
+      "Becoming a homeowner can be a stressful process if you don’t secure the right mortgage. At Rocky Real Estate, we simplify this process with our seasoned mortgage specialists, who offer personalised advice tailored to your financial goals.",
+      "Selecting a suitable loan product to secure competitive interest rates and swift approvals, our experienced team will support your mortgage solutions at every stage of your property financing journey.",
     ],
     subservices: [
       { id: 1, title: "Mortgage pre-approval", icon: "pre-approval", description: "Before you begin your property search, we help establish your borrowing capacity and obtain pre-approval." },
@@ -781,9 +779,8 @@ export const services: Service[] = [
     description: "We ensure your property is marketed effectively on real estate portals, social media platforms, and more.",
     overviewHeading: "Reaching the Right Buyers and Tenants",
     overview: [
-      "A great property can sit on the market for months if it isn't presented and promoted effectively. In Dubai's competitive landscape, visibility matters—and so does the quality of your listing. Buyers and tenants make quick decisions based on photos, descriptions, and pricing.",
-      "We create listings that stand out. From professional photography and virtual tours to SEO-optimised descriptions, we ensure your property makes a strong first impression. We list on the UAE's leading portals and use targeted campaigns to reach qualified prospects.",
-      "Pricing is equally important. We use market data to position your property competitively, balancing speed of sale with maximum return. Our internal network of investors and renters also means your property reaches pre-screened, serious buyers and tenants.",
+      "At Rocky Real Estate, we do more than just list your property. We use the right combination of online visibility, an exclusive network, and digital media to ensure your property is marketed effectively.",
+      "Without a customised approach and top-tier marketing services, we guarantee your property listing stands out and gets the best results, with less effort on your end.",
     ],
     subservices: [
       { id: 1, title: "Exposure on leading portals", icon: "exposure-portals", description: "Your property is listed on the UAE’s prominent real estate portals like Bayut, Property Finder, and more." },
@@ -803,9 +800,8 @@ export const services: Service[] = [
     description: "Paperwork to handover, we manage everything for our clients, even after the sale is done.",
     overviewHeading: "Support That Continues After the Sale",
     overview: [
-      "The moment you receive the keys is just the beginning of your property journey. Registration, utility connections, and handover inspections are critical steps that can be time-consuming and confusing without the right support. Our after-sales service ensures these processes run smoothly so you can settle in without stress.",
-      "We coordinate with developers, authorities, and service providers to handle the administrative work on your behalf. Whether you need help with title deed registration, utility setup, or connecting with trusted fit-out specialists, we are here to guide you through each step.",
-      "Our relationship with you does not end at the sale. We remain available to assist with any questions or needs that arise after handover, including future resale or rental considerations. Your success is our priority, long after the transaction is complete.",
+      "The moment you receive the keys is just the beginning of your property journey. But at Rocky Real Estate, our service extends beyond simply handing over the keys.",
+      "Our team of experienced professionals, with extensive knowledge of property laws, registration processes, utility connections, and more, provides after-sales support. We remain available to assist with any queries that arise after handover, including future resale or rental considerations.",
     ],
     subservices: [
       { id: 1, title: "Title deed preparation & registration", icon: "title-deed", description: "We manage the registration and ownership process, ensuring everything is handled efficiently." },
