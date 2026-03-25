@@ -190,7 +190,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
 
       <section className="relative w-full">
         {/* ── MAIN HERO ── */}
-        <div className="relative w-full" style={{ minHeight: 'min(92vh, 780px)' }}>
+        <div className="relative w-full" style={{ minHeight: 'min(100vh)' }}>
 
           {/* ── Background Slider ── */}
           <div className="absolute inset-0 z-0">

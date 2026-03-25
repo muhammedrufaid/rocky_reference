@@ -25,8 +25,8 @@ export default async function OffPlanPropertyPage({
 
     return (
         <div className="min-h-screen bg-white">
-            <Header forceSolid />
-            <main className="pt-16 md:pt-20">
+            <Header/>
+            <main>
                 <OffPlanIndividualHero data={property} />
             </main>
             <Footer />

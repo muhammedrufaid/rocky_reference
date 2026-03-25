@@ -15,26 +15,28 @@ const fadeInUp = {
 };
 
 const Hero: React.FC<HeroProps> = ({
-  videoSrc = "https://www.pexels.com/download/video/29575342/",
+  // videoSrc = "https://www.pexels.com/download/video/29575342/",
+  videoSrc = "https://www.pexels.com/download/video/8359173/",
 }) => {
   const [videoLoaded, setVideoLoaded] = React.useState(false);
   const [videoError, setVideoError] = React.useState(false);
 
   return (
     <main className="relative min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)]">
-      {/* Video background - gradient fallback when video not loaded */}
+      {/* Video background */}
       <div className="absolute inset-0 z-0">
-        {/* Gradient fallback - shows when video hasn't loaded or failed */}
+        {/* Gradient fallback — shown while video loads or on error */}
         <div
           className={`absolute inset-0 transition-opacity duration-500 ${
             videoLoaded && !videoError ? "opacity-0" : "opacity-100"
           }`}
           style={{
             background:
-              "linear-gradient(to right, rgba(13, 54, 94, 0.98) 0%, rgba(13, 54, 94, 0.85) 50%, rgba(13, 54, 94, 0.6) 100%)",
+              "linear-gradient(135deg, rgba(13, 54, 94, 0.72) 0%, rgba(20, 40, 60, 0.55) 100%)",
           }}
           aria-hidden
         />
+
         <video
           autoPlay
           muted
@@ -49,11 +51,35 @@ const Hero: React.FC<HeroProps> = ({
         >
           <source src={videoSrc} type="video/mp4" />
         </video>
+
+        {/*
+          Subtle dual-tone overlay:
+          - Left side: a very light dark wash so white text stays readable
+          - Right side: almost fully transparent so the cityscape breathes
+          - A thin bottom vignette grounds the search bar area
+          No dominant blue cast — just enough contrast for legibility.
+        */}
         <div
           className="absolute inset-0 z-[1]"
           style={{
+            background: `
+              linear-gradient(
+                to right,
+                rgba(8, 18, 28, 0.52) 0%,
+                rgba(8, 18, 28, 0.28) 55%,
+                rgba(8, 18, 28, 0.08) 100%
+              )
+            `,
+          }}
+          aria-hidden
+        />
+
+        {/* Bottom vignette — anchors the UI without affecting the skyline */}
+        <div
+          className="absolute inset-x-0 bottom-0 z-[2] h-40 pointer-events-none"
+          style={{
             background:
-              "linear-gradient(to right, rgba(13, 54, 94, 0.88) 0%, rgba(13, 54, 94, 0.65) 50%, rgba(13, 54, 94, 0.35) 100%)",
+              "linear-gradient(to top, rgba(8, 18, 28, 0.38) 0%, transparent 100%)",
           }}
           aria-hidden
         />
@@ -76,7 +102,7 @@ const Hero: React.FC<HeroProps> = ({
               Find Your Dream Home in Dubai
             </motion.h1>
             <motion.p
-              className="mt-3 md:mt-4 text-base md:text-lg text-white/90 max-w-xl"
+              className="mt-3 md:mt-4 text-base md:text-lg text-white/85 max-w-xl"
               initial={fadeInUp.initial}
               animate={fadeInUp.animate}
               transition={{
@@ -85,7 +111,8 @@ const Hero: React.FC<HeroProps> = ({
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
-              Luxury villas, penthouses, apartments, and more. Explore properties you can buy or invest in across Dubai.
+              Luxury villas, penthouses, apartments, and more. Explore
+              properties you can buy or invest in across Dubai.
             </motion.p>
           </header>
 
