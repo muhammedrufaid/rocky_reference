@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation, Pagination, Thumbs, EffectFade } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
@@ -146,7 +146,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
   onRequestCallback,
   onDownloadBrochure,
 }) => {
-  const resolvedImages = (data?.images ?? images ) as string[]
+  const resolvedImages = (data?.images ?? images) as string[]
   const resolvedPropertyTitle = data?.propertyTitle ?? data?.towerName ?? data?.propertyRefNo ?? propertyTitle
   const resolvedPrice = data?.price ? `AED ${Number(data.price).toLocaleString()}` : price
   const resolvedCity = data?.city ?? city
@@ -160,7 +160,12 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
   const resolvedOffPlan = data?.offPlan ? data.offPlan.toLowerCase() === 'yes' : offPlan
   const resolvedWhatsappNumber = (data?.listingAgentPhone ?? whatsappNumber)?.replace(/\D/g, '') || '971501234567'
 
-  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null)
+  const safeImages = useMemo(() => (Array.isArray(resolvedImages) ? resolvedImages.filter(Boolean) : []), [resolvedImages])
+  const canLoop = safeImages.length > 1
+
+  const heroSwiperRef = useRef<SwiperType | null>(null)
+  const [heroThumbsSwiper, setHeroThumbsSwiper] = useState<SwiperType | null>(null)
+  const [galleryThumbsSwiper, setGalleryThumbsSwiper] = useState<SwiperType | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isGalleryOpen, setIsGalleryOpen] = useState(false)
   const prevRef = useRef<HTMLButtonElement>(null)
@@ -176,6 +181,21 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
     { icon: <SizeIcon />, value: `${resolvedPropertySize}`, label: 'sqft' },
   ]
 
+  useEffect(() => {
+    const swiper = heroSwiperRef.current
+    if (!swiper) return
+    if (!prevRef.current || !nextRef.current) return
+
+    if (swiper.params.navigation && typeof swiper.params.navigation !== 'boolean') {
+      swiper.params.navigation.prevEl = prevRef.current
+      swiper.params.navigation.nextEl = nextRef.current
+    }
+
+    swiper.navigation?.destroy?.()
+    swiper.navigation?.init?.()
+    swiper.navigation?.update?.()
+  }, [])
+
   return (
     <>
       {/* ── Swiper CSS Overrides ── */}
@@ -190,7 +210,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
 
       <section className="relative w-full">
         {/* ── MAIN HERO ── */}
-        <div className="relative w-full" style={{ minHeight: 'min(100vh)' }}>
+        <div className="relative w-full" style={{ minHeight: '100vh' }}>
 
           {/* ── Background Slider ── */}
           <div className="absolute inset-0 z-0">
@@ -198,23 +218,33 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
               className="rre-hero-swiper"
               modules={[Autoplay, EffectFade, Thumbs, Navigation]}
               effect="fade"
-              autoplay={{ delay: 5000, disableOnInteraction: false }}
-              loop
+              autoplay={canLoop ? { delay: 5000, disableOnInteraction: false } : false}
+              loop={canLoop}
               speed={1000}
-              navigation={{ prevEl: prevRef.current, nextEl: nextRef.current }}
-              onInit={(swiper) => {
-                // Attach custom nav refs after buttons mount.
+              navigation={{
+                prevEl: prevRef.current ?? undefined,
+                nextEl: nextRef.current ?? undefined,
+              }}
+              onBeforeInit={(swiper) => {
+                heroSwiperRef.current = swiper
                 if (swiper.params.navigation && typeof swiper.params.navigation !== 'boolean') {
                   swiper.params.navigation.prevEl = prevRef.current
                   swiper.params.navigation.nextEl = nextRef.current
                 }
-                swiper.navigation.init()
-                swiper.navigation.update()
               }}
-              thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
+              onInit={(swiper) => {
+                if (swiper.params.navigation && typeof swiper.params.navigation !== 'boolean') {
+                  swiper.params.navigation.prevEl = prevRef.current
+                  swiper.params.navigation.nextEl = nextRef.current
+                }
+                swiper.navigation?.destroy?.()
+                swiper.navigation?.init?.()
+                swiper.navigation?.update?.()
+              }}
+              thumbs={{ swiper: heroThumbsSwiper && !heroThumbsSwiper.destroyed ? heroThumbsSwiper : null }}
               onSlideChange={(s) => setActiveIndex(s.realIndex)}
             >
-              {resolvedImages?.map((src, i) => (
+              {safeImages.map((src, i) => (
                 <SwiperSlide key={i}>
                   <div className="w-full h-full">
                     <img
@@ -347,11 +377,11 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                         className="rre-thumb-swiper"
                         modules={[Thumbs]}
                         watchSlidesProgress
-                        onSwiper={setThumbsSwiper}
+                        onSwiper={setHeroThumbsSwiper}
                         slidesPerView={4}
                         spaceBetween={5}
                       >
-                        {resolvedImages.map((src, i) => (
+                        {safeImages.map((src, i) => (
                           <SwiperSlide key={i}>
                             <div className="h-9 rounded overflow-hidden">
                               <img src={src} alt="" className="w-full h-full object-cover" />
@@ -365,7 +395,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                       className="flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase text-white/55 hover:text-[#C3AD95] transition-colors duration-200 cursor-pointer"
                     >
                       <GridIcon />
-                      All Photos ({resolvedImages.length})
+                      All Photos ({safeImages.length})
                     </button>
                   </motion.div>
                 </motion.div>
@@ -454,7 +484,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                 className="text-[11px] tracking-[0.2em] text-white/50"
                 style={{ fontFamily: 'monospace' }}
               >
-                {String(activeIndex + 1).padStart(2, '0')} / {String(resolvedImages.length).padStart(2, '0')}
+                {String(activeIndex + 1).padStart(2, '0')} / {String(safeImages.length).padStart(2, '0')}
               </span>
               <div className="flex gap-1.5">
                 <button
@@ -542,11 +572,11 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                 className="rre-gallery-swiper w-full h-full max-w-5xl"
                 modules={[Navigation, Thumbs]}
                 navigation={{ prevEl: '#gallery-prev', nextEl: '#gallery-next' }}
-                loop
-                thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
+                loop={canLoop}
+                thumbs={{ swiper: galleryThumbsSwiper && !galleryThumbsSwiper.destroyed ? galleryThumbsSwiper : null }}
                 style={{ height: '100%' }}
               >
-                {resolvedImages.map((src, i) => (
+                {safeImages.map((src, i) => (
                   <SwiperSlide key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <img
                       src={src}
@@ -573,7 +603,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                   className="rre-thumb-swiper"
                   modules={[Thumbs]}
                   watchSlidesProgress
-                  onSwiper={setThumbsSwiper}
+                  onSwiper={setGalleryThumbsSwiper}
                   spaceBetween={6}
                   breakpoints={{
                     320: { slidesPerView: 5 },
@@ -581,7 +611,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     1024: { slidesPerView: 10 },
                   }}
                 >
-                  {resolvedImages.map((src, i) => (
+                  {safeImages.map((src, i) => (
                     <SwiperSlide key={i}>
                       <div className="h-12 rounded overflow-hidden">
                         <img src={src} alt="" className="w-full h-full object-cover" />
