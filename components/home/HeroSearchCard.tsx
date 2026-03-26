@@ -115,8 +115,6 @@ const HeroSearchCard: React.FC = () => {
           error.name !== "AbortError" &&
           requestId === lastRequestIdRef.current
         ) {
-          // If "load more" fails, don't wipe the already visible suggestions.
-          // Just stop further pagination attempts.
           setHasMoreSuggestions(false);
         }
       } finally {
@@ -185,7 +183,6 @@ const HeroSearchCard: React.FC = () => {
     let html = "";
     let lastIndex = 0;
 
-    // Wrap each exact match occurrence with <b><u>...</u></b>.
     let match: RegExpExecArray | null;
     // eslint-disable-next-line no-cond-assign
     while ((match = regex.exec(text)) !== null) {
@@ -196,7 +193,6 @@ const HeroSearchCard: React.FC = () => {
       html += `<b><u>${escapeHtml(text.slice(start, end))}</u></b>`;
       lastIndex = end;
 
-      // Safety: avoid infinite loops if regex matches empty strings.
       if (match[0].length === 0) break;
     }
 
@@ -258,7 +254,7 @@ const HeroSearchCard: React.FC = () => {
         <motion.div
           role="tablist"
           aria-label="Transaction type"
-          className="flex gap-1 p-1 rounded-lg bg-white/10 backdrop-blur-sm w-fit"
+          className="flex gap-1 p-1 rounded-lg bg-[#081F3A]/35 backdrop-blur-sm w-fit border border-[#C3AD95]/25"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
@@ -278,10 +274,11 @@ const HeroSearchCard: React.FC = () => {
                 setActiveTab(tab);
                 setSelectedCategory("");
               }}
-              className={`min-w-[72px] cursor-pointer md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${activeTab === tab
-                ? "bg-white text-[#0d365e]"
-                : "text-white/90 hover:text-white hover:bg-white/10"
-                }`}
+              className={`min-w-[72px] cursor-pointer md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
+                activeTab === tab
+                  ? "bg-[#E7DCCD] text-[#0D365E] shadow-sm"
+                  : "bg-transparent text-[#E7DCCD]/85 hover:text-[#FFFFFF] hover:bg-[#1C4E80]/25"
+              }`}
             >
               {tab}
             </button>
@@ -300,7 +297,7 @@ const HeroSearchCard: React.FC = () => {
         >
           <div
             ref={searchBoxRef}
-            className="relative flex flex-1 min-h-[48px] md:min-h-[52px] rounded-lg bg-white/95"
+            className="relative flex flex-1 min-h-[48px] md:min-h-[52px] rounded-lg bg-[#FFFFFF] border border-[#C3AD95]/40 shadow-sm focus-within:ring-2 focus-within:ring-[#1C4E80]/30"
           >
             {/* Category dropdown */}
             <div ref={dropdownRef} className="relative shrink-0">
@@ -310,14 +307,13 @@ const HeroSearchCard: React.FC = () => {
                 aria-expanded={dropdownOpen}
                 aria-label={`Category: ${selectedCategory || "All"}`}
                 onClick={() => setDropdownOpen((prev) => !prev)}
-                className="flex items-center cursor-pointer gap-1.5 h-full px-3 md:px-4 text-sm font-medium text-[#333333] border-r border-[#e5e7eb] hover:bg-[#f5f0ea] transition-colors rounded-l-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#c3ad95] whitespace-nowrap"
+                className="flex items-center cursor-pointer gap-1.5 h-full px-3 md:px-4 text-sm font-medium text-[#081F3A] border-r border-[#C3AD95]/40 hover:bg-[#E7DCCD]/60 transition-colors rounded-l-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#1C4E80] whitespace-nowrap"
               >
                 <span className="max-w-[90px] truncate">
                   {selectedCategory || categories[0] || "Category"}
                 </span>
                 <svg
-                  className={`w-3.5 h-3.5 shrink-0 text-[#333333]/60 transition-transform ${dropdownOpen ? "rotate-180" : ""
-                    }`}
+                  className={`w-3.5 h-3.5 shrink-0 text-[#081F3A]/60 transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -336,7 +332,7 @@ const HeroSearchCard: React.FC = () => {
                 <ul
                   role="listbox"
                   aria-label={`Category for ${activeTab}`}
-                  className="absolute top-full left-0 mt-1 min-w-[160px] py-1 rounded-lg bg-white shadow-lg border border-[#e5e7eb] z-20"
+                  className="absolute top-full left-0 mt-1 min-w-[160px] py-1 rounded-lg bg-[#FFFFFF] shadow-lg border border-[#C3AD95]/40 z-20"
                 >
                   {categories.map((category) => (
                     <li
@@ -350,8 +346,8 @@ const HeroSearchCard: React.FC = () => {
                         setDropdownOpen(false);
                       }}
                       className={`px-4 py-2.5 text-sm cursor-pointer transition-colors ${selectedCategory === category
-                        ? "bg-[#e7dccd]/40 text-[#0d365e] font-medium"
-                        : "text-[#333333] hover:bg-[#f5f0ea]"
+                        ? "bg-[#E7DCCD]/80 text-[#0D365E] font-medium"
+                        : "text-[#333333] hover:bg-[#E7DCCD]/50"
                         }`}
                     >
                       {category}
@@ -375,12 +371,12 @@ const HeroSearchCard: React.FC = () => {
                 }
               }}
               placeholder="Search location, property"
-              className="flex-1 min-w-0 min-h-[48px] md:min-h-[52px] px-3 md:px-4 py-2.5 md:py-3 bg-transparent text-[#333333] placeholder:text-[#333333]/50 border-0 focus:ring-0 focus:outline-none text-base"
+              className="flex-1 min-w-0 min-h-[48px] md:min-h-[52px] px-3 md:px-4 py-2.5 md:py-3 bg-transparent text-[#081F3A] placeholder:text-[#333333]/55 border-0 focus:ring-0 focus:outline-none text-base"
               autoComplete="off"
             />
 
             {suggestionsOpen && searchQuery.trim() && (
-              <div className="absolute left-0 right-0 top-[calc(100%+6px)] z-30 rounded-lg border border-[#e5e7eb] bg-white shadow-lg overflow-hidden">
+              <div className="absolute left-0 right-0 top-[calc(100%+6px)] z-30 rounded-lg border border-[#C3AD95]/40 bg-[#FFFFFF] shadow-lg overflow-hidden">
                 {suggestions.length > 0 ? (
                   <ul
                     role="listbox"
@@ -401,11 +397,10 @@ const HeroSearchCard: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleSuggestionClick(suggestion)}
-                          className="w-full cursor-pointer px-4 py-3 text-left hover:bg-[#f5f0ea] transition-colors border-b border-[#f3f4f6] last:border-b-0"
+                          className="w-full cursor-pointer px-4 py-3 text-left hover:bg-[#E7DCCD]/70 transition-colors border-b border-[#C3AD95]/25 last:border-b-0"
                         >
                           <p
-                            className="text-sm font-normal text-[#0d365e] truncate"
-                            // Highlight query matches in title (case-insensitive, preserve original casing).
+                            className="text-sm font-normal text-[#081F3A] truncate"
                             dangerouslySetInnerHTML={{
                               __html: highlightMatchesToHtml(
                                 getSuggestionTitleText(suggestion),
@@ -413,39 +408,22 @@ const HeroSearchCard: React.FC = () => {
                               ),
                             }}
                           />
-                          {/* <p className="text-xs text-[#555555] mt-1">
-                            {suggestion.type || suggestion.propertyRefNo
-                              ? [
-                                  suggestion.type
-                                    ? suggestion.type === "subLocality"
-                                      ? "Sub Locality"
-                                      : "Tower"
-                                    : undefined,
-                                  suggestion.propertyPurpose,
-                                  suggestion.propertyType,
-                                  suggestion.locality,
-                                  suggestion.subLocality,
-                                ]
-                                  .filter(Boolean)
-                                  .join(" | ")
-                              : ""}
-                          </p> */}
                         </button>
                       </li>
                     ))}
 
                     {isFetchingSuggestions && (
-                      <li className="px-4 py-2 text-xs text-[#666666]">
+                      <li className="px-4 py-2 text-xs text-[#081F3A]/60">
                         Loading more...
                       </li>
                     )}
                   </ul>
                 ) : isFetchingSuggestions ? (
-                  <div className="px-4 py-3 text-sm text-[#666666]">
+                  <div className="px-4 py-3 text-sm text-[#081F3A]/60">
                     Searching...
                   </div>
                 ) : (
-                  <div className="px-4 py-3 text-sm text-[#666666]">
+                  <div className="px-4 py-3 text-sm text-[#081F3A]/60">
                     No matching properties found.
                   </div>
                 )}
@@ -453,12 +431,13 @@ const HeroSearchCard: React.FC = () => {
             )}
           </div>
 
+          {/* CTA: warm Sandstone to stand out on dark hero */}
           <button
-            type="submit"
-            className="min-h-[48px] md:min-h-[52px] px-6 md:px-8 rounded-lg bg-[#c3ad95] hover:bg-[#9f8870] active:bg-[#a38c73] cursor-pointer text-[#000000] font-medium text-base transition-all duration-200 ease-out hover:shadow-md active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0 sm:w-auto w-full"
-          >
-            Search
-          </button>
+  type="submit"
+  className="min-h-[48px] md:min-h-[52px] px-6 md:px-8 rounded-lg bg-gradient-to-r from-[#0D365E] via-[#1C4E80] to-[#0D365E] hover:from-[#1C4E80] hover:via-[#0D365E] hover:to-[#081F3A] active:from-[#081F3A] active:to-[#0D365E] text-white font-semibold text-base transition-all duration-200 ease-out hover:shadow-[0_6px_18px_rgba(28,78,128,0.35)] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white cursor-pointer shrink-0 sm:w-auto w-full"
+>
+  Search
+</button>
 
         </motion.div>
       </fieldset>
