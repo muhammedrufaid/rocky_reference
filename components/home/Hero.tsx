@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 import HeroSearchCard from "./HeroSearchCard";
+import HeroSearchCardV2 from "./HeroSearchCardV2";
 
 interface HeroProps {
   videoSrc?: string;
@@ -99,7 +100,7 @@ const Hero: React.FC<HeroProps> = ({
               animate={fadeInUp.animate}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              Find Your Dream Home in Dubai
+              Find Your Dream Home <br /> in Dubai
             </motion.h1>
             <motion.p
               className="mt-3 md:mt-4 text-base md:text-lg text-white/85 max-w-xl"
@@ -116,7 +117,8 @@ const Hero: React.FC<HeroProps> = ({
             </motion.p>
           </header>
 
-          <HeroSearchCard />
+          {/* <HeroSearchCard /> */}
+          <HeroSearchCardV2 />
         </Container>
       </section>
     </main>
