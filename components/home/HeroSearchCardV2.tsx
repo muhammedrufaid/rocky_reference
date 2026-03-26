@@ -357,6 +357,25 @@ const HeroSearchCardV2: React.FC = () => {
               </div>
             )}
 
+            {/* Clear all button — shown when 2+ items selected */}
+            {selectedItems.length > 1 && (
+              <button
+                onClick={() => { setSelectedItems([]); setShowOverflowPopover(false); }}
+                aria-label="Clear all selected"
+                className={[
+                  "inline-flex items-center gap-1 px-2 py-1 rounded-md",
+                  "text-[0.68rem] font-semibold whitespace-nowrap cursor-pointer",
+                  "border border-[rgba(220,50,50,0.2)] bg-[rgba(220,50,50,0.05)]",
+                  "text-[#C0392B] hover:bg-[rgba(220,50,50,0.12)] transition-colors duration-150",
+                ].join(" ")}
+              >
+                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" aria-hidden="true">
+                  <path d="M1 1l6 6M7 1L1 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+                Clear all
+              </button>
+            )}
+
             {/* Text input */}
             <input
               ref={inputRef}
