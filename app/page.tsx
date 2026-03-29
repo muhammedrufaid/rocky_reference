@@ -31,7 +31,7 @@ export default async function Home() {
       <DevelopmentPartnersSection />
       <ServiceSection data={services} />
       <AwardsSection />
-      <AwardsSection3 />
+      {/* <AwardsSection3 /> */}
       {/* <WhyChooseUsSection /> */}
       <WhyChooseUsSection2 />
       <Newsletter />
