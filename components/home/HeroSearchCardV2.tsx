@@ -14,7 +14,7 @@ type SearchCategory = "RESIDENTIAL" | "COMMERCIAL" | "OFF PLAN";
 type BuyOption = "BUY" | "RENT" | "OFF PLAN";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-const BUY_OPTIONS: BuyOption[] = ["BUY", "RENT", "OFF PLAN"];
+const BUY_OPTIONS: BuyOption[] = ["BUY", "RENT"];
 const CATEGORIES: SearchCategory[] = ["RESIDENTIAL", "COMMERCIAL", "OFF PLAN"];
 
 // How many tags to show inline before collapsing into "+N More"

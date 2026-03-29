@@ -15,6 +15,8 @@ import { services } from "@/utils/data";
 import WhyChooseUsSection2 from "@/components/home/WhyChooseUsSection2";
 import Newsletter from "@/components/home/Newsletter";
 import PropertyCategoriesSection from "@/components/home/PropertyCategoriesSection";
+import AwardsSection from "@/components/home/AwardsSection";
+import AwardsSection3 from "@/components/home/AwardsSection3";
 
 export default async function Home() {
   const offPlanPropertiesData = await getOffPlanProperties();
@@ -28,6 +30,8 @@ export default async function Home() {
       <PropertyCategoriesSection data={readyPropertiesData}/>
       <DevelopmentPartnersSection />
       <ServiceSection data={services} />
+      <AwardsSection />
+      <AwardsSection3 />
       {/* <WhyChooseUsSection /> */}
       <WhyChooseUsSection2 />
       <Newsletter />
