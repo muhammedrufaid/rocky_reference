@@ -224,8 +224,11 @@ const HeroSearchCardV2: React.FC = () => {
               className={[
                 "h-full flex items-center gap-2 px-5 cursor-pointer select-none rounded-l-lg",
                 "border-none outline-none text-white text-[0.78rem] font-semibold tracking-[0.1em]",
-                "min-w-[88px] transition-colors duration-200",
-                "bg-[#081F3A] hover:bg-[#0D365E]",
+                "min-w-[88px] transition-all duration-200",
+                "bg-gradient-to-br from-[#1C4E80] via-[#0D365E] to-[#1C4E80]",
+                "shadow-[inset_0_1px_0_rgba(255,255,255,0.14)]",
+                "hover:from-[#0D365E] hover:via-[#1C4E80] hover:to-[#0D365E]",
+                "active:from-[#081F3A] active:via-[#0D365E] active:to-[#081F3A]",
               ].join(" ")}
             >
               <span>{buyOption}</span>
@@ -249,8 +252,10 @@ const HeroSearchCardV2: React.FC = () => {
                   transition={{ duration: 0.16 }}
                   className={[
                     "absolute top-full left-0 mt-1.5 z-50 overflow-hidden rounded-lg",
-                    "bg-[#081F3A] min-w-[120px] list-none p-0 m-0",
-                    "shadow-[0_8px_24px_rgba(8,31,58,0.35)] border border-[rgba(28,78,128,0.3)]",
+                    "min-w-[120px] list-none p-0 m-0",
+                    "bg-gradient-to-b from-[#1C4E80] via-[#0D365E] to-[#081F3A]",
+                    "shadow-[0_8px_24px_rgba(8,31,58,0.35),inset_0_1px_0_rgba(255,255,255,0.08)]",
+                    "border border-[rgba(28,78,128,0.45)]",
                   ].join(" ")}
                   style={{ transformOrigin: "top" }}
                 >
