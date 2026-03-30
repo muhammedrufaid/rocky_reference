@@ -224,11 +224,8 @@ const HeroSearchCardV2: React.FC = () => {
               className={[
                 "h-full flex items-center gap-2 px-5 cursor-pointer select-none rounded-l-lg",
                 "border-none outline-none text-white text-[0.78rem] font-semibold tracking-[0.1em]",
-                "min-w-[88px] transition-all duration-200",
-                "bg-gradient-to-br from-[#1C4E80] via-[#0D365E] to-[#1C4E80]",
-                "shadow-[inset_0_1px_0_rgba(255,255,255,0.14)]",
-                "hover:from-[#0D365E] hover:via-[#1C4E80] hover:to-[#0D365E]",
-                "active:from-[#081F3A] active:via-[#0D365E] active:to-[#081F3A]",
+                "min-w-[88px] transition-colors duration-200",
+                "bg-[#0D365E] hover:bg-[#0D365E]",
               ].join(" ")}
             >
               <span>{buyOption}</span>
