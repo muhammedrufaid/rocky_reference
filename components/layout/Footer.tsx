@@ -1,4 +1,7 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Container from "./Container";
 import Image from "next/image";
@@ -26,16 +29,11 @@ const popularSearches = [
     "Business Bay", "JBR", "Dubai Hills",
 ];
 
-const areasWeCover = [
-    "Dubai", "Abu Dhabi", "Sharjah", "Ajman", "Ras Al Khaimah",
-];
-
 const socialLinks = [
     { name: "Instagram", href: "https://www.instagram.com/rockyrealestatedubai", icon: "instagram" },
     { name: "LinkedIn", href: "https://www.linkedin.com/company/rockyrealestatedubai/", icon: "linkedin" },
     { name: "Facebook", href: "https://www.facebook.com/rockyrealestatedubai/", icon: "facebook" },
     { name: "TikTok", href: "https://www.tiktok.com/@rockyrealestate", icon: "tiktok" },
-    // { name: "YouTube", href: "https://youtube.com", icon: "youtube" },
 ];
 
 const SocialIcon = ({ name, className }: { name: string; className?: string }) => {
@@ -55,79 +53,92 @@ const SocialIcon = ({ name, className }: { name: string; className?: string }) =
                 <path d="M100.28 448H7.4V148.9h92.78zm-46.4-341.6C24.12 106.4 0 82.28 0 53.2A53.2 53.2 0 0 1 53.2 0a53.2 53.2 0 0 1 53.2 53.2c0 29.08-24.12 53.2-53.32 53.2zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.68V148.9h89V184h1.3c12.4-23.5 42.7-48.3 87.8-48.3 93.8 0 111.1 61.7 111.1 141.9V448z" />
             </svg>
         ),
-        youtube: (
-            <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-            </svg>
-        ),
         facebook: (
-            <svg
-                className={className}
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-            >
+            <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M24 12C24 5.37 18.63 0 12 0S0 5.37 0 12c0 5.99 4.39 10.95 10.13 11.85v-8.39H7.08v-3.46h3.05V9.41c0-3 1.79-4.67 4.53-4.67 1.31 0 2.68.23 2.68.23v2.95h-1.51c-1.49 0-1.95.92-1.95 1.87v2.24h3.33l-.53 3.46h-2.8v8.39C19.61 22.95 24 17.99 24 12z" />
             </svg>
         ),
-
     };
     return icons[name] ?? null;
 };
 
 const Footer: React.FC = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
         <footer id="site-footer" className="bg-[#0d365e] text-white">
             <Container className="py-12 md:py-16 lg:py-20">
 
-                {/* SEO – Popular Searches & Areas */}
+                {/* SEO – Popular Searches */}
                 <section
                     className="mb-8 pb-8 border-b border-white/20"
-                    aria-labelledby="footer-extra-heading"
+                    aria-labelledby="footer-popular-searches-heading"
                 >
-                    <div className="grid grid-cols-1 gap-8 items-start">
-                        {/* Popular Searches */}
-                        <nav aria-label="Popular searches">
-                            <details className="group">
-                                <summary
-                                    className="list-none cursor-pointer select-none flex w-full items-center justify-between gap-4 text-xs font-medium uppercase tracking-wider text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d365e] rounded"
-                                >
-                                    <span className="font-semibold">Popular Searches</span>
-                                    <svg
-                                        className="h-3 w-3 text-white/90 transition-transform duration-200 group-open:rotate-180"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06Z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                </summary>
-                                <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out group-open:grid-rows-[1fr]">
-                                    <div className="overflow-hidden">
-                                        <div className="mt-3">
-                                            <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-2">
-                                                {popularSearches.map((area) => (
-                                                    <li key={area}>
-                                                        <Link
-                                                            href={`/areas?q=${encodeURIComponent(area)}`}
-                                                            className="text-xs text-blue-200 hover:text-white py-1 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
-                                                        >
-                                                            {area}
-                                                        </Link>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </details>
-                        </nav>
+                    <nav aria-label="Popular searches">
+                        {/* Trigger button */}
+                        <button
+                            id="footer-popular-searches-heading"
+                            aria-expanded={isOpen}
+                            aria-controls="popular-searches-panel"
+                            onClick={() => setIsOpen((prev) => !prev)}
+                            className="flex w-full items-center justify-between gap-4 text-xs font-semibold uppercase tracking-wider text-white cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d365e] rounded"
+                        >
+                            <span>Popular Searches</span>
 
-                    </div>
+                            {/* Chevron — animates exactly like FAQs + icon */}
+                            <motion.svg
+                                className="h-3 w-3 text-white/90"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                                animate={{ rotate: isOpen ? 180 : 0 }}
+                                transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06Z"
+                                    clipRule="evenodd"
+                                />
+                            </motion.svg>
+                        </button>
+
+                        {/*
+                          Panel — identical transition config to FAQs <AnimatePresence> answer panel:
+                            height: 0 → auto  (duration 0.35s, cubic-bezier ease)
+                            opacity: 0 → 1    (duration 0.25s, easeInOut)
+                        */}
+                        <AnimatePresence initial={false}>
+                            {isOpen && (
+                                <motion.div
+                                    id="popular-searches-panel"
+                                    role="region"
+                                    aria-labelledby="footer-popular-searches-heading"
+                                    key="popular-searches"
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{
+                                        height: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] },
+                                        opacity: { duration: 0.25, ease: "easeInOut" },
+                                    }}
+                                    style={{ overflow: "hidden" }}
+                                >
+                                    <ul className="mt-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-2">
+                                        {popularSearches.map((area) => (
+                                            <li key={area}>
+                                                <Link
+                                                    href={`/areas?q=${encodeURIComponent(area)}`}
+                                                    className="text-xs text-blue-200 hover:text-white py-1 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
+                                                >
+                                                    {area}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </nav>
                 </section>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
@@ -237,16 +248,11 @@ const Footer: React.FC = () => {
                                         Privacy Policy
                                     </Link>
                                 </li>
-                                <li className="">
+                                <li>
                                     <Link href="/terms" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded">
                                         Terms of Use
                                     </Link>
                                 </li>
-                                {/* <li>
-                                    <Link href="/sitemap" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded">
-                                        Sitemap
-                                    </Link>
-                                </li> */}
                             </ul>
                         </nav>
                     </div>
