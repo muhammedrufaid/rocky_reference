@@ -83,11 +83,22 @@ export function filterPropertyListings(
     }
 
     if (filters.searchQuery && filters.searchQuery.trim()) {
-      const q = filters.searchQuery.trim().toLowerCase();
-      const match =
+      const qRaw = filters.searchQuery.trim().toLowerCase();
+      const tokens = qRaw
+        .split("|")
+        .map((t) => t.trim())
+        .filter(Boolean);
+
+      const matchesToken = (q: string) =>
         listing.title.toLowerCase().includes(q) ||
         listing.location.toLowerCase().includes(q) ||
-        (listing.propertyType?.toLowerCase().includes(q) ?? false);
+        (listing.propertyType?.toLowerCase().includes(q) ?? false) ||
+        (listing.towerName?.toLowerCase().includes(q) ?? false) ||
+        (listing.subLocality?.toLowerCase().includes(q) ?? false) ||
+        (listing.propertyTitle?.toLowerCase().includes(q) ?? false);
+
+      const match =
+        tokens.length > 0 ? tokens.some(matchesToken) : matchesToken(qRaw);
       if (!match) return false;
     }
 

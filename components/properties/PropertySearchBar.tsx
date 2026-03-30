@@ -3,7 +3,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Container from "@/components/layout/Container";
-import { getPropertyTypes } from "@/utils/getServices";
+import {
+  getPropertySuggestions,
+  getPropertyTypes,
+  type PropertySuggestion,
+} from "@/utils/getServices";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -91,6 +95,109 @@ const FilterIcon = () => (
       d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
     />
   </svg>
+);
+
+// ─── Suggestions helpers ──────────────────────────────────────────────────────
+
+const SEARCH_DEBOUNCE_MS = 200;
+const SUGGESTIONS_LIMIT = 20;
+const SUGGESTIONS_MAX_HEIGHT_PX = 260;
+const MAX_VISIBLE_TAGS = 1;
+
+function getSuggestionId(s: PropertySuggestion): string {
+  return (
+    s.propertyRefNo ||
+    s.full ||
+    s.label ||
+    `${s.type ?? ""}-${s.locality ?? ""}-${s.subLocality ?? ""}-${s.towerName ?? ""}`
+  );
+}
+
+function getSuggestionTitleText(s: PropertySuggestion) {
+  return String(
+    s.label ||
+      s.full ||
+      s.locality ||
+      s.subLocality ||
+      s.towerName ||
+      "Suggestion"
+  );
+}
+
+function isLocationLikeSuggestion(s: PropertySuggestion): boolean {
+  return Boolean(s.full?.trim() || s.label?.trim());
+}
+
+/** Short label for chips (first segment of full, or label). */
+function getChipLabel(s: PropertySuggestion): string {
+  const fromFull = s.full?.split(",")[0]?.trim();
+  return (s.label?.trim() || fromFull || getSuggestionTitleText(s)).trim();
+}
+
+const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+const escapeRegExp = (value: string) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+function highlightMatchesToHtml(text: string, query: string): string {
+  const trimmedQuery = query.trim();
+  if (!trimmedQuery) return escapeHtml(text);
+
+  const escapedQuery = escapeRegExp(trimmedQuery);
+  const regex = new RegExp(escapedQuery, "gi");
+
+  let html = "";
+  let lastIndex = 0;
+
+  let match: RegExpExecArray | null;
+  // eslint-disable-next-line no-cond-assign
+  while ((match = regex.exec(text)) !== null) {
+    const start = match.index ?? 0;
+    const end = start + match[0].length;
+
+    html += escapeHtml(text.slice(lastIndex, start));
+    html += `<span style="font-weight:600;text-decoration:underline">${escapeHtml(
+      text.slice(start, end)
+    )}</span>`;
+    lastIndex = end;
+
+    if (match[0].length === 0) break;
+  }
+
+  html += escapeHtml(text.slice(lastIndex));
+  return html;
+}
+
+const CloseIcon = () => (
+  <svg width="10" height="10" viewBox="0 0 8 8" fill="none" aria-hidden="true">
+    <path d="M1 1l6 6M7 1L1 7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+  </svg>
+);
+
+const TagChip: React.FC<{ label: string; onRemove: () => void }> = ({ label, onRemove }) => (
+  <span
+    className={[
+      "inline-flex items-center gap-1 rounded-md px-2.5 py-1",
+      "bg-[rgba(28,78,128,0.08)] text-[var(--rocky-blue)] text-[0.72rem] font-semibold",
+      "border border-[rgba(28,78,128,0.18)] whitespace-nowrap",
+    ].join(" ")}
+  >
+    {label}
+    <button
+      type="button"
+      onClick={onRemove}
+      aria-label={`Remove ${label}`}
+      className="ml-0.5 flex size-4 items-center justify-center rounded-full hover:bg-[rgba(28,78,128,0.12)] transition-colors border-none cursor-pointer bg-transparent text-[var(--rocky-blue)]"
+    >
+      <CloseIcon />
+    </button>
+  </span>
 );
 
 // ─── FilterDropdown ───────────────────────────────────────────────────────────
@@ -283,18 +390,126 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
   const [maxPrice, setMaxPrice] = useState(searchParams.get("max") ?? "");
   const [filterPanelOpen, setFilterPanelOpen] = useState(false);
 
+  const [suggestions, setSuggestions] = useState<PropertySuggestion[]>([]);
+  const [selectedItems, setSelectedItems] = useState<PropertySuggestion[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
+  const suggestionsRef = useRef<HTMLUListElement>(null);
+  const mobileInputRef = useRef<HTMLInputElement>(null);
+  const desktopInputRef = useRef<HTMLInputElement>(null);
+  const lastRequestIdRef = useRef(0);
+
   const [isSticky, setIsSticky] = useState(false);
   const [isHiddenByFooter, setIsHiddenByFooter] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
 
+  const visibleItems = selectedItems.slice(0, MAX_VISIBLE_TAGS);
+  const overflowItems = selectedItems.slice(MAX_VISIBLE_TAGS);
+  const overflowCount = overflowItems.length;
+  const [showOverflowPopover, setShowOverflowPopover] = useState(false);
+  const overflowBtnRef = useRef<HTMLButtonElement>(null);
+  const overflowPopRef = useRef<HTMLDivElement>(null);
+
   // Sync URL params → state
   useEffect(() => {
-    setSearchQuery(searchParams.get("q") ?? "");
+    const qFromUrl = searchParams.get("q") ?? "";
     setPropertyType(searchParams.get("type") ?? "");
     setMinPrice(searchParams.get("min") ?? "");
     setMaxPrice(searchParams.get("max") ?? "");
+
+    // If `q` contains multiple selections (joined by "|"), rebuild chips so
+    // the UI stays in multi-select mode after navigation.
+    const tokens = qFromUrl
+      .split("|")
+      .map((t) => t.trim())
+      .filter(Boolean);
+    if (tokens.length > 0) {
+      // Always render URL `q` as chips to avoid duplicating the same text
+      // in both the chips + the input after navigation.
+      setSelectedItems(tokens.map((t) => ({ label: t, full: t, type: "query" })));
+      setSearchQuery("");
+      setShowOverflowPopover(false);
+    } else {
+      setSelectedItems([]);
+      setSearchQuery("");
+      setShowOverflowPopover(false);
+    }
   }, [searchParams]);
+
+  // Suggestions: debounced, abortable lookup (mirrors HeroSearchCardV2 behavior).
+  useEffect(() => {
+    const query = searchQuery.trim();
+
+    if (!query || query.length < 2) {
+      setSuggestions([]);
+      setIsFetchingSuggestions(false);
+      return;
+    }
+
+    const requestId = ++lastRequestIdRef.current;
+    const controller = new AbortController();
+
+    const timer = window.setTimeout(async () => {
+      setIsFetchingSuggestions(true);
+      try {
+        const results = await getPropertySuggestions(
+          query,
+          SUGGESTIONS_LIMIT,
+          controller.signal
+        );
+        const locationRows = results.filter(isLocationLikeSuggestion);
+        const deduped = locationRows.filter(
+          (r) => !selectedItems.some((s) => getSuggestionId(s) === getSuggestionId(r))
+        );
+
+        if (requestId === lastRequestIdRef.current) {
+          setSuggestions(deduped);
+        }
+      } catch (error) {
+        if (
+          error instanceof Error &&
+          error.name !== "AbortError" &&
+          requestId === lastRequestIdRef.current
+        ) {
+          setSuggestions([]);
+        }
+      } finally {
+        if (requestId === lastRequestIdRef.current) {
+          setIsFetchingSuggestions(false);
+        }
+      }
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => {
+      window.clearTimeout(timer);
+      controller.abort();
+    };
+  }, [searchQuery]);
+
+  // Close suggestions on outside click.
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      const target = e.target as Node;
+      const isInsideSuggestions = suggestionsRef.current?.contains(target);
+      const isInsideMobileInput = mobileInputRef.current?.contains(target);
+      const isInsideDesktopInput = desktopInputRef.current?.contains(target);
+      if (!isInsideSuggestions && !isInsideMobileInput && !isInsideDesktopInput) {
+        setShowSuggestions(false);
+      }
+
+      if (
+        overflowPopRef.current &&
+        !overflowPopRef.current.contains(target) &&
+        overflowBtnRef.current &&
+        !overflowBtnRef.current.contains(target)
+      ) {
+        setShowOverflowPopover(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
 
   // Sticky sentinel
   useEffect(() => {
@@ -319,22 +534,37 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
   }, []);
 
   const buildUrl = useCallback(
-    (tx: TransactionType = transactionType) => {
+    (
+      tx: TransactionType = transactionType,
+      options?: {
+        qOverride?: string | null;
+        ignoreSelections?: boolean;
+      }
+    ) => {
       const params = new URLSearchParams();
-      if (searchQuery) params.set("q", searchQuery);
+      const queryFromSelections =
+        !options?.ignoreSelections && selectedItems.length > 0
+          ? selectedItems.map(getSuggestionTitleText).join(" | ")
+          : "";
+      const q =
+        options?.qOverride !== undefined
+          ? options.qOverride ?? ""
+          : queryFromSelections || searchQuery;
+      if (q) params.set("q", q);
       if (propertyType) params.set("type", propertyType);
       if (minPrice) params.set("min", minPrice);
       if (maxPrice) params.set("max", maxPrice);
       const query = params.toString();
       return `/properties/${tx}/in-dubai${query ? `?${query}` : ""}`;
     },
-    [searchQuery, propertyType, minPrice, maxPrice, transactionType]
+    [searchQuery, selectedItems, propertyType, minPrice, maxPrice, transactionType]
   );
 
   const handleSearch = (e?: React.FormEvent) => {
     e?.preventDefault();
     router.push(buildUrl());
     setFilterPanelOpen(false);
+    setShowSuggestions(false);
   };
 
   const hasActiveFilters = !!(propertyType || minPrice || maxPrice);
@@ -343,25 +573,183 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
     router.push(`/properties/${tx}/in-dubai`);
   };
 
+  const handleSuggestionSelect = (s: PropertySuggestion) => {
+    const sid = getSuggestionId(s);
+    setSelectedItems((prev) =>
+      prev.some((x) => getSuggestionId(x) === sid) ? prev : [...prev, s]
+    );
+    setSearchQuery("");
+    setShowSuggestions(false);
+    mobileInputRef.current?.focus();
+    desktopInputRef.current?.focus();
+  };
+
+  const handleRemoveSelected = (id: string) => {
+    setSelectedItems((prev) => prev.filter((s) => getSuggestionId(s) !== id));
+    if (overflowItems.length <= 1) setShowOverflowPopover(false);
+  };
+
+  const handleClearAllSelected = () => {
+    setSelectedItems([]);
+    setSearchQuery("");
+    setShowOverflowPopover(false);
+    router.push(buildUrl(transactionType, { qOverride: "", ignoreSelections: true }));
+  };
+
+  const suggestionsDropdown =
+    showSuggestions &&
+    searchQuery.trim().length >= 2 &&
+    (suggestions.length > 0 || isFetchingSuggestions) ? (
+      <ul
+        ref={suggestionsRef}
+        role="listbox"
+        aria-label="Property suggestions"
+        className="absolute left-0 right-0 top-full z-50 mt-1.5 overflow-y-auto rounded-xl bg-white py-2 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.07),0_10px_24px_-2px_rgba(0,0,0,0.08)] ring-1 ring-black/[0.04]"
+        style={{ maxHeight: `${SUGGESTIONS_MAX_HEIGHT_PX}px` }}
+      >
+        {suggestions.map((s, i) => (
+          <li key={getSuggestionId(s)} role="option" aria-selected={false}>
+            <button
+              type="button"
+              onMouseDown={() => handleSuggestionSelect(s)}
+              className={`w-full cursor-pointer px-4 py-3 text-left text-sm transition-colors duration-150 ${
+                i > 0 ? "border-t border-[var(--border-light)]" : ""
+              } hover:bg-[var(--soft-sand)]/40`}
+              style={{ color: "var(--charcoal)" }}
+            >
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: highlightMatchesToHtml(
+                    getSuggestionTitleText(s),
+                    searchQuery
+                  ),
+                }}
+              />
+            </button>
+          </li>
+        ))}
+        {isFetchingSuggestions && suggestions.length === 0 && (
+          <li className="px-4 py-3 text-sm" style={{ color: "rgba(51,51,51,0.55)" }}>
+            Searching…
+          </li>
+        )}
+      </ul>
+    ) : null;
+
   const barContent = (
     <form onSubmit={handleSearch} className="w-full">
       {/* Mobile */}
       <div className="flex items-center gap-2 lg:hidden">
-        <div className="flex-1 min-w-0">
+        <div className="relative flex-1 min-w-0">
           <label htmlFor="property-search-mobile" className="sr-only">
             Search properties
           </label>
-          <input
-            id="property-search-mobile"
-            type="search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            placeholder="Search location, community, building..."
-            className="h-11 w-full rounded-lg border bg-white px-4 py-2.5 text-sm placeholder:text-[var(--charcoal)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
-            style={{ color: "var(--charcoal)", borderColor: "var(--border-light)" }}
-            autoComplete="off"
-          />
+          <div
+            className="flex min-h-11 w-full flex-wrap items-center gap-1.5 rounded-lg border bg-white px-3 py-2 text-sm focus-within:ring-2 focus-within:ring-[var(--rocky-blue)]/40 focus-within:ring-offset-1"
+            style={{ borderColor: "var(--border-light)" }}
+          >
+            {visibleItems.map((item) => (
+              <TagChip
+                key={getSuggestionId(item)}
+                label={getChipLabel(item)}
+                onRemove={() => handleRemoveSelected(getSuggestionId(item))}
+              />
+            ))}
+
+            {overflowCount > 0 && (
+              <div className="relative">
+                <button
+                  ref={overflowBtnRef}
+                  type="button"
+                  onClick={() => setShowOverflowPopover((v) => !v)}
+                  aria-label={`Show ${overflowCount} more selected items`}
+                  className={[
+                    "inline-flex items-center gap-1 rounded-md px-2.5 py-1",
+                    "text-[0.72rem] font-semibold whitespace-nowrap cursor-pointer",
+                    "border transition-colors duration-150",
+                    showOverflowPopover
+                      ? "bg-[var(--rocky-blue)] text-white border-[var(--rocky-blue)]"
+                      : "bg-[rgba(28,78,128,0.08)] text-[var(--rocky-blue)] border-[rgba(28,78,128,0.18)] hover:bg-[rgba(28,78,128,0.14)]",
+                  ].join(" ")}
+                >
+                  +{overflowCount} More
+                </button>
+
+                {showOverflowPopover && (
+                  <div
+                    ref={overflowPopRef}
+                    className="absolute left-0 top-full z-50 mt-1.5 min-w-[180px] overflow-hidden rounded-lg border bg-white shadow-[0_10px_28px_rgba(8,31,58,0.16)]"
+                    style={{ borderColor: "rgba(0,0,0,0.06)" }}
+                  >
+                    <div className="border-b px-3 py-2" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
+                      <span className="text-[0.65rem] font-semibold tracking-[0.1em] uppercase" style={{ color: "rgba(28,78,128,0.45)" }}>
+                        {overflowCount} More Selected
+                      </span>
+                    </div>
+                    <ul className="m-0 list-none overflow-y-auto p-0" style={{ maxHeight: "152px" }}>
+                      {overflowItems.map((item, i) => (
+                        <li
+                          key={getSuggestionId(item)}
+                          className={`flex items-center justify-between px-4 py-2.5 ${i > 0 ? "border-t" : ""}`}
+                          style={{ borderColor: "rgba(0,0,0,0.06)" }}
+                        >
+                          <span className="min-w-0 truncate text-[0.82rem] font-medium" style={{ color: "var(--charcoal)" }}>
+                            {getChipLabel(item)}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveSelected(getSuggestionId(item))}
+                            aria-label={`Remove ${getChipLabel(item)}`}
+                            className="ml-3 flex size-6 items-center justify-center rounded-full hover:bg-[rgba(28,78,128,0.1)] transition-colors border-none cursor-pointer bg-transparent text-[var(--rocky-blue)] shrink-0"
+                          >
+                            <CloseIcon />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {selectedItems.length > 1 && (
+              <button
+                type="button"
+                onClick={handleClearAllSelected}
+                aria-label="Clear all selected"
+                className="inline-flex items-center gap-1 rounded-md border px-2 py-1 text-[0.68rem] font-semibold"
+                style={{
+                  borderColor: "rgba(220,50,50,0.25)",
+                  backgroundColor: "rgba(220,50,50,0.06)",
+                  color: "#C0392B",
+                }}
+              >
+                <CloseIcon /> Clear all
+              </button>
+            )}
+
+            <input
+              id="property-search-mobile"
+              type="search"
+              value={searchQuery}
+              ref={mobileInputRef}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setShowSuggestions(true);
+              }}
+              onFocus={() => setShowSuggestions(true)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              placeholder={
+                selectedItems.length === 0
+                  ? "Search location, community, building..."
+                  : "Add more..."
+              }
+              className="min-w-[120px] flex-1 bg-transparent py-0.5 outline-none"
+              style={{ color: "var(--charcoal)" }}
+              autoComplete="off"
+            />
+          </div>
+          {suggestionsDropdown}
         </div>
         <button
           type="button"
@@ -461,21 +849,116 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
             onSelect={handleListingSelect}
           />
         </div>
-        <div className="flex-1 min-w-0">
+        <div className="relative flex-1 min-w-0">
           <label htmlFor="property-search-desktop" className="sr-only">
             Search properties
           </label>
-          <input
-            id="property-search-desktop"
-            type="search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            placeholder="Search location, community, building..."
-            className="h-11 w-full rounded-lg border bg-white px-4 py-2.5 text-sm placeholder:text-[var(--charcoal)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
-            style={{ color: "var(--charcoal)", borderColor: "var(--border-light)" }}
-            autoComplete="off"
-          />
+          <div
+            className="flex min-h-11 w-full flex-wrap items-center gap-1.5 rounded-lg border bg-white px-3 py-2 text-sm focus-within:ring-2 focus-within:ring-[var(--rocky-blue)]/40 focus-within:ring-offset-1"
+            style={{ borderColor: "var(--border-light)" }}
+          >
+            {visibleItems.map((item) => (
+              <TagChip
+                key={getSuggestionId(item)}
+                label={getChipLabel(item)}
+                onRemove={() => handleRemoveSelected(getSuggestionId(item))}
+              />
+            ))}
+
+            {overflowCount > 0 && (
+              <div className="relative">
+                <button
+                  ref={overflowBtnRef}
+                  type="button"
+                  onClick={() => setShowOverflowPopover((v) => !v)}
+                  aria-label={`Show ${overflowCount} more selected items`}
+                  className={[
+                    "inline-flex items-center gap-1 rounded-md px-2.5 py-1",
+                    "text-[0.72rem] font-semibold whitespace-nowrap cursor-pointer",
+                    "border transition-colors duration-150",
+                    showOverflowPopover
+                      ? "bg-[var(--rocky-blue)] text-white border-[var(--rocky-blue)]"
+                      : "bg-[rgba(28,78,128,0.08)] text-[var(--rocky-blue)] border-[rgba(28,78,128,0.18)] hover:bg-[rgba(28,78,128,0.14)]",
+                  ].join(" ")}
+                >
+                  +{overflowCount} More
+                </button>
+
+                {showOverflowPopover && (
+                  <div
+                    ref={overflowPopRef}
+                    className="absolute left-0 top-full z-50 mt-1.5 min-w-[180px] overflow-hidden rounded-lg border bg-white shadow-[0_10px_28px_rgba(8,31,58,0.16)]"
+                    style={{ borderColor: "rgba(0,0,0,0.06)" }}
+                  >
+                    <div className="border-b px-3 py-2" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
+                      <span className="text-[0.65rem] font-semibold tracking-[0.1em] uppercase" style={{ color: "rgba(28,78,128,0.45)" }}>
+                        {overflowCount} More Selected
+                      </span>
+                    </div>
+                    <ul className="m-0 list-none overflow-y-auto p-0" style={{ maxHeight: "152px" }}>
+                      {overflowItems.map((item, i) => (
+                        <li
+                          key={getSuggestionId(item)}
+                          className={`flex items-center justify-between px-4 py-2.5 ${i > 0 ? "border-t" : ""}`}
+                          style={{ borderColor: "rgba(0,0,0,0.06)" }}
+                        >
+                          <span className="min-w-0 truncate text-[0.82rem] font-medium" style={{ color: "var(--charcoal)" }}>
+                            {getChipLabel(item)}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveSelected(getSuggestionId(item))}
+                            aria-label={`Remove ${getChipLabel(item)}`}
+                            className="ml-3 flex size-6 items-center justify-center rounded-full hover:bg-[rgba(28,78,128,0.1)] transition-colors border-none cursor-pointer bg-transparent text-[var(--rocky-blue)] shrink-0"
+                          >
+                            <CloseIcon />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {selectedItems.length > 1 && (
+              <button
+                type="button"
+                onClick={handleClearAllSelected}
+                aria-label="Clear all selected"
+                className="inline-flex items-center gap-1 rounded-md border px-2 py-1 text-[0.68rem] font-semibold"
+                style={{
+                  borderColor: "rgba(220,50,50,0.25)",
+                  backgroundColor: "rgba(220,50,50,0.06)",
+                  color: "#C0392B",
+                }}
+              >
+                <CloseIcon /> Clear all
+              </button>
+            )}
+
+            <input
+              id="property-search-desktop"
+              type="search"
+              value={searchQuery}
+              ref={desktopInputRef}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setShowSuggestions(true);
+              }}
+              onFocus={() => setShowSuggestions(true)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              placeholder={
+                selectedItems.length === 0
+                  ? "Search location, community, building..."
+                  : "Add more..."
+              }
+              className="min-w-[140px] flex-1 bg-transparent py-0.5 outline-none placeholder:text-[var(--charcoal)]/50"
+              style={{ color: "var(--charcoal)" }}
+              autoComplete="off"
+            />
+          </div>
+          {suggestionsDropdown}
         </div>
         <div className="shrink-0 min-w-[140px]">
           <FilterDropdown

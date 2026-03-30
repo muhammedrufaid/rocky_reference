@@ -34,8 +34,8 @@ function getSuggestionId(s: PropertySuggestion): string {
 
 function getSuggestionTitleText(s: PropertySuggestion) {
   return String(
-    s.full ||
-      s.label ||
+    s.label ||
+      s.full ||
       s.locality ||
       s.subLocality ||
       s.towerName ||
