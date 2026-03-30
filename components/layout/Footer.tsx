@@ -79,6 +79,57 @@ const Footer: React.FC = () => {
     return (
         <footer id="site-footer" className="bg-[#0d365e] text-white">
             <Container className="py-12 md:py-16 lg:py-20">
+
+                {/* SEO – Popular Searches & Areas */}
+                <section
+                    className="mb-8 pb-8 border-b border-white/20"
+                    aria-labelledby="footer-extra-heading"
+                >
+                    <div className="grid grid-cols-1 gap-8 items-start">
+                        {/* Popular Searches */}
+                        <nav aria-label="Popular searches">
+                            <details className="group">
+                                <summary
+                                    className="list-none cursor-pointer select-none flex w-full items-center justify-between gap-4 text-xs font-medium uppercase tracking-wider text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d365e] rounded"
+                                >
+                                    <span className="font-semibold">Popular Searches</span>
+                                    <svg
+                                        className="h-3 w-3 text-white/90 transition-transform duration-200 group-open:rotate-180"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06Z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
+                                </summary>
+                                <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out group-open:grid-rows-[1fr]">
+                                    <div className="overflow-hidden">
+                                        <div className="mt-3">
+                                            <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-2">
+                                                {popularSearches.map((area) => (
+                                                    <li key={area}>
+                                                        <Link
+                                                            href={`/areas?q=${encodeURIComponent(area)}`}
+                                                            className="text-xs text-blue-200 hover:text-white py-1 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
+                                                        >
+                                                            {area}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+                        </nav>
+
+                    </div>
+                </section>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
                     {/* Column 1 – Brand */}
                     <section className="lg:col-span-1">
@@ -174,76 +225,6 @@ const Footer: React.FC = () => {
                         </div>
                     </section>
                 </div>
-
-                {/* SEO – Popular Searches & Areas */}
-                <section
-                    className="mt-12 pt-10 border-t border-white/20"
-                    aria-labelledby="footer-extra-heading"
-                >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-
-                        {/* Newsletter Signup */}
-                        <div>
-                            <h6
-                                id="footer-newsletter-heading"
-                                className="text-xs font-medium uppercase tracking-wider text-white mb-1"
-                            >
-                                Stay in the loop
-                            </h6>
-                            <p className="text-sm text-blue-100 mb-3">
-                                Sign up to our weekly newsletter for market updates
-                            </p>
-                            <form
-                                action="/api/newsletter"
-                                method="POST"
-                                aria-labelledby="footer-newsletter-heading"
-                                className="flex gap-2 max-w-sm"
-                            >
-                                <label htmlFor="footer-email" className="sr-only">
-                                    Email address
-                                </label>
-                                <input
-                                    id="footer-email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    required
-                                    placeholder="Enter your email"
-                                    className="flex-1 min-w-0 px-3 py-2 rounded text-sm bg-white/10 border border-white/20 text-white placeholder-white focus:outline-none focus:ring-1 focus:ring-white/60 focus:border-white/40 transition"
-                                />
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 rounded bg-[#c3ad95] hover:bg-[#9f8870] cursor-pointer text-[#0d365e] text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 shrink-0"
-                                >
-                                    Subscribe
-                                </button>
-                            </form>
-                        </div>
-
-                        {/* Popular Searches */}
-                        <nav aria-labelledby="footer-popular-heading">
-                            <h6
-                                id="footer-popular-heading"
-                                className="text-xs font-medium uppercase tracking-wider text-white mb-3"
-                            >
-                                Popular Searches
-                            </h6>
-                            <ul className="flex flex-wrap gap-2">
-                                {popularSearches.map((area) => (
-                                    <li key={area}>
-                                        <Link
-                                            href={`/areas?q=${encodeURIComponent(area)}`}
-                                            className="text-xs text-blue-200 hover:text-white py-1 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
-                                        >
-                                            {area}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </nav>
-
-                    </div>
-                </section>
 
                 {/* Bottom Bar */}
                 <div className="mt-10 pt-6 border-t border-white/20">
