@@ -203,11 +203,11 @@ const HeroSearchCard: React.FC = () => {
   const getSuggestionTitleText = (suggestion: PropertySuggestion) =>
     String(
       suggestion.full ||
-        suggestion.label ||
-        suggestion.locality ||
-        suggestion.subLocality ||
-        suggestion.towerName ||
-        "Suggestion"
+      suggestion.label ||
+      suggestion.locality ||
+      suggestion.subLocality ||
+      suggestion.towerName ||
+      "Suggestion"
     );
 
   const handleSuggestionsScroll = (
@@ -274,11 +274,10 @@ const HeroSearchCard: React.FC = () => {
                 setActiveTab(tab);
                 setSelectedCategory("");
               }}
-              className={`min-w-[72px] cursor-pointer md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
-                activeTab === tab
+              className={`min-w-[72px] cursor-pointer md:min-w-[80px] py-2.5 px-3 md:py-3 md:px-4 text-sm font-medium rounded-md transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${activeTab === tab
                   ? "bg-[#E7DCCD] text-[#0D365E] shadow-sm"
                   : "bg-transparent text-[#E7DCCD]/85 hover:text-[#FFFFFF] hover:bg-[#1C4E80]/25"
-              }`}
+                }`}
             >
               {tab}
             </button>
@@ -433,11 +432,11 @@ const HeroSearchCard: React.FC = () => {
 
           {/* CTA: warm Sandstone to stand out on dark hero */}
           <button
-  type="submit"
-  className="min-h-[48px] md:min-h-[52px] px-6 md:px-8 rounded-lg bg-gradient-to-r from-[#0D365E] via-[#1C4E80] to-[#0D365E] hover:from-[#1C4E80] hover:via-[#0D365E] hover:to-[#081F3A] active:from-[#081F3A] active:to-[#0D365E] text-white font-semibold text-base transition-all duration-200 ease-out hover:shadow-[0_6px_18px_rgba(28,78,128,0.35)] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white cursor-pointer shrink-0 sm:w-auto w-full"
->
-  Search
-</button>
+            type="submit"
+            className="min-h-[48px] md:min-h-[52px] px-6 md:px-8 rounded-lg bg-gradient-to-r from-[#0D365E] via-[#1C4E80] to-[#0D365E] hover:from-[#1C4E80] hover:via-[#0D365E] hover:to-[#081F3A] active:from-[#081F3A] active:to-[#0D365E] text-white font-semibold text-base transition-all duration-200 ease-out hover:shadow-[0_6px_18px_rgba(28,78,128,0.35)] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white cursor-pointer shrink-0 sm:w-auto w-full"
+          >
+            Search
+          </button>
 
         </motion.div>
       </fieldset>
