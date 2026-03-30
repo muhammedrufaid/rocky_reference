@@ -194,8 +194,8 @@ export async function getPropertySuggestions(
   })
   const endpoints = [
     `${baseUrl}/api/frontend/properties/search-by-area?${params.toString()}`,
-    `${baseUrl}/api/frontend/properties/search?${params.toString()}`,
-    `${baseUrl}/api/properties/search?${params.toString()}`,
+    // `${baseUrl}/api/frontend/properties/search?${params.toString()}`,
+    // `${baseUrl}/api/properties/search?${params.toString()}`,
   ]
 
   const normalizeSuggestions = (data: PropertySuggestionsResponse): PropertySuggestion[] =>

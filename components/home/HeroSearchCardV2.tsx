@@ -2,13 +2,10 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-interface PropertySuggestion {
-  id: string;
-  label: string;
-  type: string;
-}
+import {
+  getPropertySuggestions,
+  type PropertySuggestion,
+} from "@/utils/getServices";
 
 type SearchCategory = "RESIDENTIAL" | "COMMERCIAL" | "OFF PLAN";
 type BuyOption = "BUY" | "RENT" | "OFF PLAN";
@@ -16,26 +13,83 @@ type BuyOption = "BUY" | "RENT" | "OFF PLAN";
 // ─── Constants ────────────────────────────────────────────────────────────────
 const BUY_OPTIONS: BuyOption[] = ["BUY", "RENT"];
 const CATEGORIES: SearchCategory[] = ["RESIDENTIAL", "COMMERCIAL", "OFF PLAN"];
+// Fetch more than we display initially; reveal the rest on scroll.
+const SUGGESTIONS_LIMIT = 20;
+const SEARCH_DEBOUNCE_MS = 200;
 
 // How many tags to show inline before collapsing into "+N More"
 const MAX_VISIBLE_TAGS = 1;
 
-const MOCK_SUGGESTIONS: PropertySuggestion[] = [
-  { id: "1", label: "DAMAC Hills", type: "Community" },
-  { id: "2", label: "DAMAC Hills 2", type: "Community" },
-  { id: "3", label: "Downtown Dubai", type: "Area" },
-  { id: "4", label: "Dubai Marina", type: "Area" },
-  { id: "5", label: "Palm Jumeirah", type: "Island" },
-  { id: "6", label: "Business Bay", type: "District" },
-  { id: "7", label: "Arabian Ranches", type: "Community" },
-];
+// Suggestion dropdown should show ~5 rows, then scroll for the rest
+const SUGGESTIONS_MAX_HEIGHT_PX = 260;
 
-async function getPropertySuggestions(query: string): Promise<PropertySuggestion[]> {
-  if (!query || query.length < 2) return [];
-  await new Promise((r) => setTimeout(r, 150));
-  return MOCK_SUGGESTIONS.filter((s) =>
-    s.label.toLowerCase().includes(query.toLowerCase())
+function getSuggestionId(s: PropertySuggestion): string {
+  return (
+    s.propertyRefNo ||
+    s.full ||
+    s.label ||
+    `${s.type ?? ""}-${s.locality ?? ""}-${s.subLocality ?? ""}-${s.towerName ?? ""}`
   );
+}
+
+function getSuggestionTitleText(s: PropertySuggestion) {
+  return String(
+    s.full ||
+      s.label ||
+      s.locality ||
+      s.subLocality ||
+      s.towerName ||
+      "Suggestion"
+  );
+}
+
+/** Short label for chips (first segment of full, or label). */
+function getChipLabel(s: PropertySuggestion): string {
+  const fromFull = s.full?.split(",")[0]?.trim();
+  return (s.label?.trim() || fromFull || getSuggestionTitleText(s)).trim();
+}
+
+function isLocationLikeSuggestion(s: PropertySuggestion): boolean {
+  return Boolean(s.full?.trim() || s.label?.trim());
+}
+
+const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+const escapeRegExp = (value: string) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/** Highlights query matches with semibold + underline (matches hero search card behavior). */
+function highlightMatchesToHtml(text: string, query: string): string {
+  const trimmedQuery = query.trim();
+  if (!trimmedQuery) return escapeHtml(text);
+
+  const escapedQuery = escapeRegExp(trimmedQuery);
+  const regex = new RegExp(escapedQuery, "gi");
+
+  let html = "";
+  let lastIndex = 0;
+
+  let match: RegExpExecArray | null;
+  // eslint-disable-next-line no-cond-assign
+  while ((match = regex.exec(text)) !== null) {
+    const start = match.index ?? 0;
+    const end = start + match[0].length;
+
+    html += escapeHtml(text.slice(lastIndex, start));
+    html += `<span style="font-weight:600;text-decoration:underline">${escapeHtml(text.slice(start, end))}</span>`;
+    lastIndex = end;
+
+    if (match[0].length === 0) break;
+  }
+
+  html += escapeHtml(text.slice(lastIndex));
+  return html;
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -91,6 +145,7 @@ const HeroSearchCardV2: React.FC = () => {
   const [isFocused, setIsFocused]           = useState(false);
   // Controls the "+N More" overflow popover
   const [showOverflowPopover, setShowOverflowPopover] = useState(false);
+  const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
 
   // ── Refs ───────────────────────────────────────────────────────────────────
   const dropdownRef      = useRef<HTMLDivElement>(null);
@@ -98,6 +153,7 @@ const HeroSearchCardV2: React.FC = () => {
   const suggestionsRef   = useRef<HTMLUListElement>(null);
   const overflowBtnRef   = useRef<HTMLButtonElement>(null);
   const overflowPopRef   = useRef<HTMLDivElement>(null);
+  const lastRequestIdRef = useRef(0);
 
   // ── Derived ────────────────────────────────────────────────────────────────
   const visibleItems   = selectedItems.slice(0, MAX_VISIBLE_TAGS);
@@ -106,17 +162,52 @@ const HeroSearchCardV2: React.FC = () => {
 
   // ── Effects ────────────────────────────────────────────────────────────────
   useEffect(() => {
-    let cancelled = false;
-    const run = async () => {
-      const results = await getPropertySuggestions(searchQuery);
-      if (!cancelled) {
-        setSuggestions(
-          results.filter((r) => !selectedItems.some((s) => s.id === r.id))
+    const query = searchQuery.trim();
+
+    if (!query || query.length < 2) {
+      setSuggestions([]);
+      setIsFetchingSuggestions(false);
+      return;
+    }
+
+    const requestId = ++lastRequestIdRef.current;
+    const controller = new AbortController();
+
+    const timer = window.setTimeout(async () => {
+      setIsFetchingSuggestions(true);
+      try {
+        const results = await getPropertySuggestions(
+          query,
+          SUGGESTIONS_LIMIT,
+          controller.signal
         );
+        const locationRows = results.filter(isLocationLikeSuggestion);
+        const deduped = locationRows.filter(
+          (r) => !selectedItems.some((s) => getSuggestionId(s) === getSuggestionId(r))
+        );
+
+        if (requestId === lastRequestIdRef.current) {
+          setSuggestions(deduped);
+        }
+      } catch (error) {
+        if (
+          error instanceof Error &&
+          error.name !== "AbortError" &&
+          requestId === lastRequestIdRef.current
+        ) {
+          setSuggestions([]);
+        }
+      } finally {
+        if (requestId === lastRequestIdRef.current) {
+          setIsFetchingSuggestions(false);
+        }
       }
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => {
+      window.clearTimeout(timer);
+      controller.abort();
     };
-    run();
-    return () => { cancelled = true; };
   }, [searchQuery, selectedItems]);
 
   useEffect(() => {
@@ -149,7 +240,8 @@ const HeroSearchCardV2: React.FC = () => {
   };
 
   const handleSuggestionSelect = (suggestion: PropertySuggestion) => {
-    if (!selectedItems.some((s) => s.id === suggestion.id)) {
+    const sid = getSuggestionId(suggestion);
+    if (!selectedItems.some((s) => getSuggestionId(s) === sid)) {
       setSelectedItems((prev) => [...prev, suggestion]);
     }
     setSearchQuery("");
@@ -158,7 +250,7 @@ const HeroSearchCardV2: React.FC = () => {
   };
 
   const handleRemoveSelected = (id: string) => {
-    setSelectedItems((prev) => prev.filter((s) => s.id !== id));
+    setSelectedItems((prev) => prev.filter((s) => getSuggestionId(s) !== id));
     // Close popover if no overflow items remain after removal
     if (overflowItems.length <= 1) setShowOverflowPopover(false);
   };
@@ -286,9 +378,9 @@ const HeroSearchCardV2: React.FC = () => {
             {/* Visible tags (up to MAX_VISIBLE_TAGS) */}
             {visibleItems.map((item) => (
               <TagChip
-                key={item.id}
-                label={item.label}
-                onRemove={() => handleRemoveSelected(item.id)}
+                key={getSuggestionId(item)}
+                label={getChipLabel(item)}
+                onRemove={() => handleRemoveSelected(getSuggestionId(item))}
               />
             ))}
 
@@ -336,16 +428,16 @@ const HeroSearchCardV2: React.FC = () => {
                       <ul className="list-none p-0 m-0 overflow-y-auto" style={{ maxHeight: "152px" }}>
                         {overflowItems.map((item, i) => (
                           <li
-                            key={item.id}
+                            key={getSuggestionId(item)}
                             className={[
                               "flex items-center justify-between px-4 py-2.5",
                               i > 0 ? "border-t border-t-[rgba(13,54,94,0.07)]" : "",
                             ].join(" ")}
                           >
-                            <span className="text-[0.82rem] text-[#333333] font-medium">{item.label}</span>
+                            <span className="text-[0.82rem] text-[#333333] font-medium">{getChipLabel(item)}</span>
                             <button
-                              onClick={() => handleRemoveSelected(item.id)}
-                              aria-label={`Remove ${item.label}`}
+                              onClick={() => handleRemoveSelected(getSuggestionId(item))}
+                              aria-label={`Remove ${getChipLabel(item)}`}
                               className="ml-3 flex items-center justify-center w-5 h-5 rounded-full hover:bg-[rgba(13,54,94,0.1)] transition-colors duration-150 border-none cursor-pointer bg-transparent text-[#0D365E] flex-shrink-0"
                             >
                               <CloseIcon />
@@ -396,7 +488,9 @@ const HeroSearchCardV2: React.FC = () => {
 
             {/* Suggestions Dropdown */}
             <AnimatePresence>
-              {showSuggestions && suggestions.length > 0 && (
+              {showSuggestions &&
+                searchQuery.trim().length >= 2 &&
+                (suggestions.length > 0 || isFetchingSuggestions) && (
                 <motion.ul
                   id="hsv2-suggestions"
                   ref={suggestionsRef}
@@ -407,33 +501,50 @@ const HeroSearchCardV2: React.FC = () => {
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.16 }}
                   className={[
-                    "absolute top-full left-0 right-0 mt-1.5 z-50 overflow-hidden rounded-lg list-none p-0 m-0",
+                    "absolute top-full left-0 right-0 mt-1.5 z-50 overflow-y-auto rounded-lg list-none p-0 m-0",
                     "bg-white border border-[rgba(13,54,94,0.1)] shadow-[0_10px_28px_rgba(8,31,58,0.16)]",
                   ].join(" ")}
+                  style={{ maxHeight: `${SUGGESTIONS_MAX_HEIGHT_PX}px` }}
                 >
                   {suggestions.map((s, i) => (
-                    <li key={s.id} role="option" aria-selected={false}>
+                    <li key={getSuggestionId(s)} role="option" aria-selected={false}>
                       <button
+                        type="button"
                         onMouseDown={() => handleSuggestionSelect(s)}
                         className={[
-                          "w-full flex items-center justify-between px-5 py-3 text-left cursor-pointer",
+                          "w-full flex items-center justify-between gap-3 px-5 py-3 text-left cursor-pointer",
                           "bg-transparent border-none transition-colors duration-150",
                           "hover:bg-[#E7DCCD]",
                           i > 0 ? "border-t border-t-[rgba(13,54,94,0.07)]" : "",
                         ].join(" ")}
                       >
-                        <span className="text-[0.85rem] text-[#333333] font-medium">{s.label}</span>
                         <span
-                          className={[
-                            "text-[0.68rem] text-[#0D365E] font-semibold tracking-[0.08em] uppercase",
-                            "bg-[rgba(13,54,94,0.07)] px-2 py-0.5 rounded",
-                          ].join(" ")}
-                        >
-                          {s.type}
-                        </span>
+                          className="text-[0.85rem] text-[#333333] font-normal min-w-0 text-left"
+                          dangerouslySetInnerHTML={{
+                            __html: highlightMatchesToHtml(
+                              getSuggestionTitleText(s),
+                              searchQuery
+                            ),
+                          }}
+                        />
+                        {/* {s.type ? (
+                          <span
+                            className={[
+                              "shrink-0 text-[0.68rem] text-[#0D365E] font-semibold tracking-[0.08em] uppercase",
+                              "bg-[rgba(13,54,94,0.07)] px-2 py-0.5 rounded",
+                            ].join(" ")}
+                          >
+                            {s.type}
+                          </span>
+                        ) : null} */}
                       </button>
                     </li>
                   ))}
+                  {isFetchingSuggestions && suggestions.length === 0 && (
+                    <li className="px-5 py-3 text-[0.8rem] text-[#333333]/55">
+                      Searching…
+                    </li>
+                  )}
                 </motion.ul>
               )}
             </AnimatePresence>
