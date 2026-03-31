@@ -8,7 +8,7 @@ import {
   getPropertyTypes,
   type PropertySuggestion,
 } from "@/utils/getServices";
-import { generateSeoSlug } from "@/utils/seo";
+import { generateSeoSlug, seoSlugToQuery } from "@/utils/seo";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -427,13 +427,15 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
   // Sync URL params → state
   useEffect(() => {
     const qFromUrl = decodeQueryParam(searchParams.get("q") ?? "");
+    const searchFromUrl = searchParams.get("search") ?? "";
+    const qCombined = qFromUrl || (searchFromUrl ? seoSlugToQuery(searchFromUrl) : "");
     setPropertyType(searchParams.get("type") ?? "");
     setMinPrice(searchParams.get("min") ?? "");
     setMaxPrice(searchParams.get("max") ?? "");
 
     // If `q` contains multiple selections (joined by "|"), rebuild chips so
     // the UI stays in multi-select mode after navigation.
-    const tokens = qFromUrl
+    const tokens = qCombined
       .split("|")
       .map((t) => t.trim())
       .filter(Boolean);
