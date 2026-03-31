@@ -7,23 +7,23 @@ import Container from "@/components/layout/Container";
 
 // ─── Stats ────────────────────────────────────────────────────────────────────
 const stats = [
-    { value: 12, suffix: "+", label: "Industry Awards", prefix: "" },
-    { value: 4, suffix: "B+", label: "Properties Sold", prefix: "AED " },
-    { value: 8, suffix: " Yrs", label: "Market Expertise", prefix: "" },
+    { value: 1100, suffix: "+", label: "Properties Managed", prefix: "" },
+    { value: 4, suffix: "B+", label: "In Transactions", prefix: "AED " },
+    { value: 50, suffix: " Yrs", label: "UAE Expertise", prefix: "" },
 ];
 
 // ─── Animation variants ───────────────────────────────────────────────────────
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const fadeUp = (delay = 0) => ({
-    initial: { opacity: 0, y: 28 },
+    initial: { opacity: 0, y: 24 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: "-60px" },
-    transition: { duration: 0.65, delay, ease },
+    transition: { duration: 0.7, delay, ease },
 });
 
 // ─── Animated Counter Hook ────────────────────────────────────────────────────
-function useCountUp(target: number, duration = 1600, start = false) {
+function useCountUp(target: number, duration = 1800, start = false) {
     const [count, setCount] = useState(0);
     const rafRef = useRef<number | null>(null);
     const hasRun = useRef(false);
@@ -33,17 +33,13 @@ function useCountUp(target: number, duration = 1600, start = false) {
         hasRun.current = true;
 
         const startTime = performance.now();
-
-        const easeOutQuad = (t: number) => t * (2 - t);
+        const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
 
         const step = (now: number) => {
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            const eased = easeOutQuad(progress);
-            setCount(Math.round(eased * target));
-            if (progress < 1) {
-                rafRef.current = requestAnimationFrame(step);
-            }
+            setCount(Math.round(easeOutQuart(progress) * target));
+            if (progress < 1) rafRef.current = requestAnimationFrame(step);
         };
 
         rafRef.current = requestAnimationFrame(step);
@@ -55,66 +51,51 @@ function useCountUp(target: number, duration = 1600, start = false) {
     return count;
 }
 
-// ─── Animated Stat Item ───────────────────────────────────────────────────────
+// ─── Stat Item ────────────────────────────────────────────────────────────────
 const StatItem: React.FC<{
     stat: (typeof stats)[0];
     shouldAnimate: boolean;
     index: number;
-}> = ({ stat, shouldAnimate, index }) => {
-    const durations = [1600, 1800, 1400];
+    isLast: boolean;
+}> = ({ stat, shouldAnimate, index, isLast }) => {
+    const durations = [1600, 1900, 1500];
     const count = useCountUp(stat.value, durations[index], shouldAnimate);
 
     return (
-        <div className="flex flex-col gap-1">
+        <div
+            className="flex flex-col gap-2"
+            style={{
+                paddingRight: isLast ? 0 : "clamp(20px, 4vw, 36px)",
+                paddingLeft: index === 0 ? 0 : "clamp(20px, 4vw, 36px)",
+                borderRight: isLast ? "none" : "0.5px solid #D8D3CC",
+            }}
+        >
             <span
-                className="text-2xl md:text-3xl font-medium"
-                style={{ color: "#0d365e", letterSpacing: "-0.01em" }}
+                style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontWeight: 400,
+                    fontSize: "clamp(28px, 3.5vw, 40px)",
+                    color: "#0D2B4A",
+                    lineHeight: 1,
+                    letterSpacing: "-0.5px",
+                }}
             >
                 {stat.prefix}{count}{stat.suffix}
             </span>
             <span
-                className="text-xs font-normal uppercase tracking-widest"
-                style={{ color: "#999", letterSpacing: "0.14em" }}
+                style={{
+                    fontSize: "11px",
+                    color: "#9A9890",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.13em",
+                    fontWeight: 400,
+                }}
             >
                 {stat.label}
             </span>
         </div>
     );
 };
-
-// ─── Award Image Card (single card, reusable) ─────────────────────────────────
-interface AwardImageCardProps {
-    src: string;
-    alt: string;
-}
-
-const AwardImageCard: React.FC<AwardImageCardProps> = ({
-    src,
-    alt,
-}) => (
-    <motion.div
-        {...fadeUp(0.2)}
-        className="relative w-full overflow-hidden rounded-2xl border border-[#E7DCCD] bg-gradient-to-br from-white via-[#E7DCCD]/55 to-[#C3AD95]/60 shadow-[0_18px_55px_rgba(8,31,58,0.16)] ring-1 ring-[#0D365E]/5 aspect-[16/9]"
-    >
-        <Image
-            src={src}
-            alt={alt}
-            fill
-            priority
-            sizes="(min-width: 1024px) 620px, 100vw"
-            className="object-contain p-7 md:p-9 drop-shadow-[0_18px_22px_rgba(8,31,58,0.18)]"
-        />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#0D365E]/10 via-transparent to-white/40" />
-    </motion.div>
-);
-
-// ─── Award image data ─────────────────────────────────────────────────────────
-const awardImages = [
-    {
-        src: "/assets/common/award1.webp",
-        alt: "Rocky award recognition",
-    },
-];
 
 // ─── Main Section ─────────────────────────────────────────────────────────────
 const AwardsSection: React.FC<{ data?: any }> = () => {
@@ -139,66 +120,135 @@ const AwardsSection: React.FC<{ data?: any }> = () => {
     }, []);
 
     return (
-        <section
-            ref={sectionRef}
-            className="py-16 md:py-20 lg:py-24"
-            style={{ background: "#ffffff" }}
-            aria-labelledby="awards-section-heading"
-        >
-            <Container>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-14 lg:gap-20 items-center">
+        <>
+            {/* Google Font — Cormorant Garamond for stat numerals & heading */}
+            <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap');
+            `}</style>
 
-                    {/* ── LEFT: Copy & Stats ── */}
-                    <div className="flex flex-col justify-center order-1 lg:order-1">
-                        {/* Heading */}
-                        <motion.h2
-                            id="awards-section-heading"
-                            {...fadeUp(0.08)}
-                            className="text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.1] mb-6"
-                            style={{ color: "#0d365e" }}
-                        >
-                            Award-Winning <br />
-                            Real Estate Excellence
-                        </motion.h2>
+            <section
+                ref={sectionRef}
+                className="py-20 md:py-28 lg:py-32"
+                style={{ background: "" }}
+                aria-labelledby="awards-section-heading"
+            >
+                <Container>
+                    <div
+                        className="grid grid-cols-1 lg:grid-cols-2 items-center"
+                        style={{ gap: "clamp(40px, 6vw, 80px)" }}
+                    >
 
-                        {/* Description */}
-                        <motion.p
-                            {...fadeUp(0.16)}
-                            className="text-sm md:text-base leading-relaxed max-w-md mb-12"
-                            style={{ color: "#666", lineHeight: "1.75" }}
-                        >
-                            Our commitment to unmatched client experiences and market-leading
-                            expertise has earned us recognition from the industry's most
-                            prestigious institutions across the UAE and MENA region.
-                        </motion.p>
+                        {/* ── LEFT: Copy & Stats ── */}
+                        <div className="flex flex-col justify-center order-1">
 
-                        {/* Stats row */}
-                        <motion.div
-                            {...fadeUp(0.22)}
-                            className="flex flex-wrap gap-x-10 gap-y-7 pt-8"
-                            style={{ borderTop: "1px solid #ece8e1" }}
-                        >
-                            {stats.map((stat, i) => (
-                                <StatItem
-                                    key={stat.label}
-                                    stat={stat}
-                                    shouldAnimate={shouldAnimate}
-                                    index={i}
-                                />
-                            ))}
-                        </motion.div>
-                    </div>
+                            {/* Heading */}
+                            <motion.h2
+                                id="awards-section-heading"
+                                {...fadeUp(0.06)}
+                                style={{
+                                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                                    fontWeight: 300,
+                                    fontSize: "clamp(34px, 4.5vw, 52px)",
+                                    lineHeight: 1.08,
+                                    color: "#0D2B4A",
+                                    letterSpacing: "-0.5px",
+                                    margin: "0 0 20px",
+                                }}
+                            >
+                                Rocky Real Estate —{" "}
+                                <span style={{ fontWeight: 500 }}>
+                                    Dubai&apos;s Trusted<br />Property Experts
+                                </span>
+                            </motion.h2>
 
-                    {/* ── RIGHT: Single Award Image ── */}
-                    <div className="order-2 lg:order-2 flex items-center justify-center lg:justify-end">
-                        <div className="w-full max-w-none lg:w-[520px] xl:w-[620px]">
-                            <AwardImageCard {...awardImages[0]} />
+                            {/* Supporting line */}
+                            <motion.p
+                                {...fadeUp(0.14)}
+                                style={{
+                                    fontSize: "clamp(13.5px, 1.5vw, 15px)",
+                                    color: "#7A7A72",
+                                    lineHeight: 1.75,
+                                    maxWidth: "400px",
+                                    margin: "0 0 40px",
+                                    fontWeight: 300,
+                                    letterSpacing: "0.01em",
+                                }}
+                            >
+                                Five decades of market intelligence, billions in closed
+                                transactions, and a reputation built on results — not promises.
+                            </motion.p>
+
+                            {/* Divider */}
+                            <motion.div
+                                {...fadeUp(0.2)}
+                                style={{
+                                    width: "100%",
+                                    height: "0.5px",
+                                    background: "#D8D3CC",
+                                    marginBottom: "32px",
+                                }}
+                            />
+
+                            {/* Stats */}
+                            <motion.div
+                                {...fadeUp(0.26)}
+                                className="flex flex-row"
+                            >
+                                {stats.map((stat, i) => (
+                                    <StatItem
+                                        key={stat.label}
+                                        stat={stat}
+                                        shouldAnimate={shouldAnimate}
+                                        index={i}
+                                        isLast={i === stats.length - 1}
+                                    />
+                                ))}
+                            </motion.div>
                         </div>
-                    </div>
 
-                </div>
-            </Container>
-        </section>
+                        {/* ── RIGHT: Award Image ── */}
+                        <div className="order-2 flex items-center justify-center lg:justify-end">
+                            <motion.div
+                                {...fadeUp(0.18)}
+                                className="relative w-full overflow-hidden"
+                                style={{
+                                    maxWidth: "clamp(320px, 48vw, 580px)",
+                                    borderRadius: "16px",
+                                    border: "0.5px solid #E2DDD6",
+                                    aspectRatio: "4 / 3",
+                                    background: "#F0EDE7",
+                                    boxShadow: "0 24px 60px rgba(13,43,74,0.08)",
+                                }}
+                            >
+                                <Image
+                                    src="/assets/common/award1.webp"
+                                    alt="Rocky Real Estate awards and industry recognition"
+                                    fill
+                                    priority
+                                    sizes="(min-width: 1024px) 580px, 100vw"
+                                    style={{
+                                        objectFit: "contain",
+                                        objectPosition: "center",
+                                    }}
+                                />
+                                {/* Soft vignette overlay */}
+                                <div
+                                    style={{
+                                        position: "absolute",
+                                        inset: 0,
+                                        background:
+                                            "linear-gradient(135deg, rgba(250,248,245,0.18) 0%, transparent 55%, rgba(13,43,74,0.06) 100%)",
+                                        pointerEvents: "none",
+                                        borderRadius: "16px",
+                                    }}
+                                />
+                            </motion.div>
+                        </div>
+
+                    </div>
+                </Container>
+            </section>
+        </>
     );
 };
 

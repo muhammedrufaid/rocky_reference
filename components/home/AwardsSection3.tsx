@@ -1,205 +1,191 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import Link from "next/link";
+import Container from "@/components/layout/Container";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
-// ─── Award list data ──────────────────────────────────────────────────────────
-const awards = [
-  {
-    id: 1,
-    title: "Best Real Estate Agency Dubai",
-    year: "2024",
-  },
-  {
-    id: 2,
-    title: "Arabian Property Awards — Highly Commended",
-    year: "2023",
-  },
-  {
-    id: 3,
-    title: "Forbes Top 10 Brokerages MENA",
-    year: "2024",
-  },
-  {
-    id: 4,
-    title: "Cityscape Excellence Award",
-    year: "2023",
-  },
+const benefits = [
+  { icon: "◆", title: "Market-Leading Expertise", desc: "Deep knowledge of Dubai's real estate landscape" },
+  { icon: "◆", title: "Off-Plan Access", desc: "Exclusive access to premium off-plan developments" },
+  { icon: "◆", title: "Data-Driven Advisory", desc: "Investment decisions backed by market intelligence" },
+  { icon: "◆", title: "Transparent Service", desc: "Honest, clear guidance you can trust" },
+  { icon: "◆", title: "Dedicated Management", desc: "Personalised client relationship at every step" },
 ];
 
-// ─── Animation helpers ────────────────────────────────────────────────────────
-const ease = [0.22, 1, 0.36, 1] as const;
+const stats = [
+  { value: "1100+", label: "Properties Managed" },
+  { value: "AED 4B+", label: "In Transactions" },
+  { value: "50 Yrs", label: "UAE Expertise" },
+];
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-60px" },
-  transition: { duration: 0.65, delay, ease },
-});
+// Reusable variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const, delay },
+  }),
+};
 
-const fadeIn = (delay = 0) => ({
-  initial: { opacity: 0 },
-  whileInView: { opacity: 1 },
-  viewport: { once: true, margin: "-60px" },
-  transition: { duration: 0.8, delay, ease },
-});
+const fadeLeft = {
+  hidden: { opacity: 0, x: -48 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
 
-// ─── Component ────────────────────────────────────────────────────────────────
+const fadeRight = {
+  hidden: { opacity: 0, x: 48 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
+
 const AwardsSection3: React.FC = () => {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
+
   return (
     <section
-      className="py-20 bg-white"
-      aria-labelledby="awards-section-heading"
+      ref={sectionRef}
+      className="py-16 md:py-20 lg:py-24"
+      aria-labelledby="why-choose-heading"
+    // style={{ backgroundColor: "#FFFFFF" }}
     >
-      {/* ── Container ── */}
-      <div className="max-w-7xl mx-auto px-6 md:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+      <Container>
+        {/* ROW 1: Small image + heading/text */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center">
 
-          {/* ── LEFT: Content ── */}
-          <div className="flex flex-col gap-8">
 
-            {/* Section label */}
-            <motion.p
-              {...fadeUp(0)}
-              className="text-xs font-semibold tracking-[0.2em] uppercase"
-              style={{ color: "#9F8870", fontFamily: "'Poppins', sans-serif" }}
-            >
-              Our Achievements
-            </motion.p>
+          {/* Text content — slides in from right, children stagger */}
+          <motion.article
+            variants={fadeRight}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            className="flex flex-col justify-center"
+          >
+            {/* Accent line */}
+            <motion.div
+              className="mb-4 h-0.5"
+              style={{ backgroundColor: "#c3ad95", originX: 0 }}
+              initial={{ scaleX: 0, width: 48 }}
+              animate={isInView ? { scaleX: 1, width: 48 } : { scaleX: 0 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const, delay: 0.25 }}
+              aria-hidden
+            />
 
-            {/* Heading */}
             <motion.h2
-              {...fadeUp(0.08)}
-              id="awards-section-heading"
-              className="text-3xl md:text-4xl font-semibold leading-tight"
-              style={{ color: "#081F3A", fontFamily: "'Poppins', sans-serif" }}
+              id="why-choose-heading"
+              className="text-2xl sm:text-3xl md:text-4xl font-medium leading-tight tracking-tight"
+              style={{ color: "#0d365e" }}
+              variants={fadeUp}
+              custom={0.3}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
             >
-              Awards &amp;{" "}
-              <span style={{ color: "#1C4E80" }}>Recognition</span>
+              Why Choose Rocky Real Estate?
             </motion.h2>
 
-            {/* Description */}
             <motion.p
-              {...fadeUp(0.14)}
-              className="text-sm md:text-base leading-relaxed max-w-md"
-              style={{ color: "#333333", fontFamily: "'Poppins', sans-serif" }}
+              className="mt-5 text-base md:text-lg leading-relaxed"
+              style={{ color: "#555555" }}
+              variants={fadeUp}
+              custom={0.42}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
             >
-              Celebrating excellence and industry achievements in real estate.
-              Our commitment to quality and client service has been recognised
-              by the region's most prestigious institutions.
+              With over 5 decades of experience, an ever-growing portfolio, and a team of seasoned experts, we ensure every service is personalised as per the client’s needs.
             </motion.p>
 
-            {/* Award list */}
-            <motion.ul
-              {...fadeUp(0.2)}
-              className="flex flex-col gap-4"
-              aria-label="Award list"
+            <motion.div
+              className="mt-7 grid grid-cols-2 gap-3 sm:gap-4"
+              variants={fadeUp}
+              custom={0.54}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
             >
-              {awards.map((award, i) => (
-                <motion.li
-                  key={award.id}
-                  initial={{ opacity: 0, x: -12 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.5, delay: 0.22 + i * 0.07, ease }}
-                  className="flex items-center justify-between gap-4 pb-4 border-b"
-                  style={{ borderColor: "#E7DCCD" }}
+              {stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-xl border bg-white px-4 py-3"
+                  style={{ borderColor: "rgba(13, 54, 94, 0.12)" }}
                 >
-                  <span
-                    className="text-sm md:text-base font-medium"
-                    style={{ color: "#081F3A", fontFamily: "'Poppins', sans-serif" }}
+                  <div
+                    className="text-lg sm:text-xl font-semibold leading-none tracking-tight"
+                    style={{ color: "#0d365e" }}
                   >
-                    {award.title}
-                  </span>
-                  <span
-                    className="text-xs font-semibold shrink-0 px-3 py-1 rounded-full"
-                    style={{
-                      color: "#1C4E80",
-                      backgroundColor: "#EBF0F7",
-                      fontFamily: "'Poppins', sans-serif",
-                    }}
-                  >
-                    {award.year}
-                  </span>
-                </motion.li>
+                    {stat.value}
+                  </div>
+                  <div className="mt-1 text-xs sm:text-sm" style={{ color: "#555555" }}>
+                    {stat.label}
+                  </div>
+                </div>
               ))}
-            </motion.ul>
+            </motion.div>
 
-            {/* CTA Button */}
-            <motion.div {...fadeUp(0.46)}>
+            {/* <motion.div
+              className="mt-8"
+              variants={fadeUp}
+              custom={0.66}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+            >
               <Link
-                href="/awards"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 group"
+                href="/contact"
+                className="inline-flex items-center justify-center px-7 py-3.5 text-sm font-medium rounded-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(13,54,94,0.28)]"
                 style={{
-                  backgroundColor: "#081F3A",
-                  color: "#FFFFFF",
-                  fontFamily: "'Poppins', sans-serif",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#1C4E80";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#081F3A";
+                  backgroundColor: "#0d365e",
+                  color: "#ffffff",
+                  boxShadow: "0 4px 14px rgba(13, 54, 94, 0.2)",
                 }}
               >
-                View All Awards
-                <svg
-                  className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
+                Get in Touch
               </Link>
-            </motion.div>
-          </div>
-
-          {/* ── RIGHT: Award image ── */}
-          <motion.div
-            {...fadeIn(0.3)}
-            className="flex items-center justify-center lg:justify-end"
+            </motion.div> */}
+          </motion.article>
+          {/* Image — slides in from left */}
+          <motion.figure
+            variants={fadeLeft}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            className="relative w-full max-w-xl mx-auto lg:mx-0 aspect-[4/3] overflow-hidden rounded-2xl"
+            style={{ boxShadow: "0 6px 28px rgba(13, 54, 94, 0.10)" }}
           >
-            <div
-              className="relative w-full max-w-sm lg:max-w-md aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl"
-              style={{ boxShadow: "0 32px 64px -16px rgba(8,31,58,0.18)" }}
-            >
-              {/* Soft sand background fallback */}
-              <div
-                className="absolute inset-0"
-                style={{ backgroundColor: "#E7DCCD" }}
-              />
-
-              <Image
-                src="/publicassets/awards/awards1.avif"
-                alt="Awards and Recognition — prestigious real estate accolades"
-                fill
-                className="object-contain"
-                sizes="(max-width: 768px) 90vw, (max-width: 1200px) 45vw, 480px"
-                priority
-              />
-
-              {/* Subtle overlay gradient at bottom for polish */}
-              <div
-                className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
-                style={{
-                  background:
-                    "linear-gradient(to top, rgba(8,31,58,0.08), transparent)",
-                }}
-              />
-            </div>
-          </motion.div>
-
+            {/* Shimmer overlay that sweeps away once loaded */}
+            <motion.div
+              className="absolute inset-0 z-10 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.45) 50%, transparent 60%)",
+                backgroundSize: "200% 100%",
+              }}
+              initial={{ backgroundPosition: "-100% 0", opacity: 1 }}
+              animate={
+                isInView
+                  ? { backgroundPosition: "200% 0", opacity: 0 }
+                  : { backgroundPosition: "-100% 0", opacity: 1 }
+              }
+              transition={{ duration: 1.1, ease: "easeInOut", delay: 0.2 }}
+            />
+            <Image
+              src="/assets/common/award1.webp"
+              alt="Luxury Dubai real estate - Rocky Real Estate expertise"
+              fill
+              className="object-contain"
+              sizes="(max-width: 1024px) 384px, 40vw"
+              priority={false}
+            />
+          </motion.figure>
         </div>
-      </div>
+      </Container>
     </section>
   );
 };
