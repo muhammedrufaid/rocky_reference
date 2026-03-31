@@ -10,10 +10,12 @@ import {
   mapApiResponseToPropertyListings,
 } from "@/utils/getServices";
 import { filterPropertyListings } from "@/utils/data";
+import { seoSlugToQuery } from "@/utils/seo";
 import PropertySearchBar from "@/components/properties/PropertySearchBar";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import FeaturedOffPlanProjects from "@/components/home/FeaturedOffPlanProjects";
 import ValuationCTA from "@/components/home/ValuationCTA";
+import Newsletter from "@/components/home/Newsletter";
 
 const PAGE_SIZE = 20;
 /** Fetch a large batch so we can filter & paginate on the frontend */
@@ -24,7 +26,14 @@ export default async function PropertiesPage({
   searchParams,
 }: {
   params: Promise<{ type: string }>;
-  searchParams: Promise<{ q?: string; type?: string; min?: string; max?: string; page?: string }>;
+  searchParams: Promise<{
+    q?: string;
+    search?: string;
+    type?: string;
+    min?: string;
+    max?: string;
+    page?: string;
+  }>;
 }) {
   const { type } = await params;
   const filters = await searchParams;
@@ -45,7 +54,8 @@ export default async function PropertiesPage({
     : [];
 
   // ── Client-side filtering ──────────────────────────────────────────────────
-  const hasFilters = !!(filters.q || filters.type || filters.min || filters.max);
+  const hasFilters = !!(filters.q || filters.search || filters.type || filters.min || filters.max);
+  const searchQuery = filters.q || (filters.search ? seoSlugToQuery(filters.search) : undefined);
 
   const filteredListings = hasFilters
     ? filterPropertyListings(allListings, {
@@ -53,7 +63,7 @@ export default async function PropertiesPage({
       propertyType: filters.type,
       minPrice: filters.min,
       maxPrice: filters.max,
-      searchQuery: filters.q,
+      searchQuery,
     })
     : allListings;
 
@@ -91,7 +101,8 @@ export default async function PropertiesPage({
           }}
         />
         <FeaturedOffPlanProjects data={offPlanPropertiesData} />
-        <ValuationCTA />
+        {/* <ValuationCTA /> */}
+        <Newsletter />
         <TestimonialSection />
 
         {/* <PropertiesList type={type} searchParams={filters} /> */}

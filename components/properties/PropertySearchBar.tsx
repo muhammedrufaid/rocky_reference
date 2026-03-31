@@ -8,6 +8,7 @@ import {
   getPropertyTypes,
   type PropertySuggestion,
 } from "@/utils/getServices";
+import { generateSeoSlug } from "@/utils/seo";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -103,6 +104,16 @@ const SEARCH_DEBOUNCE_MS = 200;
 const SUGGESTIONS_LIMIT = 20;
 const SUGGESTIONS_MAX_HEIGHT_PX = 260;
 const MAX_VISIBLE_TAGS = 1;
+
+function decodeQueryParam(raw: string): string {
+  // Defensive: if any code path ever passes a raw querystring fragment,
+  // convert `+` to space before decoding.
+  try {
+    return decodeURIComponent(raw.replace(/\+/g, " "));
+  } catch {
+    return raw.replace(/\+/g, " ");
+  }
+}
 
 function getSuggestionId(s: PropertySuggestion): string {
   return (
@@ -384,7 +395,9 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
     return () => { cancelled = true; };
   }, []);
 
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
+  const [searchQuery, setSearchQuery] = useState(
+    decodeQueryParam(searchParams.get("q") ?? "")
+  );
   const [propertyType, setPropertyType] = useState(searchParams.get("type") ?? "");
   const [minPrice, setMinPrice] = useState(searchParams.get("min") ?? "");
   const [maxPrice, setMaxPrice] = useState(searchParams.get("max") ?? "");
@@ -413,7 +426,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
 
   // Sync URL params → state
   useEffect(() => {
-    const qFromUrl = searchParams.get("q") ?? "";
+    const qFromUrl = decodeQueryParam(searchParams.get("q") ?? "");
     setPropertyType(searchParams.get("type") ?? "");
     setMinPrice(searchParams.get("min") ?? "");
     setMaxPrice(searchParams.get("max") ?? "");
@@ -554,7 +567,9 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
       if (propertyType) params.set("type", propertyType);
       if (minPrice) params.set("min", minPrice);
       if (maxPrice) params.set("max", maxPrice);
-      const query = params.toString();
+      // Optional readability: `URLSearchParams` serializes spaces as `+`.
+      // If you prefer `%20`, keep this replace.
+      const query = params.toString().replace(/\+/g, "%20");
       return `/properties/${tx}/in-dubai${query ? `?${query}` : ""}`;
     },
     [searchQuery, selectedItems, propertyType, minPrice, maxPrice, transactionType]
@@ -562,7 +577,25 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
 
   const handleSearch = (e?: React.FormEvent) => {
     e?.preventDefault();
-    router.push(buildUrl());
+    const tx = transactionType;
+
+    const queryFromSelections =
+      selectedItems.length > 0 ? selectedItems.map(getSuggestionTitleText).join(" | ") : "";
+    const q = (queryFromSelections || searchQuery || "").trim();
+
+    // Prefer `search=<seo-slug>` when we have a location query; keep other filters as query params.
+    if (q) {
+      const slug = generateSeoSlug(q);
+      const params = new URLSearchParams();
+      if (slug) params.set("search", slug);
+      if (propertyType) params.set("type", propertyType);
+      if (minPrice) params.set("min", minPrice);
+      if (maxPrice) params.set("max", maxPrice);
+      const extra = params.toString().replace(/\+/g, "%20");
+      router.push(`/properties/${tx}/in-dubai${extra ? `?${extra}` : ""}`);
+    } else {
+      router.push(buildUrl());
+    }
     setFilterPanelOpen(false);
     setShowSuggestions(false);
   };
