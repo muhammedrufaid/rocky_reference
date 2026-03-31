@@ -2,10 +2,12 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 import {
   getPropertySuggestions,
   type PropertySuggestion,
 } from "@/utils/getServices";
+import { generateSeoSlug } from "@/utils/seo";
 
 type SearchCategory = "RESIDENTIAL" | "COMMERCIAL" | "OFF PLAN";
 type BuyOption = "BUY" | "RENT" | "OFF PLAN";
@@ -135,6 +137,7 @@ const TagChip: React.FC<{ label: string; onRemove: () => void }> = ({ label, onR
 // ─── Component ────────────────────────────────────────────────────────────────
 const HeroSearchCardV2: React.FC = () => {
   // ── State ──────────────────────────────────────────────────────────────────
+  const router = useRouter();
   const [buyOption, setBuyOption]           = useState<BuyOption>("BUY");
   const [activeCategory, setActiveCategory] = useState<SearchCategory>("RESIDENTIAL");
   const [searchQuery, setSearchQuery]       = useState("");
@@ -236,7 +239,15 @@ const HeroSearchCardV2: React.FC = () => {
 
   // ── Handlers ───────────────────────────────────────────────────────────────
   const handleSearch = () => {
-    console.log("Searching:", { buyOption, activeCategory, selectedItems, searchQuery });
+    const tx = buyOption === "RENT" ? "rent" : "buy";
+    const qFromSelections =
+      selectedItems.length > 0 ? selectedItems.map(getSuggestionTitleText).join(" | ") : "";
+    const q = (qFromSelections || searchQuery || "").trim();
+
+    const slug = generateSeoSlug(q);
+    const params = new URLSearchParams();
+    if (slug) params.set("search", slug);
+    router.push(`/properties/${tx}/in-dubai${params.toString() ? `?${params.toString()}` : ""}`);
   };
 
   const handleSuggestionSelect = (suggestion: PropertySuggestion) => {
