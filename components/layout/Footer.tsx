@@ -25,8 +25,22 @@ const footerCompany = [
 ];
 
 const popularSearches = [
-    "Dubai Marina", "Downtown Dubai", "Palm Jumeirah",
-    "Business Bay", "JBR", "Dubai Hills",
+    "Dubai Marina",
+    "Downtown Dubai",
+    "Palm Jumeirah",
+    "Business Bay",
+    "JBR",
+    "Dubai Hills",
+    "Jumeirah Village Circle",
+    "Jumeirah Village Triangle",
+    "Al Barsha",
+    "Arabian Ranches",
+    "Dubai Creek Harbour",
+    "Dubai Silicon Oasis",
+    "International City",
+    "Meydan",
+    "DAMAC Hills",
+    "Expo City Dubai",
 ];
 
 const socialLinks = [
@@ -81,13 +95,13 @@ const Footer: React.FC = () => {
                             aria-expanded={isOpen}
                             aria-controls="popular-searches-panel"
                             onClick={() => setIsOpen((prev) => !prev)}
-                            className="flex w-full items-center justify-between gap-4 text-xs font-semibold uppercase tracking-wider text-white cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d365e] rounded"
+                            className="flex w-full items-center justify-between gap-4 text-xs font-medium uppercase tracking-wider text-white cursor-pointer select-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white focus-visible:ring-offset-1 focus-visible:ring-offset-[#0d365e] rounded"
                         >
                             <span>Popular Searches</span>
 
                             {/* Chevron — animates exactly like FAQs + icon */}
                             <motion.svg
-                                className="h-3 w-3 text-white/90"
+                                className="h-4 w-4 text-white/90"
                                 viewBox="0 0 20 20"
                                 fill="currentColor"
                                 aria-hidden="true"
