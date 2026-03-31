@@ -10,7 +10,9 @@ import {
 } from "@/utils/getServices";
 import { generateSeoSlug, seoSlugToQuery } from "@/utils/seo";
 import PropertyTypeTabbedDropdown, {
-  type PropertyTypeSelection,
+  EMPTY_PROPERTY_TYPE_MULTI_SELECTION,
+  serializePropertyTypeMultiSelectionForQuery,
+  type PropertyTypeMultiSelection,
   type PropertyTypeRow,
 } from "@/components/properties/PropertyTypeTabbedDropdown";
 
@@ -23,8 +25,6 @@ interface PropertySearchBarProps {
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-
-const DEFAULT_PROPERTY_TYPES = [{ label: "All Types", value: "" }];
 
 const RENT_PRICES = [
   { label: "Any", value: "" },
@@ -383,8 +383,6 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
     pathname.includes("/rent/") ? "rent" : pathname.includes("/buy/") ? "buy" : defaultType;
   const priceOptions = transactionType === "rent" ? RENT_PRICES : BUY_PRICES;
 
-  const [propertyTypeOptions, setPropertyTypeOptions] = useState(DEFAULT_PROPERTY_TYPES);
-  const [propertyCategory, setPropertyCategory] = useState(searchParams.get("category") ?? "");
   const [propertyTypeRows, setPropertyTypeRows] = useState<PropertyTypeRow[]>([]);
 
   // Fetch property types + category mapping from API
@@ -409,34 +407,12 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
     decodeQueryParam(searchParams.get("q") ?? "")
   );
   const [propertyType, setPropertyType] = useState(searchParams.get("type") ?? "");
+  const [propertyTypeFilters, setPropertyTypeFilters] = useState<PropertyTypeMultiSelection>(
+    EMPTY_PROPERTY_TYPE_MULTI_SELECTION
+  );
   const [minPrice, setMinPrice] = useState(searchParams.get("min") ?? "");
   const [maxPrice, setMaxPrice] = useState(searchParams.get("max") ?? "");
   const [filterPanelOpen, setFilterPanelOpen] = useState(false);
-
-  const propertyTypeSelection: PropertyTypeSelection =
-    propertyCategory && propertyType && (propertyCategory === "Residential" || propertyCategory === "Commercial")
-      ? { category: propertyCategory, type: propertyType }
-      : null;
-
-  // Rebuild property type options when category changes or data loads.
-  useEffect(() => {
-    const filtered =
-      propertyCategory.trim() !== ""
-        ? propertyTypeRows.filter((r) => r.category === propertyCategory)
-        : propertyTypeRows;
-
-    const uniqueTypes = Array.from(new Set(filtered.map((r) => r.type))).sort((a, b) =>
-      a.localeCompare(b)
-    );
-
-    const options = [{ label: "All Types", value: "" }, ...uniqueTypes.map((t) => ({ label: t, value: t }))];
-    setPropertyTypeOptions(options);
-
-    // If currently selected type isn't available under the new category, clear it.
-    if (propertyType && !uniqueTypes.includes(propertyType)) {
-      setPropertyType("");
-    }
-  }, [propertyCategory, propertyTypeRows]);
 
   const [suggestions, setSuggestions] = useState<PropertySuggestion[]>([]);
   const [selectedItems, setSelectedItems] = useState<PropertySuggestion[]>([]);
@@ -464,7 +440,6 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
     const qFromUrl = decodeQueryParam(searchParams.get("q") ?? "");
     const searchFromUrl = searchParams.get("search") ?? "";
     const qCombined = qFromUrl || (searchFromUrl ? seoSlugToQuery(searchFromUrl) : "");
-    setPropertyCategory(searchParams.get("category") ?? "");
     setPropertyType(searchParams.get("type") ?? "");
     setMinPrice(searchParams.get("min") ?? "");
     setMaxPrice(searchParams.get("max") ?? "");
@@ -487,6 +462,35 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
       setShowOverflowPopover(false);
     }
   }, [searchParams]);
+
+  // Sync `type=<csv>` → tabbed dropdown multi selection.
+  useEffect(() => {
+    const raw = (searchParams.get("type") ?? "").trim();
+    if (!raw) {
+      setPropertyTypeFilters(EMPTY_PROPERTY_TYPE_MULTI_SELECTION);
+      return;
+    }
+    const tokens = raw
+      .split(",")
+      .map((t) => decodeQueryParam(t).trim())
+      .filter(Boolean);
+
+    const typeToCategory = new Map<string, "Residential" | "Commercial">(
+      propertyTypeRows
+        .map((r) => [String(r.type ?? "").trim(), String(r.category ?? "").trim()] as const)
+        .map(([t, c]) => [t, c === "Commercial" ? "Commercial" : "Residential"] as const)
+    );
+
+    const next: PropertyTypeMultiSelection = { residential: [], commercial: [] };
+    for (const t of tokens) {
+      const cat = typeToCategory.get(t) ?? "Residential";
+      if (cat === "Commercial") next.commercial.push(t);
+      else next.residential.push(t);
+    }
+    next.residential = Array.from(new Set(next.residential)).sort((a, b) => a.localeCompare(b));
+    next.commercial = Array.from(new Set(next.commercial)).sort((a, b) => a.localeCompare(b));
+    setPropertyTypeFilters(next);
+  }, [searchParams, propertyTypeRows]);
 
   // Suggestions: debounced, abortable lookup (mirrors HeroSearchCardV2 behavior).
   useEffect(() => {
@@ -602,7 +606,6 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
           ? options.qOverride ?? ""
           : queryFromSelections || searchQuery;
       if (q) params.set("q", q);
-      if (propertyCategory) params.set("category", propertyCategory);
       if (propertyType) params.set("type", propertyType);
       if (minPrice) params.set("min", minPrice);
       if (maxPrice) params.set("max", maxPrice);
@@ -611,7 +614,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
       const query = params.toString().replace(/\+/g, "%20");
       return `/properties/${tx}/in-dubai${query ? `?${query}` : ""}`;
     },
-    [searchQuery, selectedItems, propertyCategory, propertyType, minPrice, maxPrice, transactionType]
+    [searchQuery, selectedItems, propertyType, minPrice, maxPrice, transactionType]
   );
 
   const handleSearch = (e?: React.FormEvent) => {
@@ -627,7 +630,6 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
       const slug = generateSeoSlug(q);
       const params = new URLSearchParams();
       if (slug) params.set("search", slug);
-      if (propertyCategory) params.set("category", propertyCategory);
       if (propertyType) params.set("type", propertyType);
       if (minPrice) params.set("min", minPrice);
       if (maxPrice) params.set("max", maxPrice);
@@ -640,7 +642,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
     setShowSuggestions(false);
   };
 
-  const hasActiveFilters = !!(propertyCategory || propertyType || minPrice || maxPrice);
+  const hasActiveFilters = !!(propertyType || minPrice || maxPrice);
 
   const handleListingSelect = (tx: TransactionType) => {
     router.push(`/properties/${tx}/in-dubai`);
@@ -880,15 +882,10 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
                 />
                 <PropertyTypeTabbedDropdown
                   rows={propertyTypeRows}
-                  value={propertyTypeSelection}
-                  onChange={(next) => {
-                    if (!next) {
-                      setPropertyCategory("");
-                      setPropertyType("");
-                      return;
-                    }
-                    setPropertyCategory(next.category);
-                    setPropertyType(next.type);
+                  value={propertyTypeFilters}
+                  onApply={(next) => {
+                    setPropertyTypeFilters(next);
+                    setPropertyType(serializePropertyTypeMultiSelectionForQuery(next));
                   }}
                 />
                 <div className="grid grid-cols-2 gap-3">
@@ -1042,15 +1039,10 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
         <div className="shrink-0 min-w-[220px]">
           <PropertyTypeTabbedDropdown
             rows={propertyTypeRows}
-            value={propertyTypeSelection}
-            onChange={(next) => {
-              if (!next) {
-                setPropertyCategory("");
-                setPropertyType("");
-                return;
-              }
-              setPropertyCategory(next.category);
-              setPropertyType(next.type);
+            value={propertyTypeFilters}
+            onApply={(next) => {
+              setPropertyTypeFilters(next);
+              setPropertyType(serializePropertyTypeMultiSelectionForQuery(next));
             }}
           />
         </div>

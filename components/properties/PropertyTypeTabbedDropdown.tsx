@@ -9,10 +9,26 @@ export type PropertyTypeRow = {
   category: string;
 };
 
-export type PropertyTypeSelection = {
-  category: PropertyCategory;
-  type: string;
-} | null;
+export type PropertyTypeMultiSelection = {
+  residential: string[];
+  commercial: string[];
+};
+
+export const EMPTY_PROPERTY_TYPE_MULTI_SELECTION: PropertyTypeMultiSelection = {
+  residential: [],
+  commercial: [],
+};
+
+export function serializePropertyTypeMultiSelectionForQuery(
+  value: PropertyTypeMultiSelection
+): string {
+  const all = [...(value.residential ?? []), ...(value.commercial ?? [])]
+    .map((v) => String(v ?? "").trim())
+    .filter(Boolean);
+  return Array.from(new Set(all))
+    .sort((a, b) => a.localeCompare(b))
+    .join(",");
+}
 
 function normalizeCategory(value: string): PropertyCategory | null {
   const v = String(value ?? "").trim().toLowerCase();
@@ -27,26 +43,80 @@ function dedupeAndSort(values: string[]) {
   );
 }
 
+function toggleInList(list: string[], item: string) {
+  const normalized = String(item ?? "").trim();
+  if (!normalized) return list;
+  return list.includes(normalized) ? list.filter((x) => x !== normalized) : [...list, normalized];
+}
+
+function getSelectedForTab(value: PropertyTypeMultiSelection, tab: PropertyCategory) {
+  return tab === "Residential" ? value.residential : value.commercial;
+}
+
+function setSelectedForTab(
+  value: PropertyTypeMultiSelection,
+  tab: PropertyCategory,
+  nextList: string[]
+): PropertyTypeMultiSelection {
+  return tab === "Residential"
+    ? { ...value, residential: nextList }
+    : { ...value, commercial: nextList };
+}
+
+function sanitizeExclusive(
+  value: PropertyTypeMultiSelection,
+  preferCategory: PropertyCategory
+): PropertyTypeMultiSelection {
+  const resCount = value.residential?.length ?? 0;
+  const comCount = value.commercial?.length ?? 0;
+  if (resCount === 0 || comCount === 0) return value;
+  return preferCategory === "Residential"
+    ? { ...value, commercial: [] }
+    : { ...value, residential: [] };
+}
+
+function getActiveCategory(value: PropertyTypeMultiSelection): PropertyCategory | null {
+  const resCount = value.residential?.length ?? 0;
+  const comCount = value.commercial?.length ?? 0;
+  if (resCount > 0) return "Residential";
+  if (comCount > 0) return "Commercial";
+  return null;
+}
+
+function getActiveCount(value: PropertyTypeMultiSelection): number {
+  const active = getActiveCategory(value);
+  if (!active) return 0;
+  return active === "Residential"
+    ? (value.residential?.length ?? 0)
+    : (value.commercial?.length ?? 0);
+}
+
+function getDropdownLabel(value: PropertyTypeMultiSelection, placeholder: string): string {
+  const active = getActiveCategory(value);
+  if (!active) return placeholder;
+  return `${active} (${getActiveCount(value)})`;
+}
+
 export default function PropertyTypeTabbedDropdown({
   rows,
   value,
-  onChange,
+  onApply,
   label = "Property Type",
-  placeholder = "Property Type",
+  placeholder = "Select Type",
   initialTab = "Residential",
 }: {
   rows: PropertyTypeRow[];
-  value: PropertyTypeSelection;
-  onChange: (next: PropertyTypeSelection) => void;
+  value: PropertyTypeMultiSelection;
+  onApply: (next: PropertyTypeMultiSelection) => void;
   label?: string;
   placeholder?: string;
   initialTab?: PropertyCategory;
 }) {
   const [open, setOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<PropertyCategory>(
-    value?.category ?? initialTab
-  );
+  const [activeTab, setActiveTab] = useState<PropertyCategory>(initialTab);
   const ref = useRef<HTMLDivElement>(null);
+  const [draft, setDraft] = useState<PropertyTypeMultiSelection>(value);
+  const [lastActiveCategory, setLastActiveCategory] = useState<PropertyCategory>(initialTab);
 
   const residentialOptions = useMemo(
     () =>
@@ -68,7 +138,8 @@ export default function PropertyTypeTabbedDropdown({
   );
 
   const optionsForTab = activeTab === "Residential" ? residentialOptions : commercialOptions;
-  const selectedLabel = value?.type ? value.type : "";
+  const selectedCount = getActiveCount(draft);
+  const selectedLabel = getDropdownLabel(draft, placeholder);
 
   useEffect(() => {
     if (!open) return;
@@ -79,18 +150,30 @@ export default function PropertyTypeTabbedDropdown({
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
-  // Keep tab aligned with current value (e.g. URL sync sets category + type)
+  // When opening, start with latest applied value.
   useEffect(() => {
-    if (value?.category) setActiveTab(value.category);
-  }, [value?.category]);
+    if (!open) return;
+    setDraft(sanitizeExclusive(value, lastActiveCategory));
+  }, [open, value, lastActiveCategory]);
 
-  const handleTabChange = (tab: PropertyCategory) => {
-    setActiveTab(tab);
-    // Requirement: switching tab resets previous selection
-    if (value) onChange(null);
+  const handleTabChange = (tab: PropertyCategory) => setActiveTab(tab);
+
+  const handleReset = () => {
+    setDraft(EMPTY_PROPERTY_TYPE_MULTI_SELECTION);
+    onApply(EMPTY_PROPERTY_TYPE_MULTI_SELECTION);
   };
 
-  const handleReset = () => onChange(null);
+  const handleToggle = (opt: string) => {
+    setDraft((prev) => {
+      setLastActiveCategory(activeTab);
+      const sanitized = sanitizeExclusive(prev, activeTab);
+      const current = getSelectedForTab(sanitized, activeTab);
+      const next = toggleInList(current, opt);
+      const nextValue = setSelectedForTab(sanitized, activeTab, next);
+      // Enforce mutual exclusivity: selecting in one tab clears the other bucket.
+      return sanitizeExclusive(nextValue, activeTab);
+    });
+  };
 
   return (
     <div className="relative" ref={ref}>
@@ -99,12 +182,12 @@ export default function PropertyTypeTabbedDropdown({
         onClick={() => setOpen((p) => !p)}
         aria-haspopup="dialog"
         aria-expanded={open}
-        aria-label={`${label}: ${selectedLabel || placeholder}`}
+        aria-label={`${label}: ${selectedLabel}`}
         className="flex h-11 w-full items-center justify-between gap-2 rounded-lg border bg-white px-3.5 py-2.5 text-left text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
         style={{ color: "var(--charcoal)", borderColor: "var(--border-light)" }}
       >
         <span className="truncate">
-          {selectedLabel ? (
+          {selectedCount > 0 ? (
             <span className="text-[var(--charcoal)]">{selectedLabel}</span>
           ) : (
             <span className="text-[var(--charcoal)]/60">{placeholder}</span>
@@ -152,12 +235,12 @@ export default function PropertyTypeTabbedDropdown({
           <div className="p-3">
             <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
               {optionsForTab.map((opt) => {
-                const checked = value?.type === opt && value?.category === activeTab;
+                const checked = getSelectedForTab(draft, activeTab).includes(opt);
                 return (
                   <button
                     key={opt}
                     type="button"
-                    onClick={() => onChange({ category: activeTab, type: opt })}
+                    onClick={() => handleToggle(opt)}
                     className={[
                       "flex w-full items-center justify-between gap-3 rounded-lg border px-3 py-2.5 text-left text-sm transition-colors",
                       checked
@@ -165,18 +248,34 @@ export default function PropertyTypeTabbedDropdown({
                         : "border-[rgba(0,0,0,0.08)] hover:bg-[var(--soft-sand)]/30",
                     ].join(" ")}
                     style={{ color: "var(--charcoal)" }}
-                    role="radio"
+                    role="checkbox"
                     aria-checked={checked}
                   >
                     <span className="truncate font-medium">{opt}</span>
                     <span
                       className={[
-                        "flex size-4 items-center justify-center rounded-full border",
-                        checked ? "border-[var(--rocky-blue)]" : "border-[rgba(0,0,0,0.22)]",
+                        "flex size-4 items-center justify-center rounded border",
+                        checked
+                          ? "border-[var(--rocky-blue)] bg-[var(--rocky-blue)]"
+                          : "border-[rgba(0,0,0,0.22)]",
                       ].join(" ")}
                       aria-hidden
                     >
-                      {checked && <span className="size-2.5 rounded-full bg-[var(--rocky-blue)]" />}
+                      {checked && (
+                        <svg
+                          className="size-3 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={3}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      )}
                     </span>
                   </button>
                 );
@@ -205,7 +304,10 @@ export default function PropertyTypeTabbedDropdown({
             </button>
             <button
               type="button"
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                onApply(draft);
+                setOpen(false);
+              }}
               className="rounded-lg bg-[var(--rocky-blue)] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[var(--rocky-blue-hover)]"
             >
               Done

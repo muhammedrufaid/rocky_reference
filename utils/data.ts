@@ -67,7 +67,16 @@ export function filterPropertyListings(
     if (!listingTypeMatch) return false;
 
     if (filters.propertyType && filters.propertyType !== "All Types") {
-      if (listing.propertyType?.toLowerCase() !== filters.propertyType.toLowerCase()) return false;
+      const tokens = String(filters.propertyType)
+        .split(",")
+        .map((t) => t.trim().toLowerCase())
+        .filter(Boolean);
+
+      if (tokens.length > 0) {
+        const listingType = listing.propertyType?.toLowerCase() ?? "";
+        if (!listingType) return false;
+        if (!tokens.includes(listingType)) return false;
+      }
     }
 
     const priceNum = parsePrice(listing.price);
