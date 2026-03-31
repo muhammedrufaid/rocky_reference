@@ -1,44 +1,15 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 
-// ─── Award data ───────────────────────────────────────────────────────────────
-const awards = [
-    {
-        id: 1,
-        title: "Best Real Estate Agency Dubai 2024",
-        image: "/images/awards/award-1.png",
-        year: "2024",
-    },
-    {
-        id: 2,
-        title: "Arabian Property Awards — Highly Commended",
-        image: "/images/awards/award-2.png",
-        year: "2023",
-    },
-    {
-        id: 3,
-        title: "Forbes Top 10 Brokerages MENA",
-        image: "/images/awards/award-3.png",
-        year: "2024",
-    },
-    {
-        id: 4,
-        title: "Cityscape Excellence Award",
-        image: "/images/awards/award-4.png",
-        year: "2023",
-    },
-];
-
 // ─── Stats ────────────────────────────────────────────────────────────────────
 const stats = [
-    { value: "12+", label: "Industry Awards" },
-    { value: "AED 4B+", label: "Properties Sold" },
-    { value: "8 Yrs", label: "Market Expertise" },
+    { value: 12, suffix: "+", label: "Industry Awards", prefix: "" },
+    { value: 4, suffix: "B+", label: "Properties Sold", prefix: "AED " },
+    { value: 8, suffix: " Yrs", label: "Market Expertise", prefix: "" },
 ];
 
 // ─── Animation variants ───────────────────────────────────────────────────────
@@ -51,78 +22,140 @@ const fadeUp = (delay = 0) => ({
     transition: { duration: 0.65, delay, ease },
 });
 
-// ─── Award Card ───────────────────────────────────────────────────────────────
-const AwardCard: React.FC<{ award: (typeof awards)[0]; index: number }> = ({
-    award,
-    index,
+// ─── Animated Counter Hook ────────────────────────────────────────────────────
+function useCountUp(target: number, duration = 1600, start = false) {
+    const [count, setCount] = useState(0);
+    const rafRef = useRef<number | null>(null);
+    const hasRun = useRef(false);
+
+    useEffect(() => {
+        if (!start || hasRun.current) return;
+        hasRun.current = true;
+
+        const startTime = performance.now();
+
+        const easeOutQuad = (t: number) => t * (2 - t);
+
+        const step = (now: number) => {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = easeOutQuad(progress);
+            setCount(Math.round(eased * target));
+            if (progress < 1) {
+                rafRef.current = requestAnimationFrame(step);
+            }
+        };
+
+        rafRef.current = requestAnimationFrame(step);
+        return () => {
+            if (rafRef.current) cancelAnimationFrame(rafRef.current);
+        };
+    }, [start, target, duration]);
+
+    return count;
+}
+
+// ─── Animated Stat Item ───────────────────────────────────────────────────────
+const StatItem: React.FC<{
+    stat: (typeof stats)[0];
+    shouldAnimate: boolean;
+    index: number;
+}> = ({ stat, shouldAnimate, index }) => {
+    const durations = [1600, 1800, 1400];
+    const count = useCountUp(stat.value, durations[index], shouldAnimate);
+
+    return (
+        <div className="flex flex-col gap-1">
+            <span
+                className="text-2xl md:text-3xl font-medium"
+                style={{ color: "#0d365e", letterSpacing: "-0.01em" }}
+            >
+                {stat.prefix}{count}{stat.suffix}
+            </span>
+            <span
+                className="text-xs font-normal uppercase tracking-widest"
+                style={{ color: "#999", letterSpacing: "0.14em" }}
+            >
+                {stat.label}
+            </span>
+        </div>
+    );
+};
+
+// ─── Award Image Card (single card, reusable) ─────────────────────────────────
+interface AwardImageCardProps {
+    src: string;
+    alt: string;
+}
+
+const AwardImageCard: React.FC<AwardImageCardProps> = ({
+    src,
+    alt,
 }) => (
     <motion.div
-        {...fadeUp(0.1 + index * 0.08)}
-        whileHover={{ scale: 1.04, boxShadow: "0 20px 48px rgba(13,54,94,0.10)" }}
-        transition={{ duration: 0.35, ease }}
-        className="group relative flex items-center justify-center rounded-2xl overflow-hidden"
-        style={{
-            background: "#f7f6f4",
-            aspectRatio: "1 / 1",
-            cursor: "default",
-        }}
-        aria-label={award.title}
+        {...fadeUp(0.2)}
+        className="relative w-full overflow-hidden rounded-2xl border border-[#E7DCCD] bg-gradient-to-br from-white via-[#E7DCCD]/55 to-[#C3AD95]/60 shadow-[0_18px_55px_rgba(8,31,58,0.16)] ring-1 ring-[#0D365E]/5 aspect-[16/9]"
     >
-        {/* Year pill */}
-        <span
-            className="absolute top-3 right-3 text-xs font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full"
-            style={{
-                background: "rgba(255,255,255,0.85)",
-                color: "#0d365e",
-                backdropFilter: "blur(6px)",
-                letterSpacing: "0.12em",
-            }}
-        >
-            {award.year}
-        </span>
-
-        {/* Award image */}
-        <div className="relative w-3/4 h-3/4 flex items-center justify-center">
-            <Image
-                src={award.image}
-                alt={award.title}
-                fill
-                className="object-contain transition-transform duration-500 group-hover:scale-105"
-                sizes="(max-width: 768px) 45vw, 20vw"
-            />
-        </div>
+        <Image
+            src={src}
+            alt={alt}
+            fill
+            priority
+            sizes="(min-width: 1024px) 620px, 100vw"
+            className="object-contain p-7 md:p-9 drop-shadow-[0_18px_22px_rgba(8,31,58,0.18)]"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#0D365E]/10 via-transparent to-white/40" />
     </motion.div>
 );
 
+// ─── Award image data ─────────────────────────────────────────────────────────
+const awardImages = [
+    {
+        src: "/assets/common/award1.webp",
+        alt: "Rocky award recognition",
+    },
+];
+
 // ─── Main Section ─────────────────────────────────────────────────────────────
 const AwardsSection: React.FC<{ data?: any }> = () => {
+    const [shouldAnimate, setShouldAnimate] = useState(false);
+    const sectionRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setShouldAnimate(true);
+                        observer.disconnect();
+                    }
+                });
+            },
+            { threshold: 0.3 }
+        );
+
+        if (sectionRef.current) observer.observe(sectionRef.current);
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <section
-            className="py-20 md:py-28 lg:py-32"
+            ref={sectionRef}
+            className="py-16 md:py-20 lg:py-24"
             style={{ background: "#ffffff" }}
             aria-labelledby="awards-section-heading"
         >
             <Container>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-14 lg:gap-20 items-center">
 
                     {/* ── LEFT: Copy & Stats ── */}
-                    <div className="flex flex-col justify-center">
-
-                        {/* Eyebrow */}
-                        <motion.p
-                            {...fadeUp(0)}
-                            className="text-xs font-semibold uppercase tracking-[0.2em] mb-5"
-                            style={{ color: "#b08d57" }}
-                        >
-                            Recognition & Excellence
-                        </motion.p>
-
+                    <div className="flex flex-col justify-center order-1 lg:order-1">
                         {/* Heading */}
                         <motion.h2
                             id="awards-section-heading"
                             {...fadeUp(0.08)}
-                            className="text-3xl sm:text-4xl md:text-5xl font-medium leading-[1.1] mb-6"
-                            style={{ color: "#0d365e", fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                            className="text-3xl sm:text-4xl md:text-5xl font-normal leading-[1.1] mb-6"
+                            style={{ color: "#0d365e" }}
                         >
                             Award-Winning <br />
                             Real Estate Excellence
@@ -145,34 +178,22 @@ const AwardsSection: React.FC<{ data?: any }> = () => {
                             className="flex flex-wrap gap-x-10 gap-y-7 pt-8"
                             style={{ borderTop: "1px solid #ece8e1" }}
                         >
-                            {stats.map((stat) => (
-                                <div key={stat.label} className="flex flex-col gap-1">
-                                    <span
-                                        className="text-2xl md:text-3xl font-semibold"
-                                        style={{
-                                            color: "#0d365e",
-                                            fontFamily: "'Cormorant Garamond', Georgia, serif",
-                                            letterSpacing: "-0.01em",
-                                        }}
-                                    >
-                                        {stat.value}
-                                    </span>
-                                    <span
-                                        className="text-xs font-medium uppercase tracking-widest"
-                                        style={{ color: "#999", letterSpacing: "0.14em" }}
-                                    >
-                                        {stat.label}
-                                    </span>
-                                </div>
+                            {stats.map((stat, i) => (
+                                <StatItem
+                                    key={stat.label}
+                                    stat={stat}
+                                    shouldAnimate={shouldAnimate}
+                                    index={i}
+                                />
                             ))}
                         </motion.div>
                     </div>
 
-                    {/* ── RIGHT: Awards Grid ── */}
-                    <div className="grid grid-cols-2 gap-4 md:gap-5">
-                        {awards.map((award, i) => (
-                            <AwardCard key={award.id} award={award} index={i} />
-                        ))}
+                    {/* ── RIGHT: Single Award Image ── */}
+                    <div className="order-2 lg:order-2 flex items-center justify-center lg:justify-end">
+                        <div className="w-full max-w-none lg:w-[520px] xl:w-[620px]">
+                            <AwardImageCard {...awardImages[0]} />
+                        </div>
                     </div>
 
                 </div>

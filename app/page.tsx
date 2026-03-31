@@ -26,14 +26,14 @@ export default async function Home() {
       <Header />
       <Hero />
       <FeaturedOffPlanProjects data={offPlanPropertiesData} />
-      <ExplorePropertySection data={readyPropertiesData}/>
+      {/* <ExplorePropertySection data={readyPropertiesData}/> */}
       <PropertyCategoriesSection data={readyPropertiesData}/>
       <DevelopmentPartnersSection />
       <ServiceSection data={services} />
       <AwardsSection />
       {/* <AwardsSection3 /> */}
       {/* <WhyChooseUsSection /> */}
-      <WhyChooseUsSection2 />
+      {/* <WhyChooseUsSection2 /> */}
       <Newsletter />
       {/* <ValuationCTA /> */}
       <TestimonialSection />
