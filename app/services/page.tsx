@@ -8,6 +8,7 @@ import ValuationCTA from "@/components/home/ValuationCTA";
 import WhychooseSection from "@/components/services/WhychooseSection";
 import DevelopmentPartnersSection from "@/components/home/DevelopmentPartnersSection";
 import { services } from "@/utils/data";
+import Newsletter from "@/components/home/Newsletter";
 
 export const metadata = {
   title: "Our Services | Rocky Real Estate",
@@ -33,7 +34,8 @@ export default function ServicesPage() {
         <WhychooseSection />
         {/* <DevelopmentPartnersSection /> */}
         {/* <FaqsSection />   */}
-        <ValuationCTA className="py-16 md:py-20 lg:py-24" />
+        <Newsletter />
+        {/* <ValuationCTA className="py-16 md:py-20 lg:py-24" /> */}
         <TestimonialSection/>
 
       </main>
