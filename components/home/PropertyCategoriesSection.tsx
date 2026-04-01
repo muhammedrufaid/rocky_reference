@@ -120,7 +120,7 @@ const CategoryCard: React.FC<{
                             backdropFilter: "blur(8px)",
                             border: "1px solid rgba(255,255,255,0.18)",
                             transition: "transform 0.45s cubic-bezier(0.22,1,0.36,1), background-color 0.3s ease",
-                            transform: hovered ? "rotate(45deg)" : "rotate(0deg)",
+                            transform: hovered ? "rotate(0deg)" : "rotate(-45deg)",
                         }}
                         aria-hidden
                     >
