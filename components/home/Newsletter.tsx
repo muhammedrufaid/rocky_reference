@@ -21,7 +21,7 @@ const Newsletter: React.FC<{ className?: string }> = ({ className }) => {
     return (
         <section
             ref={sectionRef}
-            className={className ?? "pb-16 md:pb-20 lg:pb-24"}
+            className={className ?? "py-16 md:py-20 lg:py-24"}
             aria-labelledby="valuation-heading"
         >
             <Container>
