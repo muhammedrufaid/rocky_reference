@@ -84,18 +84,22 @@ export async function getPropertyTypes(): Promise<any | undefined> {
     try {
       return await getData(`frontend/properties/types?page=1&limit=20`, 0)
     } catch (error) {
-      console.error('Failed to fetch featured data:', error)
+      console.error('Failed to fetch property types:', error)
       // throw notFound();
     }
 }
 
-export async function getPropertyTypesByCategory(): Promise<any | undefined> {
-    try {
-      return await getData(`frontend/properties/types-by-category?page=1&limit=20`, 0)
-    } catch (error) {
-      console.error('Failed to fetch featured data:', error)
-      // throw notFound();
-    }
+/** Normalizes `getPropertyTypes` API payload to a sorted list of type names. */
+export function normalizePropertyTypesPayload(data: unknown): string[] {
+  const raw = Array.isArray(data) ? data : (data as { data?: unknown })?.data
+  if (!Array.isArray(raw)) return []
+  return Array.from(
+    new Set(
+      raw
+        .map((x) => String(x ?? '').trim())
+        .filter(Boolean)
+    )
+  ).sort((a, b) => a.localeCompare(b))
 }
 
 export interface PropertiesFetchOptions {
