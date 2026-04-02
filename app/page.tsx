@@ -30,7 +30,7 @@ export default async function Home() {
       {/* <ExplorePropertySection data={readyPropertiesData}/> */}
       <PropertyCategoriesSection data={readyPropertiesData}/>
       <DevelopmentPartnersSection />
-      <ServiceSection data={services} />
+      {/* <ServiceSection data={services} /> */}
       {/* <AwardsSection /> */}
       {/* <AwardsSection3 /> */}
       {/* <WhyChooseUsSection /> */}
