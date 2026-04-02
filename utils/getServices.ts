@@ -108,6 +108,9 @@ export interface PropertiesFetchOptions {
   /** Optional filter params to pass to API */
   q?: string;
   type?: string;
+  /** New API filter params */
+  search?: string;
+  propertyType?: string | string[];
   min?: string;
   max?: string;
 }
@@ -117,8 +120,15 @@ export async function getBuyProperties(options: PropertiesFetchOptions = {}): Pr
       const page = options.page ?? 1
       const limit = options.limit ?? 20
       const params = new URLSearchParams({ page: String(page), limit: String(limit) })
-      if (options.q) params.set('q', options.q)
-      if (options.type) params.set('type', options.type)
+      const search = options.search ?? options.q
+      const propertyType = options.propertyType ?? options.type
+      if (search) params.set('search', search)
+      if (propertyType) {
+        const propertyTypeValue = Array.isArray(propertyType)
+          ? propertyType.map((x) => String(x).trim()).filter(Boolean).join(',')
+          : String(propertyType).trim()
+        if (propertyTypeValue) params.set('propertyType', propertyTypeValue)
+      }
       if (options.min) params.set('min', options.min)
       if (options.max) params.set('max', options.max)
       return await getData(`frontend/properties/buy?${params.toString()}`, 0)
@@ -132,8 +142,15 @@ export async function getRentProperties(options: PropertiesFetchOptions = {}): P
       const page = options.page ?? 1
       const limit = options.limit ?? 20
       const params = new URLSearchParams({ page: String(page), limit: String(limit) })
-      if (options.q) params.set('q', options.q)
-      if (options.type) params.set('type', options.type)
+      const search = options.search ?? options.q
+      const propertyType = options.propertyType ?? options.type
+      if (search) params.set('search', search)
+      if (propertyType) {
+        const propertyTypeValue = Array.isArray(propertyType)
+          ? propertyType.map((x) => String(x).trim()).filter(Boolean).join(',')
+          : String(propertyType).trim()
+        if (propertyTypeValue) params.set('propertyType', propertyTypeValue)
+      }
       if (options.min) params.set('min', options.min)
       if (options.max) params.set('max', options.max)
       return await getData(`frontend/properties/rent?${params.toString()}`, 0)

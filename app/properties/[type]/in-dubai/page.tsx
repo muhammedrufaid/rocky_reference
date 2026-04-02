@@ -7,9 +7,9 @@ import {
   getBuyProperties,
   getOffPlanProperties,
   getRentProperties,
+  getTotalFromApiResponse,
   mapApiResponseToPropertyListings,
 } from "@/utils/getServices";
-import { filterPropertyListings } from "@/utils/data";
 import { seoSlugToQuery } from "@/utils/seo";
 import PropertySearchBar from "@/components/properties/PropertySearchBar";
 import TestimonialSection from "@/components/home/TestimonialSection";
@@ -18,8 +18,6 @@ import ValuationCTA from "@/components/home/ValuationCTA";
 import Newsletter from "@/components/home/Newsletter";
 
 const PAGE_SIZE = 20;
-/** Fetch a large batch so we can filter & paginate on the frontend */
-const FETCH_LIMIT = 500;
 
 export default async function PropertiesPage({
   params,
@@ -43,36 +41,35 @@ export default async function PropertiesPage({
   const offPlanPropertiesData = await getOffPlanProperties();
   const currentPage = Math.max(1, parseInt(filters.page ?? "1", 10) || 1);
 
-  // Fetch ALL properties without filter params (API doesn't support filtering)
+  const searchQuery = filters.q || (filters.search ? seoSlugToQuery(filters.search) : undefined);
+
   const apiData =
     type === "buy"
-      ? await getBuyProperties({ page: 1, limit: FETCH_LIMIT })
-      : await getRentProperties({ page: 1, limit: FETCH_LIMIT });
+      ? await getBuyProperties({
+          page: currentPage,
+          limit: PAGE_SIZE,
+          search: searchQuery,
+          propertyType: filters.type,
+          min: filters.min,
+          max: filters.max,
+        })
+      : await getRentProperties({
+          page: currentPage,
+          limit: PAGE_SIZE,
+          search: searchQuery,
+          propertyType: filters.type,
+          min: filters.min,
+          max: filters.max,
+        });
 
-  const allListings = apiData
+  const listings = apiData
     ? mapApiResponseToPropertyListings(apiData, type === "buy" ? "Buy" : "Rent")
     : [];
 
-  // ── Client-side filtering ──────────────────────────────────────────────────
-  const hasFilters = !!(filters.q || filters.search || filters.type || filters.min || filters.max);
-  const searchQuery = filters.q || (filters.search ? seoSlugToQuery(filters.search) : undefined);
-
-  const filteredListings = hasFilters
-    ? filterPropertyListings(allListings, {
-      listingType: type as "buy" | "rent",
-      propertyType: filters.type,
-      minPrice: filters.min,
-      maxPrice: filters.max,
-      searchQuery,
-    })
-    : allListings;
-
-  // ── Pagination on filtered results ─────────────────────────────────────────
-  const totalItems = filteredListings.length;
-  const totalPages = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
+  const totalItems = apiData ? getTotalFromApiResponse(apiData) : undefined;
+  const totalPages =
+    totalItems != null ? Math.max(1, Math.ceil(totalItems / PAGE_SIZE)) : 1;
   const safeCurrentPage = Math.min(currentPage, totalPages);
-  const startIdx = (safeCurrentPage - 1) * PAGE_SIZE;
-  const listings = filteredListings.slice(startIdx, startIdx + PAGE_SIZE);
 
   const basePath = `/properties/${type}/in-dubai`;
 
