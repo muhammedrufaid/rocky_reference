@@ -97,3 +97,30 @@ export function seoSlugToQuery(slug: string | null | undefined): string {
     .filter(Boolean)
     .join(" | ");
 }
+
+/**
+ * Separate area tokens for API calls. The listings API treats a single `search`
+ * string as one location, so multi-select (`-or-` slug or `q` with `|`) must
+ * be split and requested per area (merged in `getServices`).
+ */
+export function areaSearchTermsFromPropertyFilters(
+  q: string | null | undefined,
+  searchSlug: string | null | undefined,
+): string[] | undefined {
+  const qTrim = (q ?? "").trim();
+  if (qTrim) {
+    const parts = qTrim
+      .split(/\s*[|]\s*/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+    return parts.length ? parts : undefined;
+  }
+  const slug = (searchSlug ?? "").trim();
+  if (!slug) return undefined;
+  const raw = safeDecode(slug).replace(/^\/+|\/+$/g, "").toLowerCase();
+  const segments = raw
+    .split("-or-")
+    .map((p) => p.replace(/-+/g, " ").trim())
+    .filter(Boolean);
+  return segments.length ? segments : undefined;
+}

@@ -10,7 +10,7 @@ import {
   getTotalFromApiResponse,
   mapApiResponseToPropertyListings,
 } from "@/utils/getServices";
-import { seoSlugToQuery } from "@/utils/seo";
+import { areaSearchTermsFromPropertyFilters } from "@/utils/seo";
 import PropertySearchBar from "@/components/properties/PropertySearchBar";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import FeaturedOffPlanProjects from "@/components/home/FeaturedOffPlanProjects";
@@ -41,14 +41,20 @@ export default async function PropertiesPage({
   const offPlanPropertiesData = await getOffPlanProperties();
   const currentPage = Math.max(1, parseInt(filters.page ?? "1", 10) || 1);
 
-  const searchQuery = filters.q || (filters.search ? seoSlugToQuery(filters.search) : undefined);
+  const areaTerms = areaSearchTermsFromPropertyFilters(filters.q, filters.search);
+  const searchForApi =
+    areaTerms != null
+      ? areaTerms.length > 1
+        ? areaTerms
+        : areaTerms[0]
+      : undefined;
 
   const apiData =
     type === "buy"
       ? await getBuyProperties({
           page: currentPage,
           limit: PAGE_SIZE,
-          search: searchQuery,
+          search: searchForApi,
           propertyType: filters.type,
           min: filters.min,
           max: filters.max,
@@ -56,7 +62,7 @@ export default async function PropertiesPage({
       : await getRentProperties({
           page: currentPage,
           limit: PAGE_SIZE,
-          search: searchQuery,
+          search: searchForApi,
           propertyType: filters.type,
           min: filters.min,
           max: filters.max,
@@ -65,7 +71,7 @@ export default async function PropertiesPage({
   const listings = apiData
     ? mapApiResponseToPropertyListings(apiData, type === "buy" ? "Buy" : "Rent")
     : [];
-
+    
   const totalItems = apiData ? getTotalFromApiResponse(apiData) : undefined;
   const totalPages =
     totalItems != null ? Math.max(1, Math.ceil(totalItems / PAGE_SIZE)) : 1;

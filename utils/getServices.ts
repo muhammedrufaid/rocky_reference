@@ -3,6 +3,34 @@ import type { PropertyListing } from './data'
 
 let preferredSuggestionsEndpointIndex: number | null = null
 
+function trimLocationPart(value: unknown): string {
+  return typeof value === 'string' ? value.trim() : ''
+}
+
+/** subLocality, locality, city — matches reference API / site (comma-separated, no redundant repeats). */
+function buildLocationFromApiParts(item: {
+  subLocality?: unknown
+  locality?: unknown
+  city?: unknown
+  location?: unknown
+  area?: unknown
+}): string {
+  const sub = trimLocationPart(item.subLocality)
+  const locality = trimLocationPart(item.locality)
+  const city = trimLocationPart(item.city)
+  const ordered = [sub, locality, city].filter(Boolean)
+  const deduped: string[] = []
+  for (const part of ordered) {
+    const prev = deduped[deduped.length - 1]
+    if (prev != null && prev.toLowerCase() === part.toLowerCase()) continue
+    deduped.push(part)
+  }
+  if (deduped.length > 0) return deduped.join(', ')
+  const fallback =
+    trimLocationPart(item.location) || trimLocationPart(item.area)
+  return fallback || 'Dubai'
+}
+
 /** Maps API property object to PropertyListing format */
 function mapApiPropertyToListing(item: any, index: number, listingType: "Buy" | "Rent"): PropertyListing {
   const id = item.id ?? item.propertyRefNo ?? index + 1
@@ -29,7 +57,7 @@ function mapApiPropertyToListing(item: any, index: number, listingType: "Buy" | 
     towerName: towerName || undefined,
     subLocality: subLocality || undefined,
     type: listingType,
-    location: item.location ?? item.locality ?? item.area ?? "Dubai",
+    location: buildLocationFromApiParts(item),
     price,
     path,
     images,
@@ -108,55 +136,177 @@ export interface PropertiesFetchOptions {
   /** Optional filter params to pass to API */
   q?: string;
   type?: string;
-  /** New API filter params */
-  search?: string;
+  /** New API filter params (string = one area; string[] = OR — merged client-side) */
+  search?: string | string[];
   propertyType?: string | string[];
   min?: string;
   max?: string;
 }
 
-export async function getBuyProperties(options: PropertiesFetchOptions = {}): Promise<any | undefined> {
-    try {
-      const page = options.page ?? 1
-      const limit = options.limit ?? 20
-      const params = new URLSearchParams({ page: String(page), limit: String(limit) })
-      const search = options.search ?? options.q
-      const propertyType = options.propertyType ?? options.type
-      if (search) params.set('search', search)
-      if (propertyType) {
-        const propertyTypeValue = Array.isArray(propertyType)
-          ? propertyType.map((x) => String(x).trim()).filter(Boolean).join(',')
-          : String(propertyType).trim()
-        if (propertyTypeValue) params.set('propertyType', propertyTypeValue)
+function appendPropertiesFilters(
+  params: URLSearchParams,
+  options: PropertiesFetchOptions,
+) {
+  const propertyType = options.propertyType ?? options.type
+  if (propertyType) {
+    const propertyTypeValue = Array.isArray(propertyType)
+      ? propertyType.map((x) => String(x).trim()).filter(Boolean).join(',')
+      : String(propertyType).trim()
+    if (propertyTypeValue) params.set('propertyType', propertyTypeValue)
+  }
+  if (options.min) params.set('min', options.min)
+  if (options.max) params.set('max', options.max)
+}
+
+type ApiListingRecord = Record<string, unknown> & {
+  propertyRefNo?: unknown
+  id?: unknown
+  slug?: unknown
+}
+
+function isPropertyApiRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object'
+}
+
+function extractPropertiesArrays(responses: (unknown | undefined)[]): ApiListingRecord[][] {
+  return responses.map((r) => {
+    if (!isPropertyApiRecord(r)) return []
+    const items = r.properties ?? r.data
+    return Array.isArray(items) ? (items as ApiListingRecord[]) : []
+  })
+}
+
+function listingDedupeKey(item: ApiListingRecord): string {
+  return String(item.propertyRefNo ?? item.id ?? item.slug ?? '').trim()
+}
+
+/**
+ * Round-robin merge, dedupe by propertyRefNo / id / slug (union of areas).
+ * Paginates in memory over the merged list; `total` reflects merged length only
+ * within the fetched window (see per-area fetch limit in callers).
+ */
+function mergeMultiAreaPropertyResponses(
+  responses: (unknown | undefined)[],
+  page: number,
+  limit: number,
+): Record<string, unknown> {
+  const lists = extractPropertiesArrays(responses)
+  const seen = new Set<string>()
+  const merged: ApiListingRecord[] = []
+  const maxLen = lists.reduce((m, l) => Math.max(m, l.length), 0)
+  for (let i = 0; i < maxLen; i += 1) {
+    for (const list of lists) {
+      const item = list[i]
+      if (!item) continue
+      const key = listingDedupeKey(item)
+      if (key) {
+        if (seen.has(key)) continue
+        seen.add(key)
       }
-      if (options.min) params.set('min', options.min)
-      if (options.max) params.set('max', options.max)
-      return await getData(`frontend/properties/buy?${params.toString()}`, 0)
-    } catch (error) {
-      console.error('Failed to fetch buy properties:', error)
+      merged.push(item)
     }
+  }
+  const start = (Math.max(1, page) - 1) * limit
+  const pageItems = merged.slice(start, start + limit)
+  const sample = responses.find(isPropertyApiRecord)
+  return {
+    ...(sample ? { ...sample } : {}),
+    properties: pageItems,
+    data: pageItems,
+    total: merged.length,
+  }
+}
+
+async function getBuyPropertiesCore(
+  params: URLSearchParams,
+): Promise<any | undefined> {
+  try {
+    return await getData(`frontend/properties/buy?${params.toString()}`, 0)
+  } catch (error) {
+    console.error('Failed to fetch buy properties:', error)
+  }
+}
+
+async function getRentPropertiesCore(
+  params: URLSearchParams,
+): Promise<any | undefined> {
+  try {
+    return await getData(`frontend/properties/rent?${params.toString()}`, 0)
+  } catch (error) {
+    console.error('Failed to fetch rent properties:', error)
+  }
+}
+
+function normalizeAreaSearchTerms(search: string | string[] | undefined): string[] {
+  if (search == null) return []
+  const list = Array.isArray(search) ? search : [search]
+  return list.map((s) => String(s).trim()).filter(Boolean)
+}
+
+export async function getBuyProperties(options: PropertiesFetchOptions = {}): Promise<any | undefined> {
+  const page = options.page ?? 1
+  const limit = options.limit ?? 20
+  const terms = normalizeAreaSearchTerms(options.search ?? options.q)
+
+  if (terms.length > 1) {
+    const fetchLimit = Math.min(
+      500,
+      Math.max(120, limit * Math.max(page, 1) * 3),
+    )
+    const results = await Promise.all(
+      terms.map((search) => {
+        const params = new URLSearchParams({
+          page: '1',
+          limit: String(fetchLimit),
+          search,
+        })
+        appendPropertiesFilters(params, options)
+        return getBuyPropertiesCore(params)
+      }),
+    )
+    return mergeMultiAreaPropertyResponses(results, page, limit)
+  }
+
+  const params = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+  })
+  if (terms.length === 1) params.set('search', terms[0])
+  appendPropertiesFilters(params, options)
+  return getBuyPropertiesCore(params)
 }
 
 export async function getRentProperties(options: PropertiesFetchOptions = {}): Promise<any | undefined> {
-    try {
-      const page = options.page ?? 1
-      const limit = options.limit ?? 20
-      const params = new URLSearchParams({ page: String(page), limit: String(limit) })
-      const search = options.search ?? options.q
-      const propertyType = options.propertyType ?? options.type
-      if (search) params.set('search', search)
-      if (propertyType) {
-        const propertyTypeValue = Array.isArray(propertyType)
-          ? propertyType.map((x) => String(x).trim()).filter(Boolean).join(',')
-          : String(propertyType).trim()
-        if (propertyTypeValue) params.set('propertyType', propertyTypeValue)
-      }
-      if (options.min) params.set('min', options.min)
-      if (options.max) params.set('max', options.max)
-      return await getData(`frontend/properties/rent?${params.toString()}`, 0)
-    } catch (error) {
-      console.error('Failed to fetch rent properties:', error)
-    }
+  const page = options.page ?? 1
+  const limit = options.limit ?? 20
+  const terms = normalizeAreaSearchTerms(options.search ?? options.q)
+
+  if (terms.length > 1) {
+    const fetchLimit = Math.min(
+      500,
+      Math.max(120, limit * Math.max(page, 1) * 3),
+    )
+    const results = await Promise.all(
+      terms.map((search) => {
+        const params = new URLSearchParams({
+          page: '1',
+          limit: String(fetchLimit),
+          search,
+        })
+        appendPropertiesFilters(params, options)
+        return getRentPropertiesCore(params)
+      }),
+    )
+    return mergeMultiAreaPropertyResponses(results, page, limit)
+  }
+
+  const params = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+  })
+  if (terms.length === 1) params.set('search', terms[0])
+  appendPropertiesFilters(params, options)
+  return getRentPropertiesCore(params)
 }
 
 /** API response shape for a single property by propertyRefNo */
