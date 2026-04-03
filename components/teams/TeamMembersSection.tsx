@@ -115,7 +115,7 @@ const TeamMembersSection: React.FC = () => {
     >
       <Container>
         {/* Heading */}
-        
+
 
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10 md:mb-12 max-w-2xl">
@@ -184,59 +184,50 @@ const TeamMembersSection: React.FC = () => {
                   custom={index}
                   layout
                 >
-                  <Link href={member.path ?? "#"} className="block">
-                    <div className="group flex flex-col gap-4 sm:gap-5">
-                      {/* Image - separate block */}
-                      <div className="relative w-full aspect-[6/7] overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-bl from-[#0d365e]/10 via-[#f5f3f0] to-[#e7dccd] border border-gray-100/80 shadow-sm">
-                        <div className="absolute inset-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110">
-                          <Image
-                            src={member.image}
-                            alt={member.name}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                          />
-                        </div>
-
-                        {/* Overlay on hover */}
-                        <div
-                          className="absolute inset-0 bg-gradient-to-t from-[#0d365e]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          aria-hidden
-                        />
-
-                        {/* Department badge */}
-                        <span
-                          className="absolute top-3 left-3 sm:top-4 sm:left-4 px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-medium tracking-wider uppercase text-[#0d365e] bg-white/95 backdrop-blur-sm rounded-full border border-white/80 shadow-sm"
-                        >
-                          {member.department}
-                        </span>
-
-                        {/* Arrow button */}
-                        <div
-                          className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white text-[#0d365e] flex items-center justify-center shadow-lg opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out"
-                          aria-hidden
-                        >
-                          <ArrowIcon />
-                        </div>
-                      </div>
-
-                      {/* Content - separate block */}
-                      <div className="flex flex-col gap-2">
-                        <h3 className="text-base sm:text-lg font-medium text-[#0d365e] group-hover:text-[#1a5a96] transition-colors duration-200">
-                          {member.name}
-                        </h3>
-                        {member.designation && (
-                          <p className="text-sm text-[#9f8870] group-hover:text-[#0d365e]/80 transition-colors duration-200">
-                            {member.designation}
-                          </p>
-                        )}
-                        <div
-                          className="h-0.5 w-8 rounded-full bg-[var(--rocky-blue)] transition-all duration-300 group-hover:w-12"
-                          aria-hidden
+                  <div className="group flex flex-col gap-4 sm:gap-5">
+                    {/* Image - separate block */}
+                    <div className="relative w-full aspect-[6/7] overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-bl from-[#0d365e]/10 via-[#f5f3f0] to-[#e7dccd] border border-gray-100/80 shadow-sm">
+                      <div className="absolute inset-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110">
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                         />
                       </div>
+
+                      {/* Overlay on hover */}
+                      <div
+                        className="absolute inset-0 bg-gradient-to-t from-[#0d365e]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        aria-hidden
+                      />
+
+                      {/* Department badge */}
+                      <span
+                        className="absolute top-3 left-3 sm:top-4 sm:left-4 px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-medium tracking-wider uppercase text-[#0d365e] bg-white/95 backdrop-blur-sm rounded-full border border-white/80 shadow-sm"
+                      >
+                        {member.department}
+                      </span>
+
                     </div>
-                  </Link>
+
+                    {/* Content - separate block */}
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-base sm:text-lg font-medium text-[#0d365e] group-hover:text-[#1a5a96] transition-colors duration-200">
+                        {member.name}
+                      </h3>
+                      {member.designation && (
+                        <p className="text-sm text-[#9f8870] group-hover:text-[#0d365e]/80 transition-colors duration-200">
+                          {member.designation}
+                        </p>
+                      )}
+                      <div
+                        className="h-0.5 w-8 rounded-full bg-[var(--rocky-blue)] transition-all duration-300 group-hover:w-12"
+                        aria-hidden
+                      />
+                    </div>
+                  </div>
                 </motion.article>
               ))}
             </div>
