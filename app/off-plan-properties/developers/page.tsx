@@ -14,7 +14,7 @@ export const metadata = {
 export default function DevelopersPage() {
   return (
     <div className="min-h-screen bg-white">
-      <Header />
+      <Header forceSolid/>
       <main>
         {/* <PageHero
           title="Developers"
@@ -24,7 +24,7 @@ export default function DevelopersPage() {
             { label: "Developers" },
           ]}
         /> */}
-        <DevelopersHeroSection
+        {/* <DevelopersHeroSection
           title="Developers in Dubai"
           description=" Discover trusted developers, premium communities, and off‑plan opportunities—curated for modern Dubai living."
           breadcrumb={[
@@ -32,9 +32,9 @@ export default function DevelopersPage() {
             { label: "Developers" },
           ]}
           image="https://images.pexels.com/photos/19136351/pexels-photo-19136351.jpeg"
-        />
-
-        <Newsletter />
+        /> */}
+        
+        <Newsletter className="py-16 md:py-20 lg:py-24"/>
         <TestimonialSection />
 
       </main>
