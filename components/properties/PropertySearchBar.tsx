@@ -138,13 +138,28 @@ function getSuggestionId(s: PropertySuggestion): string {
   );
 }
 
-function getSuggestionTitleText(s: PropertySuggestion) {
+/** Full line for autocomplete rows (e.g. "The Bay (Business Bay, Dubai)"). */
+function getSuggestionDisplayText(s: PropertySuggestion) {
   return String(
-    s.label ||
-      s.full ||
+    s.full ||
+      s.label ||
       s.locality ||
       s.subLocality ||
       s.towerName ||
+      "Suggestion"
+  );
+}
+
+/** Short token for URL / search param (area API: use `label` only when present). */
+function getSuggestionQueryText(s: PropertySuggestion) {
+  const short = s.label?.trim();
+  if (short) return short;
+  return String(
+    s.full ||
+      s.locality ||
+      s.subLocality ||
+      s.towerName ||
+      s.propertyRefNo ||
       "Suggestion"
   );
 }
@@ -156,7 +171,7 @@ function isLocationLikeSuggestion(s: PropertySuggestion): boolean {
 /** Short label for chips (first segment of full, or label). */
 function getChipLabel(s: PropertySuggestion): string {
   const fromFull = s.full?.split(",")[0]?.trim();
-  return (s.label?.trim() || fromFull || getSuggestionTitleText(s)).trim();
+  return (s.label?.trim() || fromFull || getSuggestionDisplayText(s)).trim();
 }
 
 const escapeHtml = (value: string) =>
@@ -572,7 +587,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
       const params = new URLSearchParams();
       const queryFromSelections =
         !options?.ignoreSelections && selectedItems.length > 0
-          ? selectedItems.map(getSuggestionTitleText).join(" | ")
+          ? selectedItems.map(getSuggestionQueryText).join(" | ")
           : "";
       const q =
         options?.qOverride !== undefined
@@ -596,7 +611,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
     const tx = transactionType;
 
     const queryFromSelections =
-      selectedItems.length > 0 ? selectedItems.map(getSuggestionTitleText).join(" | ") : "";
+      selectedItems.length > 0 ? selectedItems.map(getSuggestionQueryText).join(" | ") : "";
     const q = (queryFromSelections || searchQuery || "").trim();
 
     // Prefer `search=<seo-slug>` when we have a location query; keep other filters as query params.
@@ -674,7 +689,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
               <span
                 dangerouslySetInnerHTML={{
                   __html: highlightMatchesToHtml(
-                    getSuggestionTitleText(s),
+                    getSuggestionDisplayText(s),
                     searchQuery
                   ),
                 }}

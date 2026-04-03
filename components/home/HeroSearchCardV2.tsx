@@ -34,10 +34,11 @@ function getSuggestionId(s: PropertySuggestion): string {
   );
 }
 
-function getSuggestionTitleText(s: PropertySuggestion) {
+/** Full line for autocomplete rows (e.g. "The Bay (Business Bay, Dubai)"). */
+function getSuggestionDisplayText(s: PropertySuggestion) {
   return String(
-    s.label ||
-      s.full ||
+    s.full ||
+      s.label ||
       s.locality ||
       s.subLocality ||
       s.towerName ||
@@ -45,10 +46,24 @@ function getSuggestionTitleText(s: PropertySuggestion) {
   );
 }
 
+/** Short token for URL / search param (area API: use `label` only when present). */
+function getSuggestionQueryText(s: PropertySuggestion) {
+  const short = s.label?.trim();
+  if (short) return short;
+  return String(
+    s.full ||
+      s.locality ||
+      s.subLocality ||
+      s.towerName ||
+      s.propertyRefNo ||
+      "Suggestion"
+  );
+}
+
 /** Short label for chips (first segment of full, or label). */
 function getChipLabel(s: PropertySuggestion): string {
   const fromFull = s.full?.split(",")[0]?.trim();
-  return (s.label?.trim() || fromFull || getSuggestionTitleText(s)).trim();
+  return (s.label?.trim() || fromFull || getSuggestionDisplayText(s)).trim();
 }
 
 function isLocationLikeSuggestion(s: PropertySuggestion): boolean {
@@ -241,7 +256,7 @@ const HeroSearchCardV2: React.FC = () => {
   const handleSearch = () => {
     const tx = buyOption === "RENT" ? "rent" : "buy";
     const qFromSelections =
-      selectedItems.length > 0 ? selectedItems.map(getSuggestionTitleText).join(" | ") : "";
+      selectedItems.length > 0 ? selectedItems.map(getSuggestionQueryText).join(" | ") : "";
     const q = (qFromSelections || searchQuery || "").trim();
 
     const slug = generateSeoSlug(q);
@@ -533,7 +548,7 @@ const HeroSearchCardV2: React.FC = () => {
                           className="text-[0.85rem] text-[#333333] font-normal min-w-0 text-left"
                           dangerouslySetInnerHTML={{
                             __html: highlightMatchesToHtml(
-                              getSuggestionTitleText(s),
+                              getSuggestionDisplayText(s),
                               searchQuery
                             ),
                           }}
