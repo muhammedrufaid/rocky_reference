@@ -10,6 +10,7 @@ import WhychooseSection from "@/components/services/WhychooseSection";
 import DevelopmentPartnersSection from "@/components/home/DevelopmentPartnersSection";
 import FaqsSection from "@/components/common/FaqsSection";
 import WhychooseAgentsSection from "@/components/teams/WhychooseAgentsSection";
+import Newsletter from "@/components/home/Newsletter";
 
 
 export const metadata = {
@@ -36,7 +37,8 @@ export default function OurTeamPage() {
         <WhychooseAgentsSection />
         {/* <WhychooseSection /> */}
         {/* <DevelopmentPartnersSection /> */}
-        <ValuationCTA className="py-16 md:py-20 lg:py-24" />
+        {/* <ValuationCTA className="py-16 md:py-20 lg:py-24" /> */}
+        <Newsletter  className="py-16 md:py-20 lg:py-24"/>
         <TestimonialSection backgroundColor="#ffffff" className="!pb-16 md:!pb-20  lg:!pb-24"/>
         <FaqsSection />  
 
