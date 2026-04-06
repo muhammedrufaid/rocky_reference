@@ -12,7 +12,7 @@ const categories = [
         label: "For Sale",
         description:
             "Get access to Dubai’s finest listings with expert guidance, whether you want to find your ideal home or next investment.",
-        href: "/properties/for-sale",
+        href: "/properties/buy/in-dubai",
         // Luxury modern villa with pool — popular Unsplash architecture photo
         image: "/assets/common/buy.webp",
     },
@@ -22,7 +22,7 @@ const categories = [
         label: "For Rent",
         description:
             "Find your ideal rental home through our curated selection that matches your lifestyle, budget, and more.",
-        href: "/properties/for-rent",
+        href: "/properties/rent/in-dubai",
         // Contemporary apartment building exterior
         image: "/assets/common/rent.webp",
     },
@@ -42,7 +42,7 @@ const categories = [
         label: "Offices & Retail",
         description:
             "Find your ideal office space, retail units, or mixed-use developments across Dubai.",
-        href: "/properties/commercial",
+        href: "/properties/buy/in-dubai?type=Commercial%20Full%20Building%2CCommercial%20Land%2CLabour%20Camp%2COffice%2CRetail%2CShop%2CShowroom%2CWarehouse",
         // Dubai skyline glass towers at dusk
         image: "/assets/common/commercial.webp",
     },
