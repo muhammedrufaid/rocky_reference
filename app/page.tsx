@@ -17,6 +17,7 @@ import Newsletter from "@/components/home/Newsletter";
 import PropertyCategoriesSection from "@/components/home/PropertyCategoriesSection";
 import AwardsSection from "@/components/home/AwardsSection";
 import AwardsSection3 from "@/components/home/AwardsSection3";
+import ServiceSectionv2 from "@/components/home/ServiceSectionv2";
 
 
 export default async function Home() {
@@ -30,12 +31,13 @@ export default async function Home() {
       {/* <ExplorePropertySection data={readyPropertiesData}/> */}
       <PropertyCategoriesSection data={readyPropertiesData}/>
       <DevelopmentPartnersSection />
-      {/* <ServiceSection data={services} /> */}
+      {/* <ServiceSection data={services} />  */}
+      <ServiceSectionv2 data={services} />
       {/* <AwardsSection /> */}
       {/* <AwardsSection3 /> */}
       {/* <WhyChooseUsSection /> */}
       {/* <WhyChooseUsSection2 /> */}
-      <Newsletter />
+      <Newsletter className="py-16 md:py-20 lg:py-24"/>
       {/* <ValuationCTA /> */}
       <TestimonialSection />
       <BlogSection />
