@@ -1,13 +1,6 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { fontDubai } from "@/lib/fonts";
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Rocky Real Estate - 5 Decades of Real Estate Excellence",
@@ -21,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fontDubai.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={fontDubai.variable}>
       <body className="antialiased">
         {children}
       </body>

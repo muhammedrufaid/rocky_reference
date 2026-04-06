@@ -122,7 +122,7 @@ const AwardsSection2: React.FC<{ data?: any }> = () => {
                             id="awards-section-heading"
                             {...fadeUp(0.08)}
                             className="text-3xl sm:text-4xl md:text-5xl font-medium leading-[1.1] mb-6"
-                            style={{ color: "#0d365e", fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                            style={{ color: "#0d365e" }}
                         >
                             Award-Winning <br />
                             Real Estate Excellence
@@ -151,7 +151,6 @@ const AwardsSection2: React.FC<{ data?: any }> = () => {
                                         className="text-2xl md:text-3xl font-semibold"
                                         style={{
                                             color: "#0d365e",
-                                            fontFamily: "'Cormorant Garamond', Georgia, serif",
                                             letterSpacing: "-0.01em",
                                         }}
                                     >

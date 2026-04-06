@@ -72,7 +72,6 @@ const StatItem: React.FC<{
         >
             <span
                 style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
                     fontWeight: 400,
                     fontSize: "clamp(28px, 3.5vw, 40px)",
                     color: "#0D2B4A",
@@ -121,11 +120,6 @@ const AwardsSection: React.FC<{ data?: any }> = () => {
 
     return (
         <>
-            {/* Google Font — Cormorant Garamond for stat numerals & heading */}
-            <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap');
-            `}</style>
-
             <section
                 ref={sectionRef}
                 className="py-20 md:py-28 lg:py-32"
@@ -146,7 +140,6 @@ const AwardsSection: React.FC<{ data?: any }> = () => {
                                 id="awards-section-heading"
                                 {...fadeUp(0.06)}
                                 style={{
-                                    fontFamily: "'Cormorant Garamond', Georgia, serif",
                                     fontWeight: 300,
                                     fontSize: "clamp(34px, 4.5vw, 52px)",
                                     lineHeight: 1.08,

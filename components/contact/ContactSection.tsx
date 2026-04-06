@@ -259,7 +259,7 @@ const ContactSection: React.FC = () => {
                 <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-stone-600">
                   <CheckIcon />
                 </span>
-                <h3 className="mb-2 font-serif text-xl font-light text-stone-800">
+                <h3 className="mb-2 text-xl font-light text-stone-800">
                   Message Received
                 </h3>
                 <p className="max-w-xs text-sm text-stone-500">

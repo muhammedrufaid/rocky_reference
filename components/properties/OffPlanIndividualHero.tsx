@@ -482,7 +482,6 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
             <div className="absolute bottom-6 right-6 z-20 hidden lg:flex items-center gap-3">
               <span
                 className="text-[11px] tracking-[0.2em] text-white/50"
-                style={{ fontFamily: 'monospace' }}
               >
                 {String(activeIndex + 1).padStart(2, '0')} / {String(safeImages.length).padStart(2, '0')}
               </span>
@@ -549,12 +548,14 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/6">
               <span
                 className="text-[#C3AD95] text-sm font-light tracking-[0.15em] uppercase"
-                style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
               >
                 Gallery
               </span>
               <div className="flex items-center gap-4">
-                <span className="text-white/30 text-[11px] tracking-widest" style={{ fontFamily: 'monospace' }}>
+                <span
+                  className="text-white/30 text-[11px] tracking-widest"
+                  style={{ fontFamily: "var(--font-dubai), Arial, Helvetica, sans-serif" }}
+                >
                   {resolvedImages.length} Photos
                 </span>
                 <button
