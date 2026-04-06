@@ -79,11 +79,11 @@ function getSuggestionId(s: PropertySuggestion): string {
 function getSuggestionDisplayText(s: PropertySuggestion) {
   return String(
     s.full ||
-      s.label ||
-      s.locality ||
-      s.subLocality ||
-      s.towerName ||
-      "Suggestion"
+    s.label ||
+    s.locality ||
+    s.subLocality ||
+    s.towerName ||
+    "Suggestion"
   );
 }
 
@@ -93,11 +93,11 @@ function getSuggestionQueryText(s: PropertySuggestion) {
   if (short) return short;
   return String(
     s.full ||
-      s.locality ||
-      s.subLocality ||
-      s.towerName ||
-      s.propertyRefNo ||
-      "Suggestion"
+    s.locality ||
+    s.subLocality ||
+    s.towerName ||
+    s.propertyRefNo ||
+    "Suggestion"
   );
 }
 
@@ -194,31 +194,31 @@ const TagChip: React.FC<{ label: string; onRemove: () => void }> = ({ label, onR
 const HeroSearchCardV2: React.FC = () => {
   // ── State ──────────────────────────────────────────────────────────────────
   const router = useRouter();
-  const [buyOption, setBuyOption]           = useState<BuyOption>("BUY");
+  const [buyOption, setBuyOption] = useState<BuyOption>("BUY");
   const [activeCategory, setActiveCategory] = useState<SearchCategory>("RESIDENTIAL");
-  const [searchQuery, setSearchQuery]       = useState("");
-  const [suggestions, setSuggestions]       = useState<PropertySuggestion[]>([]);
-  const [selectedItems, setSelectedItems]   = useState<PropertySuggestion[]>([]);
-  const [showDropdown, setShowDropdown]     = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState<PropertySuggestion[]>([]);
+  const [selectedItems, setSelectedItems] = useState<PropertySuggestion[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isFocused, setIsFocused]           = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   // Controls the "+N More" overflow popover
   const [showOverflowPopover, setShowOverflowPopover] = useState(false);
   const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
   const [apiPropertyTypes, setApiPropertyTypes] = useState<string[]>([]);
 
   // ── Refs ───────────────────────────────────────────────────────────────────
-  const dropdownRef      = useRef<HTMLDivElement>(null);
-  const inputRef         = useRef<HTMLInputElement>(null);
-  const suggestionsRef   = useRef<HTMLUListElement>(null);
-  const overflowBtnRef   = useRef<HTMLButtonElement>(null);
-  const overflowPopRef   = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const suggestionsRef = useRef<HTMLUListElement>(null);
+  const overflowBtnRef = useRef<HTMLButtonElement>(null);
+  const overflowPopRef = useRef<HTMLDivElement>(null);
   const lastRequestIdRef = useRef(0);
 
   // ── Derived ────────────────────────────────────────────────────────────────
-  const visibleItems   = selectedItems.slice(0, MAX_VISIBLE_TAGS);
-  const overflowItems  = selectedItems.slice(MAX_VISIBLE_TAGS);
-  const overflowCount  = overflowItems.length;
+  const visibleItems = selectedItems.slice(0, MAX_VISIBLE_TAGS);
+  const overflowItems = selectedItems.slice(MAX_VISIBLE_TAGS);
+  const overflowCount = overflowItems.length;
 
   // ── Effects ────────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -581,43 +581,43 @@ const HeroSearchCardV2: React.FC = () => {
               {showSuggestions &&
                 searchQuery.trim().length >= 2 &&
                 (suggestions.length > 0 || isFetchingSuggestions) && (
-                <motion.ul
-                  id="hsv2-suggestions"
-                  ref={suggestionsRef}
-                  role="listbox"
-                  aria-label="Property suggestions"
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -4 }}
-                  transition={{ duration: 0.16 }}
-                  className={[
-                    "absolute top-full left-0 right-0 mt-1.5 z-50 overflow-y-auto rounded-lg list-none p-0 m-0",
-                    "bg-white border border-[rgba(13,54,94,0.1)] shadow-[0_10px_28px_rgba(8,31,58,0.16)]",
-                  ].join(" ")}
-                  style={{ maxHeight: `${SUGGESTIONS_MAX_HEIGHT_PX}px` }}
-                >
-                  {suggestions.map((s, i) => (
-                    <li key={getSuggestionId(s)} role="option" aria-selected={false}>
-                      <button
-                        type="button"
-                        onMouseDown={() => handleSuggestionSelect(s)}
-                        className={[
-                          "w-full flex items-center justify-between gap-3 px-5 py-3 text-left cursor-pointer",
-                          "bg-transparent border-none transition-colors duration-150",
-                          "hover:bg-[#E7DCCD]",
-                          i > 0 ? "border-t border-t-[rgba(13,54,94,0.07)]" : "",
-                        ].join(" ")}
-                      >
-                        <span
-                          className="text-[0.85rem] text-[#333333] font-normal min-w-0 text-left"
-                          dangerouslySetInnerHTML={{
-                            __html: highlightMatchesToHtml(
-                              getSuggestionDisplayText(s),
-                              searchQuery
-                            ),
-                          }}
-                        />
-                        {/* {s.type ? (
+                  <motion.ul
+                    id="hsv2-suggestions"
+                    ref={suggestionsRef}
+                    role="listbox"
+                    aria-label="Property suggestions"
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.16 }}
+                    className={[
+                      "absolute top-full left-0 right-0 mt-1.5 z-50 overflow-y-auto rounded-lg list-none p-0 m-0",
+                      "bg-white border border-[rgba(13,54,94,0.1)] shadow-[0_10px_28px_rgba(8,31,58,0.16)]",
+                    ].join(" ")}
+                    style={{ maxHeight: `${SUGGESTIONS_MAX_HEIGHT_PX}px` }}
+                  >
+                    {suggestions.map((s, i) => (
+                      <li key={getSuggestionId(s)} role="option" aria-selected={false}>
+                        <button
+                          type="button"
+                          onMouseDown={() => handleSuggestionSelect(s)}
+                          className={[
+                            "w-full flex items-center justify-between gap-3 px-5 py-3 text-left cursor-pointer",
+                            "bg-transparent border-none transition-colors duration-150",
+                            "hover:bg-[#E7DCCD]",
+                            i > 0 ? "border-t border-t-[rgba(13,54,94,0.07)]" : "",
+                          ].join(" ")}
+                        >
+                          <span
+                            className="text-[0.85rem] text-[#333333] font-normal min-w-0 text-left"
+                            dangerouslySetInnerHTML={{
+                              __html: highlightMatchesToHtml(
+                                getSuggestionDisplayText(s),
+                                searchQuery
+                              ),
+                            }}
+                          />
+                          {/* {s.type ? (
                           <span
                             className={[
                               "shrink-0 text-[0.68rem] text-[#0D365E] font-semibold tracking-[0.08em] uppercase",
@@ -627,16 +627,16 @@ const HeroSearchCardV2: React.FC = () => {
                             {s.type}
                           </span>
                         ) : null} */}
-                      </button>
-                    </li>
-                  ))}
-                  {isFetchingSuggestions && suggestions.length === 0 && (
-                    <li className="px-5 py-3 text-[0.8rem] text-[#333333]/55">
-                      Searching…
-                    </li>
-                  )}
-                </motion.ul>
-              )}
+                        </button>
+                      </li>
+                    ))}
+                    {isFetchingSuggestions && suggestions.length === 0 && (
+                      <li className="px-5 py-3 text-[0.8rem] text-[#333333]/55">
+                        Searching…
+                      </li>
+                    )}
+                  </motion.ul>
+                )}
             </AnimatePresence>
           </div>
 
@@ -647,7 +647,7 @@ const HeroSearchCardV2: React.FC = () => {
             className={[
               "flex-shrink-0 flex items-center justify-center px-5 cursor-pointer rounded-r-lg",
               "border-none bg-transparent text-[#0D365E]",
-              "transition-colors duration-200 hover:text-white hover:bg-[#0D365E]",
+              "transition-colors duration-200 hover:text-black hover:bg-gray-200",
             ].join(" ")}
           >
             <SearchIcon />
