@@ -19,7 +19,7 @@ export default function CareersPage() {
     return (
         <div className="min-h-screen bg-white">
             <Header forceSolid />
-            <main>
+            <main className="site-header-offset">
                 <PageHero
                     title="Careers at Rocky Real Estate"
                     description="Build a rewarding future in real estate by joining our expanding team"

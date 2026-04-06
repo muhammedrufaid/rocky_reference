@@ -23,7 +23,7 @@ export default function OurTeamPage() {
   return (
     <div className="min-h-screen bg-white">
       <Header forceSolid />
-      <main>
+      <main className="site-header-offset">
         <PageHero
           title="Our Team"
           description=""

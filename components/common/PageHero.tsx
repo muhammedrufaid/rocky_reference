@@ -56,7 +56,7 @@ const PageHero: React.FC<PageHeroProps> = ({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-20 lg:pt-36 lg:pb-24"
+      className="relative overflow-hidden py-16 md:py-20 lg:py-24"
       aria-labelledby="page-hero-heading"
       style={sectionStyle}
     >

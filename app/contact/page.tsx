@@ -20,7 +20,7 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-white">
       <Header forceSolid />
-      <main>
+      <main className="site-header-offset">
         <PageHero
           title="Contact Us"
           description="Let's help you find your perfect property."

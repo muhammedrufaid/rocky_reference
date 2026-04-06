@@ -33,7 +33,7 @@ export default async function ServiceIndividualPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-white">
       <Header forceSolid />
-      <main>
+      <main className="site-header-offset">
         <PageHero
           title={service.title}
           description={service.description}
