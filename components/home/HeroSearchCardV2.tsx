@@ -12,12 +12,12 @@ import {
 import { generateSeoSlug } from "@/utils/seo";
 import { serializePropertyTypesForQuery } from "@/components/properties/PropertyTypeMultiSelectDropdown";
 
-type SearchCategory = "RESIDENTIAL" | "COMMERCIAL" | "OFF PLAN";
-type BuyOption = "BUY" | "RENT" | "OFF PLAN";
+type SearchCategory = "RESIDENTIAL" | "COMMERCIAL";
+type BuyOption = "BUY" | "RENT";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const BUY_OPTIONS: BuyOption[] = ["BUY", "RENT"];
-const CATEGORIES: SearchCategory[] = ["RESIDENTIAL", "COMMERCIAL", "OFF PLAN"];
+const CATEGORIES: SearchCategory[] = ["RESIDENTIAL", "COMMERCIAL"];
 
 /** Canonical API property types counted as residential (living). */
 const RESIDENTIAL_PROPERTY_TYPES = [
@@ -45,7 +45,6 @@ function typeFilterCsvForCategory(
   category: SearchCategory,
   allApiTypes: string[]
 ): string | undefined {
-  if (category === "OFF PLAN") return undefined;
   if (category === "RESIDENTIAL") {
     return serializePropertyTypesForQuery([...RESIDENTIAL_PROPERTY_TYPES]);
   }
