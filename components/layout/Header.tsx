@@ -103,7 +103,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                     {activeNav === item.title && (
                       <span
                         className={`absolute bottom-0 left-0 h-0.5 w-full transition-all ${
-                          isSolid ? "bg-[var(--rocky-blue)]" : "bg-[#C3AD95]"
+                          isSolid ? "bg-[#C3AD95]" : "bg-[#C3AD95]"
                         }`}
                       />
                     )}
@@ -152,7 +152,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                       <>
                         <span
                           className={`absolute bottom-0 left-0 h-0.5 w-full transition-all ${
-                            isSolid ? "bg-[var(--rocky-blue)]" : "bg-[#C3AD95]"
+                            isSolid ? "bg-[#C3AD95]" : "bg-[#C3AD95]"
                           }`}
                         />
                         <div className="absolute top-full left-0 pt-2">
