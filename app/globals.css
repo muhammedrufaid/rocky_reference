@@ -19,8 +19,8 @@
   --color-foreground: var(--foreground);
   --color-rocky-blue: var(--rocky-blue);
   --color-charcoal: var(--charcoal);
-  --font-heading: var(--font-heading);
-  --font-body: var(--font-body);
+  /* Do not map --font-dubai / --font-body here — Next.js sets them on <html>; self-referential
+     theme entries break var() resolution and body font was overriding the header. */
 }
 
 /* Remove dark mode background override to keep background always white */
@@ -37,5 +37,10 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading), Arial, Helvetica, sans-serif;
+  font-family: var(--font-dubai), Arial, Helvetica, sans-serif;
+}
+
+/* Dubai (local files via next/font in lib/fonts.ts) — header / nav */
+.font-dubai {
+  font-family: var(--font-dubai), Arial, Helvetica, sans-serif;
 }

@@ -1,34 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
-import localFont from "next/font/local";
 import "./globals.css";
-
-const dubai = localFont({
-  src: [
-    {
-      path: "../public/font/Dubai-Light.ttf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../public/font/Dubai-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../public/font/Dubai-Medium.ttf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../public/font/Dubai-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-  variable: "--font-heading",
-  display: "swap",
-});
+import { fontDubai } from "@/lib/fonts";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -48,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dubai.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`${fontDubai.variable} ${spaceGrotesk.variable}`}>
       <body className="antialiased">
         {children}
       </body>

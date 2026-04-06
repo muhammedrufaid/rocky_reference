@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 w-full min-w-0 overflow-x-clip transition-all duration-500 ease-out ${
+        className={`font-dubai fixed top-0 left-0 right-0 z-50 w-full min-w-0 overflow-x-clip transition-all duration-500 ease-out ${
           isHidden ? "-translate-y-full" : ""
         } ${
           isSolid
@@ -93,7 +93,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                     href={item.path}
                     onMouseEnter={() => setActiveNav(item.title)}
                     onMouseLeave={() => setActiveNav(null)}
-                    className={`relative py-2 text-sm font-medium transition-all duration-500 ${
+                    className={`relative py-2 text-[15px] font-medium transition-all duration-500 ${
                       isSolid
                         ? `text-[var(--charcoal)] hover:text-[var(--rocky-blue)] ${activeNav === item.title ? "text-[var(--rocky-blue)]" : ""}`
                         : `text-white hover:text-white/90 ${activeNav === item.title ? "text-white" : ""}`
@@ -118,7 +118,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                     {item.path ? (
                       <Link
                         href={item.path}
-                        className={`relative z-10 py-2 text-sm font-medium transition-all duration-500 flex items-center gap-0.5 ${
+                        className={`relative z-10 py-2 text-[15px] font-medium transition-all duration-500 flex items-center gap-0.5 ${
                           isSolid
                             ? `text-[var(--charcoal)] hover:text-[var(--rocky-blue)] ${activeNav === item.title ? "text-[var(--rocky-blue)]" : ""}`
                             : `text-white hover:text-white/90 ${activeNav === item.title ? "text-white" : ""}`
@@ -134,7 +134,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                     ) : (
                       <button
                         type="button"
-                        className={`py-2 text-sm font-medium transition-all duration-500 flex items-center gap-0.5 ${
+                        className={`py-2 text-[15px] font-medium transition-all duration-500 flex items-center gap-0.5 ${
                           isSolid
                             ? `text-[var(--charcoal)] hover:text-[var(--rocky-blue)] ${activeNav === item.title ? "text-[var(--rocky-blue)]" : ""}`
                             : `text-white hover:text-white/90 ${activeNav === item.title ? "text-white" : ""}`
@@ -164,7 +164,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                               <li key={sub.id} role="none" className="whitespace-nowrap">
                                 <Link
                                   href={sub.path}
-                                  className="block px-4 py-2.5 text-sm font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/30 hover:text-[var(--rocky-blue)] transition-colors whitespace-nowrap"
+                                  className="block px-4 py-2.5 text-[15px] font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/30 hover:text-[var(--rocky-blue)] transition-colors whitespace-nowrap"
                                   role="menuitem"
                                 >
                                   {sub.title}
@@ -253,7 +253,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
 
       {/* Sidebar panel */}
       <aside
-        className={`lg:hidden fixed top-0 right-0 bottom-0 z-50 w-full flex flex-col bg-white shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+        className={`font-dubai lg:hidden fixed top-0 right-0 bottom-0 z-50 w-full flex flex-col bg-white shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
           mobileMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
         aria-label="Mobile navigation"
@@ -353,7 +353,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                           <Link
                             href={sub.path}
                             onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center gap-2.5 py-2.5 px-5 text-sm font-medium text-[var(--charcoal)]/80 hover:bg-[var(--soft-sand)]/40 hover:text-[var(--rocky-blue)] rounded-xl transition-colors"
+                            className="flex items-center gap-2.5 py-2.5 px-5 text-[14px] font-medium text-[var(--charcoal)]/80 hover:bg-[var(--soft-sand)]/40 hover:text-[var(--rocky-blue)] rounded-xl transition-colors"
                           >
                             {sub.title}
                           </Link>
