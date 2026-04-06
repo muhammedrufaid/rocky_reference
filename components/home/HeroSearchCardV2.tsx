@@ -5,9 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
   getPropertySuggestions,
+  getPropertyTypes,
+  normalizePropertyTypesPayload,
   type PropertySuggestion,
 } from "@/utils/getServices";
 import { generateSeoSlug } from "@/utils/seo";
+import { serializePropertyTypesForQuery } from "@/components/properties/PropertyTypeMultiSelectDropdown";
 
 type SearchCategory = "RESIDENTIAL" | "COMMERCIAL" | "OFF PLAN";
 type BuyOption = "BUY" | "RENT" | "OFF PLAN";
@@ -15,6 +18,45 @@ type BuyOption = "BUY" | "RENT" | "OFF PLAN";
 // ─── Constants ────────────────────────────────────────────────────────────────
 const BUY_OPTIONS: BuyOption[] = ["BUY", "RENT"];
 const CATEGORIES: SearchCategory[] = ["RESIDENTIAL", "COMMERCIAL", "OFF PLAN"];
+
+/** Canonical API property types counted as residential (living). */
+const RESIDENTIAL_PROPERTY_TYPES = [
+  "Apartment",
+  "Penthouse",
+  "Townhouse",
+  "Villa",
+  "Residential Land",
+] as const;
+
+const RESIDENTIAL_TYPE_LOWER = new Set(
+  RESIDENTIAL_PROPERTY_TYPES.map((s) => s.toLowerCase())
+);
+
+function isResidentialPropertyType(name: string): boolean {
+  return RESIDENTIAL_TYPE_LOWER.has(name.trim().toLowerCase());
+}
+
+/**
+ * Builds the `type` query param (comma-separated) for the listings API.
+ * Residential and commercial are mutually exclusive: residential is a fixed allow-list;
+ * commercial is every type from the API that is not residential.
+ */
+function typeFilterCsvForCategory(
+  category: SearchCategory,
+  allApiTypes: string[]
+): string | undefined {
+  if (category === "OFF PLAN") return undefined;
+  if (category === "RESIDENTIAL") {
+    return serializePropertyTypesForQuery([...RESIDENTIAL_PROPERTY_TYPES]);
+  }
+  if (category === "COMMERCIAL") {
+    const onlyCommercial = allApiTypes.filter((t) => !isResidentialPropertyType(t));
+    return onlyCommercial.length > 0
+      ? serializePropertyTypesForQuery(onlyCommercial)
+      : undefined;
+  }
+  return undefined;
+}
 // Fetch more than we display initially; reveal the rest on scroll.
 const SUGGESTIONS_LIMIT = 20;
 const SEARCH_DEBOUNCE_MS = 200;
@@ -164,6 +206,7 @@ const HeroSearchCardV2: React.FC = () => {
   // Controls the "+N More" overflow popover
   const [showOverflowPopover, setShowOverflowPopover] = useState(false);
   const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
+  const [apiPropertyTypes, setApiPropertyTypes] = useState<string[]>([]);
 
   // ── Refs ───────────────────────────────────────────────────────────────────
   const dropdownRef      = useRef<HTMLDivElement>(null);
@@ -229,6 +272,17 @@ const HeroSearchCardV2: React.FC = () => {
   }, [searchQuery, selectedItems]);
 
   useEffect(() => {
+    let cancelled = false;
+    getPropertyTypes().then((data) => {
+      if (cancelled) return;
+      setApiPropertyTypes(normalizePropertyTypesPayload(data));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       const target = e.target as Node;
       if (dropdownRef.current && !dropdownRef.current.contains(target)) {
@@ -253,16 +307,27 @@ const HeroSearchCardV2: React.FC = () => {
   }, []);
 
   // ── Handlers ───────────────────────────────────────────────────────────────
-  const handleSearch = () => {
+  const handleSearch = async () => {
     const tx = buyOption === "RENT" ? "rent" : "buy";
     const qFromSelections =
       selectedItems.length > 0 ? selectedItems.map(getSuggestionQueryText).join(" | ") : "";
     const q = (qFromSelections || searchQuery || "").trim();
 
+    let typesForFilter = apiPropertyTypes;
+    if (activeCategory === "COMMERCIAL" && typesForFilter.length === 0) {
+      const data = await getPropertyTypes();
+      typesForFilter = normalizePropertyTypesPayload(data);
+      if (typesForFilter.length > 0) setApiPropertyTypes(typesForFilter);
+    }
+
+    const typeCsv = typeFilterCsvForCategory(activeCategory, typesForFilter);
+
     const slug = generateSeoSlug(q);
     const params = new URLSearchParams();
     if (slug) params.set("search", slug);
-    router.push(`/properties/${tx}/in-dubai${params.toString() ? `?${params.toString()}` : ""}`);
+    if (typeCsv) params.set("type", typeCsv);
+    const qs = params.toString().replace(/\+/g, "%20");
+    router.push(`/properties/${tx}/in-dubai${qs ? `?${qs}` : ""}`);
   };
 
   const handleSuggestionSelect = (suggestion: PropertySuggestion) => {
@@ -504,7 +569,7 @@ const HeroSearchCardV2: React.FC = () => {
               onChange={(e) => { setSearchQuery(e.target.value); setShowSuggestions(true); }}
               onFocus={() => { setIsFocused(true); setShowSuggestions(true); }}
               onBlur={() => setIsFocused(false)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              onKeyDown={(e) => e.key === "Enter" && void handleSearch()}
               placeholder={selectedItems.length === 0 ? "Search area, community or project..." : "Add more..."}
               aria-label="Search properties"
               aria-autocomplete="list"
@@ -578,7 +643,7 @@ const HeroSearchCardV2: React.FC = () => {
 
           {/* Search Button ── */}
           <button
-            onClick={handleSearch}
+            onClick={() => void handleSearch()}
             aria-label="Search"
             className={[
               "flex-shrink-0 flex items-center justify-center px-5 cursor-pointer rounded-r-lg",
