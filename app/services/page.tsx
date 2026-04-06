@@ -20,7 +20,7 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-white">
       <Header forceSolid />
-      <main>
+      <main className="site-header-offset">
         <PageHero
           title="Our Services"
           description="Paperwork to handover, our experienced team offers solutions tailored for Dubai’s dynamic market."

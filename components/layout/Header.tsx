@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Container from "./Container";
 import { navigationData } from "../../utils/data";
 
 const SCROLL_THRESHOLD = 50;
+const HEADER_HEIGHT_CSS_VAR = "--site-header-height";
 
 interface HeaderProps {
   forceSolid?: boolean;
@@ -14,11 +15,32 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = false }) => {
+  const headerRef = useRef<HTMLElement | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileOpenId, setMobileOpenId] = useState<string | null>(null);
   const [activeNav, setActiveNav] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [footerInView, setFooterInView] = useState(false);
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const height = el.getBoundingClientRect().height;
+      document.documentElement.style.setProperty(HEADER_HEIGHT_CSS_VAR, `${height}px`);
+    };
+
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener("resize", update, { passive: true });
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, []);
 
   useEffect(() => {
     if (!mobileMenuOpen) setMobileOpenId(null);
@@ -59,6 +81,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
   return (
     <>
       <header
+        ref={headerRef}
         className={`font-dubai fixed top-0 left-0 right-0 z-50 w-full min-w-0 overflow-x-clip transition-all duration-500 ease-out ${
           isHidden ? "-translate-y-full" : ""
         } ${

@@ -15,7 +15,7 @@ export default function DevelopersPage() {
   return (
     <div className="min-h-screen bg-white">
       <Header forceSolid/>
-      <main>
+      <main className="site-header-offset">
         {/* <PageHero
           title="Developers"
           description=""
