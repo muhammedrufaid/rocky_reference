@@ -399,7 +399,10 @@ function ListingDropdown({
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "buy", isOffPlan = false }) => {
+const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
+  defaultType = "buy",
+  isOffPlan = false,
+}) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -602,9 +605,18 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
       // Optional readability: `URLSearchParams` serializes spaces as `+`.
       // If you prefer `%20`, keep this replace.
       const query = params.toString().replace(/\+/g, "%20");
-      return `/properties/${tx}/in-dubai${query ? `?${query}` : ""}`;
+      const basePath = isOffPlan ? "/off-plan-properties/in-dubai" : `/properties/${tx}/in-dubai`;
+      return `${basePath}${query ? `?${query}` : ""}`;
     },
-    [searchQuery, selectedItems, selectedPropertyTypes, minPrice, maxPrice, transactionType]
+    [
+      searchQuery,
+      selectedItems,
+      selectedPropertyTypes,
+      minPrice,
+      maxPrice,
+      transactionType,
+      isOffPlan,
+    ]
   );
 
   const handleSearch = (e?: React.FormEvent) => {
@@ -625,7 +637,8 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
       if (minPrice) params.set("min", minPrice);
       if (maxPrice) params.set("max", maxPrice);
       const extra = params.toString().replace(/\+/g, "%20");
-      router.push(`/properties/${tx}/in-dubai${extra ? `?${extra}` : ""}`);
+      const basePath = isOffPlan ? "/off-plan-properties/in-dubai" : `/properties/${tx}/in-dubai`;
+      router.push(`${basePath}${extra ? `?${extra}` : ""}`);
     } else {
       router.push(buildUrl());
     }
@@ -640,6 +653,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
   );
 
   const handleListingSelect = (tx: TransactionType) => {
+    if (isOffPlan) return;
     router.push(`/properties/${tx}/in-dubai`);
   };
 
@@ -871,10 +885,12 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
             </div>
             <div className="flex-1 overflow-y-auto">
               <div className="space-y-4 p-5">
-                <ListingDropdown
-                  transactionType={transactionType}
-                  onSelect={handleListingSelect}
-                />
+                {!isOffPlan && (
+                  <ListingDropdown
+                    transactionType={transactionType}
+                    onSelect={handleListingSelect}
+                  />
+                )}
                 <PropertyTypeMultiSelectDropdown
                   options={propertyTypeOptions}
                   value={selectedPropertyTypes}
