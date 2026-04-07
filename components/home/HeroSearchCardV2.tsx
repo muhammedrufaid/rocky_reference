@@ -12,12 +12,12 @@ import {
 import { generateSeoSlug } from "@/utils/seo";
 import { serializePropertyTypesForQuery } from "@/components/properties/PropertyTypeMultiSelectDropdown";
 
-type SearchCategory = "RESIDENTIAL" | "COMMERCIAL";
+type SearchCategory = "RESIDENTIAL" | "COMMERCIAL" | "OFFPLAN";
 type BuyOption = "BUY" | "RENT";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const BUY_OPTIONS: BuyOption[] = ["BUY", "RENT"];
-const CATEGORIES: SearchCategory[] = ["RESIDENTIAL", "COMMERCIAL"];
+const CATEGORIES: SearchCategory[] = ["RESIDENTIAL", "COMMERCIAL", "OFFPLAN"];
 
 /** Canonical API property types counted as residential (living). */
 const RESIDENTIAL_PROPERTY_TYPES = [
@@ -307,11 +307,21 @@ const HeroSearchCardV2: React.FC = () => {
 
   // ── Handlers ───────────────────────────────────────────────────────────────
   const handleSearch = async () => {
-    const tx = buyOption === "RENT" ? "rent" : "buy";
     const qFromSelections =
       selectedItems.length > 0 ? selectedItems.map(getSuggestionQueryText).join(" | ") : "";
     const q = (qFromSelections || searchQuery || "").trim();
 
+    const slug = generateSeoSlug(q);
+    const params = new URLSearchParams();
+    if (slug) params.set("search", slug);
+
+    if (activeCategory === "OFFPLAN") {
+      const qs = params.toString().replace(/\+/g, "%20");
+      router.push(`/off-plan-properties/in-dubai${qs ? `?${qs}` : ""}`);
+      return;
+    }
+
+    const tx = buyOption === "RENT" ? "rent" : "buy";
     let typesForFilter = apiPropertyTypes;
     if (activeCategory === "COMMERCIAL" && typesForFilter.length === 0) {
       const data = await getPropertyTypes();
@@ -321,9 +331,6 @@ const HeroSearchCardV2: React.FC = () => {
 
     const typeCsv = typeFilterCsvForCategory(activeCategory, typesForFilter);
 
-    const slug = generateSeoSlug(q);
-    const params = new URLSearchParams();
-    if (slug) params.set("search", slug);
     if (typeCsv) params.set("type", typeCsv);
     const qs = params.toString().replace(/\+/g, "%20");
     router.push(`/properties/${tx}/in-dubai${qs ? `?${qs}` : ""}`);
@@ -398,69 +405,76 @@ const HeroSearchCardV2: React.FC = () => {
         >
 
           {/* Buy / Rent Dropdown ── */}
-          <div className="relative flex-shrink-0" ref={dropdownRef}>
-            <button
-              onClick={() => setShowDropdown((v) => !v)}
-              aria-haspopup="listbox"
-              aria-expanded={showDropdown}
-              className={[
-                "h-full flex items-center gap-2 px-5 cursor-pointer select-none rounded-l-lg",
-                "border-none outline-none text-white text-[0.78rem] font-semibold tracking-[0.1em]",
-                "min-w-[88px] transition-colors duration-200",
-                "bg-[#0D365E] hover:bg-[#0D365E]",
-              ].join(" ")}
-            >
-              <span>{buyOption}</span>
-              <motion.span
-                animate={{ rotate: showDropdown ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
-                className="flex items-center"
+          {activeCategory !== "OFFPLAN" && (
+            <div className="relative flex-shrink-0" ref={dropdownRef}>
+              <button
+                onClick={() => setShowDropdown((v) => !v)}
+                aria-haspopup="listbox"
+                aria-expanded={showDropdown}
+                className={[
+                  "h-full flex items-center gap-2 px-5 cursor-pointer select-none rounded-l-lg",
+                  "border-none outline-none text-white text-[0.78rem] font-semibold tracking-[0.1em]",
+                  "min-w-[88px] transition-colors duration-200",
+                  "bg-[#0D365E] hover:bg-[#0D365E]",
+                ].join(" ")}
               >
-                <ChevronDownIcon />
-              </motion.span>
-            </button>
-
-            <AnimatePresence>
-              {showDropdown && (
-                <motion.ul
-                  role="listbox"
-                  aria-label="Search type"
-                  initial={{ opacity: 0, y: -6, scaleY: 0.94 }}
-                  animate={{ opacity: 1, y: 0, scaleY: 1 }}
-                  exit={{ opacity: 0, y: -4, scaleY: 0.96 }}
-                  transition={{ duration: 0.16 }}
-                  className={[
-                    "absolute top-full left-0 mt-1.5 z-50 overflow-hidden rounded-lg",
-                    "min-w-[120px] list-none p-0 m-0",
-                    "bg-gradient-to-b from-[#1C4E80] via-[#0D365E] to-[#081F3A]",
-                    "shadow-[0_8px_24px_rgba(8,31,58,0.35),inset_0_1px_0_rgba(255,255,255,0.08)]",
-                    "border border-[rgba(28,78,128,0.45)]",
-                  ].join(" ")}
-                  style={{ transformOrigin: "top" }}
+                <span>{buyOption}</span>
+                <motion.span
+                  animate={{ rotate: showDropdown ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center"
                 >
-                  {BUY_OPTIONS.map((opt) => (
-                    <li key={opt} role="option" aria-selected={opt === buyOption}>
-                      <button
-                        onClick={() => { setBuyOption(opt); setShowDropdown(false); }}
-                        className={[
-                          "w-full px-5 py-3 text-left text-[0.75rem] font-semibold tracking-[0.1em]",
-                          "border-none cursor-pointer transition-colors duration-150",
-                          opt === buyOption
-                            ? "text-[#C3AD95] bg-[rgba(195,173,149,0.1)]"
-                            : "text-[rgba(255,255,255,0.6)] bg-transparent hover:bg-[rgba(28,78,128,0.15)] hover:text-white",
-                        ].join(" ")}
-                      >
-                        {opt}
-                      </button>
-                    </li>
-                  ))}
-                </motion.ul>
-              )}
-            </AnimatePresence>
-          </div>
+                  <ChevronDownIcon />
+                </motion.span>
+              </button>
+
+              <AnimatePresence>
+                {showDropdown && (
+                  <motion.ul
+                    role="listbox"
+                    aria-label="Search type"
+                    initial={{ opacity: 0, y: -6, scaleY: 0.94 }}
+                    animate={{ opacity: 1, y: 0, scaleY: 1 }}
+                    exit={{ opacity: 0, y: -4, scaleY: 0.96 }}
+                    transition={{ duration: 0.16 }}
+                    className={[
+                      "absolute top-full left-0 mt-1.5 z-50 overflow-hidden rounded-lg",
+                      "min-w-[120px] list-none p-0 m-0",
+                      "bg-gradient-to-b from-[#1C4E80] via-[#0D365E] to-[#081F3A]",
+                      "shadow-[0_8px_24px_rgba(8,31,58,0.35),inset_0_1px_0_rgba(255,255,255,0.08)]",
+                      "border border-[rgba(28,78,128,0.45)]",
+                    ].join(" ")}
+                    style={{ transformOrigin: "top" }}
+                  >
+                    {BUY_OPTIONS.map((opt) => (
+                      <li key={opt} role="option" aria-selected={opt === buyOption}>
+                        <button
+                          onClick={() => {
+                            setBuyOption(opt);
+                            setShowDropdown(false);
+                          }}
+                          className={[
+                            "w-full px-5 py-3 text-left text-[0.75rem] font-semibold tracking-[0.1em]",
+                            "border-none cursor-pointer transition-colors duration-150",
+                            opt === buyOption
+                              ? "text-[#C3AD95] bg-[rgba(195,173,149,0.1)]"
+                              : "text-[rgba(255,255,255,0.6)] bg-transparent hover:bg-[rgba(28,78,128,0.15)] hover:text-white",
+                          ].join(" ")}
+                        >
+                          {opt}
+                        </button>
+                      </li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
 
           {/* Divider */}
-          <div className="w-px self-stretch bg-[rgba(13,54,94,0.12)]" aria-hidden="true" />
+          {activeCategory !== "OFFPLAN" && (
+            <div className="w-px self-stretch bg-[rgba(13,54,94,0.12)]" aria-hidden="true" />
+          )}
 
           {/* Search Input + Tags ── */}
           <div className="relative flex-1 flex flex-wrap items-center gap-1.5 px-4 py-2 min-h-[52px]">

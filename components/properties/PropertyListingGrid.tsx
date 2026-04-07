@@ -275,6 +275,7 @@ interface PropertyListingGridProps {
   isLoading?: boolean;
   pagination?: PaginationInfo;
   showListingType?: boolean;
+  isOffPlan?: boolean;
 }
 
 export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
@@ -282,6 +283,7 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
   isLoading = false,
   pagination,
   showListingType = true,
+  isOffPlan = false,
 }) => {
   return (
     <section
@@ -301,7 +303,7 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            Property Listings
+            {isOffPlan ? "Off Plan Property Listings" : "Property Listings"}
           </motion.h2>
           <motion.p
             className="mt-1.5 text-xs md:text-sm"
