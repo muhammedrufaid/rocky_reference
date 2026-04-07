@@ -3,6 +3,40 @@ export type SeoSlugResult = {
   url: string;
 };
 
+/**
+ * Normalizes user/URL search text for matching against DB values.
+ *
+ * - "dubai-internet-city" -> "dubai internet city"
+ * - "  Dubai   Internet  " -> "dubai internet"
+ */
+export function normalizeSearchText(value: string | null | undefined): string {
+  return safeDecode(String(value ?? ""))
+    .replace(/-/g, " ")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * Flexible match (avoids direct `===`):
+ * - substring match on normalized text
+ * - fallback to "all words present" match
+ */
+export function matchesSearchText(
+  searchInput: string | null | undefined,
+  dbValue: string | null | undefined,
+): boolean {
+  const query = normalizeSearchText(searchInput);
+  const target = normalizeSearchText(dbValue);
+  if (!query || !target) return false;
+
+  if (target.includes(query)) return true;
+
+  const words = query.split(" ").filter(Boolean);
+  if (words.length === 0) return false;
+  return words.every((w) => target.includes(w));
+}
+
 function safeDecode(value: string): string {
   // Handle URL-ish inputs (e.g. `Downtown%20Dubai`, `Dubai+Marina`) without throwing.
   try {

@@ -11,6 +11,7 @@ import {
   getTotalFromApiResponse,
   mapApiResponseToPropertyListings,
 } from "@/utils/getServices";
+import { areaSearchTermsFromPropertyFilters } from "@/utils/seo";
 
 const PAGE_SIZE = 20;
 
@@ -35,10 +36,18 @@ export default async function DevelopersPage({
   const filters = await searchParams;
   const currentPage = Math.max(1, parseInt(filters.page ?? "1", 10) || 1);
 
+  const areaTerms = areaSearchTermsFromPropertyFilters(filters.q, filters.search);
+  const searchForApi =
+    areaTerms != null
+      ? areaTerms.length > 1
+        ? areaTerms
+        : areaTerms[0]
+      : undefined;
+
   const apiData = await getOffPlanProperties({
     page: currentPage,
     limit: PAGE_SIZE,
-    search: filters.search ?? filters.q,
+    search: searchForApi,
     propertyType: filters.type,
     min: filters.min,
     max: filters.max,
