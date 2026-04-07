@@ -14,6 +14,7 @@ import Container from "@/components/layout/Container";
 interface PropertyCardProps {
   listing: PropertyListing;
   index?: number;
+  showListingType?: boolean;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -111,7 +112,11 @@ const StatChip = ({ icon, value, label }: { icon: React.ReactNode; value: React.
 /* ═══════════════════════════════════════════════════════════════════════════ */
 /*  Property Card – Left image, right content                                 */
 /* ═══════════════════════════════════════════════════════════════════════════ */
-export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }) => {
+export const PropertyCard: React.FC<PropertyCardProps> = ({
+  listing,
+  index = 0,
+  showListingType = true,
+}) => {
   const [activeImg, setActiveImg] = useState(0);
   const images = listing.images;
   const mainImage = images[activeImg] ?? images[0];
@@ -148,12 +153,14 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ listing, index = 0 }
                 {listing.badge}
               </span>
             )}
-            <span
-              className="text-[10px] font-medium tracking-wide uppercase px-2.5 py-1 rounded"
-              style={{ backgroundColor: "rgba(255,255,255,.93)", color: "#0d365e" }}
-            >
-              {listing.type}
-            </span>
+            {showListingType ? (
+              <span
+                className="text-[10px] font-medium tracking-wide uppercase px-2.5 py-1 rounded"
+                style={{ backgroundColor: "rgba(255,255,255,.93)", color: "#0d365e" }}
+              >
+                {listing.type}
+              </span>
+            ) : null}
           </div>
 
           {/* Photo count */}
@@ -267,12 +274,14 @@ interface PropertyListingGridProps {
   listings: PropertyListing[];
   isLoading?: boolean;
   pagination?: PaginationInfo;
+  showListingType?: boolean;
 }
 
 export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
   listings,
   isLoading = false,
   pagination,
+  showListingType = true,
 }) => {
   return (
     <section
@@ -321,7 +330,12 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
           ) : (
             <>
               {listings.map((listing, idx) => (
-                <PropertyCard key={listing.id} listing={listing} index={idx} />
+                <PropertyCard
+                  key={listing.id}
+                  listing={listing}
+                  index={idx}
+                  showListingType={showListingType}
+                />
               ))}
               {listings.length === 0 && (
                 <div

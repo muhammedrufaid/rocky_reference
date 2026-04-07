@@ -20,6 +20,7 @@ type TransactionType = "buy" | "rent";
 
 interface PropertySearchBarProps {
   defaultType?: TransactionType;
+  isOffPlan?: boolean;
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -398,7 +399,7 @@ function ListingDropdown({
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "buy" }) => {
+const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "buy", isOffPlan = false }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -910,12 +911,16 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({ defaultType = "bu
 
       {/* Desktop */}
       <div className="hidden lg:flex lg:items-center lg:gap-3">
-        <div className="shrink-0 min-w-[120px]">
-          <ListingDropdown
-            transactionType={transactionType}
-            onSelect={handleListingSelect}
-          />
-        </div>
+        
+        {!isOffPlan && (
+          <div className="shrink-0 min-w-[120px]">
+            <ListingDropdown
+              transactionType={transactionType}
+              onSelect={handleListingSelect}
+            />
+          </div>
+        )}
+
         <div className="relative flex-1 min-w-0">
           <label htmlFor="property-search-desktop" className="sr-only">
             Search properties

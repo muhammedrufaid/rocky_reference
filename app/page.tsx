@@ -37,7 +37,7 @@ export default async function Home() {
       {/* <AwardsSection3 /> */}
       {/* <WhyChooseUsSection /> */}
       {/* <WhyChooseUsSection2 /> */}
-      <Newsletter className="py-16 md:py-20 lg:py-24"/>
+      <Newsletter className="pb-16 md:pb-20 lg:pb-24"/>
       {/* <ValuationCTA /> */}
       <TestimonialSection />
       <BlogSection />

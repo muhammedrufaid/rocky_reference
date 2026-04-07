@@ -90,13 +90,49 @@ export function getTotalFromApiResponse(response: any): number | undefined {
   return undefined
 }
 
-export async function getOffPlanProperties(): Promise<any | undefined> {
-    try {
-      return await getData(`frontend/properties/off-plan?page=1&limit=20`, 0)
-    } catch (error) {
-      console.error('Failed to fetch featured data:', error)
-      // throw notFound();
-    }
+async function getOffPlanPropertiesCore(
+  params: URLSearchParams,
+): Promise<any | undefined> {
+  try {
+    return await getData(`frontend/properties/off-plan?${params.toString()}`, 0)
+  } catch (error) {
+    console.error('Failed to fetch off-plan properties:', error)
+  }
+}
+
+export async function getOffPlanProperties(
+  options: PropertiesFetchOptions = {},
+): Promise<any | undefined> {
+  const page = options.page ?? 1
+  const limit = options.limit ?? 20
+  const terms = normalizeAreaSearchTerms(options.search ?? options.q)
+
+  if (terms.length > 1) {
+    const fetchLimit = Math.min(
+      500,
+      Math.max(120, limit * Math.max(page, 1) * 3),
+    )
+    const results = await Promise.all(
+      terms.map((search) => {
+        const params = new URLSearchParams({
+          page: '1',
+          limit: String(fetchLimit),
+          search,
+        })
+        appendPropertiesFilters(params, options)
+        return getOffPlanPropertiesCore(params)
+      }),
+    )
+    return mergeMultiAreaPropertyResponses(results, page, limit)
+  }
+
+  const params = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+  })
+  if (terms.length === 1) params.set('search', terms[0])
+  appendPropertiesFilters(params, options)
+  return getOffPlanPropertiesCore(params)
 }
 
 export async function getReadyProperties(): Promise<any | undefined> {
