@@ -1,9 +1,9 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import PageHero from "@/components/common/PageHero";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import Newsletter from "@/components/home/Newsletter";
 import DevelopersHeroSection from "@/components/off-plan-properties/DevelopersHeroSection";
+import FeaturedProjectsTimelineSection from "@/components/off-plan-properties/FeaturedProjectsTimelineSection";
 
 export const metadata = {
   title: "Developers | Rocky Real Estate",
@@ -14,29 +14,22 @@ export const metadata = {
 export default function DevelopersPage() {
   return (
     <div className="min-h-screen bg-white">
-      <Header forceSolid/>
+      <Header forceSolid />
       <main className="site-header-offset">
-        {/* <PageHero
-          title="Developers"
-          description=""
-          breadcrumb={[
-            { label: "Home", href: "/" },
-            { label: "Developers" },
-          ]}
-        /> */}
         {/* <DevelopersHeroSection
-          title="Developers in Dubai"
-          description=" Discover trusted developers, premium communities, and off‑plan opportunities—curated for modern Dubai living."
+          title="Discover Trusted Developers Behind Iconic Properties"
+          description="Explore Dubai’s premium developers shaping landmark communities—built for long-term value, strong rental demand, and modern waterfront living."
           breadcrumb={[
             { label: "Home", href: "/" },
             { label: "Developers" },
           ]}
-          image="https://images.pexels.com/photos/19136351/pexels-photo-19136351.jpeg"
         /> */}
-        
-        <Newsletter className="py-16 md:py-20 lg:py-24"/>
-        <TestimonialSection />
 
+        <Newsletter className="py-16 md:py-20 lg:py-24" />
+        <FeaturedProjectsTimelineSection />
+
+        <Newsletter className="py-16 md:py-20 lg:py-24" />
+        <TestimonialSection />
       </main>
       <Footer />
     </div>
