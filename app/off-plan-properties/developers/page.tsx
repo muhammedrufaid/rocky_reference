@@ -25,10 +25,10 @@ export default function DevelopersPage() {
           ]}
         /> */}
 
-        <Newsletter className="py-16 md:py-20 lg:py-24" />
+        {/* <Newsletter className="py-16 md:py-20 lg:py-24" /> */}
         <FeaturedProjectsTimelineSection />
 
-        <Newsletter className="py-16 md:py-20 lg:py-24" />
+        <Newsletter className="pb-16 md:pb-20 lg:pb-24" />
         <TestimonialSection />
       </main>
       <Footer />
