@@ -411,7 +411,7 @@ export const teamMembers: TeamMember[] = [
     image: "/assets/teams/offplan_teams/manali2.webp",
     // path: "/our-team/sarah-johnson",
   },
- 
+
   {
     id: 2,
     name: "Gopal",
@@ -436,7 +436,7 @@ export const teamMembers: TeamMember[] = [
     image: "/assets/teams/offplan_teams/honey2.webp",
     // path: "/our-team/sarah-johnson",
   },
-  
+
   {
     id: 5,
     name: "Tousif",
@@ -963,58 +963,52 @@ export const openPositions: JobPosition[] = [
 export const developers: Developer[] = [
   {
     id: 1,
-    name: "Majid Al Futtaim",
-    logo: "/assets/developers/01.png",
-    path: "/developers/majid-al-futtaim",
-  },
-  {
-    id: 2,
-    name: "Damac Properties",
-    logo: "/assets/developers/02.png",
+    name: "Damac",
+    logo: "/assets/developers/Logos-01.webp",
     path: "/developers/damac",
   },
   {
+    id: 2,
+    name: "Emaar",
+    logo: "/assets/developers/Logos-02.webp",
+    path: "/developers/emaar",
+  },
+  {
     id: 3,
-    name: "Meraas",
-    logo: "/assets/developers/03.png",
-    path: "/developers/meraas",
+    name: "Ellington",
+    logo: "/assets/developers/Logos-03.webp",
+    path: "/developers/ellington",
   },
   {
     id: 4,
     name: "Sobha Realty",
-    logo: "/assets/developers/04.png",
+    logo: "/assets/developers/Logos-04.webp",
     path: "/developers/sobha",
   },
   {
     id: 5,
-    name: "Emaar Properties",
-    logo: "/assets/developers/05.png",
-    path: "/developers/emaar",
+    name: "Meraas",
+    logo: "/assets/developers/Logos-05.webp",
+    path: "/developers/meraas",
   },
   {
     id: 6,
-    name: "Ellington Properties",
-    logo: "/assets/developers/06.webp",
-    path: "/developers/ellington",
+    name: "Leos",
+    logo: "/assets/developers/Logos-06.webp",
+    path: "/developers/leos",
   },
   {
     id: 7,
-    name: "Danube Properties",
-    logo: "/assets/developers/07.webp",
-    path: "/developers/danube",
+    name: "Beyond",
+    logo: "/assets/developers/Logos-07.webp",
+    path: "/developers/beyond",
   },
   {
     id: 8,
-    name: "Nakheel",
-    logo: "/assets/developers/08.webp",
-    path: "/developers/nakheel",
-  },
-  {
-    id: 9,
-    name: "Select Group",
-    logo: "/assets/developers/09.webp",
-    path: "/developers/select-group",
-  },
+    name: "BT Properties",
+    logo: "/assets/developers/Logos-08.webp",
+    path: "/developers/bt-properties",
+  }
 ];
 
 
