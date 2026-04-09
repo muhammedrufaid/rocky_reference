@@ -279,7 +279,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
     // outside the section boundary regardless of pin timing edge cases.
     <section
       ref={sectionRef}
-      className={`${className ?? "pb-16 md:pb-20 lg:pb-24 site-header-offset"} relative overflow-hidden`}
+      className={`${className ?? "py-16 md:py-20 lg:py-24"} relative overflow-hidden`}
       aria-labelledby="featured-projects-heading"
     >
       <Container>
