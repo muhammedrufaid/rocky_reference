@@ -1014,43 +1014,43 @@ export const developers: Developer[] = [
 
 export const projects: Project[] = [
   {
-    id: "nova-tower",
-    title: "Nova Tower",
+    id: "emaar",
+    title: "Emaar Properties",
     description:
-      "A 42-storey mixed-use landmark in the heart of the financial district. The project redefined sustainable high-rise design by integrating a full green facade system and passive cooling corridors that reduced energy load by 38%.",
+      "Developers behind the tallest building in the world, Burj Khalifa, Emaar has redefined the Dubai skyline with its iconic landmarks, be it master communities or internationally recognized properties.",
     imageUrl:
-      "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80",
-    imageAlt: "Nova Tower exterior",
-    caption: "Nova Tower — Financial District, 2023",
+      "/assets/developers/featured/emaar-featured.avif",
+    imageAlt: "Emaar cultural pavilion with timber shell architecture",
+    caption: "Emaar Properties — Dubai, 2022",
   },
   {
-    id: "harbour-pavilion",
-    title: "Harbour Pavilion",
+    id: "binghatti",
+    title: "Binghatti",
     description:
-      "A waterfront cultural pavilion conceived as a series of interlocking timber shells. The structural geometry was derived from wave-interference patterns, resulting in a roof that channels natural light deep into the gallery spaces below.",
+      "Recognized for its bold and unique architecture, Binghatti continues to develop masterpieces across Dubai, including the most-awaited Mercedes-Benz Places.",
     imageUrl:
-      "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=900&q=80",
-    imageAlt: "Harbour Pavilion at dusk",
-    caption: "Harbour Pavilion — Waterfront Arts Precinct, 2022",
+      "/assets/developers/featured/binghatti-featured.avif",
+    imageAlt: "Binghatti mixed-use high-rise with geometric facade",
+    caption: "Binghatti Residences — Dubai, 2023",
   },
   {
-    id: "meridian-campus",
-    title: "Meridian Campus",
+    id: "damac",
+    title: "DAMAC Properties",
     description:
-      "A 14-hectare innovation campus designed around biophilic principles. Every workspace sits within 7 metres of natural light and greenery. The masterplan is structured around a central living valley that doubles as a stormwater catchment.",
+      "One of the most prominent developers in the region, DAMAC Properties, combines luxury living with architectural masterpieces and branded collaborations.",
     imageUrl:
       "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&q=80",
-    imageAlt: "Meridian Campus aerial",
-    caption: "Meridian Campus — Tech Precinct, 2024",
+    imageAlt: "Biophilic innovation campus with central green valley",
+    caption: "Meridian Innovation Campus — Tech Precinct, 2024",
   },
   {
-    id: "solstice-residence",
-    title: "Solstice Residence",
+    id: "meraas",
+    title: "Meraas",
     description:
-      "A private hillside residence oriented precisely to capture the solstice sunrise and sunset through a central oculus. Rammed-earth walls and a grass roof dissolve the boundary between dwelling and landscape.",
+      "Offering residents a dynamic lifestyle in Dubai, Meraas continues to develop master waterfront communities and beachfront residences across the city.",
     imageUrl:
-      "https://images.unsplash.com/photo-1416331108676-a22ccb276e35?w=900&q=80",
-    imageAlt: "Solstice Residence hillside view",
+      "/assets/developers/featured/citywalk-featured.webp",
+    imageAlt: "Hillside residence with rammed earth walls and green roof",
     caption: "Solstice Residence — Blue Mountains, 2021",
-  },
+  }
 ];

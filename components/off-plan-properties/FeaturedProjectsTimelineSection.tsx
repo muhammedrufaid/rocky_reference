@@ -348,7 +348,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                           className="overflow-hidden"
                         >
                           <p
-                            className="text-sm leading-[1.75] opacity-65 mt-3 max-w-[34ch]"
+                            className="text-sm leading-[1.75] opacity-65 mt-3 max-w-[60ch]"
                           >
                             {project.description}
                           </p>
@@ -385,9 +385,9 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                   className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.18)_45%,transparent_70%)]"
                 />
 
-                <p className="absolute bottom-5 left-6 right-6 m-0 text-[0.68rem] uppercase tracking-[0.12em] text-white/70">
+                {/* <p className="absolute bottom-5 left-6 right-6 m-0 text-[0.68rem] uppercase tracking-[0.12em] text-white/70">
                   {project.caption}
-                </p>
+                </p> */}
               </div>
             ))}
           </div>
