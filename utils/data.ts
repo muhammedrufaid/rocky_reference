@@ -9,6 +9,15 @@ export interface OffPlanProject {
   completionYear?: string;
 }
 
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  imageAlt: string;
+  caption: string;
+}
+
 export interface Property {
   id: number;
   title: string;
@@ -1005,5 +1014,49 @@ export const developers: Developer[] = [
     name: "Select Group",
     logo: "/assets/developers/09.webp",
     path: "/developers/select-group",
+  },
+];
+
+
+export const projects: Project[] = [
+  {
+    id: "nova-tower",
+    title: "Nova Tower",
+    description:
+      "A 42-storey mixed-use landmark in the heart of the financial district. The project redefined sustainable high-rise design by integrating a full green facade system and passive cooling corridors that reduced energy load by 38%.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80",
+    imageAlt: "Nova Tower exterior",
+    caption: "Nova Tower — Financial District, 2023",
+  },
+  {
+    id: "harbour-pavilion",
+    title: "Harbour Pavilion",
+    description:
+      "A waterfront cultural pavilion conceived as a series of interlocking timber shells. The structural geometry was derived from wave-interference patterns, resulting in a roof that channels natural light deep into the gallery spaces below.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=900&q=80",
+    imageAlt: "Harbour Pavilion at dusk",
+    caption: "Harbour Pavilion — Waterfront Arts Precinct, 2022",
+  },
+  {
+    id: "meridian-campus",
+    title: "Meridian Campus",
+    description:
+      "A 14-hectare innovation campus designed around biophilic principles. Every workspace sits within 7 metres of natural light and greenery. The masterplan is structured around a central living valley that doubles as a stormwater catchment.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&q=80",
+    imageAlt: "Meridian Campus aerial",
+    caption: "Meridian Campus — Tech Precinct, 2024",
+  },
+  {
+    id: "solstice-residence",
+    title: "Solstice Residence",
+    description:
+      "A private hillside residence oriented precisely to capture the solstice sunrise and sunset through a central oculus. Rammed-earth walls and a grass roof dissolve the boundary between dwelling and landscape.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1416331108676-a22ccb276e35?w=900&q=80",
+    imageAlt: "Solstice Residence hillside view",
+    caption: "Solstice Residence — Blue Mountains, 2021",
   },
 ];
