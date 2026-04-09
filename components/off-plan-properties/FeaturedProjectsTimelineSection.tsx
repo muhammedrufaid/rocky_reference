@@ -26,6 +26,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
   // FIX: track the pinST instance so we can refresh it after desc expansion
   const pinSTRef = useRef<ScrollTrigger | null>(null);
   const refreshRafRef = useRef<number | null>(null);
+  const isPinRefreshingRef = useRef(false);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
@@ -38,7 +39,13 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
 
     refreshRafRef.current = window.requestAnimationFrame(() => {
       refreshRafRef.current = null;
-      pinSTRef.current?.refresh();
+      // Guard against refresh-triggered synchronous re-entry into onEnter/onEnterBack.
+      isPinRefreshingRef.current = true;
+      try {
+        pinSTRef.current?.refresh();
+      } finally {
+        isPinRefreshingRef.current = false;
+      }
     });
   }, []);
 
@@ -247,8 +254,14 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
               trigger: el,
               start: "top 60%",
               end: "bottom 40%",
-              onEnter: () => activateProject(index),
-              onEnterBack: () => activateProject(index),
+              onEnter: () => {
+                if (isPinRefreshingRef.current) return;
+                activateProject(index);
+              },
+              onEnterBack: () => {
+                if (isPinRefreshingRef.current) return;
+                activateProject(index);
+              },
             });
           });
 
@@ -297,7 +310,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
     // outside the section boundary regardless of pin timing edge cases.
     <section
       ref={sectionRef}
-      className={`${className ?? "py-16 md:py-20 lg:py-24"} relative overflow-hidden`}
+      className={`${className ?? "pt-16 md:pt-20 lg:pt-24"} relative overflow-hidden`}
       aria-labelledby="featured-projects-heading"
     >
       <Container>

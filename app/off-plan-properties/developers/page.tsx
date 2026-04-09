@@ -5,6 +5,8 @@ import Newsletter from "@/components/home/Newsletter";
 import DevelopersHeroSection from "@/components/off-plan-properties/DevelopersHeroSection";
 import FeaturedProjectsTimelineSection from "@/components/off-plan-properties/FeaturedProjectsTimelineSection";
 import AllDevelopersShowcaseGridSection from "@/components/off-plan-properties/AllDevelopersShowcaseGridSection";
+import FeaturedOffPlanProjects from "@/components/home/FeaturedOffPlanProjects";
+import { getOffPlanProperties } from "@/utils/getServices";
 
 export const metadata = {
   title: "Developers | Rocky Real Estate",
@@ -12,7 +14,8 @@ export const metadata = {
     "Paperwork to handover — property management, brokerage, mortgage, professional inspection, listing & marketing, and after-sales support. Solutions tailored for Dubai's dynamic market.",
 };
 
-export default function DevelopersPage() {
+export default async function DevelopersPage() {
+  const offPlanPropertiesData = await getOffPlanProperties();
   return (
     <div className="min-h-screen bg-white">
       <Header forceSolid />
@@ -29,6 +32,7 @@ export default function DevelopersPage() {
         {/* <Newsletter className="py-16 md:py-20 lg:py-24" /> */}
         <AllDevelopersShowcaseGridSection />
         <FeaturedProjectsTimelineSection />
+        <FeaturedOffPlanProjects data={offPlanPropertiesData} />
 
         <Newsletter className="pb-16 md:pb-20 lg:pb-24" />
         <TestimonialSection />
