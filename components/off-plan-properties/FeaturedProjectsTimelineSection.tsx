@@ -25,9 +25,22 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
   const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
   // FIX: track the pinST instance so we can refresh it after desc expansion
   const pinSTRef = useRef<ScrollTrigger | null>(null);
+  const refreshRafRef = useRef<number | null>(null);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
+
+  const schedulePinRefresh = useCallback(() => {
+    // Avoid calling ScrollTrigger.refresh() from within ScrollTrigger callbacks,
+    // which can cause re-entrant activation loops and stack overflows.
+    if (!pinSTRef.current) return;
+    if (refreshRafRef.current != null) return;
+
+    refreshRafRef.current = window.requestAnimationFrame(() => {
+      refreshRafRef.current = null;
+      pinSTRef.current?.refresh();
+    });
+  }, []);
 
   const scrollToProject = useCallback((index: number) => {
     const el = imageRefs.current[index];
@@ -93,8 +106,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
             // FIX: after desc expands, refresh the pin so its end boundary
             // accounts for the new left-panel height.
             onComplete: () => {
-              pinSTRef.current?.refresh();
-              ScrollTrigger.refresh();
+              schedulePinRefresh();
             },
           });
         } else if (i === prev) {
@@ -108,14 +120,13 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
             onComplete: () => {
               gsap.set(desc, { display: "none" });
               // FIX: refresh again after collapse so pin end is recalculated.
-              pinSTRef.current?.refresh();
-              ScrollTrigger.refresh();
+              schedulePinRefresh();
             },
           });
         }
       });
     },
-    []
+    [schedulePinRefresh]
   );
 
   useEffect(() => {
@@ -273,6 +284,10 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
 
     return () => {
       pinSTRef.current = null;
+      if (refreshRafRef.current != null) {
+        window.cancelAnimationFrame(refreshRafRef.current);
+        refreshRafRef.current = null;
+      }
       ctx.revert();
     };
   }, [activateProject]);
