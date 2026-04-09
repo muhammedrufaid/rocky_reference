@@ -128,17 +128,9 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
         y: 32,
         willChange: "transform, opacity",
       });
-      gsap.set(leftPanelRef.current, {
-        opacity: 0,
-        y: 20,
-        willChange: "transform, opacity",
-      });
       imageRefs.current.forEach((el) => {
         if (el)
           gsap.set(el, { opacity: 0, y: 40, willChange: "transform, opacity" });
-      });
-      descRefs.current.forEach((el) => {
-        if (el) gsap.set(el, { display: "none" });
       });
 
       // Header entrance
@@ -159,25 +151,6 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
         y: 0,
         duration: 0.7,
         ease: EASE_OUT_EXPO,
-      });
-
-      // Left panel entrance
-      const leftTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top 75%",
-          once: true,
-        },
-      });
-      leftTl.to(leftPanelRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.65,
-        ease: EASE_OUT_EXPO,
-        onComplete: () => {
-          gsap.set(leftPanelRef.current, { willChange: "auto" });
-          activateProject(0, false);
-        },
       });
 
       // Image stagger entrance
@@ -202,69 +175,99 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
         });
       });
 
-      // FIX: Sticky left panel pin.
-      // The end is calculated as: right panel total height minus left panel
-      // height, so both columns finish scrolling at exactly the same moment.
-      // `invalidateOnRefresh: true` ensures this is recalculated whenever
-      // ScrollTrigger.refresh() is called (e.g. after desc expand/collapse).
-      const pinST = ScrollTrigger.create({
-        trigger: section,
-        start: "top top",
-        end: () => {
-          const rightPanel =
-            section.querySelector<HTMLElement>(".right-panel");
-          const leftPanel = leftPanelRef.current;
-          if (!rightPanel || !leftPanel) return "bottom bottom";
+      // Desktop-only timeline + pinning behavior.
+      ScrollTrigger.matchMedia({
+        "(min-width: 1024px)": () => {
+          gsap.set(leftPanelRef.current, {
+            opacity: 0,
+            y: 20,
+            willChange: "transform, opacity",
+          });
+          descRefs.current.forEach((el) => {
+            if (el) gsap.set(el, { display: "none" });
+          });
 
-          // Total scrollable distance = right panel height - left panel height.
-          // Add a small buffer (32px) so the last description is never clipped.
-          const scrollDistance =
-            rightPanel.offsetHeight - leftPanel.offsetHeight + 32;
-          return `+=${Math.max(scrollDistance, 0)}`;
-        },
-        pin: leftPanelRef.current,
-        pinSpacing: false,
-        invalidateOnRefresh: true,
-      });
-
-      // Store ref so activateProject callbacks can call refresh on it.
-      pinSTRef.current = pinST;
-
-      // Per-image ScrollTriggers driving the active index.
-      // FIX: Tighten the active band to 40%–60% so the last item activates
-      // before its image card bottom hits the viewport bottom.
-      imageRefs.current.forEach((el, index) => {
-        if (!el) return;
-        ScrollTrigger.create({
-          trigger: el,
-          start: "top 60%",
-          end: "bottom 40%",
-          onEnter: () => activateProject(index),
-          onEnterBack: () => activateProject(index),
-        });
-      });
-
-      // Subtle image parallax (compositor-only, y transform)
-      imageRefs.current.forEach((el) => {
-        if (!el) return;
-        const img = el.querySelector("img");
-        if (!img) return;
-        gsap.set(img, { willChange: "transform" });
-        gsap.fromTo(
-          img,
-          { y: "-6%" },
-          {
-            y: "6%",
-            ease: "none",
+          // Left panel entrance
+          const leftTl = gsap.timeline({
             scrollTrigger: {
-              trigger: el,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1.2,
-              onLeave: () => gsap.set(img, { willChange: "auto" }),
+              trigger: section,
+              start: "top 75%",
+              once: true,
             },
-          }
-        );
+          });
+          leftTl.to(leftPanelRef.current, {
+            opacity: 1,
+            y: 0,
+            duration: 0.65,
+            ease: EASE_OUT_EXPO,
+            onComplete: () => {
+              gsap.set(leftPanelRef.current, { willChange: "auto" });
+              activateProject(0, false);
+            },
+          });
+
+          // Sticky left panel pin.
+          // The end is calculated as: right panel total height minus left panel
+          // height, so both columns finish scrolling at exactly the same moment.
+          const pinST = ScrollTrigger.create({
+            trigger: section,
+            start: "top top",
+            end: () => {
+              const rightPanel =
+                section.querySelector<HTMLElement>(".right-panel");
+              const leftPanel = leftPanelRef.current;
+              if (!rightPanel || !leftPanel) return "bottom bottom";
+
+              const scrollDistance =
+                rightPanel.offsetHeight - leftPanel.offsetHeight + 32;
+              return `+=${Math.max(scrollDistance, 0)}`;
+            },
+            pin: leftPanelRef.current,
+            pinSpacing: false,
+            invalidateOnRefresh: true,
+          });
+
+          pinSTRef.current = pinST;
+
+          // Per-image ScrollTriggers driving the active index.
+          imageRefs.current.forEach((el, index) => {
+            if (!el) return;
+            ScrollTrigger.create({
+              trigger: el,
+              start: "top 60%",
+              end: "bottom 40%",
+              onEnter: () => activateProject(index),
+              onEnterBack: () => activateProject(index),
+            });
+          });
+
+          // Subtle image parallax (compositor-only, y transform)
+          imageRefs.current.forEach((el) => {
+            if (!el) return;
+            const img = el.querySelector("img");
+            if (!img) return;
+            gsap.set(img, { willChange: "transform" });
+            gsap.fromTo(
+              img,
+              { y: "-6%" },
+              {
+                y: "6%",
+                ease: "none",
+                scrollTrigger: {
+                  trigger: el,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: 1.2,
+                  onLeave: () => gsap.set(img, { willChange: "auto" }),
+                },
+              }
+            );
+          });
+
+          return () => {
+            pinSTRef.current = null;
+          };
+        },
       });
     }, section);
 
@@ -283,9 +286,9 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
       aria-labelledby="featured-projects-heading"
     >
       <Container>
-        <div className="grid grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* LEFT PANEL — pinned by ScrollTrigger */}
-          <div className="relative">
+          <div className="relative hidden lg:block">
             <div
               ref={leftPanelRef}
               className="relative top-0 left-0 w-full flex"
@@ -362,32 +365,46 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
           </div>
 
           {/* RIGHT PANEL — normal scroll, stacked images */}
-          <div className="right-panel flex flex-col gap-8" >
+          <div className="right-panel flex flex-col gap-10 lg:gap-8">
             {projects.map((project, index) => (
-              <div
-                key={project.id}
-                ref={(el) => {
-                  imageRefs.current[index] = el;
-                }}
-                className="relative h-[62vh] overflow-hidden rounded-2xl flex-shrink-0"
-              >
-                <Image
-                  src={project.imageUrl}
-                  alt={project.imageAlt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover"
-                  priority={index === 0}
-                />
-
+              <div key={project.id} className="flex flex-col gap-4">
                 <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.18)_45%,transparent_70%)]"
-                />
+                  ref={(el) => {
+                    imageRefs.current[index] = el;
+                  }}
+                  className="relative h-[46vh] sm:h-[54vh] lg:h-[62vh] overflow-hidden rounded-2xl flex-shrink-0"
+                >
+                  <Image
+                    src={project.imageUrl}
+                    alt={project.imageAlt}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                    priority={index === 0}
+                  />
 
-                {/* <p className="absolute bottom-5 left-6 right-6 m-0 text-[0.68rem] uppercase tracking-[0.12em] text-white/70">
-                  {project.caption}
-                </p> */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.18)_45%,transparent_70%)]"
+                  />
+
+                  {/* <p className="hidden lg:block absolute bottom-5 left-6 right-6 m-0 text-[0.68rem] uppercase tracking-[0.12em] text-white/70">
+                    {project.caption}
+                  </p> */}
+                </div>
+
+                {/* Mobile content (timeline is hidden on small screens) */}
+                <div className="lg:hidden">
+                  {/* <p className="m-0 text-[0.7rem] uppercase tracking-[0.12em] opacity-60">
+                    {project.caption}
+                  </p> */}
+                  <h3 className="mt-2 mb-0 text-lg font-semibold tracking-[-0.01em]">
+                    {project.title}
+                  </h3>
+                  <p className="mt-2 mb-0 text-sm leading-[1.75] opacity-75">
+                    {project.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
