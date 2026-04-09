@@ -279,33 +279,18 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
     // outside the section boundary regardless of pin timing edge cases.
     <section
       ref={sectionRef}
-      className={className ?? "pb-16 md:pb-20 lg:pb-24 site-header-offset"}
+      className={`${className ?? "pb-16 md:pb-20 lg:pb-24 site-header-offset"} relative overflow-hidden`}
       aria-labelledby="featured-projects-heading"
-      style={{ position: "relative", overflow: "hidden" }}
     >
       <Container>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "4rem",
-            alignItems: "start",
-          }}
-        >
+        <div className="grid grid-cols-2 gap-16 items-start">
           {/* LEFT PANEL — pinned by ScrollTrigger */}
-          <div style={{ position: "relative" }}>
+          <div className="relative">
             <div
               ref={leftPanelRef}
-              style={{
-                position: "relative",
-                top: 0,
-                left: 0,
-                width: "100%",
-                display: "flex",
-                justifyContent: "",
-              }}
+              className="relative top-0 left-0 w-full flex"
             >
-              <div style={{ width: "100%", maxWidth: "460px" }}>
+              <div className="w-full max-w-[460px]">
                 {projects.map((project, index) => {
                   const isActive = index === activeIndex;
                   const isLast = index === projects.length - 1;
@@ -313,37 +298,17 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                   return (
                     <div
                       key={project.id}
-                      style={{
-                        display: "flex",
-                        gap: "1.25rem",
-                        // FIX: last item gets extra bottom padding so its
-                        // expanded description never clips at the section edge.
-                        marginBottom: isLast ? 0 : "0.25rem",
-                      }}
+                      className={`flex gap-5 ${isLast ? "mb-0" : "mb-1"}`}
                     >
                       {/* Timeline rail */}
                       <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          flexShrink: 0,
-                          width: "20px",
-                          paddingTop: "6px",
-                        }}
+                        className="flex flex-col items-center shrink-0 w-[20px] pt-[6px]"
                       >
                         <div
                           ref={(el) => {
                             dotRefs.current[index] = el;
                           }}
-                          style={{
-                            width: 7,
-                            height: 7,
-                            borderRadius: "50%",
-                            backgroundColor: "currentColor",
-                            opacity: 0.25,
-                            flexShrink: 0,
-                          }}
+                          className="w-[7px] h-[7px] rounded-full bg-current opacity-25 shrink-0"
                         />
 
                         {!isLast && (
@@ -351,38 +316,18 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                             ref={(el) => {
                               lineRefs.current[index] = el;
                             }}
-                            style={{
-                              flex: 1,
-                              width: "1px",
-                              backgroundColor: "currentColor",
-                              opacity: 0.1,
-                              minHeight: "48px",
-                              marginTop: "6px",
-                            }}
+                            className="flex-1 w-px bg-current opacity-10 min-h-[48px] mt-[6px]"
                           />
                         )}
                       </div>
 
                       {/* Text content */}
                       <div
-                        style={{
-                          flex: 1,
-                          // FIX: last item gets generous bottom padding so the
-                          // description text is always fully visible inside the
-                          // section before the next section scrolls into view.
-                          paddingBottom: isLast ? "4rem" : "2rem",
-                        }}
+                        className={`flex-1 ${isLast ? "pb-16" : "pb-8"}`}
                       >
                         <button
                           onClick={() => scrollToProject(index)}
-                          style={{
-                            background: "none",
-                            border: "none",
-                            padding: 0,
-                            cursor: "pointer",
-                            textAlign: "left",
-                            width: "100%",
-                          }}
+                          className="bg-transparent border-0 p-0 cursor-pointer text-left w-full"
                           aria-label={`Go to project: ${project.title}`}
                           aria-pressed={isActive}
                         >
@@ -390,15 +335,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                             ref={(el) => {
                               titleRefs.current[index] = el;
                             }}
-                            style={{
-                              display: "block",
-                              fontSize: "1.1rem",
-                              fontWeight: 400,
-                              letterSpacing: "-0.01em",
-                              opacity: 0.3,
-                              color: "inherit",
-                              lineHeight: 1.2,
-                            }}
+                            className="block text-[1.1rem] font-normal tracking-[-0.01em] opacity-30 text-inherit leading-[1.2]"
                           >
                             {project.title}
                           </span>
@@ -408,16 +345,10 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                           ref={(el) => {
                             descRefs.current[index] = el;
                           }}
-                          style={{ overflow: "hidden" }}
+                          className="overflow-hidden"
                         >
                           <p
-                            style={{
-                              fontSize: "0.875rem",
-                              lineHeight: 1.75,
-                              opacity: 0.65,
-                              marginTop: "0.75rem",
-                              maxWidth: "34ch",
-                            }}
+                            className="text-sm leading-[1.75] opacity-65 mt-3 max-w-[34ch]"
                           >
                             {project.description}
                           </p>
@@ -431,10 +362,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
           </div>
 
           {/* RIGHT PANEL — normal scroll, stacked images */}
-          <div
-            className="right-panel"
-            style={{ display: "flex", flexDirection: "column", gap: "2rem" }}
-          >
+          <div className="right-panel flex flex-col gap-8" >
             {projects.map((project, index) => (
               <div
                 key={project.id}
