@@ -23,7 +23,8 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
   const descRefs = useRef<(HTMLDivElement | null)[]>([]);
   const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
-  // FIX: track the pinST instance so we can refresh it after desc expansion
+
+  // Track the pinST instance so we can refresh it after desc expansion
   const pinSTRef = useRef<ScrollTrigger | null>(null);
   const refreshRafRef = useRef<number | null>(null);
   const isPinRefreshingRef = useRef(false);
@@ -39,7 +40,6 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
 
     refreshRafRef.current = window.requestAnimationFrame(() => {
       refreshRafRef.current = null;
-      // Guard against refresh-triggered synchronous re-entry into onEnter/onEnterBack.
       isPinRefreshingRef.current = true;
       try {
         pinSTRef.current?.refresh();
@@ -90,7 +90,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
         gsap.to(title, {
           opacity: isActive ? 1 : 0.3,
           fontSize: isActive ? "1.35rem" : "1.1rem",
-          fontWeight: isActive ? 600 : 400,
+          fontWeight: isActive ? 500 : 400,
           duration,
           ease: EASE_INOUT,
           overwrite: "auto",
@@ -110,8 +110,6 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
             duration: animate ? 0.42 : 0,
             ease: EASE_OUT_EXPO,
             overwrite: "auto",
-            // FIX: after desc expands, refresh the pin so its end boundary
-            // accounts for the new left-panel height.
             onComplete: () => {
               schedulePinRefresh();
             },
@@ -126,7 +124,6 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
             overwrite: "auto",
             onComplete: () => {
               gsap.set(desc, { display: "none" });
-              // FIX: refresh again after collapse so pin end is recalculated.
               schedulePinRefresh();
             },
           });
@@ -140,15 +137,32 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
     const section = sectionRef.current;
     if (!section) return;
 
+    // ✅ FIX: ScrollTrigger.matchMedia() was removed in GSAP 3.12+.
+    // Calling it causes an internal recursive loop during Next.js SSR hydration
+    // — the removed API falls through to a shim that calls itself repeatedly
+    // via Array.forEach on an internal context list, exhausting the call stack.
+    //
+    // Solution: Use window.matchMedia directly. We only need to know the
+    // viewport size at mount time because CSS already handles layout toggling
+    // (hidden lg:block). No GSAP-level media listener is needed.
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+
     const ctx = gsap.context(() => {
+      // ─── Shared entrance animations (all viewports) ───────────────────────
+
       gsap.set(headerRef.current, {
         opacity: 0,
         y: 32,
         willChange: "transform, opacity",
       });
+
       imageRefs.current.forEach((el) => {
         if (el)
-          gsap.set(el, { opacity: 0, y: 40, willChange: "transform, opacity" });
+          gsap.set(el, {
+            opacity: 0,
+            y: 40,
+            willChange: "transform, opacity",
+          });
       });
 
       // Header entrance
@@ -193,106 +207,106 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
         });
       });
 
-      // Desktop-only timeline + pinning behavior.
-      ScrollTrigger.matchMedia({
-        "(min-width: 1024px)": () => {
-          gsap.set(leftPanelRef.current, {
-            opacity: 0,
-            y: 20,
-            willChange: "transform, opacity",
-          });
-          descRefs.current.forEach((el) => {
-            if (el) gsap.set(el, { display: "none" });
-          });
+      // ─── Desktop-only: timeline panel + pinning ───────────────────────────
+      //
+      // Previously this block lived inside ScrollTrigger.matchMedia(), which
+      // is the root cause of the "Maximum call stack size exceeded" crash.
+      // Now it's a plain conditional — no GSAP media context involved.
+      if (isDesktop) {
+        gsap.set(leftPanelRef.current, {
+          opacity: 0,
+          y: 20,
+          willChange: "transform, opacity",
+        });
 
-          // Left panel entrance
-          const leftTl = gsap.timeline({
-            scrollTrigger: {
-              trigger: section,
-              start: "top 75%",
-              once: true,
-            },
-          });
-          leftTl.to(leftPanelRef.current, {
-            opacity: 1,
-            y: 0,
-            duration: 0.65,
-            ease: EASE_OUT_EXPO,
-            onComplete: () => {
-              gsap.set(leftPanelRef.current, { willChange: "auto" });
-              activateProject(0, false);
-            },
-          });
+        // Hide all descriptions initially; only the active one is revealed.
+        descRefs.current.forEach((el) => {
+          if (el) gsap.set(el, { display: "none" });
+        });
 
-          // Sticky left panel pin.
-          // The end is calculated as: right panel total height minus left panel
-          // height, so both columns finish scrolling at exactly the same moment.
-          const pinST = ScrollTrigger.create({
+        // Left panel entrance
+        const leftTl = gsap.timeline({
+          scrollTrigger: {
             trigger: section,
-            start: "top top",
-            end: () => {
-              const rightPanel =
-                section.querySelector<HTMLElement>(".right-panel");
-              const leftPanel = leftPanelRef.current;
-              if (!rightPanel || !leftPanel) return "bottom bottom";
+            start: "top 75%",
+            once: true,
+          },
+        });
+        leftTl.to(leftPanelRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.65,
+          ease: EASE_OUT_EXPO,
+          onComplete: () => {
+            gsap.set(leftPanelRef.current, { willChange: "auto" });
+            // Activate first project without animation after panel fades in.
+            activateProject(0, false);
+          },
+        });
 
-              const scrollDistance =
-                rightPanel.offsetHeight - leftPanel.offsetHeight + 32;
-              return `+=${Math.max(scrollDistance, 0)}`;
+        // Sticky left panel pin.
+        // end is calculated so both columns finish scrolling simultaneously.
+        const pinST = ScrollTrigger.create({
+          trigger: section,
+          start: "top top",
+          end: () => {
+            const rightPanel =
+              section.querySelector<HTMLElement>(".right-panel");
+            const leftPanel = leftPanelRef.current;
+            if (!rightPanel || !leftPanel) return "bottom bottom";
+
+            const scrollDistance =
+              rightPanel.offsetHeight - leftPanel.offsetHeight + 32;
+            return `+=${Math.max(scrollDistance, 0)}`;
+          },
+          pin: leftPanelRef.current,
+          pinSpacing: false,
+          invalidateOnRefresh: true,
+        });
+
+        pinSTRef.current = pinST;
+
+        // Per-image ScrollTriggers that drive the active index in the left panel.
+        imageRefs.current.forEach((el, index) => {
+          if (!el) return;
+          ScrollTrigger.create({
+            trigger: el,
+            start: "top 60%",
+            end: "bottom 40%",
+            onEnter: () => {
+              if (isPinRefreshingRef.current) return;
+              activateProject(index);
             },
-            pin: leftPanelRef.current,
-            pinSpacing: false,
-            invalidateOnRefresh: true,
+            onEnterBack: () => {
+              if (isPinRefreshingRef.current) return;
+              activateProject(index);
+            },
           });
+        });
 
-          pinSTRef.current = pinST;
-
-          // Per-image ScrollTriggers driving the active index.
-          imageRefs.current.forEach((el, index) => {
-            if (!el) return;
-            ScrollTrigger.create({
-              trigger: el,
-              start: "top 60%",
-              end: "bottom 40%",
-              onEnter: () => {
-                if (isPinRefreshingRef.current) return;
-                activateProject(index);
+        // Subtle image parallax (compositor-only y transform, no repaints).
+        imageRefs.current.forEach((el) => {
+          if (!el) return;
+          const img = el.querySelector("img");
+          if (!img) return;
+          gsap.set(img, { willChange: "transform" });
+          gsap.fromTo(
+            img,
+            { y: "-6%" },
+            {
+              y: "6%",
+              ease: "none",
+              scrollTrigger: {
+                trigger: el,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.2,
+                onLeave: () => gsap.set(img, { willChange: "auto" }),
               },
-              onEnterBack: () => {
-                if (isPinRefreshingRef.current) return;
-                activateProject(index);
-              },
-            });
-          });
-
-          // Subtle image parallax (compositor-only, y transform)
-          imageRefs.current.forEach((el) => {
-            if (!el) return;
-            const img = el.querySelector("img");
-            if (!img) return;
-            gsap.set(img, { willChange: "transform" });
-            gsap.fromTo(
-              img,
-              { y: "-6%" },
-              {
-                y: "6%",
-                ease: "none",
-                scrollTrigger: {
-                  trigger: el,
-                  start: "top bottom",
-                  end: "bottom top",
-                  scrub: 1.2,
-                  onLeave: () => gsap.set(img, { willChange: "auto" }),
-                },
-              }
-            );
-          });
-
-          return () => {
-            pinSTRef.current = null;
-          };
-        },
-      });
+            }
+          );
+        });
+      }
     }, section);
 
     return () => {
@@ -306,8 +320,6 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
   }, [activateProject]);
 
   return (
-    // FIX: `overflow: hidden` on the section prevents any child from bleeding
-    // outside the section boundary regardless of pin timing edge cases.
     <section
       ref={sectionRef}
       className={`${className ?? "pt-16 md:pt-20 lg:pt-24"} relative overflow-hidden`}
@@ -315,7 +327,8 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
     >
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-          {/* LEFT PANEL — pinned by ScrollTrigger */}
+
+          {/* LEFT PANEL — pinned by ScrollTrigger on desktop */}
           <div className="relative hidden lg:block">
             <div
               ref={leftPanelRef}
@@ -332,9 +345,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                       className={`flex gap-5 ${isLast ? "mb-0" : "mb-1"}`}
                     >
                       {/* Timeline rail */}
-                      <div
-                        className="flex flex-col items-center shrink-0 w-[20px] pt-[6px]"
-                      >
+                      <div className="flex flex-col items-center shrink-0 w-[20px] pt-[6px]">
                         <div
                           ref={(el) => {
                             dotRefs.current[index] = el;
@@ -353,9 +364,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                       </div>
 
                       {/* Text content */}
-                      <div
-                        className={`flex-1 ${isLast ? "pb-16" : "pb-8"}`}
-                      >
+                      <div className={`flex-1 ${isLast ? "pb-16" : "pb-8"}`}>
                         <button
                           onClick={() => scrollToProject(index)}
                           className="bg-transparent border-0 p-0 cursor-pointer text-left w-full"
@@ -378,9 +387,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                           }}
                           className="overflow-hidden"
                         >
-                          <p
-                            className="text-sm leading-[1.75] opacity-65 mt-3 max-w-[60ch]"
-                          >
+                          <p className="text-sm leading-[1.75] opacity-65 mt-3 max-w-[60ch]">
                             {project.description}
                           </p>
                         </div>
@@ -415,17 +422,10 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.18)_45%,transparent_70%)]"
                   />
-
-                  {/* <p className="hidden lg:block absolute bottom-5 left-6 right-6 m-0 text-[0.68rem] uppercase tracking-[0.12em] text-white/70">
-                    {project.caption}
-                  </p> */}
                 </div>
 
                 {/* Mobile content (timeline is hidden on small screens) */}
                 <div className="lg:hidden">
-                  {/* <p className="m-0 text-[0.7rem] uppercase tracking-[0.12em] opacity-60">
-                    {project.caption}
-                  </p> */}
                   <h3 className="mt-2 mb-0 text-lg font-semibold tracking-[-0.01em]">
                     {project.title}
                   </h3>
@@ -436,6 +436,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
               </div>
             ))}
           </div>
+
         </div>
       </Container>
     </section>
