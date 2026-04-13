@@ -451,16 +451,6 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                           Request Callback
                         </button>
 
-                        {/* Secondary CTA */}
-                        <button
-                          onClick={onDownloadBrochure}
-                          className="flex items-center justify-center gap-2 w-full py-3 rounded-md text-[11px] tracking-[0.15em] uppercase font-medium text-[#C3AD95] transition-all duration-200 hover:text-white cursor-pointer"
-                          style={{ background: 'rgba(195,173,149,0.10)', border: '1px solid rgba(195,173,149,0.22)' }}
-                        >
-                          <DownloadIcon />
-                          Download Brochure
-                        </button>
-
                         {/* WhatsApp */}
                         <button
                           onClick={handleWhatsApp}
