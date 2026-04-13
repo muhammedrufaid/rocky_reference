@@ -412,15 +412,20 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
   const priceOptions = transactionType === "rent" ? RENT_PRICES : BUY_PRICES;
 
   const [propertyTypesByCategory, setPropertyTypesByCategory] = useState<PropertyTypesByCategory>({
+    // Important: start as empty, but we treat "not yet hydrated" separately so
+    // dropdown labeling can stay stable on first paint.
     residential: [],
     commercial: [],
   });
+
+  const [propertyTypesHydrated, setPropertyTypesHydrated] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     getPropertyTypesByCategory().then((data) => {
       if (cancelled) return;
       if (data) setPropertyTypesByCategory(data);
+      setPropertyTypesHydrated(true);
     });
     return () => {
       cancelled = true;
@@ -902,7 +907,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
                   />
                 )}
                 <PropertyTypeCategoryDropdown
-                  categories={propertyTypesByCategory}
+                  categories={propertyTypesHydrated ? propertyTypesByCategory : undefined}
                   value={selectedPropertyTypes}
                   onApply={handleApplyPropertyTypes}
                 />
@@ -1060,7 +1065,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
         </div>
         <div className="shrink-0 min-w-[220px]">
           <PropertyTypeCategoryDropdown
-            categories={propertyTypesByCategory}
+            categories={propertyTypesHydrated ? propertyTypesByCategory : undefined}
             value={selectedPropertyTypes}
             onApply={handleApplyPropertyTypes}
           />

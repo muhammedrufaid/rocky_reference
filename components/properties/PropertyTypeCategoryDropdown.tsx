@@ -17,12 +17,39 @@ function toggleInList(list: string[], item: string) {
 
 type TabKey = "residential" | "commercial";
 
+// Fallback classification so the UI can hydrate from URL params immediately,
+// before category options are fetched from the API.
+const FALLBACK_RESIDENTIAL_TYPES = new Set(
+  ["Apartment", "Penthouse", "Townhouse", "Villa", "Residential Land"].map((t) =>
+    t.toLowerCase()
+  )
+);
+
+function inferTabFromSelection(selectedRaw: string[]): TabKey | null {
+  const selected = dedupeAndSort(selectedRaw);
+  if (selected.length === 0) return null;
+  const allResidential = selected.every((t) =>
+    FALLBACK_RESIDENTIAL_TYPES.has(t.toLowerCase())
+  );
+  if (allResidential) return "residential";
+  // If it's not entirely residential, we treat it as commercial for labeling purposes.
+  // This matches your homepage behavior where "Commercial" = all non-residential types.
+  return "commercial";
+}
+
 function computeDropdownLabel(applied: string[], categories?: PropertyTypesByCategory, placeholder = "Select type") {
   const selected = dedupeAndSort(applied);
   if (selected.length === 0) return placeholder;
   if (selected.length === 1) return selected[0];
 
-  if (!categories) return `${selected.length} selected`;
+  // If categories haven't hydrated yet, infer a stable label from the selection
+  // to avoid the "7 selected" flicker on first render.
+  const inferred = inferTabFromSelection(selected);
+  if (!categories) {
+    if (inferred === "residential") return `Residential (${selected.length})`;
+    if (inferred === "commercial") return `Commercial (${selected.length})`;
+    return `${selected.length} selected`;
+  }
 
   const resSet = new Set((categories.residential ?? []).map((x) => x.toLowerCase()));
   const comSet = new Set((categories.commercial ?? []).map((x) => x.toLowerCase()));
@@ -51,8 +78,14 @@ export default function PropertyTypeCategoryDropdown({
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  const [activeTab, setActiveTab] = useState<TabKey>("residential");
-  const [draft, setDraft] = useState<string[]>(value);
+  const [activeTab, setActiveTab] = useState<TabKey>(() => {
+    // Pick the correct tab on first render (URL-hydrated), even before categories load.
+    return inferTabFromSelection(value) ?? "residential";
+  });
+  // Keep per-tab draft selections so switching tabs doesn't "lose" ticks.
+  // We only enforce mutual exclusivity when the user clicks "Done".
+  const [draftResidential, setDraftResidential] = useState<string[]>([]);
+  const [draftCommercial, setDraftCommercial] = useState<string[]>([]);
 
   const residentialOptions = useMemo(
     () => dedupeAndSort(categories?.residential ?? []),
@@ -75,7 +108,13 @@ export default function PropertyTypeCategoryDropdown({
   const appliedCount = dedupeAndSort(value).length;
   const displayLabel = computeDropdownLabel(value, categories, placeholder);
 
-  const tabOptions = activeTab === "residential" ? residentialOptions : commercialOptions;
+  const tabOptions =
+    activeTab === "residential" ? residentialOptions : commercialOptions;
+
+  const draft = useMemo(
+    () => (activeTab === "residential" ? draftResidential : draftCommercial),
+    [activeTab, draftResidential, draftCommercial]
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -88,31 +127,49 @@ export default function PropertyTypeCategoryDropdown({
 
   useEffect(() => {
     if (!open) return;
-    // Enforce mutual exclusivity between Residential and Commercial selections:
-    // when opened, keep draft constrained to whichever category the current value fits.
+    // When opened, hydrate the per-tab drafts from the applied value.
     const next = dedupeAndSort(value);
     const inRes = next.every((t) => residentialSet.has(t.toLowerCase()));
     const inCom = next.every((t) => commercialSet.has(t.toLowerCase()));
     if (next.length > 0) {
       if (inCom && !inRes) setActiveTab("commercial");
       if (inRes && !inCom) setActiveTab("residential");
+      // If options are not yet hydrated (empty sets), fall back to canonical inference.
+      if (!inRes && !inCom && residentialSet.size === 0 && commercialSet.size === 0) {
+        const inferred = inferTabFromSelection(next);
+        if (inferred) setActiveTab(inferred);
+      }
     }
-    setDraft(next);
-  }, [open, value]);
+    // Split the applied list across the two drafts.
+    // If we don't have categories yet, split using the canonical residential allow-list.
+    const nextRes: string[] = [];
+    const nextCom: string[] = [];
+
+    for (const t of next) {
+      const lower = t.toLowerCase();
+      const isRes =
+        residentialSet.size > 0
+          ? residentialSet.has(lower)
+          : FALLBACK_RESIDENTIAL_TYPES.has(lower);
+      (isRes ? nextRes : nextCom).push(t);
+    }
+
+    setDraftResidential(nextRes);
+    setDraftCommercial(nextCom);
+  }, [open, value, residentialSet, commercialSet]);
 
   const handleReset = () => {
-    setDraft([]);
+    setDraftResidential([]);
+    setDraftCommercial([]);
     onApply([]);
   };
 
   const handleToggle = (opt: string) => {
-    setDraft((prev) => {
-      const allowed =
-        activeTab === "residential" ? residentialSet : commercialSet;
-      // Drop any selections from the other category before toggling.
-      const filtered = prev.filter((t) => allowed.has(t.toLowerCase()));
-      return dedupeAndSort(toggleInList(filtered, opt));
-    });
+    if (activeTab === "residential") {
+      setDraftResidential((prev) => dedupeAndSort(toggleInList(prev, opt)));
+      return;
+    }
+    setDraftCommercial((prev) => dedupeAndSort(toggleInList(prev, opt)));
   };
 
   return (
@@ -171,12 +228,7 @@ export default function PropertyTypeCategoryDropdown({
                     aria-selected={isActive}
                     onClick={() => {
                       setActiveTab(t.key);
-                      // Ensure only one category is selected at a time.
-                      setDraft((prev) => {
-                        const allowed =
-                          t.key === "residential" ? residentialSet : commercialSet;
-                        return prev.filter((x) => allowed.has(x.toLowerCase()));
-                      });
+                      // Do not mutate draft selections on tab switch.
                     }}
                     className={[
                       "flex-1 rounded-lg px-3 py-2 text-sm font-semibold transition-colors",
@@ -259,7 +311,23 @@ export default function PropertyTypeCategoryDropdown({
             <button
               type="button"
               onClick={() => {
-                onApply(draft);
+                // Enforce mutual exclusivity at apply-time:
+                // - If both tabs have selections, apply the currently active tab only.
+                // - Otherwise apply whichever tab has selections.
+                const res = dedupeAndSort(draftResidential);
+                const com = dedupeAndSort(draftCommercial);
+                const both = res.length > 0 && com.length > 0;
+
+                const next =
+                  both
+                    ? activeTab === "residential"
+                      ? res
+                      : com
+                    : com.length > 0
+                      ? com
+                      : res;
+
+                onApply(next);
                 setOpen(false);
               }}
               className="rounded-lg bg-[var(--rocky-blue)] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[var(--rocky-blue-hover)]"
