@@ -153,6 +153,65 @@ export async function getPropertyTypes(): Promise<any | undefined> {
     }
 }
 
+export type PropertyTypesByCategory = {
+  residential: string[]
+  commercial: string[]
+}
+
+type TypesByCategoryRecord = {
+  type?: unknown
+  category?: unknown
+}
+
+function normalizeTypesList(value: unknown): string[] {
+  if (!Array.isArray(value)) return []
+  return Array.from(
+    new Set(
+      value
+        .map((x) => String(x ?? '').trim())
+        .filter(Boolean),
+    ),
+  ).sort((a, b) => a.localeCompare(b))
+}
+
+/** Normalizes unknown payload from `types-by-category` to `{ residential, commercial }`. */
+export function normalizePropertyTypesByCategoryPayload(data: unknown): PropertyTypesByCategory {
+  const root = (data as any)?.data != null ? (data as any).data : data
+
+  // Shape A: flat list: [{ type: "Apartment", category: "Residential" }, ...]
+  if (Array.isArray(root)) {
+    const residential: string[] = []
+    const commercial: string[] = []
+
+    for (const row of root as TypesByCategoryRecord[]) {
+      const type = String(row?.type ?? '').trim()
+      if (!type) continue
+      const category = String(row?.category ?? '').trim().toLowerCase()
+      if (category === 'residential') residential.push(type)
+      else if (category === 'commercial') commercial.push(type)
+    }
+
+    return {
+      residential: normalizeTypesList(residential),
+      commercial: normalizeTypesList(commercial),
+    }
+  }
+
+  // Shape B: object: { residential: [...], commercial: [...] } (or capitalized)
+  const residential = normalizeTypesList((root as any)?.residential ?? (root as any)?.Residential)
+  const commercial = normalizeTypesList((root as any)?.commercial ?? (root as any)?.Commercial)
+  return { residential, commercial }
+}
+
+export async function getPropertyTypesByCategory(): Promise<PropertyTypesByCategory | undefined> {
+  try {
+    const data = await getData(`frontend/properties/types-by-category`, 0)
+    return normalizePropertyTypesByCategoryPayload(data)
+  } catch (error) {
+    console.error('Failed to fetch property types by category:', error)
+  }
+}
+
 /** Normalizes `getPropertyTypes` API payload to a sorted list of type names. */
 export function normalizePropertyTypesPayload(data: unknown): string[] {
   const raw = Array.isArray(data) ? data : (data as { data?: unknown })?.data

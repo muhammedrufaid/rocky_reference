@@ -5,14 +5,13 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Container from "@/components/layout/Container";
 import {
   getPropertySuggestions,
-  getPropertyTypes,
-  normalizePropertyTypesPayload,
+  getPropertyTypesByCategory,
+  type PropertyTypesByCategory,
   type PropertySuggestion,
 } from "@/utils/getServices";
 import { generateSeoSlug, seoSlugToQuery } from "@/utils/seo";
-import PropertyTypeMultiSelectDropdown, {
-  serializePropertyTypesForQuery,
-} from "@/components/properties/PropertyTypeMultiSelectDropdown";
+import { serializePropertyTypesForQuery } from "@/components/properties/PropertyTypeMultiSelectDropdown";
+import PropertyTypeCategoryDropdown from "@/components/properties/PropertyTypeCategoryDropdown";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -412,13 +411,16 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
     pathname.includes("/rent/") ? "rent" : pathname.includes("/buy/") ? "buy" : defaultType;
   const priceOptions = transactionType === "rent" ? RENT_PRICES : BUY_PRICES;
 
-  const [propertyTypeOptions, setPropertyTypeOptions] = useState<string[]>([]);
+  const [propertyTypesByCategory, setPropertyTypesByCategory] = useState<PropertyTypesByCategory>({
+    residential: [],
+    commercial: [],
+  });
 
   useEffect(() => {
     let cancelled = false;
-    getPropertyTypes().then((data) => {
+    getPropertyTypesByCategory().then((data) => {
       if (cancelled) return;
-      setPropertyTypeOptions(normalizePropertyTypesPayload(data));
+      if (data) setPropertyTypesByCategory(data);
     });
     return () => {
       cancelled = true;
@@ -586,6 +588,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
       options?: {
         qOverride?: string | null;
         ignoreSelections?: boolean;
+        typesOverride?: string[];
       }
     ) => {
       const params = new URLSearchParams();
@@ -598,7 +601,9 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
           ? options.qOverride ?? ""
           : queryFromSelections || searchQuery;
       if (q) params.set("q", q);
-      const typeCsv = serializePropertyTypesForQuery(selectedPropertyTypes);
+      const typeCsv = serializePropertyTypesForQuery(
+        options?.typesOverride ?? selectedPropertyTypes
+      );
       if (typeCsv) params.set("type", typeCsv);
       if (minPrice) params.set("min", minPrice);
       if (maxPrice) params.set("max", maxPrice);
@@ -678,6 +683,11 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
     setSearchQuery("");
     setShowOverflowPopover(false);
     router.push(buildUrl(transactionType, { qOverride: "", ignoreSelections: true }));
+  };
+
+  const handleApplyPropertyTypes = (next: string[]) => {
+    setSelectedPropertyTypes(next);
+    router.push(buildUrl(transactionType, { typesOverride: next }));
   };
 
   const suggestionsDropdown =
@@ -891,10 +901,10 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
                     onSelect={handleListingSelect}
                   />
                 )}
-                <PropertyTypeMultiSelectDropdown
-                  options={propertyTypeOptions}
+                <PropertyTypeCategoryDropdown
+                  categories={propertyTypesByCategory}
                   value={selectedPropertyTypes}
-                  onApply={setSelectedPropertyTypes}
+                  onApply={handleApplyPropertyTypes}
                 />
                 <div className="grid grid-cols-2 gap-3">
                   <FilterDropdown
@@ -1049,10 +1059,10 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
           {suggestionsDropdown}
         </div>
         <div className="shrink-0 min-w-[220px]">
-          <PropertyTypeMultiSelectDropdown
-            options={propertyTypeOptions}
+          <PropertyTypeCategoryDropdown
+            categories={propertyTypesByCategory}
             value={selectedPropertyTypes}
-            onApply={setSelectedPropertyTypes}
+            onApply={handleApplyPropertyTypes}
           />
         </div>
         <div className="shrink-0 min-w-[120px]">
