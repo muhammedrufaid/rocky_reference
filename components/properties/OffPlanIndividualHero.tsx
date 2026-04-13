@@ -164,14 +164,35 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
   const canLoop = safeImages.length > 1
 
   const heroSwiperRef = useRef<SwiperType | null>(null)
+  const gallerySwiperRef = useRef<SwiperType | null>(null)
+  const galleryThumbsScrollRef = useRef<HTMLDivElement | null>(null)
   const [heroThumbsSwiper, setHeroThumbsSwiper] = useState<SwiperType | null>(null)
-  const [galleryThumbsSwiper, setGalleryThumbsSwiper] = useState<SwiperType | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isGalleryOpen, setIsGalleryOpen] = useState(false)
   const prevRef = useRef<HTMLButtonElement>(null)
   const nextRef = useRef<HTMLButtonElement>(null)
+  const [galleryActiveIndex, setGalleryActiveIndex] = useState(0)
+
+  // Keep gallery image from overlapping the thumbnails on short viewports.
+  const GALLERY_HEADER_PX = 64
+  const GALLERY_THUMBS_PX = 152
 
   const handleWhatsApp = () => window.open(`https://wa.me/${resolvedWhatsappNumber}`, '_blank')
+  const handleGalleryThumbClick = (index: number) => {
+    const swiper = gallerySwiperRef.current
+    if (!swiper) return
+    if (swiper.params.loop) swiper.slideToLoop(index)
+    else swiper.slideTo(index)
+  }
+
+  useEffect(() => {
+    if (!isGalleryOpen) return
+    const root = galleryThumbsScrollRef.current
+    if (!root) return
+    const el = root.querySelector<HTMLElement>(`[data-thumb-index="${galleryActiveIndex}"]`)
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  }, [galleryActiveIndex, isGalleryOpen])
 
   const locationParts = [resolvedCity, resolvedLocality, resolvedSubLocality, resolvedTowerName].filter(Boolean)
 
@@ -532,10 +553,17 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
             className="fixed inset-0 z-[999] flex flex-col"
-            style={{ background: '#060E18' }}
+            style={{
+              background: '#060E18',
+              ['--rre-gallery-header-px' as any]: `${GALLERY_HEADER_PX}px`,
+              ['--rre-gallery-thumbs-px' as any]: `${GALLERY_THUMBS_PX}px`,
+            }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/6">
+            <div
+              className="flex items-center justify-between px-6 border-b border-white/6"
+              style={{ minHeight: `${GALLERY_HEADER_PX}px` }}
+            >
               <span
                 className="text-[#C3AD95] text-sm font-light tracking-[0.15em] uppercase"
               >
@@ -561,11 +589,14 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
             <div className="flex-1 flex items-center justify-center px-4 py-4 min-h-0">
               <Swiper
                 className="rre-gallery-swiper w-full h-full max-w-5xl"
-                modules={[Navigation, Thumbs]}
+                modules={[Navigation]}
                 navigation={{ prevEl: '#gallery-prev', nextEl: '#gallery-next' }}
                 loop={canLoop}
-                thumbs={{ swiper: galleryThumbsSwiper && !galleryThumbsSwiper.destroyed ? galleryThumbsSwiper : null }}
                 style={{ height: '100%' }}
+                onBeforeInit={(swiper) => {
+                  gallerySwiperRef.current = swiper
+                }}
+                onSlideChange={(s) => setGalleryActiveIndex(s.realIndex)}
               >
                 {safeImages.map((src, i) => (
                   <SwiperSlide key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -573,7 +604,10 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                       src={src}
                       alt={`View ${i + 1}`}
                       className="max-w-full max-h-full object-contain rounded-lg"
-                      style={{ maxHeight: 'calc(100vh - 220px)' }}
+                      style={{
+                        maxHeight:
+                          'calc(100vh - var(--rre-gallery-header-px) - var(--rre-gallery-thumbs-px) - 32px)',
+                      }}
                     />
                   </SwiperSlide>
                 ))}
@@ -581,7 +615,10 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
             </div>
 
             {/* Thumbnails + nav */}
-            <div className="flex items-center gap-4 px-4 pb-6">
+            <div
+              className="flex items-center gap-4 px-4 py-4"
+              style={{ minHeight: `${GALLERY_THUMBS_PX}px` }}
+            >
               <button
                 id="gallery-prev"
                 className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full border border-white/12 text-white/50 hover:text-[#C3AD95] hover:border-[#C3AD95]/40 transition-all cursor-pointer"
@@ -589,27 +626,34 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                 <ChevronLeft />
               </button>
 
-              <div className="flex-1">
-                <Swiper
-                  className="rre-thumb-swiper"
-                  modules={[Thumbs]}
-                  watchSlidesProgress
-                  onSwiper={setGalleryThumbsSwiper}
-                  spaceBetween={6}
-                  breakpoints={{
-                    320: { slidesPerView: 5 },
-                    640: { slidesPerView: 8 },
-                    1024: { slidesPerView: 10 },
-                  }}
-                >
-                  {safeImages.map((src, i) => (
-                    <SwiperSlide key={i}>
-                      <div className="h-12 rounded overflow-hidden">
-                        <img src={src} alt="" className="w-full h-full object-cover" />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+              {/* Fixed-size horizontal thumbnails (no shrinking / distortion) */}
+              <div className="flex-1 min-w-0">
+                <div ref={galleryThumbsScrollRef} className="overflow-x-auto overflow-y-hidden">
+                  <div className="flex gap-2">
+                    {safeImages.map((src, i) => {
+                      const isActive = i === galleryActiveIndex
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => handleGalleryThumbClick(i)}
+                          data-thumb-index={i}
+                          className={[
+                            'relative w-[120px] h-[120px] flex-shrink-0 rounded-md overflow-hidden',
+                            'ring-1 transition-all cursor-pointer',
+                            isActive
+                              ? 'ring-[#C3AD95] shadow-[0_0_0_2px_rgba(195,173,149,0.35)]'
+                              : 'ring-white/10 hover:ring-white/30',
+                          ].join(' ')}
+                          aria-label={`Open image ${i + 1}`}
+                        >
+                          <img src={src} alt="" className="w-full h-full object-cover" draggable={false} />
+                          {isActive && <span className="absolute inset-0 bg-[#C3AD95]/10 pointer-events-none" />}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
               </div>
 
               <button
