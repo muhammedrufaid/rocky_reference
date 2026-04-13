@@ -17,8 +17,8 @@ const fadeInUp = {
 
 const Hero: React.FC<HeroProps> = ({
   // videoSrc = "https://www.pexels.com/download/video/29575342/",
-  // videoSrc = "https://www.pexels.com/download/video/8359173/",
-  videoSrc = "https://videos.pexels.com/video-files/31617692/13470975_1920_1080_24fps.mp4",
+  videoSrc = "https://www.pexels.com/download/video/8359173/",
+  // videoSrc = "https://videos.pexels.com/video-files/31617692/13470975_1920_1080_24fps.mp4",
   // videoSrc = "https://cdn.sanity.io/files/74l1zcgb/production/572466e7a90003b155357bb6708775bd0b9a95f8.mp4",
 }) => {
   const [videoLoaded, setVideoLoaded] = React.useState(false);
