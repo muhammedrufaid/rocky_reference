@@ -129,6 +129,12 @@ function decodeQueryParam(raw: string): string {
   }
 }
 
+function parseNullableInt(raw: string | null): number | null {
+  if (!raw?.trim()) return null;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : null;
+}
+
 function getSuggestionId(s: PropertySuggestion): string {
   return (
     s.propertyRefNo ||
@@ -641,6 +647,222 @@ function PriceRangeDropdown({
   );
 }
 
+// ─── BedsBathsDropdown (Bayut-style) ──────────────────────────────────────────
+
+function pluralize(count: number, singular: string, plural = `${singular}s`) {
+  return count === 1 ? singular : plural;
+}
+
+function bedsBathsLabel(beds: number | null, baths: number | null) {
+  const hasBeds = beds != null;
+  const hasBaths = baths != null;
+  if (!hasBeds && !hasBaths) return "Beds & Baths";
+
+  const parts: string[] = [];
+  if (hasBeds) {
+    if (beds === 0) parts.push("Studio");
+    else if (beds >= 8) parts.push("8+ Beds");
+    else parts.push(`${beds} ${pluralize(beds, "Bed")}`);
+  }
+  if (hasBaths) {
+    if (baths >= 6) parts.push("6+ Baths");
+    else parts.push(`${baths} ${pluralize(baths, "Bath")}`);
+  }
+
+  return parts.join(" • ");
+}
+
+const OptionButton: React.FC<{
+  label: string;
+  selected: boolean;
+  onSelect: () => void;
+}> = ({ label, selected, onSelect }) => (
+  <button
+    type="button"
+    onClick={onSelect}
+    aria-pressed={selected}
+    className={[
+      "h-9 rounded-full px-3 text-sm font-semibold transition-colors",
+      "border",
+      selected
+        ? "bg-[var(--rocky-blue)] text-white border-[var(--rocky-blue)]"
+        : "bg-white text-[var(--charcoal)] border-[rgba(0,0,0,0.10)] hover:bg-[var(--soft-sand)]/30",
+      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--rocky-blue)]/35",
+    ].join(" ")}
+  >
+    {label}
+  </button>
+);
+
+function BedsBathsDropdown({
+  bedsValue,
+  bathsValue,
+  onDone,
+  label = "Beds & Baths",
+}: {
+  bedsValue: number | null;
+  bathsValue: number | null;
+  onDone: (next: { beds: number | null; baths: number | null }) => void;
+  label?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const [align, setAlign] = useState<"left" | "right">("left");
+
+  const [draftBeds, setDraftBeds] = useState<number | null>(bedsValue);
+  const [draftBaths, setDraftBaths] = useState<number | null>(bathsValue);
+
+  const displayLabel = bedsBathsLabel(bedsValue, bathsValue);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    setDraftBeds(bedsValue);
+    setDraftBaths(bathsValue);
+
+    const rect = ref.current?.getBoundingClientRect();
+    if (rect) {
+      const viewportW = window.innerWidth || 0;
+      const desiredW = Math.min(420, Math.max(320, viewportW - 32));
+      const fitsRight = rect.left + desiredW <= viewportW - 8;
+      const fitsLeft = rect.right - desiredW >= 8;
+      setAlign(fitsRight || !fitsLeft ? "left" : "right");
+    } else {
+      setAlign("left");
+    }
+  }, [open, bedsValue, bathsValue]);
+
+  const handleReset = () => {
+    setDraftBeds(null);
+    setDraftBaths(null);
+    onDone({ beds: null, baths: null });
+    setOpen(false);
+  };
+
+  const handleDone = () => {
+    onDone({ beds: draftBeds, baths: draftBaths });
+    setOpen(false);
+  };
+
+  const bedsOptions: Array<{ label: string; value: number }> = [
+    { label: "Studio", value: 0 },
+    { label: "1", value: 1 },
+    { label: "2", value: 2 },
+    { label: "3", value: 3 },
+    { label: "4", value: 4 },
+    { label: "5", value: 5 },
+    { label: "6", value: 6 },
+    { label: "7", value: 7 },
+    { label: "8+", value: 8 },
+  ];
+
+  const bathsOptions: Array<{ label: string; value: number }> = [
+    { label: "1", value: 1 },
+    { label: "2", value: 2 },
+    { label: "3", value: 3 },
+    { label: "4", value: 4 },
+    { label: "5", value: 5 },
+    { label: "6+", value: 6 },
+  ];
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((p) => !p)}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-label={`${label}: ${displayLabel}`}
+        className="flex h-11 w-full items-center justify-between gap-2 rounded-lg border bg-white px-3.5 py-2.5 text-left text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
+        style={{ color: "var(--charcoal)", borderColor: "var(--border-light)" }}
+      >
+        <span className="truncate">
+          {displayLabel !== "Beds & Baths" ? (
+            <span className="text-[var(--charcoal)]">{displayLabel}</span>
+          ) : (
+            <span className="text-[var(--charcoal)]/60">Beds & Baths</span>
+          )}
+        </span>
+        <ChevronIcon open={open} />
+      </button>
+
+      {open && (
+        <div
+          role="dialog"
+          aria-label={label}
+          className={[
+            "absolute top-full z-50 mt-1.5 w-[min(420px,calc(100vw-2rem))] overflow-hidden rounded-xl bg-white shadow-[0_10px_30px_rgba(8,31,58,0.14)] ring-1 ring-black/[0.05]",
+            align === "right" ? "right-0" : "left-0",
+          ].join(" ")}
+        >
+          <div className="p-3">
+            <div>
+              <p className="text-[0.7rem] font-semibold tracking-[0.08em] uppercase text-black/45">
+                Beds
+              </p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {bedsOptions.map((opt) => (
+                  <OptionButton
+                    key={`beds-${opt.value}`}
+                    label={opt.label}
+                    selected={draftBeds === opt.value}
+                    onSelect={() => setDraftBeds(opt.value)}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <p className="text-[0.7rem] font-semibold tracking-[0.08em] uppercase text-black/45">
+                Baths
+              </p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {bathsOptions.map((opt) => (
+                  <OptionButton
+                    key={`baths-${opt.value}`}
+                    label={opt.label}
+                    selected={draftBaths === opt.value}
+                    onSelect={() => setDraftBaths(opt.value)}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="flex items-center justify-between gap-3 border-t px-3 py-3"
+            style={{ borderColor: "rgba(0,0,0,0.06)" }}
+          >
+            <button
+              type="button"
+              onClick={handleReset}
+              className="rounded-lg px-3 py-2 text-sm font-semibold transition-colors hover:bg-[rgba(220,50,50,0.06)]"
+              style={{ color: "#C0392B" }}
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              onClick={handleDone}
+              className="rounded-lg bg-[var(--rocky-blue)] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[var(--rocky-blue-hover)]"
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── ListingDropdown ──────────────────────────────────────────────────────────
 
 function ListingDropdown({
@@ -769,6 +991,12 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
   );
   const [minPrice, setMinPrice] = useState(searchParams.get("min") ?? "");
   const [maxPrice, setMaxPrice] = useState(searchParams.get("max") ?? "");
+  const [selectedBeds, setSelectedBeds] = useState<number | null>(() =>
+    parseNullableInt(searchParams.get("beds"))
+  );
+  const [selectedBaths, setSelectedBaths] = useState<number | null>(() =>
+    parseNullableInt(searchParams.get("baths"))
+  );
   const [filterPanelOpen, setFilterPanelOpen] = useState(false);
 
   const [suggestions, setSuggestions] = useState<PropertySuggestion[]>([]);
@@ -800,6 +1028,8 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
     setSelectedPropertyTypes(typesFromSearchParam(searchParams.get("type")));
     setMinPrice(searchParams.get("min") ?? "");
     setMaxPrice(searchParams.get("max") ?? "");
+    setSelectedBeds(parseNullableInt(searchParams.get("beds")));
+    setSelectedBaths(parseNullableInt(searchParams.get("baths")));
 
     // If `q` contains multiple selections (joined by "|"), rebuild chips so
     // the UI stays in multi-select mode after navigation.
@@ -925,6 +1155,8 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
         typesOverride?: string[];
         minOverride?: string;
         maxOverride?: string;
+        bedsOverride?: number | null;
+        bathsOverride?: number | null;
       }
     ) => {
       const params = new URLSearchParams();
@@ -945,6 +1177,10 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
       const maxToUse = options?.maxOverride ?? maxPrice;
       if (minToUse) params.set("min", minToUse);
       if (maxToUse) params.set("max", maxToUse);
+      const bedsToUse = options?.bedsOverride ?? selectedBeds;
+      const bathsToUse = options?.bathsOverride ?? selectedBaths;
+      if (bedsToUse != null) params.set("beds", String(bedsToUse));
+      if (bathsToUse != null) params.set("baths", String(bathsToUse));
       // Optional readability: `URLSearchParams` serializes spaces as `+`.
       // If you prefer `%20`, keep this replace.
       const query = params.toString().replace(/\+/g, "%20");
@@ -957,6 +1193,8 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
       selectedPropertyTypes,
       minPrice,
       maxPrice,
+      selectedBeds,
+      selectedBaths,
       transactionType,
       isOffPlan,
     ]
@@ -971,6 +1209,20 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
         buildUrl(transactionType, {
           minOverride: next.min,
           maxOverride: next.max,
+        })
+      );
+    },
+    [router, buildUrl, transactionType]
+  );
+
+  const handleBedsBathsDone = useCallback(
+    (next: { beds: number | null; baths: number | null }) => {
+      setSelectedBeds(next.beds);
+      setSelectedBaths(next.baths);
+      router.push(
+        buildUrl(transactionType, {
+          bedsOverride: next.beds,
+          bathsOverride: next.baths,
         })
       );
     },
@@ -994,6 +1246,8 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
       if (typeCsv) params.set("type", typeCsv);
       if (minPrice) params.set("min", minPrice);
       if (maxPrice) params.set("max", maxPrice);
+      if (selectedBeds != null) params.set("beds", String(selectedBeds));
+      if (selectedBaths != null) params.set("baths", String(selectedBaths));
       const extra = params.toString().replace(/\+/g, "%20");
       const basePath = isOffPlan ? "/off-plan-properties/in-dubai" : `/properties/${tx}/in-dubai`;
       router.push(`${basePath}${extra ? `?${extra}` : ""}`);
@@ -1007,7 +1261,9 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
   const hasActiveFilters = !!(
     selectedPropertyTypes.length ||
     minPrice ||
-    maxPrice
+    maxPrice ||
+    selectedBeds != null ||
+    selectedBaths != null
   );
 
   const handleListingSelect = (tx: TransactionType) => {
@@ -1259,6 +1515,11 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
                   value={selectedPropertyTypes}
                   onApply={handleApplyPropertyTypes}
                 />
+                <BedsBathsDropdown
+                  bedsValue={selectedBeds}
+                  bathsValue={selectedBaths}
+                  onDone={handleBedsBathsDone}
+                />
                 <PriceRangeDropdown
                   minValue={minPrice}
                   maxValue={maxPrice}
@@ -1406,6 +1667,13 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
             categories={propertyTypesHydrated ? propertyTypesByCategory : undefined}
             value={selectedPropertyTypes}
             onApply={handleApplyPropertyTypes}
+          />
+        </div>
+        <div className="shrink-0 min-w-[220px]">
+          <BedsBathsDropdown
+            bedsValue={selectedBeds}
+            bathsValue={selectedBaths}
+            onDone={handleBedsBathsDone}
           />
         </div>
         <div className="shrink-0 min-w-[220px]">

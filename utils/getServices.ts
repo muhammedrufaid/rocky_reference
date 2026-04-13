@@ -236,6 +236,8 @@ export interface PropertiesFetchOptions {
   propertyType?: string | string[];
   min?: string;
   max?: string;
+  beds?: string;
+  baths?: string;
 }
 
 function appendPropertiesFilters(
@@ -251,6 +253,8 @@ function appendPropertiesFilters(
   }
   if (options.min) params.set('min', options.min)
   if (options.max) params.set('max', options.max)
+  if (options.beds) params.set('beds', options.beds)
+  if (options.baths) params.set('baths', options.baths)
 }
 
 type ApiListingRecord = Record<string, unknown> & {

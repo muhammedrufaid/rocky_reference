@@ -25,6 +25,11 @@ function parsePositiveInt(value: string | undefined) {
   return Number.isFinite(n) && n > 0 ? n : undefined;
 }
 
+function parseNonNegativeInt(value: string | undefined) {
+  const n = value != null ? Number(value) : NaN;
+  return Number.isFinite(n) && n >= 0 ? n : undefined;
+}
+
 export default async function PropertiesPage({
   params,
   searchParams,
@@ -36,6 +41,8 @@ export default async function PropertiesPage({
     type?: string;
     min?: string;
     max?: string;
+    beds?: string;
+    baths?: string;
     page?: string;
   }>;
 }) {
@@ -57,13 +64,17 @@ export default async function PropertiesPage({
 
   const minN = parsePositiveInt(filters.min);
   const maxN = parsePositiveInt(filters.max);
-  const hasPriceFilter = minN != null || maxN != null;
+  const bedsN = parseNonNegativeInt(filters.beds);
+  const bathsN = parsePositiveInt(filters.baths);
 
-  // When a price filter is active, apply filtering BEFORE pagination.
+  const hasClientFilters =
+    minN != null || maxN != null || bedsN != null || bathsN != null;
+
+  // When client-side filters are active, apply filtering BEFORE pagination.
   // We fetch a larger window (capped) then paginate in-memory so each page
   // has a consistent PAGE_SIZE and totals reflect the filtered dataset.
-  const fetchPage = hasPriceFilter ? 1 : currentPage;
-  const fetchLimit = hasPriceFilter ? FILTER_WINDOW_LIMIT : PAGE_SIZE;
+  const fetchPage = hasClientFilters ? 1 : currentPage;
+  const fetchLimit = hasClientFilters ? FILTER_WINDOW_LIMIT : PAGE_SIZE;
 
   const apiData =
     type === "buy"
@@ -74,6 +85,8 @@ export default async function PropertiesPage({
           propertyType: filters.type,
           min: filters.min,
           max: filters.max,
+          beds: filters.beds,
+          baths: filters.baths,
         })
       : await getRentProperties({
           page: fetchPage,
@@ -82,6 +95,8 @@ export default async function PropertiesPage({
           propertyType: filters.type,
           min: filters.min,
           max: filters.max,
+          beds: filters.beds,
+          baths: filters.baths,
         });
 
   const itemsRaw: any[] =
@@ -89,18 +104,56 @@ export default async function PropertiesPage({
       apiData?.data ??
       (Array.isArray(apiData) ? apiData : [])) as any[];
 
-  const itemsFiltered = hasPriceFilter
+  const itemsFiltered = hasClientFilters
     ? itemsRaw.filter((item) => {
-        const price = Number(item?.price);
-        if (!Number.isFinite(price)) return true;
-        if (minN != null && price < minN) return false;
-        if (maxN != null && price > maxN) return false;
+        const propertyTypeRaw = String(
+          item?.propertyType ?? item?.property_type ?? ""
+        ).toLowerCase();
+
+        // Price
+        if (minN != null || maxN != null) {
+          const price = Number(item?.price);
+          if (!Number.isFinite(price)) return false;
+          if (minN != null && price < minN) return false;
+          if (maxN != null && price > maxN) return false;
+        }
+
+        // Beds (Studio = 0; 8+ = 8)
+        if (bedsN != null) {
+          const bedsRaw = item?.beds ?? item?.bedrooms;
+          const beds = Number(bedsRaw);
+          if (!Number.isFinite(beds)) return false;
+          // Studio is only valid for Apartments (avoid showing Office/Commercial etc).
+          if (bedsN === 0) {
+            const isApartment =
+              propertyTypeRaw === "apartment" || propertyTypeRaw.includes("apartment");
+            if (!isApartment) return false;
+          }
+          if (bedsN >= 8) {
+            if (beds < 8) return false;
+          } else {
+            if (beds !== bedsN) return false;
+          }
+        }
+
+        // Baths (6+ = 6)
+        if (bathsN != null) {
+          const bathsRaw = item?.baths ?? item?.bathrooms;
+          const baths = Number(bathsRaw);
+          if (!Number.isFinite(baths)) return false;
+          if (bathsN >= 6) {
+            if (baths < 6) return false;
+          } else {
+            if (baths !== bathsN) return false;
+          }
+        }
+
         return true;
       })
     : itemsRaw;
 
   const filteredTotalItems = itemsFiltered.length;
-  const totalItems = hasPriceFilter
+  const totalItems = hasClientFilters
     ? filteredTotalItems
     : apiData
       ? getTotalFromApiResponse(apiData)
@@ -112,7 +165,7 @@ export default async function PropertiesPage({
   const safeCurrentPage = Math.min(currentPage, totalPages);
 
   const pageStart = (Math.max(1, safeCurrentPage) - 1) * PAGE_SIZE;
-  const pageItems = hasPriceFilter
+  const pageItems = hasClientFilters
     ? itemsFiltered.slice(pageStart, pageStart + PAGE_SIZE)
     : itemsFiltered;
 
