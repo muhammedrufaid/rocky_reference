@@ -32,7 +32,7 @@ export default async function Home() {
       <PropertyCategoriesSection data={readyPropertiesData}/>
       <DevelopmentPartnersSection />
       {/* <ServiceSection data={services} />  */}
-      <ServiceSectionv2 data={services} />
+      {/* <ServiceSectionv2 data={services} /> */}
       {/* <AwardsSection /> */}
       {/* <AwardsSection3 /> */}
       {/* <WhyChooseUsSection /> */}
