@@ -18,6 +18,12 @@ import ValuationCTA from "@/components/home/ValuationCTA";
 import Newsletter from "@/components/home/Newsletter";
 
 const PAGE_SIZE = 20;
+const FILTER_WINDOW_LIMIT = 500;
+
+function parsePositiveInt(value: string | undefined) {
+  const n = value != null ? Number(value) : NaN;
+  return Number.isFinite(n) && n > 0 ? n : undefined;
+}
 
 export default async function PropertiesPage({
   params,
@@ -49,33 +55,73 @@ export default async function PropertiesPage({
         : areaTerms[0]
       : undefined;
 
+  const minN = parsePositiveInt(filters.min);
+  const maxN = parsePositiveInt(filters.max);
+  const hasPriceFilter = minN != null || maxN != null;
+
+  // When a price filter is active, apply filtering BEFORE pagination.
+  // We fetch a larger window (capped) then paginate in-memory so each page
+  // has a consistent PAGE_SIZE and totals reflect the filtered dataset.
+  const fetchPage = hasPriceFilter ? 1 : currentPage;
+  const fetchLimit = hasPriceFilter ? FILTER_WINDOW_LIMIT : PAGE_SIZE;
+
   const apiData =
     type === "buy"
       ? await getBuyProperties({
-          page: currentPage,
-          limit: PAGE_SIZE,
+          page: fetchPage,
+          limit: fetchLimit,
           search: searchForApi,
           propertyType: filters.type,
           min: filters.min,
           max: filters.max,
         })
       : await getRentProperties({
-          page: currentPage,
-          limit: PAGE_SIZE,
+          page: fetchPage,
+          limit: fetchLimit,
           search: searchForApi,
           propertyType: filters.type,
           min: filters.min,
           max: filters.max,
         });
 
-  const listings = apiData
-    ? mapApiResponseToPropertyListings(apiData, type === "buy" ? "Buy" : "Rent")
-    : [];
-    
-  const totalItems = apiData ? getTotalFromApiResponse(apiData) : undefined;
+  const itemsRaw: any[] =
+    (apiData?.properties ??
+      apiData?.data ??
+      (Array.isArray(apiData) ? apiData : [])) as any[];
+
+  const itemsFiltered = hasPriceFilter
+    ? itemsRaw.filter((item) => {
+        const price = Number(item?.price);
+        if (!Number.isFinite(price)) return true;
+        if (minN != null && price < minN) return false;
+        if (maxN != null && price > maxN) return false;
+        return true;
+      })
+    : itemsRaw;
+
+  const filteredTotalItems = itemsFiltered.length;
+  const totalItems = hasPriceFilter
+    ? filteredTotalItems
+    : apiData
+      ? getTotalFromApiResponse(apiData)
+      : undefined;
+
   const totalPages =
     totalItems != null ? Math.max(1, Math.ceil(totalItems / PAGE_SIZE)) : 1;
+
   const safeCurrentPage = Math.min(currentPage, totalPages);
+
+  const pageStart = (Math.max(1, safeCurrentPage) - 1) * PAGE_SIZE;
+  const pageItems = hasPriceFilter
+    ? itemsFiltered.slice(pageStart, pageStart + PAGE_SIZE)
+    : itemsFiltered;
+
+  const listings = pageItems.length
+    ? mapApiResponseToPropertyListings(
+        { ...(apiData ?? {}), properties: pageItems },
+        type === "buy" ? "Buy" : "Rent"
+      )
+    : [];
 
   const basePath = `/properties/${type}/in-dubai`;
 

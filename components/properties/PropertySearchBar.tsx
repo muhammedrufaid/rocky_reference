@@ -923,6 +923,8 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
         qOverride?: string | null;
         ignoreSelections?: boolean;
         typesOverride?: string[];
+        minOverride?: string;
+        maxOverride?: string;
       }
     ) => {
       const params = new URLSearchParams();
@@ -939,8 +941,10 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
         options?.typesOverride ?? selectedPropertyTypes
       );
       if (typeCsv) params.set("type", typeCsv);
-      if (minPrice) params.set("min", minPrice);
-      if (maxPrice) params.set("max", maxPrice);
+      const minToUse = options?.minOverride ?? minPrice;
+      const maxToUse = options?.maxOverride ?? maxPrice;
+      if (minToUse) params.set("min", minToUse);
+      if (maxToUse) params.set("max", maxToUse);
       // Optional readability: `URLSearchParams` serializes spaces as `+`.
       // If you prefer `%20`, keep this replace.
       const query = params.toString().replace(/\+/g, "%20");
@@ -956,6 +960,21 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
       transactionType,
       isOffPlan,
     ]
+  );
+
+  const handlePriceDone = useCallback(
+    (next: { min: string; max: string }) => {
+      setMinPrice(next.min);
+      setMaxPrice(next.max);
+      // Update URL immediately so the server page fetches filtered results.
+      router.push(
+        buildUrl(transactionType, {
+          minOverride: next.min,
+          maxOverride: next.max,
+        })
+      );
+    },
+    [router, buildUrl, transactionType]
   );
 
   const handleSearch = (e?: React.FormEvent) => {
@@ -1244,10 +1263,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
                   minValue={minPrice}
                   maxValue={maxPrice}
                   options={priceOptions}
-                  onDone={({ min, max }) => {
-                    setMinPrice(min);
-                    setMaxPrice(max);
-                  }}
+                  onDone={handlePriceDone}
                 />
                 <button
                   type="button"
@@ -1397,10 +1413,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
             minValue={minPrice}
             maxValue={maxPrice}
             options={priceOptions}
-            onDone={({ min, max }) => {
-              setMinPrice(min);
-              setMaxPrice(max);
-            }}
+            onDone={handlePriceDone}
           />
         </div>
         <button
