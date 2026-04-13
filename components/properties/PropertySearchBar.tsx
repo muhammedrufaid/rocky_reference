@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Container from "@/components/layout/Container";
 import {
@@ -307,6 +307,335 @@ function FilterDropdown({ value, options, onChange, placeholder, label }: Dropdo
             </li>
           ))}
         </ul>
+      )}
+    </div>
+  );
+}
+
+// ─── PriceRangeDropdown (Bayut-style) ─────────────────────────────────────────
+
+function normalizePriceInput(raw: string) {
+  // Allow clearing. Otherwise keep only digits.
+  const trimmed = raw.trim();
+  if (!trimmed) return "";
+  const digits = trimmed.replace(/[^\d]/g, "");
+  return digits;
+}
+
+const MAX_ALLOWED_PRICE = 40_000_000;
+
+function numberFromDigits(digits: string) {
+  const n = Number(digits);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function formatWithCommas(value: string) {
+  const n = numberFromDigits(value);
+  if (!n) return "";
+  return n.toLocaleString();
+}
+
+function formatCompactNumber(n: number) {
+  if (!Number.isFinite(n) || n <= 0) return "";
+  const abs = Math.abs(n);
+  const units: Array<{ v: number; s: "B" | "M" | "K" }> = [
+    { v: 1_000_000_000, s: "B" },
+    { v: 1_000_000, s: "M" },
+    { v: 1_000, s: "K" },
+  ];
+  for (const u of units) {
+    if (abs >= u.v) {
+      const val = n / u.v;
+      const rounded = val >= 10 ? Math.round(val) : Math.round(val * 10) / 10;
+      // Strip trailing .0
+      const asText = String(rounded).endsWith(".0")
+        ? String(rounded).slice(0, -2)
+        : String(rounded);
+      return `${asText}${u.s}`;
+    }
+  }
+  return String(Math.round(n));
+}
+
+function formatCompactAedFromDigits(value: string) {
+  const n = numberFromDigits(value);
+  if (!n) return "";
+  return `AED ${formatCompactNumber(n)}`;
+}
+
+function PriceRangeDropdown({
+  minValue,
+  maxValue,
+  options,
+  onDone,
+  label = "Price (AED)",
+  placeholder = "Price (AED)",
+}: {
+  minValue: string;
+  maxValue: string;
+  options: { label: string; value: string }[];
+  onDone: (next: { min: string; max: string }) => void;
+  label?: string;
+  placeholder?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const minInputRef = useRef<HTMLInputElement>(null);
+  const maxInputRef = useRef<HTMLInputElement>(null);
+
+  const [draftMin, setDraftMin] = useState(minValue);
+  const [draftMax, setDraftMax] = useState(maxValue);
+  const [activeField, setActiveField] = useState<"min" | "max">("min");
+  const [align, setAlign] = useState<"left" | "right">("left");
+  const [focusedField, setFocusedField] = useState<"min" | "max" | null>(null);
+  const [error, setError] = useState<string>("");
+
+  const suggestionOptions = useMemo(() => {
+    return options.filter((o: { label: string; value: string }) => {
+      return String(o.value ?? "").trim() !== "";
+    });
+  }, [options]);
+
+  const displayLabel = useMemo(() => {
+    const min = formatCompactAedFromDigits(minValue);
+    const max = formatCompactAedFromDigits(maxValue);
+    if (!min && !max) return placeholder;
+    if (min && max) return `${min} - ${max}`;
+    if (min) return `${min}+`;
+    return `Up to ${max}`;
+  }, [minValue, maxValue, placeholder]);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    setDraftMin(minValue);
+    setDraftMax(maxValue);
+    setError("");
+    // Default focus: if min already set, edit max; otherwise edit min.
+    const nextActive = minValue ? "max" : "min";
+    setActiveField(nextActive);
+    // Keep dropdown within viewport: choose left/right anchoring based on available space.
+    const rect = ref.current?.getBoundingClientRect();
+    if (rect) {
+      const viewportW = window.innerWidth || 0;
+      const desiredW = Math.min(520, Math.max(320, viewportW - 32)); // matches w-[min(520px,calc(100vw-2rem))]
+      const fitsRight = rect.left + desiredW <= viewportW - 8;
+      const fitsLeft = rect.right - desiredW >= 8;
+      // Prefer left alignment when it fits; otherwise flip to right if that fits better.
+      setAlign(fitsRight || !fitsLeft ? "left" : "right");
+    } else {
+      setAlign("left");
+    }
+    window.setTimeout(() => {
+      (nextActive === "min" ? minInputRef : maxInputRef).current?.focus();
+    }, 0);
+  }, [open, minValue, maxValue]);
+
+  const selectSuggestion = (val: string) => {
+    if (activeField === "min") {
+      setDraftMin(val);
+      setActiveField("max");
+      window.setTimeout(() => maxInputRef.current?.focus(), 0);
+      return;
+    }
+    setDraftMax(val);
+  };
+
+  const validate = (nextMinRaw: string, nextMaxRaw: string) => {
+    const minN = numberFromDigits(nextMinRaw);
+    const maxN = numberFromDigits(nextMaxRaw);
+
+    if (minN > MAX_ALLOWED_PRICE || maxN > MAX_ALLOWED_PRICE) {
+      return `Maximum allowed price is AED ${MAX_ALLOWED_PRICE.toLocaleString()}.`;
+    }
+    if (minN && maxN && minN > maxN) {
+      return "Minimum price must be less than or equal to maximum price.";
+    }
+    return "";
+  };
+
+  const handleDone = () => {
+    const nextMin = normalizePriceInput(draftMin);
+    const nextMax = normalizePriceInput(draftMax);
+    const nextError = validate(nextMin, nextMax);
+    if (nextError) {
+      setError(nextError);
+      return;
+    }
+    onDone({ min: nextMin, max: nextMax });
+    setOpen(false);
+  };
+
+  const handleReset = () => {
+    setDraftMin("");
+    setDraftMax("");
+    setActiveField("min");
+    onDone({ min: "", max: "" });
+    setOpen(false);
+  };
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((p) => !p)}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-label={`${label}: ${displayLabel}`}
+        className="flex h-11 w-full items-center justify-between gap-2 rounded-lg border bg-white px-3.5 py-2.5 text-left text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
+        style={{ color: "var(--charcoal)", borderColor: "var(--border-light)" }}
+      >
+        <span className="truncate">
+          {displayLabel !== placeholder ? (
+            <span className="text-[var(--charcoal)]">{displayLabel}</span>
+          ) : (
+            <span className="text-[var(--charcoal)]/60">{placeholder}</span>
+          )}
+        </span>
+        <ChevronIcon open={open} />
+      </button>
+
+      {open && (
+        <div
+          role="dialog"
+          aria-label={label}
+          className={[
+            "absolute top-full z-50 mt-1.5 w-[min(520px,calc(100vw-2rem))] overflow-hidden rounded-xl bg-white shadow-[0_10px_30px_rgba(8,31,58,0.14)] ring-1 ring-black/[0.05]",
+            align === "right" ? "right-0" : "left-0",
+          ].join(" ")}
+        >
+          <div className="p-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[0.7rem] font-semibold tracking-[0.08em] uppercase text-black/45">
+                  Minimum
+                </label>
+                <input
+                  ref={minInputRef}
+                  inputMode="numeric"
+                  value={focusedField === "min" ? draftMin : formatWithCommas(draftMin)}
+                  onFocus={() => setActiveField("min")}
+                  onFocusCapture={() => setFocusedField("min")}
+                  onBlur={() => {
+                    setFocusedField((f) => (f === "min" ? null : f));
+                    setDraftMin(normalizePriceInput(draftMin));
+                  }}
+                  onChange={(e) => {
+                    const next = normalizePriceInput(e.target.value);
+                    setDraftMin(next);
+                    setError(validate(next, draftMax));
+                  }}
+                  placeholder="0"
+                  className={[
+                    "mt-1 h-11 w-full rounded-lg border bg-white px-3 text-sm font-medium outline-none transition-all",
+                    activeField === "min"
+                      ? "border-[var(--rocky-blue)] ring-2 ring-[var(--rocky-blue)]/20"
+                      : "border-[var(--border-light)]",
+                  ].join(" ")}
+                  style={{ color: "var(--charcoal)" }}
+                />
+              </div>
+              <div>
+                <label className="block text-[0.7rem] font-semibold tracking-[0.08em] uppercase text-black/45">
+                  Maximum
+                </label>
+                <input
+                  ref={maxInputRef}
+                  inputMode="numeric"
+                  value={focusedField === "max" ? draftMax : formatWithCommas(draftMax)}
+                  onFocus={() => setActiveField("max")}
+                  onFocusCapture={() => setFocusedField("max")}
+                  onBlur={() => {
+                    setFocusedField((f) => (f === "max" ? null : f));
+                    setDraftMax(normalizePriceInput(draftMax));
+                  }}
+                  onChange={(e) => {
+                    const next = normalizePriceInput(e.target.value);
+                    setDraftMax(next);
+                    setError(validate(draftMin, next));
+                  }}
+                  placeholder="Any"
+                  className={[
+                    "mt-1 h-11 w-full rounded-lg border bg-white px-3 text-sm font-medium outline-none transition-all",
+                    activeField === "max"
+                      ? "border-[var(--rocky-blue)] ring-2 ring-[var(--rocky-blue)]/20"
+                      : "border-[var(--border-light)]",
+                  ].join(" ")}
+                  style={{ color: "var(--charcoal)" }}
+                />
+              </div>
+            </div>
+
+            {error && (
+              <p className="mt-2 text-xs font-medium" style={{ color: "#C0392B" }}>
+                {error}
+              </p>
+            )}
+
+            <div className="mt-3">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[0.7rem] font-semibold tracking-[0.08em] uppercase text-black/45">
+                  Suggestions
+                </span>
+                <span className="text-[0.7rem] text-black/45">
+                  Applies to {activeField === "min" ? "Minimum" : "Maximum"}
+                </span>
+              </div>
+
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                {suggestionOptions.slice(0, 10).map((opt) => (
+                  <button
+                    key={`${activeField}-${opt.value}-${opt.label}`}
+                    type="button"
+                    onClick={() => selectSuggestion(String(opt.value))}
+                    className="flex items-center justify-between rounded-lg border px-3 py-2 text-sm transition-colors hover:bg-[var(--soft-sand)]/30"
+                    style={{ borderColor: "rgba(0,0,0,0.08)", color: "var(--charcoal)" }}
+                  >
+                    <span className="truncate font-medium">
+                      {formatCompactAedFromDigits(String(opt.value))}
+                    </span>
+                    <span className="text-[0.7rem] text-black/45">Set</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="flex items-center justify-between gap-3 border-t px-3 py-3"
+            style={{ borderColor: "rgba(0,0,0,0.06)" }}
+          >
+            <button
+              type="button"
+              onClick={handleReset}
+              className="rounded-lg px-3 py-2 text-sm font-semibold transition-colors hover:bg-[rgba(220,50,50,0.06)]"
+              style={{ color: "#C0392B" }}
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              onClick={handleDone}
+              disabled={Boolean(error)}
+              className={[
+                "rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors",
+                error
+                  ? "bg-[var(--rocky-blue)]/60 cursor-not-allowed"
+                  : "bg-[var(--rocky-blue)] hover:bg-[var(--rocky-blue-hover)]",
+              ].join(" ")}
+            >
+              Done
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
@@ -911,22 +1240,15 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
                   value={selectedPropertyTypes}
                   onApply={handleApplyPropertyTypes}
                 />
-                <div className="grid grid-cols-2 gap-3">
-                  <FilterDropdown
-                    value={minPrice}
-                    options={priceOptions}
-                    onChange={setMinPrice}
-                    placeholder="Min price"
-                    label="Minimum price"
-                  />
-                  <FilterDropdown
-                    value={maxPrice}
-                    options={priceOptions}
-                    onChange={setMaxPrice}
-                    placeholder="Max price"
-                    label="Maximum price"
-                  />
-                </div>
+                <PriceRangeDropdown
+                  minValue={minPrice}
+                  maxValue={maxPrice}
+                  options={priceOptions}
+                  onDone={({ min, max }) => {
+                    setMinPrice(min);
+                    setMaxPrice(max);
+                  }}
+                />
                 <button
                   type="button"
                   onClick={() => handleSearch()}
@@ -1070,22 +1392,15 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
             onApply={handleApplyPropertyTypes}
           />
         </div>
-        <div className="shrink-0 min-w-[120px]">
-          <FilterDropdown
-            value={minPrice}
+        <div className="shrink-0 min-w-[220px]">
+          <PriceRangeDropdown
+            minValue={minPrice}
+            maxValue={maxPrice}
             options={priceOptions}
-            onChange={setMinPrice}
-            placeholder="Min price"
-            label="Minimum price"
-          />
-        </div>
-        <div className="shrink-0 min-w-[120px]">
-          <FilterDropdown
-            value={maxPrice}
-            options={priceOptions}
-            onChange={setMaxPrice}
-            placeholder="Max price"
-            label="Maximum price"
+            onDone={({ min, max }) => {
+              setMinPrice(min);
+              setMaxPrice(max);
+            }}
           />
         </div>
         <button
