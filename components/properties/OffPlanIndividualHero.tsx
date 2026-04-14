@@ -401,7 +401,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                   {/* Tags row */}
                   <motion.div variants={fadeUp} custom={2} className="flex flex-wrap gap-2">
                     {resolvedOffPlan && (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-[10px] tracking-[0.18em] uppercase font-medium bg-[#C3AD95]/15 border border-[#C3AD95]/30 text-[#C3AD95]">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm text-[10px] tracking-[0.18em] uppercase font-medium bg-[#C3AD95]/15 border border-[#C3AD95]/30 text-[#f6f6f6]">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#C3AD95] animate-pulse" />
                         Off Plan
                       </span>
