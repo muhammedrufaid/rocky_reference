@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import type { PropertyListing } from "@/utils/data";
 import PropertiesPagination from "@/components/properties/PropertiesPagination";
@@ -117,6 +118,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
   index = 0,
   showListingType = true,
 }) => {
+  const router = useRouter();
   const [activeImg, setActiveImg] = useState(0);
   const images = listing.images;
   const mainImage = images[activeImg] ?? images[0];
@@ -128,12 +130,21 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
 
   return (
     <motion.article
-      className="group flex flex-col sm:flex-row rounded-xl overflow-hidden bg-white transition-all duration-300 hover:shadow-[0_10px_32px_rgba(13,54,94,.1)]"
+      className="group flex flex-col sm:flex-row rounded-xl overflow-hidden bg-white transition-all duration-300 hover:shadow-[0_10px_32px_rgba(13,54,94,.1)] cursor-pointer"
       style={{ boxShadow: "0 1px 3px rgba(13,54,94,.06), 0 0 0 1px rgba(13,54,94,.04)" }}
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.05, margin: "0px 0px -30px 0px" }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: index * 0.04 }}
+      role="link"
+      tabIndex={0}
+      onClick={() => router.push(listing.path)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          router.push(listing.path);
+        }
+      }}
     >
       {/* ── Image ── */}
       <div className="relative sm:w-48 md:w-52 lg:w-56 shrink-0 overflow-hidden bg-[#f0ede8]">
@@ -174,14 +185,20 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
           {images.length > 1 && (
             <>
               <button
-                onClick={prevImg}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevImg();
+                }}
                 className="absolute left-1.5 top-1/2 -translate-y-1/2 z-10 grid place-items-center w-7 h-7 rounded-full bg-white/90 backdrop-blur-md text-[#0d365e] shadow-[0_2px_8px_rgba(0,0,0,.12)] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out hover:bg-white hover:scale-110"
                 aria-label="Previous image"
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
               </button>
               <button
-                onClick={nextImg}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextImg();
+                }}
                 className="absolute right-1.5 top-1/2 -translate-y-1/2 z-10 grid place-items-center w-7 h-7 rounded-full bg-white/90 backdrop-blur-md text-[#0d365e] shadow-[0_2px_8px_rgba(0,0,0,.12)] opacity-0 translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out hover:bg-white hover:scale-110"
                 aria-label="Next image"
               >
@@ -237,16 +254,46 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
           {/* Action buttons */}
           <div className="flex items-center gap-1">
             {listing.agent?.phone && (
-              <a href={`tel:${listing.agent.phone.replace(/\s/g, "")}`} className="grid place-items-center w-7 h-7 rounded-lg transition-colors duration-200 hover:bg-[#0d365e] hover:text-white" style={{ color: "#0d365e", backgroundColor: "#f5f2ee" }} title="Call" aria-label="Call agent"><CallIcon /></a>
+              <a
+                href={`tel:${listing.agent.phone.replace(/\s/g, "")}`}
+                onClick={(e) => e.stopPropagation()}
+                className="grid place-items-center w-7 h-7 rounded-lg transition-colors duration-200 hover:bg-[#0d365e] hover:text-white"
+                style={{ color: "#0d365e", backgroundColor: "#f5f2ee" }}
+                title="Call"
+                aria-label="Call agent"
+              >
+                <CallIcon />
+              </a>
             )}
             {listing.agent?.whatsapp && (
-              <a href={`https://wa.me/${listing.agent.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="grid place-items-center w-7 h-7 rounded-lg transition-colors duration-200 hover:bg-[#25D366] hover:text-white" style={{ color: "#0d365e", backgroundColor: "#f5f2ee" }} title="WhatsApp" aria-label="WhatsApp"><WhatsAppIcon /></a>
+              <a
+                href={`https://wa.me/${listing.agent.whatsapp.replace(/\D/g, "")}`}
+                onClick={(e) => e.stopPropagation()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="grid place-items-center w-7 h-7 rounded-lg transition-colors duration-200 hover:bg-[#25D366] hover:text-white"
+                style={{ color: "#0d365e", backgroundColor: "#f5f2ee" }}
+                title="WhatsApp"
+                aria-label="WhatsApp"
+              >
+                <WhatsAppIcon />
+              </a>
             )}
             {listing.agent?.email && (
-              <a href={`mailto:${listing.agent.email}`} className="grid place-items-center w-7 h-7 rounded-lg transition-colors duration-200 hover:bg-[#0d365e] hover:text-white" style={{ color: "#0d365e", backgroundColor: "#f5f2ee" }} title="Email" aria-label="Email agent"><EmailIcon /></a>
+              <a
+                href={`mailto:${listing.agent.email}`}
+                onClick={(e) => e.stopPropagation()}
+                className="grid place-items-center w-7 h-7 rounded-lg transition-colors duration-200 hover:bg-[#0d365e] hover:text-white"
+                style={{ color: "#0d365e", backgroundColor: "#f5f2ee" }}
+                title="Email"
+                aria-label="Email agent"
+              >
+                <EmailIcon />
+              </a>
             )}
             <Link
               href={listing.path}
+              onClick={(e) => e.stopPropagation()}
               className="inline-flex items-center gap-1 text-white text-xs font-medium tracking-wide px-3.5 py-2 rounded-lg transition-all duration-200 hover:opacity-90 group/btn"
               style={{ backgroundColor: "#0d365e" }}
             >
