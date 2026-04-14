@@ -1,15 +1,14 @@
 'use client'
 
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Navigation, Pagination, Thumbs, EffectFade } from 'swiper/modules'
+import { Autoplay, Navigation, Thumbs, EffectFade } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 import 'swiper/css/navigation'
-import 'swiper/css/pagination'
 import 'swiper/css/thumbs'
 import Container from '../layout/Container'
 import type { ApiPropertyDetail } from '@/utils/getServices'
@@ -164,35 +163,95 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
   const canLoop = safeImages.length > 1
 
   const heroSwiperRef = useRef<SwiperType | null>(null)
-  const gallerySwiperRef = useRef<SwiperType | null>(null)
-  const galleryThumbsScrollRef = useRef<HTMLDivElement | null>(null)
   const [heroThumbsSwiper, setHeroThumbsSwiper] = useState<SwiperType | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
-  const [isGalleryOpen, setIsGalleryOpen] = useState(false)
   const prevRef = useRef<HTMLButtonElement>(null)
   const nextRef = useRef<HTMLButtonElement>(null)
-  const [galleryActiveIndex, setGalleryActiveIndex] = useState(0)
 
-  // Keep gallery image from overlapping the thumbnails on short viewports.
-  const GALLERY_HEADER_PX = 64
-  const GALLERY_THUMBS_PX = 152
+  // ─── Lightbox (same UX as PropertyGallery) ─────────────────────────────────
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [lightboxIdx, setLightboxIdx] = useState(0)
+  const [lightboxFading, setLightboxFading] = useState(false)
+  const [zoomed, setZoomed] = useState(false)
+  const lightboxTouchX = useRef(0)
+  const lightboxThumbRef = useRef<HTMLDivElement>(null)
 
   const handleWhatsApp = () => window.open(`https://wa.me/${resolvedWhatsappNumber}`, '_blank')
-  const handleGalleryThumbClick = (index: number) => {
-    const swiper = gallerySwiperRef.current
-    if (!swiper) return
-    if (swiper.params.loop) swiper.slideToLoop(index)
-    else swiper.slideTo(index)
-  }
+
+  const syncHeroTo = useCallback(
+    (idx: number) => {
+      setActiveIndex(idx)
+      const swiper = heroSwiperRef.current
+      if (!swiper) return
+      if (swiper.params.loop) swiper.slideToLoop(idx)
+      else swiper.slideTo(idx)
+    },
+    []
+  )
+
+  const openLightbox = useCallback(
+    (idx: number) => {
+      setLightboxIdx(idx)
+      setZoomed(false)
+      setLightboxOpen(true)
+    },
+    []
+  )
+
+  const closeLightbox = useCallback(() => {
+    setLightboxOpen(false)
+    setZoomed(false)
+  }, [])
+
+  const lightboxNav = useCallback(
+    (dir: number) => {
+      if (zoomed) return
+      if (!safeImages.length) return
+      const next = (lightboxIdx + dir + safeImages.length) % safeImages.length
+      setLightboxFading(true)
+      setTimeout(() => {
+        setLightboxIdx(next)
+        setLightboxFading(false)
+        syncHeroTo(next)
+        if (lightboxThumbRef.current) {
+          const thumbEl = lightboxThumbRef.current.children[next] as HTMLElement
+          thumbEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+        }
+      }, 160)
+    },
+    [lightboxIdx, safeImages.length, syncHeroTo, zoomed]
+  )
+
+  const handleLightboxThumbClick = useCallback(
+    (i: number) => {
+      if (i === lightboxIdx) return
+      setLightboxFading(true)
+      setTimeout(() => {
+        setLightboxIdx(i)
+        syncHeroTo(i)
+        setLightboxFading(false)
+      }, 160)
+    },
+    [lightboxIdx, syncHeroTo]
+  )
 
   useEffect(() => {
-    if (!isGalleryOpen) return
-    const root = galleryThumbsScrollRef.current
-    if (!root) return
-    const el = root.querySelector<HTMLElement>(`[data-thumb-index="${galleryActiveIndex}"]`)
-    if (!el) return
-    el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
-  }, [galleryActiveIndex, isGalleryOpen])
+    if (!lightboxOpen) return
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox()
+      if (e.key === 'ArrowLeft') lightboxNav(-1)
+      if (e.key === 'ArrowRight') lightboxNav(1)
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [closeLightbox, lightboxNav, lightboxOpen])
+
+  useEffect(() => {
+    document.body.style.overflow = lightboxOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [lightboxOpen])
 
   const locationParts = [resolvedCity, resolvedLocality, resolvedSubLocality, resolvedTowerName].filter(Boolean)
 
@@ -274,6 +333,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                       loading={i === 0 ? 'eager' : 'lazy'}
                       className="w-full h-full object-cover"
                       style={{ minHeight: 'min(92vh, 780px)' }}
+                      onClick={() => openLightbox(activeIndex)}
                     />
                   </div>
                 </SwiperSlide>
@@ -412,7 +472,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                       </Swiper>
                     </div>
                     <button
-                      onClick={() => setIsGalleryOpen(true)}
+                      onClick={() => openLightbox(activeIndex)}
                       className="flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase text-white/55 hover:text-[#C3AD95] transition-colors duration-200 cursor-pointer"
                     >
                       <GridIcon />
@@ -544,128 +604,130 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
         </button>
       </div>
 
-      {/* ── FULLSCREEN GALLERY ── */}
-      <AnimatePresence>
-        {isGalleryOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[999] flex flex-col"
-            style={{
-              background: '#060E18',
-              ['--rre-gallery-header-px' as any]: `${GALLERY_HEADER_PX}px`,
-              ['--rre-gallery-thumbs-px' as any]: `${GALLERY_THUMBS_PX}px`,
-            }}
-          >
-            {/* Header */}
-            <div
-              className="flex items-center justify-between px-6 border-b border-white/6"
-              style={{ minHeight: `${GALLERY_HEADER_PX}px` }}
-            >
-              <span
-                className="text-[#C3AD95] text-sm font-light tracking-[0.15em] uppercase"
+      {/* ── Lightbox (PropertyGallery UI) ─────────────────────────────────── */}
+      {lightboxOpen && (
+        <div
+          className="fixed inset-0 z-[999] flex flex-col"
+          style={{ background: 'rgba(0,0,0,0.95)' }}
+          onTouchStart={(e) => {
+            lightboxTouchX.current = e.touches[0].clientX
+          }}
+          onTouchEnd={(e) => {
+            const diff = lightboxTouchX.current - e.changedTouches[0].clientX
+            if (Math.abs(diff) > 50) lightboxNav(diff > 0 ? 1 : -1)
+          }}
+        >
+          {/* Top Bar */}
+          <div className="flex items-center justify-between px-5 py-4 flex-shrink-0">
+            <span className="text-white/80 text-sm font-medium">
+              {resolvedPropertyTitle ?? 'Property'}&nbsp;·&nbsp;{lightboxIdx + 1} / {safeImages.length}
+            </span>
+            <div className="flex items-center gap-2">
+              {/* Zoom toggle */}
+              <button
+                onClick={() => setZoomed((z) => !z)}
+                aria-label={zoomed ? 'Zoom out' : 'Zoom in'}
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition"
               >
-                Gallery
-              </span>
-              <div className="flex items-center gap-4">
-                <span
-                  className="text-white/30 text-[11px] tracking-widest"
-                  style={{ fontFamily: "var(--font-dubai), Arial, Helvetica, sans-serif" }}
-                >
-                  {resolvedImages.length} Photos
-                </span>
-                <button
-                  onClick={() => setIsGalleryOpen(false)}
-                  className="w-8 h-8 flex items-center justify-center rounded-full border border-white/12 text-white/50 hover:text-white hover:border-white/30 transition-all duration-200 cursor-pointer"
-                >
-                  <CloseIcon />
-                </button>
-              </div>
+                {zoomed ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    <line x1="8" y1="11" x2="14" y2="11" />
+                  </svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    <line x1="11" y1="8" x2="11" y2="14" />
+                    <line x1="8" y1="11" x2="14" y2="11" />
+                  </svg>
+                )}
+              </button>
+              {/* Close */}
+              <button
+                onClick={closeLightbox}
+                aria-label="Close gallery"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
             </div>
+          </div>
 
-            {/* Main gallery image */}
-            <div className="flex-1 flex items-center justify-center px-4 py-4 min-h-0">
-              <Swiper
-                className="rre-gallery-swiper w-full h-full max-w-5xl"
-                modules={[Navigation]}
-                navigation={{ prevEl: '#gallery-prev', nextEl: '#gallery-next' }}
-                loop={canLoop}
-                style={{ height: '100%' }}
-                onBeforeInit={(swiper) => {
-                  gallerySwiperRef.current = swiper
+          {/* Main Image Area */}
+          <div className="flex-1 flex items-center justify-center relative min-h-0 px-14">
+            {/* Prev */}
+            <button
+              onClick={() => lightboxNav(-1)}
+              disabled={zoomed}
+              aria-label="Previous image"
+              className="absolute left-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition disabled:opacity-20 disabled:cursor-not-allowed z-10"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+
+            {/* Image */}
+            <div className="w-full h-full flex items-center justify-center" style={{ overflow: zoomed ? 'auto' : 'hidden' }}>
+              <img
+                src={safeImages[lightboxIdx]}
+                alt={`${resolvedPropertyTitle ?? 'Property'} - image ${lightboxIdx + 1}`}
+                style={{
+                  maxWidth: zoomed ? 'none' : '100%',
+                  maxHeight: zoomed ? 'none' : '100%',
+                  width: zoomed ? '160%' : 'auto',
+                  objectFit: 'contain',
+                  transition: 'opacity 0.3s ease, transform 0.3s ease',
+                  opacity: lightboxFading ? 0 : 1,
+                  transform: lightboxFading ? 'scale(0.97)' : 'scale(1)',
+                  borderRadius: 8,
+                  cursor: zoomed ? 'zoom-out' : 'zoom-in',
                 }}
-                onSlideChange={(s) => setGalleryActiveIndex(s.realIndex)}
-              >
-                {safeImages.map((src, i) => (
-                  <SwiperSlide key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img
-                      src={src}
-                      alt={`View ${i + 1}`}
-                      className="max-w-full max-h-full object-contain rounded-lg"
-                      style={{
-                        maxHeight:
-                          'calc(100vh - var(--rre-gallery-header-px) - var(--rre-gallery-thumbs-px) - 32px)',
-                      }}
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+                onClick={() => setZoomed((z) => !z)}
+              />
             </div>
 
-            {/* Thumbnails + nav */}
-            <div
-              className="flex items-center gap-4 px-4 py-4"
-              style={{ minHeight: `${GALLERY_THUMBS_PX}px` }}
+            {/* Next */}
+            <button
+              onClick={() => lightboxNav(1)}
+              disabled={zoomed}
+              aria-label="Next image"
+              className="absolute right-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition disabled:opacity-20 disabled:cursor-not-allowed z-10"
             >
-              <button
-                id="gallery-prev"
-                className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full border border-white/12 text-white/50 hover:text-[#C3AD95] hover:border-[#C3AD95]/40 transition-all cursor-pointer"
-              >
-                <ChevronLeft />
-              </button>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
 
-              {/* Fixed-size horizontal thumbnails (no shrinking / distortion) */}
-              <div className="flex-1 min-w-0">
-                <div ref={galleryThumbsScrollRef} className="overflow-x-auto overflow-y-hidden">
-                  <div className="flex gap-2">
-                    {safeImages.map((src, i) => {
-                      const isActive = i === galleryActiveIndex
-                      return (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => handleGalleryThumbClick(i)}
-                          data-thumb-index={i}
-                          className={[
-                            'relative w-[120px] h-[120px] flex-shrink-0 rounded-md overflow-hidden',
-                            'ring-1 transition-all cursor-pointer',
-                            isActive
-                              ? 'ring-[#C3AD95] shadow-[0_0_0_2px_rgba(195,173,149,0.35)]'
-                              : 'ring-white/10 hover:ring-white/30',
-                          ].join(' ')}
-                          aria-label={`Open image ${i + 1}`}
-                        >
-                          <img src={src} alt="" className="w-full h-full object-cover" draggable={false} />
-                          {isActive && <span className="absolute inset-0 bg-[#C3AD95]/10 pointer-events-none" />}
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              <button
-                id="gallery-next"
-                className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full border border-white/12 text-white/50 hover:text-[#C3AD95] hover:border-[#C3AD95]/40 transition-all cursor-pointer"
-              >
-                <ChevronRight />
-              </button>
+          {/* Thumbnail Strip */}
+          <div className="flex-shrink-0 px-5 py-4">
+            <div ref={lightboxThumbRef} className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+              {safeImages.map((src, i) => (
+                <img
+                  key={i}
+                  src={src}
+                  alt={`Thumbnail ${i + 1}`}
+                  onClick={() => handleLightboxThumbClick(i)}
+                  className="flex-shrink-0 object-cover rounded-lg cursor-pointer transition-all duration-150 hover:scale-105"
+                  style={{
+                    width: 72,
+                    height: 54,
+                    border: i === lightboxIdx ? '2.5px solid #60A5FA' : '2.5px solid rgba(255,255,255,0.15)',
+                    boxShadow: i === lightboxIdx ? '0 0 0 2px rgba(96,165,250,0.4)' : 'none',
+                    opacity: i === lightboxIdx ? 1 : 0.6,
+                  }}
+                />
+              ))}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
     </>
   )
 }
