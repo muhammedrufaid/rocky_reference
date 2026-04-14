@@ -590,19 +590,19 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
         >
           <PhoneIcon /> Callback
         </button>
-        <button
+        {/* <button
           onClick={onDownloadBrochure}
           className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-[11px] tracking-[0.15em] uppercase font-medium text-[#C3AD95] cursor-pointer"
           style={{ background: 'rgba(195,173,149,0.08)', border: '1px solid rgba(195,173,149,0.2)' }}
         >
           <DownloadIcon /> Brochure
-        </button>
+        </button> */}
         <button
           onClick={handleWhatsApp}
-          className="w-11 flex items-center justify-center py-2.5 rounded-md text-[#25D366] cursor-pointer"
+          className="flex-1 flex items-center justify-center py-2.5 gap-2 text-[11px] tracking-[0.15em] uppercase font-medium rounded-md text-[#25D366] cursor-pointer"
           style={{ background: 'rgba(37,211,102,0.08)', border: '1px solid rgba(37,211,102,0.2)' }}
         >
-          <WhatsAppIcon />
+          <WhatsAppIcon /> WhatsApp Us
         </button>
       </div>
 
