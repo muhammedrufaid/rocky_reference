@@ -16,6 +16,7 @@ interface PropertyCardProps {
   listing: PropertyListing;
   index?: number;
   showListingType?: boolean;
+  href?: string;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -117,6 +118,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
   listing,
   index = 0,
   showListingType = true,
+  href,
 }) => {
   const router = useRouter();
   const [activeImg, setActiveImg] = useState(0);
@@ -124,6 +126,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
   const mainImage = images[activeImg] ?? images[0];
   const displayTitle = listing.towerName?.trim() || listing.subLocality?.trim() || listing.title;
   const propertyTitle = listing.propertyTitle?.trim();
+  const listingHref = href ?? listing.path;
 
   const nextImg = () => setActiveImg((p) => (p + 1) % images.length);
   const prevImg = () => setActiveImg((p) => (p - 1 + images.length) % images.length);
@@ -138,11 +141,11 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: index * 0.04 }}
       role="link"
       tabIndex={0}
-      onClick={() => router.push(listing.path)}
+      onClick={() => router.push(listingHref)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          router.push(listing.path);
+          router.push(listingHref);
         }
       }}
     >
@@ -292,7 +295,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
               </a>
             )}
             <Link
-              href={listing.path}
+              href={listingHref}
               onClick={(e) => e.stopPropagation()}
               className="inline-flex items-center gap-1 text-white text-xs font-medium tracking-wide px-3.5 py-2 rounded-lg transition-all duration-200 hover:opacity-90 group/btn"
               style={{ backgroundColor: "#0d365e" }}
@@ -332,6 +335,9 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
   showListingType = true,
   isOffPlan = false,
 }) => {
+  const getListingHref = (listing: PropertyListing) =>
+    isOffPlan ? `/off-plan-properties/in-dubai/${encodeURIComponent(String(listing.id))}` : listing.path;
+
   return (
     <section
       className="pt-8 md:pt-12"
@@ -384,6 +390,7 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
                   listing={listing}
                   index={idx}
                   showListingType={showListingType}
+                  href={getListingHref(listing)}
                 />
               ))}
               {listings.length === 0 && (
