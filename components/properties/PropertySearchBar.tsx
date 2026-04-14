@@ -280,7 +280,7 @@ function FilterDropdown({ value, options, onChange, placeholder, label }: Dropdo
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={`${label}: ${displayValue}`}
-        className="flex h-11 w-full items-center justify-between gap-2 rounded-lg border bg-white px-3.5 py-2.5 text-left text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
+        className="flex h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-lg border bg-white px-3.5 py-2.5 text-left text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
         style={{ color: "var(--charcoal)", borderColor: "var(--border-light)" }}
       >
         <span className="truncate">{displayValue}</span>
@@ -496,7 +496,7 @@ function PriceRangeDropdown({
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-label={`${label}: ${displayLabel}`}
-        className="flex h-11 w-full items-center justify-between gap-2 rounded-lg border bg-white px-3.5 py-2.5 text-left text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
+        className="flex h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-lg border bg-white px-3.5 py-2.5 text-left text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
         style={{ color: "var(--charcoal)", borderColor: "var(--border-light)" }}
       >
         <span className="truncate">
@@ -602,7 +602,7 @@ function PriceRangeDropdown({
                     key={`${activeField}-${opt.value}-${opt.label}`}
                     type="button"
                     onClick={() => selectSuggestion(String(opt.value))}
-                    className="flex items-center justify-between rounded-lg border px-3 py-2 text-sm transition-colors hover:bg-[var(--soft-sand)]/30"
+                    className="flex cursor-pointer items-center justify-between rounded-lg border px-3 py-2 text-sm transition-colors hover:bg-[var(--soft-sand)]/30"
                     style={{ borderColor: "rgba(0,0,0,0.08)", color: "var(--charcoal)" }}
                   >
                     <span className="truncate font-medium">
@@ -622,7 +622,7 @@ function PriceRangeDropdown({
             <button
               type="button"
               onClick={handleReset}
-              className="rounded-lg px-3 py-2 text-sm font-semibold transition-colors hover:bg-[rgba(220,50,50,0.06)]"
+              className="cursor-pointer rounded-lg px-3 py-2 text-sm font-semibold transition-colors hover:bg-[rgba(220,50,50,0.06)]"
               style={{ color: "#C0392B" }}
             >
               Reset
@@ -635,7 +635,7 @@ function PriceRangeDropdown({
                 "rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors",
                 error
                   ? "bg-[var(--rocky-blue)]/60 cursor-not-allowed"
-                  : "bg-[var(--rocky-blue)] hover:bg-[var(--rocky-blue-hover)]",
+                  : "cursor-pointer bg-[var(--rocky-blue)] hover:bg-[var(--rocky-blue-hover)]",
               ].join(" ")}
             >
               Done
@@ -682,7 +682,7 @@ const OptionButton: React.FC<{
     onClick={onSelect}
     aria-pressed={selected}
     className={[
-      "h-9 rounded-full px-3 text-sm font-semibold transition-colors",
+      "h-9 cursor-pointer rounded-full px-3 text-sm font-semibold transition-colors",
       "border",
       selected
         ? "bg-[var(--rocky-blue)] text-white border-[var(--rocky-blue)]"
@@ -781,7 +781,7 @@ function BedsBathsDropdown({
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-label={`${label}: ${displayLabel}`}
-        className="flex h-11 w-full items-center justify-between gap-2 rounded-lg border bg-white px-3.5 py-2.5 text-left text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
+        className="flex h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-lg border bg-white px-3.5 py-2.5 text-left text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
         style={{ color: "var(--charcoal)", borderColor: "var(--border-light)" }}
       >
         <span className="truncate">
@@ -844,7 +844,7 @@ function BedsBathsDropdown({
             <button
               type="button"
               onClick={handleReset}
-              className="rounded-lg px-3 py-2 text-sm font-semibold transition-colors hover:bg-[rgba(220,50,50,0.06)]"
+              className="cursor-pointer rounded-lg px-3 py-2 text-sm font-semibold transition-colors hover:bg-[rgba(220,50,50,0.06)]"
               style={{ color: "#C0392B" }}
             >
               Reset
@@ -852,7 +852,7 @@ function BedsBathsDropdown({
             <button
               type="button"
               onClick={handleDone}
-              className="rounded-lg bg-[var(--rocky-blue)] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[var(--rocky-blue-hover)]"
+              className="cursor-pointer rounded-lg bg-[var(--rocky-blue)] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[var(--rocky-blue-hover)]"
             >
               Done
             </button>
@@ -891,7 +891,7 @@ function ListingDropdown({
         onClick={() => setOpen((p) => !p)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        className="flex h-11 w-full items-center justify-between gap-2 rounded-lg border bg-white px-4 py-2.5 text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
+        className="flex h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-lg border bg-white px-4 py-2.5 text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
         style={{ color: "var(--rocky-blue)", borderColor: "var(--rocky-blue)" }}
       >
         <span>{transactionType === "rent" ? "Rent" : "Buy"}</span>
@@ -1459,7 +1459,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
           onClick={() => setFilterPanelOpen((p) => !p)}
           aria-expanded={filterPanelOpen}
           aria-label={filterPanelOpen ? "Close filters" : "Open filters"}
-          className={`relative flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1 ${filterPanelOpen || hasActiveFilters
+          className={`relative flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1 ${filterPanelOpen || hasActiveFilters
             ? "border-[var(--rocky-blue)] bg-[var(--rocky-blue)] text-white"
             : "border-[var(--border-light)] bg-white text-[var(--charcoal)]"
             }`}
@@ -1489,7 +1489,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
                 type="button"
                 onClick={() => setFilterPanelOpen(false)}
                 aria-label="Close filters"
-                className="flex size-8 items-center justify-center rounded-lg hover:bg-[var(--soft-sand)]/30"
+                className="flex size-8 cursor-pointer items-center justify-center rounded-lg hover:bg-[var(--soft-sand)]/30"
                 style={{ color: "var(--charcoal)" }}
               >
                 <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1529,7 +1529,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
                 <button
                   type="button"
                   onClick={() => handleSearch()}
-                  className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[var(--rocky-blue)] font-medium text-white shadow-sm transition-all hover:bg-[var(--rocky-blue-hover)] hover:shadow-md"
+                  className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[var(--rocky-blue)] font-medium text-white shadow-sm transition-all hover:bg-[var(--rocky-blue-hover)] hover:shadow-md"
                 >
                   <SearchIcon /> Search
                 </button>
@@ -1687,7 +1687,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
         <button
           type="submit"
           aria-label="Search properties"
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[var(--rocky-blue)] text-white transition-colors hover:bg-[var(--rocky-blue-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
+          className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-[var(--rocky-blue)] text-white transition-colors hover:bg-[var(--rocky-blue-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
         >
           <SearchIcon />
         </button>

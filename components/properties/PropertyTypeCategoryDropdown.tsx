@@ -180,7 +180,7 @@ export default function PropertyTypeCategoryDropdown({
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-label={`${label}: ${displayLabel}`}
-        className="flex h-11 w-full items-center justify-between gap-2 rounded-lg border bg-white px-3.5 py-2.5 text-left text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
+        className="flex h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-lg border bg-white px-3.5 py-2.5 text-left text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
         style={{ color: "var(--charcoal)", borderColor: "var(--border-light)" }}
       >
         <span className="truncate">
@@ -231,7 +231,7 @@ export default function PropertyTypeCategoryDropdown({
                       // Do not mutate draft selections on tab switch.
                     }}
                     className={[
-                      "flex-1 rounded-lg px-3 py-2 text-sm font-semibold transition-colors",
+                      "flex-1 cursor-pointer rounded-lg px-3 py-2 text-sm font-semibold transition-colors",
                       isActive
                         ? "bg-[var(--rocky-blue)] text-white"
                         : "text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/30",
@@ -255,7 +255,7 @@ export default function PropertyTypeCategoryDropdown({
                     type="button"
                     onClick={() => handleToggle(opt)}
                     className={[
-                      "flex w-full items-center justify-between gap-3 rounded-lg border px-3 py-2.5 text-left text-sm transition-colors",
+                      "flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg border px-3 py-2.5 text-left text-sm transition-colors",
                       checked
                         ? "border-[var(--rocky-blue)] bg-[var(--rocky-blue)]/8"
                         : "border-[rgba(0,0,0,0.08)] hover:bg-[var(--soft-sand)]/30",
@@ -303,7 +303,7 @@ export default function PropertyTypeCategoryDropdown({
             <button
               type="button"
               onClick={handleReset}
-              className="rounded-lg px-3 py-2 text-sm font-semibold transition-colors hover:bg-[rgba(220,50,50,0.06)]"
+              className="cursor-pointer rounded-lg px-3 py-2 text-sm font-semibold transition-colors hover:bg-[rgba(220,50,50,0.06)]"
               style={{ color: "#C0392B" }}
             >
               Reset
@@ -330,7 +330,7 @@ export default function PropertyTypeCategoryDropdown({
                 onApply(next);
                 setOpen(false);
               }}
-              className="rounded-lg bg-[var(--rocky-blue)] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[var(--rocky-blue-hover)]"
+              className="cursor-pointer rounded-lg bg-[var(--rocky-blue)] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[var(--rocky-blue-hover)]"
             >
               Done
             </button>
