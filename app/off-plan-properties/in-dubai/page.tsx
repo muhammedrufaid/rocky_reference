@@ -14,6 +14,17 @@ import {
 import { areaSearchTermsFromPropertyFilters } from "@/utils/seo";
 
 const PAGE_SIZE = 20;
+const FILTER_WINDOW_LIMIT = 500;
+
+function parsePositiveInt(value: string | undefined) {
+  const n = value != null ? Number(value) : NaN;
+  return Number.isFinite(n) && n > 0 ? n : undefined;
+}
+
+function parseNonNegativeInt(value: string | undefined) {
+  const n = value != null ? Number(value) : NaN;
+  return Number.isFinite(n) && n >= 0 ? n : undefined;
+}6
 
 export const metadata = {
   title: "Developers | Rocky Real Estate",
@@ -30,6 +41,8 @@ export default async function DevelopersPage({
     type?: string;
     min?: string;
     max?: string;
+    beds?: string;
+    baths?: string;
     page?: string;
   }>;
 }) {
@@ -44,23 +57,105 @@ export default async function DevelopersPage({
         : areaTerms[0]
       : undefined;
 
+  const minN = parsePositiveInt(filters.min);
+  const maxN = parsePositiveInt(filters.max);
+  const bedsN = parseNonNegativeInt(filters.beds);
+  const bathsN = parsePositiveInt(filters.baths);
+
+  const hasClientFilters =
+    minN != null || maxN != null || bedsN != null || bathsN != null;
+
+  // Off-plan API filtering is not always reliable/consistent across fields.
+  // When filters are active, fetch a larger window, filter in-memory, then paginate.
+  const fetchPage = hasClientFilters ? 1 : currentPage;
+  const fetchLimit = hasClientFilters ? FILTER_WINDOW_LIMIT : PAGE_SIZE;
+
   const apiData = await getOffPlanProperties({
-    page: currentPage,
-    limit: PAGE_SIZE,
+    page: fetchPage,
+    limit: fetchLimit,
     search: searchForApi,
     propertyType: filters.type,
     min: filters.min,
     max: filters.max,
+    beds: filters.beds,
+    baths: filters.baths,
   });
 
-  const listings = apiData
-    ? mapApiResponseToPropertyListings(apiData, "Buy")
-    : [];
+  const itemsRaw: any[] =
+    (apiData?.properties ??
+      apiData?.data ??
+      (Array.isArray(apiData) ? apiData : [])) as any[];
 
-  const totalItems = apiData ? getTotalFromApiResponse(apiData) : undefined;
+  const itemsFiltered = hasClientFilters
+    ? itemsRaw.filter((item) => {
+        const propertyTypeRaw = String(
+          item?.propertyType ?? item?.property_type ?? ""
+        ).toLowerCase();
+
+        // Price
+        if (minN != null || maxN != null) {
+          const price = Number(item?.price);
+          if (!Number.isFinite(price)) return false;
+          if (minN != null && price < minN) return false;
+          if (maxN != null && price > maxN) return false;
+        }
+
+        // Beds (Studio = 0; 8+ = 8)
+        if (bedsN != null) {
+          const bedsRaw = item?.beds ?? item?.bedrooms;
+          const beds = Number(bedsRaw);
+          if (!Number.isFinite(beds)) return false;
+          if (bedsN === 0) {
+            const isApartment =
+              propertyTypeRaw === "apartment" || propertyTypeRaw.includes("apartment");
+            if (!isApartment) return false;
+          }
+          if (bedsN >= 8) {
+            if (beds < 8) return false;
+          } else {
+            if (beds !== bedsN) return false;
+          }
+        }
+
+        // Baths (6+ = 6)
+        if (bathsN != null) {
+          const bathsRaw = item?.baths ?? item?.bathrooms;
+          const baths = Number(bathsRaw);
+          if (!Number.isFinite(baths)) return false;
+          if (bathsN >= 6) {
+            if (baths < 6) return false;
+          } else {
+            if (baths !== bathsN) return false;
+          }
+        }
+
+        return true;
+      })
+    : itemsRaw;
+
+  const filteredTotalItems = itemsFiltered.length;
+  const totalItems = hasClientFilters
+    ? filteredTotalItems
+    : apiData
+      ? getTotalFromApiResponse(apiData)
+      : undefined;
+
   const totalPages =
     totalItems != null ? Math.max(1, Math.ceil(totalItems / PAGE_SIZE)) : 1;
   const safeCurrentPage = Math.min(currentPage, totalPages);
+
+  const pageStart = (Math.max(1, safeCurrentPage) - 1) * PAGE_SIZE;
+  const pageItems = hasClientFilters
+    ? itemsFiltered.slice(pageStart, pageStart + PAGE_SIZE)
+    : itemsFiltered;
+
+  const listings = pageItems.length
+    ? mapApiResponseToPropertyListings(
+        { ...(apiData ?? {}), properties: pageItems, data: pageItems },
+        "Buy"
+      )
+    : [];
+
   const basePath = `/off-plan-properties/in-dubai`;
 
   const breadcrumb = [
