@@ -8,6 +8,7 @@ import PropertyHighlights from "@/components/properties/PropertyHighlights";
 import PropertyDescription from "@/components/properties/PropertyDescription";
 import PropertyFeatures from "@/components/properties/PropertyFeatures";
 import TestimonialSection from "@/components/home/TestimonialSection";
+import OffPlanIndividualHero from "@/components/properties/OffPlanIndividualHero";
 
 export default async function PropertiesPage({
   params,
@@ -28,12 +29,13 @@ export default async function PropertiesPage({
 
   return (
     <div className="min-h-screen bg-white">
-      <Header forceSolid />
-      <main className="pt-16 md:pt-20">
-          <PropertyGallery
+      <Header />
+      <main className="">
+          {/* <PropertyGallery
             images={images}
             propertyTitle={propertyTitle}
-          />
+          /> */}
+          <OffPlanIndividualHero data={property} />
           <PropertyHeader data={property} />
           <PropertyHighlights data={property} />
           <PropertyDescription propertyDescription={property.propertyDescription ?? ""} />

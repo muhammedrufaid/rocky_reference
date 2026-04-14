@@ -96,8 +96,8 @@ const ChevronRight = () => (
 
 const GridIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-    <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+    <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
+    <rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
   </svg>
 )
 
@@ -109,7 +109,7 @@ const CloseIcon = () => (
 
 const PinIcon = () => (
   <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
   </svg>
 )
 
@@ -378,7 +378,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     <span className="text-[#C3AD95]"><PinIcon /></span>
                     {locationParts.map((part, i) => (
                       <React.Fragment key={i}>
-                        <span className="text-[#C3AD95]/80 text-[11px] tracking-[0.15em] uppercase font-light">
+                        <span className="text-[#f6f6f6] text-[11px] tracking-[0.15em] uppercase font-light">
                           {part}
                         </span>
                         {i < locationParts.length - 1 && (
@@ -393,7 +393,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     variants={fadeUp}
                     custom={1}
                     className="text-3xl md:text-4xl xl:text-5xl font-light leading-[1.08] text-white tracking-tight max-w-2xl"
-                    // style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif", textShadow: '0 2px 20px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.5)' }}
+                  // style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif", textShadow: '0 2px 20px rgba(0,0,0,0.65), 0 1px 4px rgba(0,0,0,0.5)' }}
                   >
                     {resolvedPropertyTitle}
                   </motion.h1>
@@ -406,7 +406,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                         Off Plan
                       </span>
                     )}
-                    <span className="inline-flex items-center px-3 py-1 rounded-sm text-[10px] tracking-[0.18em] uppercase font-light bg-white/10 border border-white/18 text-white/80">
+                    <span className="inline-flex items-center px-3 py-1 rounded-sm text-[10px] tracking-[0.18em] uppercase font-light bg-white/10 border border-white/18 text-[#f6f6f6]">
                       {resolvedPropertyType}
                     </span>
                     {handoverDate && (
@@ -417,7 +417,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                   </motion.div>
 
                   {/* Price */}
-                  <motion.div variants={fadeUp} custom={3} className="flex items-baseline gap-3">
+                  {/* <motion.div variants={fadeUp} custom={3} className="flex items-baseline gap-3">
                     <span
                       className="text-3xl md:text-4xl font-light text-white tracking-tight"
                       // style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif", textShadow: '0 2px 16px rgba(0,0,0,0.55)' }}
@@ -427,7 +427,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     <span className="text-[10px] tracking-[0.18em] uppercase text-white/50 font-light pb-1">
                       Starting Price
                     </span>
-                  </motion.div>
+                  </motion.div> */}
 
                   {/* Highlights strip */}
                   <motion.div variants={fadeUp} custom={4} className="flex gap-0">
@@ -445,7 +445,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                         <span className="text-[#C3AD95]/80">{h.icon}</span>
                         <div className="leading-tight">
                           <span className="block text-[13px] font-medium text-white/95">{h.value}</span>
-                          <span className="block text-[10px] tracking-widest uppercase text-white/50 font-light">{h.label}</span>
+                          <span className="block text-[10px] tracking-widest uppercase text-[#f6f6f6] font-light">{h.label}</span>
                         </div>
                       </div>
                     ))}
@@ -473,9 +473,11 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     </div>
                     <button
                       onClick={() => openLightbox(activeIndex)}
-                      className="flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase text-white/55 hover:text-[#C3AD95] transition-colors duration-200 cursor-pointer"
+                      className="flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase text-[#f6f6f6] hover:text-[#f6f6f6]/80 transition-colors duration-200 cursor-pointer"
                     >
-                      <GridIcon />
+                      <span className='text-[#C3AD95]'>
+                        <GridIcon />
+                      </span>
                       All Photos ({safeImages.length})
                     </button>
                   </motion.div>
@@ -503,10 +505,10 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
 
                     <div className="p-6 flex flex-col gap-4">
                       <div>
-                        <p className="text-[10px] tracking-[0.2em] uppercase text-[#C3AD95]/70 mb-1">Starting From</p>
+                        <p className="text-[10px] tracking-[0.2em] uppercase text-[#f6f6f6] mb-1">Starting From</p>
                         <p
-                          className="text-[1.65rem] font-light text-white leading-tight"
-                          // style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
+                          className="text-[1.65rem] font-semibold text-white leading-tight"
+                        // style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
                         >
                           {resolvedPrice}
                         </p>
@@ -627,7 +629,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
               <button
                 onClick={() => setZoomed((z) => !z)}
                 aria-label={zoomed ? 'Zoom out' : 'Zoom in'}
-                className="w-9 h-9 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition cursor-pointer"
               >
                 {zoomed ? (
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -648,7 +650,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
               <button
                 onClick={closeLightbox}
                 aria-label="Close gallery"
-                className="w-9 h-9 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition cursor-pointer"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -665,7 +667,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
               onClick={() => lightboxNav(-1)}
               disabled={zoomed}
               aria-label="Previous image"
-              className="absolute left-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition disabled:opacity-20 disabled:cursor-not-allowed z-10"
+              className="absolute left-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed z-10"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="15 18 9 12 15 6" />
@@ -697,7 +699,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
               onClick={() => lightboxNav(1)}
               disabled={zoomed}
               aria-label="Next image"
-              className="absolute right-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition disabled:opacity-20 disabled:cursor-not-allowed z-10"
+              className="absolute right-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed z-10"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="9 18 15 12 9 6" />
