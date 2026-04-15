@@ -965,49 +965,49 @@ export const developers: Developer[] = [
     id: 1,
     name: "Damac",
     logo: "/assets/developers/Logos-01.webp",
-    path: "/developers/damac",
+    path: "/off-plan-properties/developers/damac",
   },
   {
     id: 2,
     name: "Emaar",
     logo: "/assets/developers/Logos-02.webp",
-    path: "/developers/emaar",
+    path: "/off-plan-properties/developers/emaar",
   },
   {
     id: 3,
     name: "Ellington",
     logo: "/assets/developers/Logos-03.webp",
-    path: "/developers/ellington",
+    path: "/off-plan-properties/developers/ellington",
   },
   {
     id: 4,
     name: "Sobha Realty",
     logo: "/assets/developers/Logos-04.webp",
-    path: "/developers/sobha",
+    path: "/off-plan-properties/developers/sobha",
   },
   {
     id: 5,
     name: "Meraas",
     logo: "/assets/developers/Logos-05.webp",
-    path: "/developers/meraas",
+    path: "/off-plan-properties/developers/meraas",
   },
   {
     id: 6,
     name: "Leos",
     logo: "/assets/developers/Logos-06.webp",
-    path: "/developers/leos",
+    path: "/off-plan-properties/developers/leos",
   },
   {
     id: 7,
     name: "Beyond",
     logo: "/assets/developers/Logos-07.webp",
-    path: "/developers/beyond",
+    path: "/off-plan-properties/developers/beyond",
   },
   {
     id: 8,
     name: "BT Properties",
     logo: "/assets/developers/Logos-08.webp",
-    path: "/developers/bt-properties",
+    path: "/off-plan-properties/developers/bt-properties",
   }
 ];
 
