@@ -272,24 +272,6 @@ export default function DeveloperHeroSection({
           </div>
         </Container>
 
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-7 left-1/2 z-20 -translate-x-1/2 text-white/50"
-          initial={{ opacity: 0, y: -6 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -6 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          aria-hidden
-        >
-          <div className="flex flex-col items-center gap-1.5">
-            <span className="text-[9px] tracking-[0.28em] uppercase">Scroll</span>
-            <motion.div
-              animate={{ y: [0, 5, 0] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <ChevronDownIcon />
-            </motion.div>
-          </div>
-        </motion.div>
       </section>
 
       {/* ── Modal ── */}

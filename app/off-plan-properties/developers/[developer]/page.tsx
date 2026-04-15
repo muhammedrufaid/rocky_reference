@@ -6,6 +6,8 @@ import Newsletter from "@/components/home/Newsletter";
 import { developers, projects } from "@/utils/data";
 import DeveloperHeroSection from "@/components/off-plan-properties/DeveloperHeroSection";
 import DeveloperAboutSection from "@/components/off-plan-properties/DeveloperAboutSection";
+import DeveloperGlobalPresenceSection from "@/components/off-plan-properties/DeveloperGlobalPresenceSection";
+import DeveloperWhyChooseSection from "@/components/off-plan-properties/DeveloperWhyChooseSection";
 
 type Props = { params: Promise<{ developer: string }> };
 
@@ -52,7 +54,9 @@ export default async function DeveloperPage({ params }: Props) {
           image="/assets/developers/featured/emaar-hero.webp"
         />
         <DeveloperAboutSection />
-        <Newsletter className="py-16 md:py-20 lg:py-24" />
+        <DeveloperGlobalPresenceSection />
+        <DeveloperWhyChooseSection />
+        {/* <Newsletter className="pb-16 md:pb-20 lg:pb-24" /> */}
         <TestimonialSection />
       </main>
       <Footer />
