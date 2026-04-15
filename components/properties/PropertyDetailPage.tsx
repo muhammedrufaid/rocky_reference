@@ -36,7 +36,7 @@ export default function PropertyDetailPage({ property, agent, className }: Prope
             <PropertyContentLayout property={property} />
           </div>
 
-          <div className="w-full md:w-[320px] md:flex-shrink-0 md:sticky md:top-25 md:self-start">
+          <div className="w-full md:w-[320px] md:shrink-0 md:sticky md:top-24 md:self-start">
             <PropertyAgentContactCard agent={resolvedAgent} />
           </div>
         </div>
