@@ -1019,7 +1019,7 @@ export const projects: Project[] = [
     description:
       "Developers behind the tallest building in the world, Burj Khalifa, Emaar has redefined the Dubai skyline with its iconic landmarks, be it master communities or internationally recognized properties.",
     imageUrl:
-      "/assets/developers/featured/emaar-featured.avif",
+      "/assets/developers/featured/emaar-hero.webp",
     imageAlt: "Emaar cultural pavilion with timber shell architecture",
     caption: "Emaar Properties — Dubai, 2022",
   },
@@ -1039,7 +1039,7 @@ export const projects: Project[] = [
     description:
       "One of the most prominent developers in the region, DAMAC Properties, combines luxury living with architectural masterpieces and branded collaborations.",
     imageUrl:
-      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&q=80",
+      "/assets/developers/featured/damac.webp",
     imageAlt: "Biophilic innovation campus with central green valley",
     caption: "Meridian Innovation Campus — Tech Precinct, 2024",
   },
@@ -1049,7 +1049,7 @@ export const projects: Project[] = [
     description:
       "Offering residents a dynamic lifestyle in Dubai, Meraas continues to develop master waterfront communities and beachfront residences across the city.",
     imageUrl:
-      "/assets/developers/featured/citywalk-featured.webp",
+      "/assets/developers/featured/meraas.webp",
     imageAlt: "Hillside residence with rammed earth walls and green roof",
     caption: "Solstice Residence — Blue Mountains, 2021",
   }
