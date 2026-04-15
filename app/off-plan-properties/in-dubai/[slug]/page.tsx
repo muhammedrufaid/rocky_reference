@@ -3,6 +3,9 @@ import Footer from "@/components/layout/Footer";
 import { notFound } from "next/navigation";
 import { getPropertyByRefNo } from "@/utils/getServices";
 import OffPlanIndividualHero from "@/components/properties/OffPlanIndividualHero";
+import PropertyDetailPage from "@/components/properties/PropertyDetailPage";
+import TestimonialSection from "@/components/home/TestimonialSection";
+import Newsletter from "@/components/home/Newsletter";
 
 
 export const metadata = {
@@ -25,9 +28,12 @@ export default async function OffPlanPropertyPage({
 
     return (
         <div className="min-h-screen bg-white">
-            <Header/>
+            <Header />
             <main>
                 <OffPlanIndividualHero data={property} />
+                <PropertyDetailPage property={property} />
+                <Newsletter className="py-16 md:py-20 lg:py-24"/>
+                <TestimonialSection />
             </main>
             <Footer />
         </div>
