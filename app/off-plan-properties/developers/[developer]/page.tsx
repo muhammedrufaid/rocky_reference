@@ -4,8 +4,8 @@ import Footer from "@/components/layout/Footer";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import Newsletter from "@/components/home/Newsletter";
 import { developers, projects } from "@/utils/data";
-import { getOffPlanProperties } from "@/utils/getServices";
 import DeveloperHeroSection from "@/components/off-plan-properties/DeveloperHeroSection";
+import DeveloperAboutSection from "@/components/off-plan-properties/DeveloperAboutSection";
 
 type Props = { params: Promise<{ developer: string }> };
 
@@ -41,7 +41,6 @@ export default async function DeveloperPage({ params }: Props) {
   const { developer } = await params;
   const data = getDeveloperData(developer);
   if (!data) notFound();
-  const offPlanPropertiesData = await getOffPlanProperties();
 
   return (
     <div className="min-h-screen bg-white">
@@ -52,7 +51,7 @@ export default async function DeveloperPage({ params }: Props) {
           description={data.description}
           image="/assets/developers/featured/emaar-hero.webp"
         />
-
+        <DeveloperAboutSection />
         <Newsletter className="py-16 md:py-20 lg:py-24" />
         <TestimonialSection />
       </main>
