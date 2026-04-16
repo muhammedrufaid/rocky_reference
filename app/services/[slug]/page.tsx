@@ -57,7 +57,7 @@ export default async function ServiceIndividualPage({ params }: Props) {
         {/* <WhychooseSection /> */}
         {/* <DevelopmentPartnersSection /> */}
         {/* <FaqsSection />   */}
-        <ValuationCTA className="py-16 md:py-20 lg:py-24" />
+        <ValuationCTA className="pb-16 md:pb-20 lg:pb-24" />
         <TestimonialSection />
 
       </main>
