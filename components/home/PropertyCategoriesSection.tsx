@@ -32,7 +32,7 @@ const categories = [
         label: "Valuation",
         description:
             "Maximise your property’s value through our extensive network of qualified buyers and curated strategies.",
-        href: "/sell",
+        href: "/sell-your-property",
         // Bright white luxury villa with pool and palm trees
         image: "/assets/common/sell.webp",
     },

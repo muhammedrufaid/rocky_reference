@@ -109,7 +109,7 @@ const PageHero: React.FC<PageHeroProps> = ({
                     aria-hidden
                     style={{ color: "rgba(195, 173, 149, 0.4)" }}
                   >
-                    —
+                    /
                   </span>
                 )}
                 {item.href ? (
