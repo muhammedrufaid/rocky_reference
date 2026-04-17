@@ -250,8 +250,6 @@ export default function PropertyContentLayout({ property, className }: PropertyC
       { label: "Furnishing", value: safeText(property.furnished) || "-" },
       { label: "Price per sqm", value: pricePerSqm || "-" },
       { label: "Property Type", value: safeText(property.propertyType) || "-" },
-      { label: "RERA No.", value: "-" },
-      { label: "Parking Lots", value: "-" },
       { label: "Reference No.", value: safeText(property.propertyRefNo) || "-" },
       { label: "DLD Permit Number", value: safeText(property.permitNumber) || "-" },
     ];
