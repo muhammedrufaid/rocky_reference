@@ -310,7 +310,7 @@ export default function SellPropertyForm() {
                 <div className="pt-1">
                   <button
                     type="submit"
-                    className="w-full rounded-xl bg-[#0D365E] px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/40 focus-visible:ring-offset-2"
+                    className="w-full cursor-pointer rounded-xl bg-[#0D365E] px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/40 focus-visible:ring-offset-2"
                   >
                     Send Enquiry &rarr;
                   </button>
