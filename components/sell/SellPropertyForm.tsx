@@ -86,10 +86,10 @@ const propertyTypes = [
 ] as const;
 
 const inputBase =
-  "w-full bg-white  rounded-xl px-4 py-3 text-sm outline-none transition focus:ring-1 focus:ring-[#1C4E80]/40 focus:border-[#1C4E80]";
+  "w-full bg-white rounded-xl px-4 py-3.5 text-base outline-none transition focus:ring-1 focus:ring-[#1C4E80]/40 focus:border-[#1C4E80]";
 
 const labelBase =
-  "mb-1.5 block text-[10px] uppercase tracking-widest font-medium text-[#333333]/60";
+  "mb-2 block text-xs uppercase tracking-widest font-medium text-[#333333]/60";
 
 export default function SellPropertyForm() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -152,7 +152,7 @@ export default function SellPropertyForm() {
                     >
                       <Icon />
                     </span>
-                    <span className="text-sm font-medium text-[#081F3A]">
+                    <span className="text-base font-medium text-[#000000]/70">
                       {point.label}
                     </span>
                   </motion.div>
@@ -182,14 +182,14 @@ export default function SellPropertyForm() {
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-baseline gap-x-2">
-                  <p className="text-sm font-medium text-[#081F3A]">
+                  <p className="text-base font-medium text-[#081F3A]">
                     Sarah Al Habtoor
                   </p>
-                  <p className="text-xs text-[#333333]/60">Property Specialist</p>
+                  <p className="text-sm text-[#333333]/60">Property Specialist</p>
                 </div>
                 <a
                   href="tel:+97144476644"
-                  className="mt-1 inline-flex text-sm font-medium text-[#0D365E] hover:text-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/30 focus-visible:ring-offset-2 rounded"
+                  className="mt-1 inline-flex text-base font-medium text-[#0D365E] hover:text-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/30 focus-visible:ring-offset-2 rounded"
                 >
                   +971 4 447 6644
                 </a>
@@ -310,7 +310,7 @@ export default function SellPropertyForm() {
                 <div className="pt-1">
                   <button
                     type="submit"
-                    className="w-full cursor-pointer rounded-xl bg-[#0D365E] px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/40 focus-visible:ring-offset-2"
+                    className="w-full cursor-pointer rounded-xl bg-[#0D365E] px-6 py-4 text-base font-medium text-white transition-colors hover:bg-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/40 focus-visible:ring-offset-2"
                   >
                     Send Enquiry &rarr;
                   </button>

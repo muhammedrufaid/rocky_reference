@@ -5,6 +5,8 @@ import TestimonialSection from "@/components/home/TestimonialSection";
 import FaqsSection from "@/components/common/FaqsSection";
 import Newsletter from "@/components/home/Newsletter";
 import SellPropertyForm from "@/components/sell/SellPropertyForm";
+import WhySellWithUs from "@/components/sell/WhySellWithUs";
+
 
 
 
@@ -29,8 +31,8 @@ export default function SellYourPropertyPage() {
         />
 
         <SellPropertyForm />
-
-        <Newsletter  className="pb-16 md:pb-20 lg:pb-24"/>
+        <WhySellWithUs />
+        <Newsletter  className="py-16 md:py-20 lg:py-24"/>
         <TestimonialSection backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24"/>
         <FaqsSection />  
 
