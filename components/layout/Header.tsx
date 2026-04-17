@@ -208,12 +208,26 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
               {/* Secondary CTA - Call */}
               <a
                 href="tel:+971501234567"
-                className={`hidden sm:flex items-center justify-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-500 ${
+                className={`hidden sm:flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-500 ${
                   isSolid
                     ? "text-[var(--rocky-blue)] border border-[var(--rocky-blue)] hover:bg-[var(--rocky-blue)] hover:text-white"
                     : "text-white border border-white/80 hover:bg-white hover:text-[var(--rocky-blue)]"
                 }`}
               >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 5.5C3 4.12 4.12 3 5.5 3h1.1c.73 0 1.37.47 1.6 1.16l.8 2.4c.2.6.03 1.26-.44 1.69l-1.1 1a14.5 14.5 0 007.98 7.98l1-1.1c.43-.47 1.09-.64 1.69-.44l2.4.8c.69.23 1.16.87 1.16 1.6v1.1C21 19.88 19.88 21 18.5 21H17c-7.73 0-14-6.27-14-14V5.5z"
+                  />
+                </svg>
                 Call
               </a>
 
