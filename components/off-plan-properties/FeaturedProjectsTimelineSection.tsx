@@ -30,7 +30,8 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
   const isPinRefreshingRef = useRef(false);
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeIndexRef = useRef(0);
+  // Start at -1 so the initial activation (index 0) doesn't early-return.
+  const activeIndexRef = useRef(-1);
 
   const schedulePinRefresh = useCallback(() => {
     // Avoid calling ScrollTrigger.refresh() from within ScrollTrigger callbacks,
@@ -224,6 +225,10 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
           if (el) gsap.set(el, { display: "none" });
         });
 
+        // Ensure the first project is open immediately on first view.
+        // (Don't wait for the left-panel entrance timeline to complete.)
+        activateProject(0, false);
+
         // Left panel entrance
         const leftTl = gsap.timeline({
           scrollTrigger: {
@@ -239,8 +244,6 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
           ease: EASE_OUT_EXPO,
           onComplete: () => {
             gsap.set(leftPanelRef.current, { willChange: "auto" });
-            // Activate first project without animation after panel fades in.
-            activateProject(0, false);
           },
         });
 
@@ -387,7 +390,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                           }}
                           className="overflow-hidden"
                         >
-                          <p className="text-sm leading-[1.75] opacity-65 mt-3 max-w-[60ch]">
+                          <p className="text-base leading-[1.75] opacity-65 mt-3 max-w-[60ch]">
                             {project.description}
                           </p>
                         </div>
