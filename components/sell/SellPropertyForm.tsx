@@ -189,7 +189,7 @@ export default function SellPropertyForm() {
                 </div>
                 <a
                   href="tel:+97144476644"
-                  className="mt-1 inline-flex text-sm font-medium text-[#0D365E] underline underline-offset-4 decoration-[#C3AD95]/70 hover:decoration-[#C3AD95] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/30 focus-visible:ring-offset-2 rounded"
+                  className="mt-1 inline-flex text-sm font-medium text-[#0D365E] hover:text-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/30 focus-visible:ring-offset-2 rounded"
                 >
                   +971 4 447 6644
                 </a>

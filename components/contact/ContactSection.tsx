@@ -221,7 +221,7 @@ const ContactSection: React.FC = () => {
                         {contact.href ? (
                           <a
                             href={contact.href}
-                            className="inline-flex text-sm font-medium text-[#0D365E] underline underline-offset-4 decoration-[#C3AD95]/70 hover:decoration-[#C3AD95] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/30 focus-visible:ring-offset-2 rounded"
+                            className="text-sm font-medium text-[#0D365E] hover:text-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/30 focus-visible:ring-offset-2 rounded"
                           >
                             {lines[0]}
                           </a>
@@ -405,9 +405,9 @@ const ContactSection: React.FC = () => {
                   <motion.div variants={fadeUp} custom={7}>
                     <button
                       type="submit"
-                      className="w-full rounded-lg bg-[#0d365e] px-6 py-3 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:bg-[#1c4e80] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-600 focus-visible:ring-offset-2 active:scale-[0.99]"
+                      className="w-full cursor-pointer rounded-lg bg-[#0d365e] px-6 py-3 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:bg-[#1c4e80] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-600 focus-visible:ring-offset-2 active:scale-[0.99]"
                     >
-                      Send Inquiry
+                      Send Enquiry &rarr;
                     </button>
                   </motion.div>
                 </div>
