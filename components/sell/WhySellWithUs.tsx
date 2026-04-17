@@ -66,9 +66,9 @@ export default function WhySellWithUs({ className }: WhySellWithUsProps) {
                             <p className="mb-3 text-3xl font-medium leading-none text-(--sandstone-taupe)/30 sm:text-4xl">
                                 {num}
                             </p>
-                            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-full border border-(--border-light) text-[#C3AD95]">
+                            {/* <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-full border border-(--border-light) text-[#C3AD95]">
                                 <Icon className="h-5 w-5" aria-hidden />
-                            </div>
+                            </div> */}
                             <h3 className="mb-2 text-base font-medium leading-snug text-(--midnight-blue) sm:text-lg">
                                 {title}
                             </h3>
