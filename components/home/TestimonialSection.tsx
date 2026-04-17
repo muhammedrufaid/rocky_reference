@@ -121,7 +121,7 @@ const TestimonialSection: React.FC<{ backgroundColor?: string, className?: strin
             768: { slidesPerView: 2, slidesPerGroup: 2 },
             1024: { slidesPerView: 3, slidesPerGroup: 3 },
           }}
-          className="!overflow-hidden"
+          className="overflow-hidden!"
         >
           {testimonials.map((testimonial, index) => (
             <SwiperSlide key={testimonial.id}>

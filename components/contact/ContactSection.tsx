@@ -150,37 +150,37 @@ const ContactSection: React.FC = () => {
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "#faf9f7" }}
+        style={{ background: "#ffffff" }}
       />
 
       <Container className="relative">
-
-
-        <div className="mb-4 md:mb-8">
-          <motion.h2
-            id="off-plan-section-heading"
-            className="text-2xl sm:text-3xl md:text-4xl font-medium leading-tight"
-            style={{ color: "#0d365e" }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
-          >
-            Get in Touch
-          </motion.h2>
-        </div>
-
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12 lg:gap-16">
           {/* ── LEFT: Contact Info ── */}
           <motion.div
-            className="flex flex-col gap-6"
+            className="flex flex-col"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}
           >
+            <motion.h2
+              id="contact-section-heading"
+              className="mt-6 text-2xl font-medium leading-tight text-[#081F3A] sm:text-3xl md:text-4xl"
+              variants={fadeUp}
+              custom={0}
+            >
+              Get in Touch
+            </motion.h2>
+
+            <motion.div
+              className="mt-4 h-[2px] w-10 bg-[#C3AD95]"
+              variants={fadeUp}
+              custom={0.5}
+              aria-hidden
+            />
+
             {/* Intro text */}
             <motion.p
-              className="text-sm leading-relaxed text-[#0d365e]"
+              className="mt-3 max-w-2xl text-base leading-relaxed text-[#333333]/60 md:text-lg"
               variants={fadeUp}
               custom={1}
             >
@@ -191,24 +191,24 @@ const ContactSection: React.FC = () => {
 
             {/* Contact details panel */}
             <motion.div
-              className="rounded-2xl border border-stone-100 bg-white p-6 md:p-8"
+              className="mt-8"
               variants={fadeUp}
               custom={2}
             >
-              <div className="flex flex-col gap-6">
+              <div className="space-y-4">
                 {contacts.map((contact, i) => {
                   const Icon = contact.icon;
                   const lines = contact.value.split("\n");
                   return (
                     <motion.div
                       key={contact.id}
-                      className="flex items-center gap-4"
+                      className="flex items-start gap-3"
                       variants={fadeUp}
                       custom={3 + i}
                     >
                       {/* Icon badge */}
                       <span
-                        className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-stone-100 bg-stone-50 text-stone-500"
+                        className="mt-0.5 inline-flex text-[#C3AD95]"
                         aria-hidden
                       >
                         <Icon />
@@ -221,12 +221,12 @@ const ContactSection: React.FC = () => {
                         {contact.href ? (
                           <a
                             href={contact.href}
-                            className="text-sm text-stone-700 transition-colors duration-150 hover:text-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-300 focus-visible:ring-offset-2 rounded"
+                            className="inline-flex text-sm font-medium text-[#0D365E] underline underline-offset-4 decoration-[#C3AD95]/70 hover:decoration-[#C3AD95] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/30 focus-visible:ring-offset-2 rounded"
                           >
                             {lines[0]}
                           </a>
                         ) : (
-                          <address className="not-italic text-sm text-stone-700">
+                          <address className="not-italic text-sm font-medium text-[#081F3A]">
                             {lines.map((line, idx) => (
                               <React.Fragment key={idx}>
                                 {line}
@@ -241,7 +241,6 @@ const ContactSection: React.FC = () => {
                 })}
               </div>
             </motion.div>
-
           </motion.div>
 
           {/* ── RIGHT: Contact Form ── */}
@@ -252,7 +251,7 @@ const ContactSection: React.FC = () => {
           >
             {submitted ? (
               <motion.div
-                className="flex h-full min-h-[400px] flex-col items-center justify-center rounded-2xl border border-stone-100 bg-white p-8 text-center"
+                className="flex h-full min-h-[400px] flex-col items-center justify-center rounded-2xl bg-[#F6F6F6] p-8 text-center"
                 variants={fadeUp}
                 custom={1}
               >
@@ -285,7 +284,7 @@ const ContactSection: React.FC = () => {
             ) : (
               <motion.form
                 onSubmit={handleSubmit}
-                className="rounded-2xl border border-stone-100 bg-white p-6 md:p-8"
+                className="rounded-2xl bg-[#F6F6F6] p-6 sm:p-8"
                 noValidate
                 aria-label="Contact form"
                 variants={fadeUp}
@@ -370,7 +369,7 @@ const ContactSection: React.FC = () => {
                       name="inquiryType"
                       value={formState.inquiryType}
                       onChange={handleChange}
-                      className={`${inputBase} cursor-pointer appearance-none bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a8a29e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")] bg-[position:right_1rem_center] bg-no-repeat pr-10`}
+                      className={`${inputBase} cursor-pointer appearance-none bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a8a29e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")] bg-position-[right_1rem_center] bg-no-repeat pr-10`}
                       aria-label="Select inquiry type"
                     >
                       {INQUIRY_TYPES.map((type) => (

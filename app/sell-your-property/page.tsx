@@ -4,6 +4,8 @@ import PageHero from "@/components/common/PageHero";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import FaqsSection from "@/components/common/FaqsSection";
 import Newsletter from "@/components/home/Newsletter";
+import SellPropertyForm from "@/components/sell/SellPropertyForm";
+
 
 
 export const metadata = {
@@ -12,7 +14,7 @@ export const metadata = {
     "Meet our expert real estate advisors. Browse our team of specialists in sales, leasing, off-plan investments, and property management.",
 };
 
-export default function SellYourPropertyPage() {
+export default function SellYourPropertyPage() { 
   return (
     <div className="min-h-screen bg-white">
       <Header forceSolid />
@@ -25,8 +27,10 @@ export default function SellYourPropertyPage() {
             { label: "Sell Your Property" },
           ]}
         />
-       
-        <Newsletter  className="py-16 md:py-20 lg:py-24"/>
+
+        <SellPropertyForm />
+
+        <Newsletter  className="pb-16 md:pb-20 lg:pb-24"/>
         <TestimonialSection backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24"/>
         <FaqsSection />  
 
