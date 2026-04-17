@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import Container from "@/components/layout/Container";
 
 const sections = [
@@ -252,9 +252,9 @@ const fadeUp = {
     visible: (i: number) => ({
         opacity: 1,
         y: 0,
-        transition: { delay: i * 0.06, duration: 0.4, ease: "easeOut" },
+        transition: { delay: i * 0.06, duration: 0.4, ease: [0.16, 1, 0.3, 1] },
     }),
-};
+} satisfies Variants;
 
 const PrivacyContent: React.FC = () => {
     return (
