@@ -429,7 +429,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                   <h3 className="mt-2 mb-0 text-lg font-semibold tracking-[-0.01em]">
                     {project.title}
                   </h3>
-                  <p className="mt-2 mb-0 text-sm leading-[1.75] opacity-75">
+                  <p className="mt-2 mb-0 text-base leading-[1.75] opacity-75">
                     {project.description}
                   </p>
                 </div>
