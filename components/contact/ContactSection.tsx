@@ -9,8 +9,8 @@ const INQUIRY_TYPES = ["Buy", "Sell", "Rent", "General"] as const;
 const LocationIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
+    width="16"
+    height="16"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -27,8 +27,8 @@ const LocationIcon = () => (
 const PhoneIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
+    width="16"
+    height="16"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -44,8 +44,8 @@ const PhoneIcon = () => (
 const MailIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
+    width="16"
+    height="16"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -221,12 +221,12 @@ const ContactSection: React.FC = () => {
                         {contact.href ? (
                           <a
                             href={contact.href}
-                            className="text-sm font-medium text-[#0D365E] hover:text-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/30 focus-visible:ring-offset-2 rounded"
+                            className="text-sm md:text-base  text-[#0D365E] hover:text-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/30 focus-visible:ring-offset-2 rounded"
                           >
                             {lines[0]}
                           </a>
                         ) : (
-                          <address className="not-italic text-sm font-medium text-[#081F3A]">
+                          <address className="not-italic text-sm md:text-base  text-[#081F3A]">
                             {lines.map((line, idx) => (
                               <React.Fragment key={idx}>
                                 {line}

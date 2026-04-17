@@ -152,7 +152,7 @@ export default function SellPropertyForm() {
                     >
                       <Icon />
                     </span>
-                    <span className="text-base font-medium text-[#000000]/70">
+                    <span className="text-base text-[#000000]/70">
                       {point.label}
                     </span>
                   </motion.div>
