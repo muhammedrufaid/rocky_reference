@@ -258,7 +258,7 @@ const Footer: React.FC = () => {
                         <nav aria-label="Footer legal links">
                             <ul className="flex flex-wrap justify-center gap-4">
                                 <li className="border-r border-white/20 pr-4">
-                                    <Link href="/policy-policy" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded">
+                                    <Link href="/privacy-policy" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded">
                                         Privacy Policy
                                     </Link>
                                 </li>
