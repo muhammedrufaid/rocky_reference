@@ -263,8 +263,8 @@ const Footer: React.FC = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/terms" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded">
-                                        Terms of Use
+                                    <Link href="/terms-and-conditions" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded">
+                                        Terms and Conditions
                                     </Link>
                                 </li>
                             </ul>
