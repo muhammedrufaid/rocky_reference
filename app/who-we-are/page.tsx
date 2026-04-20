@@ -6,41 +6,32 @@ import FaqsSection from "@/components/common/FaqsSection";
 import Newsletter from "@/components/home/Newsletter";
 import SellPropertyForm from "@/components/sell/SellPropertyForm";
 import WhySellWithUs from "@/components/sell/WhySellWithUs";
-import SalesHeroSection from "@/components/sell/SalesHeroSection";
-
-
-
 
 export const metadata = {
-  title: "Sell Your Property | Rocky Real Estate",
+  title: "Who We Are | Rocky Real Estate",
   description:
     "Meet our expert real estate advisors. Browse our team of specialists in sales, leasing, off-plan investments, and property management.",
 };
 
-export default function SellYourPropertyPage() {
+export default function WhoWeArePage() { 
   return (
-    <div className="min-h-screen ">
-      <Header  />
-      <main className="">
-        {/* <PageHero
+    <div className="min-h-screen bg-white">
+      <Header forceSolid />
+      <main className="site-header-offset">
+        <PageHero
           title="Sell Your Property"
           description=""
           breadcrumb={[
             { label: "Home", href: "/" },
             { label: "Sell Your Property" },
           ]}
-        /> */}
-        <SalesHeroSection
-          title="Sell Your Property"
-          description="Sell your property quickly and at the right price with expert real estate support. Take advantage of today’s fast-moving property market."
-          image="/assets/common/selling.webp"
         />
 
         <SellPropertyForm />
         <WhySellWithUs />
-        <Newsletter className="py-16 md:py-20 lg:py-24" />
-        <TestimonialSection backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24" />
-        <FaqsSection />
+        <Newsletter  className="py-16 md:py-20 lg:py-24"/>
+        <TestimonialSection backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24"/>
+        <FaqsSection />  
 
       </main>
       <Footer />
