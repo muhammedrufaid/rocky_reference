@@ -13,25 +13,27 @@ export const metadata = {
     "Meet our expert real estate advisors. Browse our team of specialists in sales, leasing, off-plan investments, and property management.",
 };
 
-export default function WhoWeArePage() { 
+export default function WhoWeArePage() {
   return (
     <div className="min-h-screen bg-white">
       <Header forceSolid />
       <main className="site-header-offset">
         <PageHero
-          title="Sell Your Property"
+          title="Who We Are"
           description=""
           breadcrumb={[
             { label: "Home", href: "/" },
-            { label: "Sell Your Property" },
+            { label: "Who We Are" },
           ]}
         />
 
-        <SellPropertyForm />
-        <WhySellWithUs />
-        <Newsletter  className="py-16 md:py-20 lg:py-24"/>
-        <TestimonialSection backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24"/>
-        <FaqsSection />  
+        {/* <ourStorySection /> */}
+        {/* <ourMissionSection />
+        <ourVisionSection />
+        <ourValuesSection /> */}
+        <Newsletter className="py-16 md:py-20 lg:py-24" />
+        <TestimonialSection backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24" />
+        <FaqsSection />
 
       </main>
       <Footer />
