@@ -17,6 +17,7 @@ import {
   LocationIcon,
   PhotosIcon,
   WhatsAppIcon,
+  DirhamIcon,
 } from "@/utils/icons";
 import PropertiesPagination from "@/components/properties/PropertiesPagination";
 import Container from "@/components/layout/Container";
@@ -108,6 +109,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
   const displayTitle = listing.towerName?.trim() || listing.subLocality?.trim() || listing.title;
   const propertyTitle = listing.propertyTitle?.trim();
   const listingHref = href ?? listing.path;
+  const displayPrice = String(listing.price ?? "").replace(/^\s*aed\s*/i, "").trim();
 
   const nextImg = () => setActiveImg((p) => (p + 1) % images.length);
   const prevImg = () => setActiveImg((p) => (p - 1 + images.length) % images.length);
@@ -231,8 +233,11 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
         {/* Bottom row: Price + actions */}
         <div className="flex items-center justify-between gap-2 mt-auto">
           {/* Price */}
-          <p className="text-lg font-semibold tracking-tight" style={{ color: "#0d365e" }}>
-            {listing.price}
+          <p className="text-lg font-semibold tracking-tight leading-none" style={{ color: "#0d365e" }}>
+            <span className="inline-flex items-end gap-0.5 whitespace-nowrap">
+              <DirhamIcon className="w-[15px] h-[15px] shrink-0 mb-[2px]" aria-hidden />
+              <span>{displayPrice}</span>
+            </span>
           </p>
 
           {/* Action buttons */}
