@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
+import { DirhamIcon } from "@/utils/icons";
 
 interface FeaturedOffPlanProjectsProps {
   data: any;
@@ -214,9 +215,14 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
                       className="text-sm font-bold mt-0.5"
                       style={{ color: "#0d365e" }}
                     >
-                      {project.price
-                        ? `AED ${Number(project.price).toLocaleString()}`
-                        : "—"}
+                      {project.price ? (
+                        <span className="inline-flex items-center gap-1">
+                          <DirhamIcon className="w-4 h-4 shrink-0" />
+                          <span>{Number(project.price).toLocaleString()}</span>
+                        </span>
+                      ) : (
+                        "—"
+                      )}
                     </p>
                   </div>
                 </Link>

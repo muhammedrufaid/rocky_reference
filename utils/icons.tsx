@@ -11,6 +11,37 @@ const svgProps = {
   "aria-hidden": true,
 } as const;
 
+export type DirhamIconProps = React.SVGProps<SVGSVGElement> & {
+  title?: string;
+};
+
+export function DirhamIcon({ title, className, ...props }: DirhamIconProps) {
+  const ariaHidden = title ? undefined : true;
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      role={title ? "img" : undefined}
+      aria-hidden={ariaHidden}
+      className={["inline-block align-[-0.125em]", className].filter(Boolean).join(" ")}
+      {...props}
+    >
+      {title ? <title>{title}</title> : null}
+
+      <path d="M8 4v16" />
+      <path d="M8 4h5.5a5.5 5.5 0 0 1 0 16H8" />
+      <path d="M6 9.5h9" />
+      <path d="M6 14.5h9" />
+    </svg>
+  );
+}
+
 export const serviceIcons: Record<string, React.ReactNode> = {
   "property-management": (
     <svg {...svgProps}>
