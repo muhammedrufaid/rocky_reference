@@ -268,7 +268,7 @@ export default function PropertyContentLayout({ property, className }: PropertyC
       <FeaturesAmenitiesSection features={features} />
       <DescriptionSection description={property.propertyDescription} />
       <ListingDetailsSection detailRows={detailRows} />
-      {/* <LocationSection mapQuery={mapQuery} /> */}
+      <LocationSection mapQuery={mapQuery} />
     </div>
   );
 }
