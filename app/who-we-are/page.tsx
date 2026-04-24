@@ -29,6 +29,7 @@ export default function WhoWeArePage() {
         />
 
         <AboutRockySection />
+        {/* <WhatWeDo /> */}
 
         {/* <AboutRocky />
 <WhatWeDo />

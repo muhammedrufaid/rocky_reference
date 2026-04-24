@@ -39,7 +39,7 @@ const AboutRockySection: React.FC<{ className?: string }> = ({ className }) => {
     return (
         <section
             ref={sectionRef}
-            className={className ?? "py-16 md:py-20 lg:py-24 bg-white"}
+            className={className ?? "pt-16 md:pt-20 lg:pt-24 bg-white"}
             aria-labelledby="about-heading"
         >
             <Container>
@@ -74,7 +74,7 @@ const AboutRockySection: React.FC<{ className?: string }> = ({ className }) => {
                             custom={0.26}
                             className="mb-12 max-w-[520px]"
                         >
-                            <p className={bodyParagraphClass}>
+                            <p className={"max-w-2xl text-base leading-relaxed text-[#333333]/60 md:text-lg"}>
                                 Since 1976, Rocky Real Estate has been a long-standing and trusted
                                 leader in Dubai’s real estate market. With over 5 decades of
                                 experience, the company delivers transparency, excellence, and
@@ -147,7 +147,7 @@ const AboutRockySection: React.FC<{ className?: string }> = ({ className }) => {
                         {/* Main image */}
                         <div className="relative h-[420px] sm:h-[500px] lg:h-[580px] w-full overflow-hidden rounded-2xl">
                             <Image
-                                src="https://images.pexels.com/photos/3763190/pexels-photo-3763190.jpeg"
+                                src="/assets/common/rockyabout.webp"
                                 alt="Rocky Real Estate — Dubai skyline property"
                                 fill
                                 className="object-cover"
@@ -169,11 +169,7 @@ const AboutRockySection: React.FC<{ className?: string }> = ({ className }) => {
                                 </div>
                             ))}
                         </div>
-
-                      
                     </motion.div>
-
-
                 </div>
             </Container>
         </section>
