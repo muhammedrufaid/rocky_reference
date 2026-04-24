@@ -235,7 +235,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
           {/* Price */}
           <p className="text-lg font-semibold tracking-tight leading-none" style={{ color: "#0d365e" }}>
             <span className="inline-flex items-end gap-0.5 whitespace-nowrap">
-              <DirhamIcon className="w-[15px] h-[15px] shrink-0 mb-[2px]" aria-hidden />
+              <DirhamIcon className="w-[16px] h-[16px] shrink-0 mb-[2px]" aria-hidden />
               <span>{displayPrice}</span>
             </span>
           </p>

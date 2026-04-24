@@ -12,6 +12,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 import Container from '../layout/Container'
 import type { ApiPropertyDetail } from '@/utils/getServices'
+import { DirhamIcon } from '@/utils/icons'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -147,7 +148,9 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
 }) => {
   const resolvedImages = (data?.images ?? images) as string[]
   const resolvedPropertyTitle = data?.propertyTitle ?? data?.towerName ?? data?.propertyRefNo ?? propertyTitle
-  const resolvedPrice = data?.price ? `AED ${Number(data.price).toLocaleString()}` : price
+  const resolvedPrice = data?.price != null
+    ? Number(data.price).toLocaleString()
+    : String(price ?? '').replace(/^\s*aed\s*/i, '').trim()
   const resolvedCity = data?.city ?? city
   const resolvedLocality = data?.locality ?? locality
   const resolvedSubLocality = data?.subLocality ?? subLocality
@@ -510,7 +513,10 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                           className="text-[1.65rem] font-semibold text-white leading-tight"
                         // style={{ fontFamily: "'Cormorant Garamond', 'Georgia', serif" }}
                         >
-                          {resolvedPrice}
+                          <span className="inline-flex items-center gap-1 whitespace-nowrap leading-none">
+                            <DirhamIcon className="w-[20px] h-[20px] shrink-0 " aria-hidden />
+                            <span className="leading-none">{resolvedPrice}</span>
+                          </span>
                         </p>
                       </div>
 
