@@ -5,281 +5,174 @@ import Image from "next/image";
 import Container from "@/components/layout/Container";
 import { motion, useInView } from "framer-motion";
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
 const fadeUp = {
-    hidden: { opacity: 0, y: 28 },
+    hidden: { opacity: 0, y: 32 },
     visible: (delay = 0) => ({
         opacity: 1,
         y: 0,
-        transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const, delay },
+        transition: { duration: 0.6, ease, delay },
     }),
 };
+
+const highlights = [
+    { label: "50+", sub: "Years Active" },
+    { label: "1976", sub: "Est. Dubai" },
+    { label: "100%", sub: "Client Focus" },
+    { label: "1st", sub: "Market Tier" },
+];
+
+const pillars = [
+    "Exclusive Listings",
+    "End-to-End Support",
+    "Deep Market Knowledge",
+    "Transparent Advisory",
+];
 
 const AboutRockySection: React.FC<{ className?: string }> = ({ className }) => {
     const sectionRef = useRef<HTMLElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: "-60px" });
+    const bodyParagraphClass =
+        "mt-3 max-w-2xl text-base leading-relaxed text-[#333333]/60 md:text-lg";
 
     return (
         <section
             ref={sectionRef}
-            className={className ?? "py-16 md:py-20 lg:py-24"}
-            aria-labelledby="valuation-heading"
+            className={className ?? "py-16 md:py-20 lg:py-24 bg-white"}
+            aria-labelledby="about-heading"
         >
             <Container>
-                {/* Grid Layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
-                    {/* LEFT: Text Content */}
-                    <div className="flex flex-col gap-6">
-
-                        {/* Heading */}
-                        <motion.h2
-                            id="valuation-heading"
-                            variants={fadeUp}
-                            initial="hidden"
-                            animate={isInView ? "visible" : "hidden"}
-                            custom={0.1}
-                            className="text-4xl md:text-5xl font-medium leading-tight tracking-tight"
-                            style={{
-                                color: "#0D365E",
-                            }}
-                        >
-                            About Rocky
-                        </motion.h2>
-
-                        {/* Description */}
+                {/* Body: two columns */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+                    {/* RIGHT: Copy */}
+                    <div className="lg:col-span-6 flex flex-col justify-start pt-2">
+                        {/* Title (inside grid) */}
                         <motion.div
                             variants={fadeUp}
                             initial="hidden"
                             animate={isInView ? "visible" : "hidden"}
-                            custom={0.2}
-                            className="flex flex-col gap-4 text-base leading-relaxed"
-                            style={{ color: "#333333" }}
+                            custom={0.08}
+                            className="mb-6"
                         >
-                            <p>
-                                Rocky Real Estate has been a trusted leader in Dubai's real estate
-                                market since 1976. With over five decades of experience, the company
-                                is built on{" "}
-                                <span
-                                    style={{ color: "#0D365E" }}
-                                >
-                                    transparency, excellence, and integrity
-                                </span>
-                                .
+                            <div className="flex items-center gap-3">
+                            </div>
+                            <h2
+                                id="about-heading"
+                                className="mt-2 text-2xl font-medium leading-tight text-[#081F3A] sm:text-3xl md:text-4xl"
+                            >
+                                About Rocky Real Estate
+                            </h2>
+                            <div className="mt-4 h-[2px] w-10 bg-[#C3AD95]" aria-hidden />
+                        </motion.div>
+
+                        {/* Body paragraphs */}
+                        <motion.div
+                            variants={fadeUp}
+                            initial="hidden"
+                            animate={isInView ? "visible" : "hidden"}
+                            custom={0.26}
+                            className="mb-12 max-w-[520px]"
+                        >
+                            <p className={bodyParagraphClass}>
+                                Since 1976, Rocky Real Estate has been a long-standing and trusted
+                                leader in Dubai’s real estate market. With over 5 decades of
+                                experience, the company delivers transparency, excellence, and
+                                integrity.
                             </p>
-                            <p>
-                                The company specialises in exclusive listings, a diverse property
-                                portfolio, and end-to-end support for clients and agents. Through
-                                continuous professional training, advanced tools, and industry
-                                systems, Rocky Real Estate ensures expert guidance at every step.
+                            <p className={bodyParagraphClass}>
+                                Rocky Real Estate specialises in exclusive listings, a diverse
+                                property portfolio, and end-to-end support for clients and agents.
                             </p>
-                            <p>
-                                Their goal is to connect the right property with the right client by
-                                combining deep market knowledge with a client-first approach.
+                            <p className={bodyParagraphClass}>
+                                Through continuous professional training, industry-leading tools,
+                                and advanced systems, the company ensures the team is well-equipped
+                                with knowledge to guide our clients and bridge the gap between the
+                                right property for the right person.
                             </p>
                         </motion.div>
 
-                        {/* Divider */}
+                        {/* Pillars grid */}
                         <motion.div
                             variants={fadeUp}
                             initial="hidden"
                             animate={isInView ? "visible" : "hidden"}
-                            custom={0.25}
-                            className="w-12 h-px"
-                            style={{ backgroundColor: "#C3AD95" }}
-                        />
-
-                        {/* Highlights Grid */}
-                        <motion.div
-                            variants={fadeUp}
-                            initial="hidden"
-                            animate={isInView ? "visible" : "hidden"}
-                            custom={0.3}
+                            custom={0.32}
                             className="grid grid-cols-1 sm:grid-cols-2 gap-3"
                         >
-                            {[
-                                { icon: "◈", label: "50+ Years of Experience" },
-                                { icon: "◈", label: "Trusted Market Leader in Dubai" },
-                                { icon: "◈", label: "Exclusive Property Listings" },
-                                { icon: "◈", label: "End-to-End Property Solutions" },
-                            ].map((item, i) => (
+                            {pillars.map((item, i) => (
                                 <motion.div
-                                    key={item.label}
+                                    key={item}
                                     variants={fadeUp}
                                     initial="hidden"
                                     animate={isInView ? "visible" : "hidden"}
-                                    custom={0.35 + i * 0.07}
-                                    className="group flex items-center gap-3 rounded-xl px-4 py-3 border transition-all duration-300"
-                                    style={{
-                                        backgroundColor: "#FFFFFF",
-                                        borderColor: "#E7DCCD",
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        (e.currentTarget as HTMLDivElement).style.backgroundColor = "#E7DCCD";
-                                        (e.currentTarget as HTMLDivElement).style.borderColor = "#C3AD95";
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        (e.currentTarget as HTMLDivElement).style.backgroundColor = "#FFFFFF";
-                                        (e.currentTarget as HTMLDivElement).style.borderColor = "#E7DCCD";
-                                    }}
+                                    custom={0.36 + i * 0.06}
+                                    className="flex items-center gap-3 rounded-xl border border-[#EFE7DE] bg-white px-4 py-3.5"
                                 >
-                                    {/* Icon in light color only */}
-                                    <span
-                                        className="text-base shrink-0 font-medium"
-                                        style={{ color: "#C3AD95" }}
-                                    >
-                                        {item.icon}
-                                    </span>
-                                    <span
-                                        className="text-sm font-medium"
-                                        style={{ color: "#0D365E" }}
-                                    >
-                                        {item.label}
+                                    <span className="inline-flex h-1.5 w-1.5 shrink-0 rounded-full bg-[#C3AD95]" />
+                                    <span className="text-[13px] text-[#0D365E] tracking-[0.01em]">
+                                        {item}
                                     </span>
                                 </motion.div>
                             ))}
                         </motion.div>
-                    </div>
 
-                    {/* RIGHT: Visual Panel */}
+                        {/* CTA link */}
+                        <motion.div
+                            variants={fadeUp}
+                            initial="hidden"
+                            animate={isInView ? "visible" : "hidden"}
+                            custom={0.56}
+                            className="mt-10"
+                        >
+                            <a
+                                href="/contact"
+                                className="inline-flex items-center gap-2 text-[13px] font-medium tracking-[0.08em] uppercase text-[#0D365E] border-b border-[#C3AD95] pb-0.5 hover:text-[#C3AD95] transition-colors duration-200"
+                            >
+                                Get in touch
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                                    <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </a>
+                        </motion.div>
+                    </div>
+                    {/* LEFT: Image stack */}
                     <motion.div
                         variants={fadeUp}
                         initial="hidden"
                         animate={isInView ? "visible" : "hidden"}
-                        custom={0.15}
-                        className="relative w-full"
+                        custom={0.16}
+                        className="lg:col-span-6 relative"
                     >
-                        {/* Background accent block — Rocky Navy */}
-                        <div
-                            className="absolute -bottom-5 -right-5 w-full h-full rounded-2xl"
-                            style={{ backgroundColor: "#0D365E", zIndex: 0 }}
-                        />
-
-                        {/* Main image card */}
-                        <div
-                            className="relative rounded-2xl overflow-hidden aspect-[4/5] w-full shadow-2xl"
-                            style={{ zIndex: 1 }}
-                        >
+                        {/* Main image */}
+                        <div className="relative h-[420px] sm:h-[500px] lg:h-[580px] w-full overflow-hidden rounded-2xl">
                             <Image
-                                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80"
-                                alt="Rocky Real Estate — Dubai Property"
+                                src="https://images.pexels.com/photos/3763190/pexels-photo-3763190.jpeg"
+                                alt="Rocky Real Estate — Dubai skyline property"
                                 fill
                                 className="object-cover"
-                                sizes="(max-width: 768px) 100vw, 50vw"
+                                sizes="(max-width: 1024px) 100vw, 42vw"
+                                priority
                             />
-
-                            {/* Overlay: deep navy gradient */}
-                            <div
-                                className="absolute inset-0"
-                                style={{
-                                    background:
-                                        "linear-gradient(to top, #081F3A 0%, #0D365Eaa 35%, transparent 70%)",
-                                }}
-                            />
-
-                            {/* Bottom content */}
-                            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
-                                {/* Year stamp */}
-                                <div>
-                                    <p
-                                        className="text-xs font-medium tracking-[0.2em] uppercase mb-0.5"
-                                        style={{ color: "#C3AD95" }}
-                                    >
-                                        Est.
-                                    </p>
-                                    <p
-                                        className="text-6xl font-medium leading-none"
-                                        style={{
-                                            color: "#FFFFFF",
-                                        }}
-                                    >
-                                        1976
-                                    </p>
-                                </div>
-
-                                {/* Trust badge */}
-                                <div
-                                    className="rounded-xl px-4 py-3 text-center"
-                                    style={{ backgroundColor: "#1C4E80" }}
-                                >
-                                    <p
-                                        className="text-xs font-medium tracking-widest uppercase leading-snug"
-                                        style={{ color: "#C3AD95" }}
-                                    >
-                                        Dubai's
-                                    </p>
-                                    <p
-                                        className="text-xs font-medium tracking-widest uppercase leading-snug"
-                                        style={{ color: "#FFFFFF" }}
-                                    >
-                                        Trusted
-                                    </p>
-                                    <p
-                                        className="text-xs font-medium tracking-widest uppercase leading-snug"
-                                        style={{ color: "#FFFFFF" }}
-                                    >
-                                        Leader
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Top-left brand tag */}
-                            <div
-                                className="absolute top-5 left-5 px-3 py-1.5 rounded-lg text-xs font-medium tracking-widest uppercase"
-                                style={{
-                                    backgroundColor: "#081F3Acc",
-                                    color: "#C3AD95",
-                                    backdropFilter: "blur(6px)",
-                                    border: "1px solid #C3AD9540",
-                                }}
-                            >
-                                Rocky Real Estate
-                            </div>
                         </div>
 
-                        {/* Floating stat card — top right */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 16, y: -8 }}
-                            animate={
-                                isInView
-                                    ? { opacity: 1, x: 0, y: 0 }
-                                    : { opacity: 0, x: 16, y: -8 }
-                            }
-                            transition={{ delay: 0.55, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                            className="absolute -top-5 -right-4 rounded-2xl shadow-xl px-5 py-4 flex flex-col gap-0.5"
-                            style={{
-                                backgroundColor: "#FFFFFF",
-                                border: "1px solid #E7DCCD",
-                                zIndex: 2,
-                            }}
-                        >
-                            <span
-                                className="text-3xl font-medium leading-none"
-                                style={{
-                                    color: "#0D365E",
-                                }}
-                            >
-                                50
-                                <span style={{ color: "#9F8870" }}>+</span>
-                            </span>
-                            <span
-                                className="text-xs font-medium tracking-widest uppercase"
-                                style={{ color: "#9F8870" }}
-                            >
-                                Years Active
-                            </span>
-                        </motion.div>
+                        {/* Stat strip pinned to bottom of image */}
+                        <div className="absolute bottom-5 left-5 right-5 grid grid-cols-4 gap-px overflow-hidden rounded-xl border border-[rgba(255,255,255,0.14)] bg-[rgba(8,31,58,0.28)] backdrop-blur-md">
+                            {highlights.map(({ label, sub }) => (
+                                <div key={label} className="flex flex-col items-center bg-[rgba(8,31,58,0.72)] py-3 backdrop-blur-md">
+                                    <span className="text-xl font-light tracking-tight text-white leading-none">
+                                        {label}
+                                    </span>
+                                    <span className="mt-1 text-[9px] font-medium tracking-[0.14em] uppercase text-[#C3AD95]">
+                                        {sub}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
 
-                        {/* Dot grid decoration — light taupe */}
-                        <div
-                            className="absolute -bottom-8 -left-8 w-28 h-28 pointer-events-none"
-                            style={{
-                                backgroundImage: "radial-gradient(circle, #C3AD95 1.2px, transparent 1.2px)",
-                                backgroundSize: "9px 9px",
-                                opacity: 0.35,
-                                zIndex: 0,
-                            }}
-                        />
+                      
                     </motion.div>
+
 
                 </div>
             </Container>
