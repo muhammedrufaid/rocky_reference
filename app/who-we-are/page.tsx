@@ -8,6 +8,7 @@ import SellPropertyForm from "@/components/sell/SellPropertyForm";
 import WhySellWithUs from "@/components/sell/WhySellWithUs";
 import AboutRockySection from "@/components/who-we-are/AboutRocky";
 import WhatWeDoSection from "@/components/who-we-are/WhatWeDoSection";
+import VisionMissionSection from "@/components/who-we-are/VisionMission";
 
 export const metadata = {
   title: "Who We Are | Rocky Real Estate",
@@ -31,6 +32,7 @@ export default function WhoWeArePage() {
 
         <AboutRockySection />
         <WhatWeDoSection />
+        <VisionMissionSection />
 
         {/* <AboutRocky />
 <WhatWeDo />
