@@ -78,7 +78,7 @@ const Achievements: React.FC<{ className?: string }> = ({ className }) => {
                     variants={prefersReducedMotion ? undefined : imageReveal}
                     className="border border-[#EFE7DE] overflow-hidden bg-[#FAF7F4] rounded-2xl"
                 >
-                    <div className="relative w-full aspect-2/1">
+                    <div className="relative w-full aspect-3/1">
                         <motion.div
                             className="absolute inset-0"
                             initial={prefersReducedMotion ? false : { scale: 1.04 }}
@@ -119,19 +119,32 @@ const Achievements: React.FC<{ className?: string }> = ({ className }) => {
                 {/* Stats Grid */}
                 <motion.div
                     variants={prefersReducedMotion ? undefined : gridReveal}
-                    className="grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-px bg-[#EFE7DE] border border-[#EFE7DE] rounded-2xl overflow-hidden mt-16"
+                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 border border-[#EFE7DE] rounded-2xl overflow-hidden mt-16 bg-white"
                 >
-                    {stats.map((stat) => (
+                    {stats.map((stat, idx) => {
+                        const baseRight = idx % 2 === 0 ? "border-r" : "";
+                        const baseBottom = idx < stats.length - 2 ? "border-b" : "";
+
+                        const mdRight = idx % 3 !== 2 ? "md:border-r" : "md:border-r-0";
+                        const mdBottom = idx < stats.length - 3 ? "md:border-b" : "md:border-b-0";
+
+                        const lgRight = idx < stats.length - 1 ? "lg:border-r" : "lg:border-r-0";
+
+                        return (
                         <motion.div
                             key={stat.label}
                             variants={prefersReducedMotion ? undefined : statCardReveal}
-                            whileHover={
-                                prefersReducedMotion
-                                    ? undefined
-                                    : { y: -3, transition: { duration: 0.2, ease } }
-                            }
-                            whileTap={prefersReducedMotion ? undefined : { scale: 0.99 }}
-                            className="bg-white px-6 py-7 flex flex-col gap-2"
+                            className={[
+                                "bg-white px-6 py-7 flex flex-col gap-2 border-[#EFE7DE]",
+                                baseRight,
+                                baseBottom,
+                                mdRight,
+                                mdBottom,
+                                "lg:border-b-0",
+                                lgRight,
+                                // reset base borders where needed
+                                "md:[&]:border-r-0 md:[&]:border-b-0",
+                            ].join(" ")}
                         >
                             <span className="text-[clamp(24px,2.5vw,32px)] font-normal text-[#0D365E] leading-none">
                                 {stat.number}
@@ -140,7 +153,8 @@ const Achievements: React.FC<{ className?: string }> = ({ className }) => {
                                 {stat.label}
                             </span>
                         </motion.div>
-                    ))}
+                        );
+                    })}
                 </motion.div>
 
                 {/* Divider */}
