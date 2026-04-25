@@ -39,7 +39,7 @@ const AboutRockySection: React.FC<{ className?: string }> = ({ className }) => {
     return (
         <section
             ref={sectionRef}
-            className={className ?? "pt-16 md:pt-20 lg:pt-24 bg-white"}
+            className={className ?? "py-16 md:py-20 lg:py-24 bg-white"}
             aria-labelledby="about-heading"
         >
             <Container>

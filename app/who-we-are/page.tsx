@@ -7,6 +7,7 @@ import Newsletter from "@/components/home/Newsletter";
 import SellPropertyForm from "@/components/sell/SellPropertyForm";
 import WhySellWithUs from "@/components/sell/WhySellWithUs";
 import AboutRockySection from "@/components/who-we-are/AboutRocky";
+import WhatWeDoSection from "@/components/who-we-are/WhatWeDoSection";
 
 export const metadata = {
   title: "Who We Are | Rocky Real Estate",
@@ -29,7 +30,7 @@ export default function WhoWeArePage() {
         />
 
         <AboutRockySection />
-        {/* <WhatWeDo /> */}
+        <WhatWeDoSection />
 
         {/* <AboutRocky />
 <WhatWeDo />
