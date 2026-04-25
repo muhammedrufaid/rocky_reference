@@ -9,6 +9,7 @@ import WhySellWithUs from "@/components/sell/WhySellWithUs";
 import AboutRockySection from "@/components/who-we-are/AboutRocky";
 import WhatWeDoSection from "@/components/who-we-are/WhatWeDoSection";
 import VisionMissionSection from "@/components/who-we-are/VisionMission";
+import Achievements from "@/components/who-we-are/Achievements";
 
 export const metadata = {
   title: "Who We Are | Rocky Real Estate",
@@ -33,15 +34,9 @@ export default function WhoWeArePage() {
         <AboutRockySection />
         <WhatWeDoSection />
         <VisionMissionSection />
+        <Achievements />
 
-        {/* <AboutRocky />
-<WhatWeDo />
-<VisionMission />
-<CoreValues />
-<GrowthTimeline />
-<Achievements />
-<MarketingStrategies />
-<WhyChooseRocky /> */}
+  
         <Newsletter className="pb-16 md:pb-20 lg:pb-24" />
         <TestimonialSection backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24" />
         <FaqsSection />
