@@ -42,7 +42,7 @@ export default function WhoWeArePage() {
 <Achievements />
 <MarketingStrategies />
 <WhyChooseRocky /> */}
-        <Newsletter className="py-16 md:py-20 lg:py-24" />
+        <Newsletter className="pb-16 md:pb-20 lg:pb-24" />
         <TestimonialSection backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24" />
         <FaqsSection />
 
