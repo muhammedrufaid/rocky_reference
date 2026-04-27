@@ -1,0 +1,44 @@
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import PageHero from "@/components/common/PageHero";
+import TestimonialSection from "@/components/home/TestimonialSection";
+import FaqsSection from "@/components/common/FaqsSection";
+import Newsletter from "@/components/home/Newsletter";
+import ImageHeroSection from "@/components/common/ImageHeroSection";
+
+
+export const metadata = {
+  title: "Achievements | Rocky Real Estate",
+  description:
+    "View our achievements and awards in the real estate industry.",
+};
+
+export default function AchievementsPage() {
+  return (
+    <div className="min-h-screen bg-white">
+      <Header />
+      <main className="">
+        {/* <PageHero
+          title="Achievements"
+          description="View our achievements and awards in the real estate industry."
+          breadcrumb={[
+            { label: "Home", href: "/" },
+            { label: "Achievements" },
+          ]}
+        /> */}
+        <ImageHeroSection
+          title="Achievements"
+          description="View our achievements and awards in the real estate industry."
+          image="/assets/common/awards.webp"
+        />
+        {/* <AchievementsSection />
+        <GallerySection /> */}
+        <Newsletter  className="py-16 md:py-20 lg:py-24"/>
+        <TestimonialSection backgroundColor="#ffffff" className="pb-16 md:pb-20  lg:pb-24"/>
+        <FaqsSection />  
+
+      </main>
+      <Footer />
+    </div>
+  );
+}
