@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import React, { useRef } from "react";
 
 // ─── Brand Tokens ────────────────────────────────────────────────────────────
@@ -21,31 +21,20 @@ interface Award {
     title: string;
 }
 
-// ─── Data ────────────────────────────────────────────────────────────────────
 const AWARDS: Award[] = [
     {
-        image: "/assets/awards/arabianpropertyaward-2018-2019.webp",
-        year: "2018-2019",
-        title: "Arabian Property Awards",
-    },
-    {
-        image: "/assets/awards/bayut-aug-2020.webp",
-        year: "Aug 2020",
+        image: "/assets/awards/bayut2025.webp",
+        year: "2025",
         title: "Bayut Awards",
     },
     {
-        image: "/assets/awards/bayut-july-2018.webp",
-        year: "Jul 2018",
-        title: "Bayut Awards",
+        image: "/assets/awards/dubaisouth2024.webp",
+        year: "2024",
+        title: "Dubai South Awards",
     },
     {
         image: "/assets/awards/bayut-sep-2023.webp",
         year: "Sep 2023",
-        title: "Bayut Awards",
-    },
-    {
-        image: "/assets/awards/bayut2025.webp",
-        year: "2025",
         title: "Bayut Awards",
     },
     {
@@ -54,19 +43,19 @@ const AWARDS: Award[] = [
         title: "Bayut finalist Awards",
     },
     {
-        image: "/assets/awards/dubaisouth2024.webp",
-        year: "2024",
-        title: "Dubai South Awards",
+        image: "/assets/awards/rkm-latifa.webp",
+        year: "2022",
+        title: "RKM Latifa Awards",
     },
     {
-        image: "/assets/awards/forbes2016.webp",
-        year: "2016",
-        title: "Forbes Awards",
+        image: "/assets/awards/bayut-aug-2020.webp",
+        year: "Aug 2020",
+        title: "Bayut Awards",
     },
     {
-        image: "/assets/awards/forbes2017.webp",
-        year: "2017",
-        title: "Forbes Awards",
+        image: "/assets/awards/arabianpropertyaward-2018-2019.webp",
+        year: "2018-2019",
+        title: "Arabian Property Awards",
     },
     {
         image: "/assets/awards/nakheel-award2018.webp",
@@ -74,9 +63,19 @@ const AWARDS: Award[] = [
         title: "Nakheel Awards",
     },
     {
-        image: "/assets/awards/rkm-latifa.webp",
-        year: "2022",
-        title: "RKM Latifa Awards",
+        image: "/assets/awards/bayut-july-2018.webp",
+        year: "Jul 2018",
+        title: "Bayut Awards",
+    },
+    {
+        image: "/assets/awards/forbes2017.webp",
+        year: "2017",
+        title: "Forbes Awards",
+    },
+    {
+        image: "/assets/awards/forbes2016.webp",
+        year: "2016",
+        title: "Forbes Awards",
     },
 ];
 
@@ -118,7 +117,7 @@ const makeCardContentVariant = (delay: number) => ({
 
 // ─── Dot Component ───────────────────────────────────────────────────────────
 const TimelineDot: React.FC = () => (
-    <div className="relative flex items-center justify-center w-5 h-5 flex-shrink-0">
+    <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
         {/* Ping animation */}
         <span
             className="absolute inline-flex w-5 h-5 rounded-full opacity-40 animate-ping"
@@ -156,45 +155,30 @@ const AwardCard: React.FC<{
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 className="group relative overflow-hidden rounded-xl"
-                style={{
-                    backgroundColor: "#fff",
-                    border: `1px solid ${COLORS.softSand}`,
-                    transition: "border-color 700ms ease, box-shadow 700ms ease",
-                }}
-                whileHover={{
-                    boxShadow: `0 8px 32px 0 rgba(195,173,149,0.18)`,
-                    borderColor: COLORS.sandstoneTaupe,
-                }}
             >
-                {/* 16:9 Image */}
+                {/* Natural size image */}
                 <motion.div
                     variants={imageVariant}
-                    className="relative w-full overflow-hidden"
-                    style={{ aspectRatio: "16/9" }}
+                    className="w-full overflow-hidden"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
                 >
-                    <motion.div
-                        className="w-full h-full"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                        <Image
-                            src={award.image}
-                            alt={award.title}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 768px) 100vw, 45vw"
-                        />
-                    </motion.div>
+                    <Image
+                        src={award.image}
+                        alt={award.title}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-auto"
+                    />
                 </motion.div>
-
-
             </motion.div>
 
             {/* Card Body */}
             {showContent && (
                 <motion.div
                     variants={contentVariant}
-                    className=" py-4"
+                    className="py-4"
                 >
                     {/* Year + gradient rule */}
                     <div className="mb-3">
@@ -311,10 +295,6 @@ const AwardsTimelineSection: React.FC<AwardsTimelineSectionProps> = ({
                     >
                         Awards &amp; Achievements
                     </h2>
-                    {/* <div
-            className="mx-auto mt-4 h-px w-12"
-            style={{ backgroundColor: COLORS.sandstoneTaupe }}
-          /> */}
                 </motion.div>
 
                 {/* Timeline wrapper */}
