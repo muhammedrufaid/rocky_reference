@@ -174,7 +174,7 @@ const AwardCard: React.FC<{
                     {/* Year + gradient rule */}
                     <div className="mb-3">
                         <span
-                            className="block text-xs tracking-widest uppercase font-mono mb-2"
+                            className="block text-xs tracking-widest uppercase mb-2"
                             style={{ color: COLORS.rockyBlue }}
                         >
                             {award.year}
@@ -192,7 +192,6 @@ const AwardCard: React.FC<{
                         className="text-sm font-medium leading-snug"
                         style={{
                             color: COLORS.midnightBlue,
-                            fontFamily: "'Georgia', 'Times New Roman', serif",
                             letterSpacing: "-0.01em",
                         }}
                     >
@@ -277,18 +276,11 @@ const AwardsTimelineSection: React.FC<AwardsTimelineSectionProps> = ({
                     variants={headingVariants}
                     className="text-center mb-14"
                 >
-                    {/* <p
-            className="text-xs tracking-[0.22em] uppercase font-mono mb-3"
-            style={{ color: COLORS.warmTaupe }}
-          >
-            Recognition
-          </p> */}
                     <h2
                         id="awards-heading"
                         className="text-3xl md:text-4xl font-medium"
                         style={{
                             color: COLORS.midnightBlue,
-                            //   fontFamily: "'Georgia', 'Times New Roman', serif",
                             letterSpacing: "-0.02em",
                         }}
                     >
