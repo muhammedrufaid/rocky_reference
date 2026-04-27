@@ -5,6 +5,7 @@ import TestimonialSection from "@/components/home/TestimonialSection";
 import FaqsSection from "@/components/common/FaqsSection";
 import Newsletter from "@/components/home/Newsletter";
 import ImageHeroSection from "@/components/common/ImageHeroSection";
+import AwardsTimelineSection from "@/components/achievements/AwardsTimelineSection";
 
 
 export const metadata = {
@@ -31,6 +32,7 @@ export default function AchievementsPage() {
           description="View our achievements and awards in the real estate industry."
           image="/assets/common/awards.webp"
         />
+        <AwardsTimelineSection />
         {/* <AchievementsSection />
         <GallerySection /> */}
         <Newsletter  className="py-16 md:py-20 lg:py-24"/>
