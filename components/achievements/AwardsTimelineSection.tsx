@@ -44,7 +44,7 @@ const AWARDS: Award[] = [
     },
     {
         image: "/assets/awards/rkm-latifa.webp",
-        year: "2022",
+        year: "",
         title: "RKM Latifa Awards",
     },
     {
@@ -183,7 +183,7 @@ const AwardCard: React.FC<{
                     {/* Year + gradient rule */}
                     <div className="mb-3">
                         <span
-                            className="block text-xs tracking-widest uppercase mb-2"
+                            className="block mb-2 text-[10px] sm:text-[11px] font-medium tracking-[0.22em] uppercase"
                             style={{ color: COLORS.rockyBlue }}
                         >
                             {award.year}
@@ -198,7 +198,7 @@ const AwardCard: React.FC<{
 
                     {/* Award Title */}
                     <h3
-                        className="text-sm font-medium leading-snug"
+                        className="text-base font-medium leading-snug sm:text-lg"
                         style={{
                             color: COLORS.midnightBlue,
                             letterSpacing: "-0.01em",
@@ -287,10 +287,9 @@ const AwardsTimelineSection: React.FC<AwardsTimelineSectionProps> = ({
                 >
                     <h2
                         id="awards-heading"
-                        className="text-3xl md:text-4xl font-medium"
+                        className="text-2xl font-medium leading-tight tracking-tight sm:text-3xl md:text-4xl lg:text-[2.5rem]"
                         style={{
                             color: COLORS.midnightBlue,
-                            letterSpacing: "-0.02em",
                         }}
                     >
                         Awards &amp; Achievements
