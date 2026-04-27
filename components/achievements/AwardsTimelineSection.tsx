@@ -19,6 +19,7 @@ interface Award {
     image: string;
     year: string;
     title: string;
+    description?: string;
 }
 
 const AWARDS: Award[] = [
@@ -26,56 +27,67 @@ const AWARDS: Award[] = [
         image: "/assets/awards/bayut2025.webp",
         year: "2025",
         title: "Bayut Awards",
+        description: "Industry recognition for performance and service.",
     },
     {
         image: "/assets/awards/dubaisouth2024.webp",
         year: "2024",
         title: "Dubai South Awards",
+        description: "Recognition for excellence and results.",
     },
     {
         image: "/assets/awards/bayut-sep-2023.webp",
         year: "Sep 2023",
         title: "Bayut Awards",
+        description: "Recognition for consistent achievement.",
     },
     {
         image: "/assets/awards/bayutfinalist2022.webp",
         year: "2022",
         title: "Bayut finalist Awards",
+        description: "Finalist recognition for strong performance.",
     },
     {
         image: "/assets/awards/rkm-latifa.webp",
         year: "",
         title: "RKM Latifa Awards",
+        description: "Recognition for excellence in the market.",
     },
     {
         image: "/assets/awards/bayut-aug-2020.webp",
         year: "Aug 2020",
         title: "Bayut Awards",
+        description: "Recognition for service and results.",
     },
     {
         image: "/assets/awards/arabianpropertyaward-2018-2019.webp",
         year: "2018-2019",
         title: "Arabian Property Awards",
+        description: "Industry recognition for quality and performance.",
     },
     {
         image: "/assets/awards/nakheel-award2018.webp",
         year: "2018",
         title: "Nakheel Awards",
+        description: "Recognition for achievement and results.",
     },
     {
         image: "/assets/awards/bayut-july-2018.webp",
         year: "Jul 2018",
         title: "Bayut Awards",
+        description: "Recognition for high performance.",
     },
     {
         image: "/assets/awards/forbes2017.webp",
         year: "2017",
         title: "Forbes Awards",
+        description: "Recognition for excellence and leadership.",
     },
     {
         image: "/assets/awards/forbes2016.webp",
         year: "2016",
         title: "Forbes Awards",
+        description: "Recognition for standout performance.",
     },
 ];
 
@@ -169,7 +181,7 @@ const AwardCard: React.FC<{
                         width={0}
                         height={0}
                         sizes="100vw"
-                        className="w-full h-auto"
+                        className="w-3/4 h-auto mx-auto"
                     />
                 </motion.div>
             </motion.div>
@@ -206,6 +218,12 @@ const AwardCard: React.FC<{
                     >
                         {award.title}
                     </h3>
+
+                    {award.description ? (
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600 line-clamp-2">
+                            {award.description}
+                        </p>
+                    ) : null}
                 </motion.div>
             )}
         </>
