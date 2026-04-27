@@ -19,23 +19,15 @@ export default function AchievementsPage() {
     <div className="min-h-screen bg-white">
       <Header />
       <main className="">
-        {/* <PageHero
-          title="Achievements"
-          description="View our achievements and awards in the real estate industry."
-          breadcrumb={[
-            { label: "Home", href: "/" },
-            { label: "Achievements" },
-          ]}
-        /> */}
         <ImageHeroSection
           title="Achievements"
           description="View our achievements and awards in the real estate industry."
           image="/assets/common/awards.webp"
         />
-        <AwardsTimelineSection />
+        <AwardsTimelineSection showContent={true}/>
         {/* <AchievementsSection />
         <GallerySection /> */}
-        <Newsletter  className="py-16 md:py-20 lg:py-24"/>
+        <Newsletter  className="pb-16 md:pb-20 lg:pb-24"/>
         <TestimonialSection backgroundColor="#ffffff" className="pb-16 md:pb-20  lg:pb-24"/>
         <FaqsSection />  
 
