@@ -24,34 +24,59 @@ interface Award {
 // ─── Data ────────────────────────────────────────────────────────────────────
 const AWARDS: Award[] = [
     {
-        image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80&fit=crop&ar=16:9",
+        image: "/assets/awards/arabianpropertyaward-2018-2019.webp",
+        year: "2018-2019",
+        title: "Arabian Property Awards",
+    },
+    {
+        image: "/assets/awards/bayut-aug-2020.webp",
+        year: "Aug 2020",
+        title: "Bayut Awards",
+    },
+    {
+        image: "/assets/awards/bayut-july-2018.webp",
+        year: "Jul 2018",
+        title: "Bayut Awards",
+    },
+    {
+        image: "/assets/awards/bayut-sep-2023.webp",
+        year: "Sep 2023",
+        title: "Bayut Awards",
+    },
+    {
+        image: "/assets/awards/bayut2025.webp",
         year: "2025",
-        title: "Bayut Awards — Agency of the Month",
+        title: "Bayut Awards",
     },
     {
-        image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&q=80&fit=crop&ar=16:9",
-        year: "2024",
-        title: "Arabian Business — Best Luxury Real Estate Agency",
-    },
-    {
-        image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80&fit=crop&ar=16:9",
-        year: "2023",
-        title: "Forbes Middle East — Top Real Estate Brand",
-    },
-    {
-        image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80&fit=crop&ar=16:9",
+        image: "/assets/awards/bayutfinalist2022.webp",
         year: "2022",
-        title: "Property Finder — Elite Broker Award",
+        title: "Bayut finalist Awards",
     },
     {
-        image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80&fit=crop&ar=16:9",
-        year: "2021",
-        title: "Gulf Real Estate Awards — Residential Agency",
+        image: "/assets/awards/dubaisouth2024.webp",
+        year: "2024",
+        title: "Dubai South Awards",
     },
     {
-        image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80&fit=crop&ar=16:9",
-        year: "2018–2019",
-        title: "CNBC Arabia — Developer of the Year",
+        image: "/assets/awards/forbes2016.webp",
+        year: "2016",
+        title: "Forbes Awards",
+    },
+    {
+        image: "/assets/awards/forbes2017.webp",
+        year: "2017",
+        title: "Forbes Awards",
+    },
+    {
+        image: "/assets/awards/nakheel-award2018.webp",
+        year: "2018",
+        title: "Nakheel Awards",
+    },
+    {
+        image: "/assets/awards/rkm-latifa.webp",
+        year: "2022",
+        title: "RKM Latifa Awards",
     },
 ];
 
