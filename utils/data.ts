@@ -159,11 +159,21 @@ export interface TeamMember {
 export interface JobPosition {
   id: number;
   title: string;
+  subTitle?: string;
   department: string;
   location: string;
-  jobType: "Full-time" | "Part-time" | "Remote";
+  jobType: "Full-time" | "Part-time" | "Contract";
+  workMode?: "On-site" | "Remote" | "Hybrid";
   description: string;
-  applyPath: string;
+  responsibilities: string[];
+  requirements: string[];
+  benefits?: string[];
+  company?: string;
+  postedAt?: string;
+  applicants?: number;
+  applyPath?: string;
+  applyEmail?: string;
+  phone?: string;
 }
 
 
@@ -853,22 +863,210 @@ export function getServiceBySlug(slug: string): Service | undefined {
 export const openPositions: JobPosition[] = [
   {
     id: 1,
-    title: "Senior Sales Associate",
+    title: "Property Consultant",
+    subTitle: "Property Consultant – Off-Plan & Secondary Market",
     department: "Sales",
-    location: "Dubai Marina Office",
+    location: "Dubai, United Arab Emirates",
     jobType: "Full-time",
-    description: "Lead property viewings and negotiations for high-value clients in Dubai's premium market.",
-    applyPath: "/careers/apply?job=senior-sales-associate",
+    workMode: "On-site",
+    company: "Rocky Real Estate",
+    postedAt: "6 days ago",
+    applicants: 50,
+
+    description:
+      "Join a high-performing real estate team to drive off-plan and secondary property sales in Dubai.",
+
+    responsibilities: [
+      "Generate and manage client leads for off-plan and secondary properties",
+      "Conduct property viewings and provide expert market advice",
+      "Build and maintain strong client relationships",
+      "Negotiate and close sales deals effectively",
+      "Stay updated on market trends and new project launches"
+    ],
+
+    requirements: [
+      "Proven experience in Dubai real estate (off-plan and/or secondary preferred)",
+      "Strong sales, negotiation, and communication skills",
+      "Self-motivated with a target-driven mindset",
+      "RERA certification is an advantage",
+      "Ability to work independently and in a team"
+    ],
+
+    benefits: [
+      "Up to 75% commission structure",
+      "Strong pipeline of qualified leads",
+      "Full marketing support",
+      "Back-office administrative support",
+      "On-time commission payments",
+      "Visa after first successful sale",
+      "Access to premium developer inventories"
+    ],
+
+    applyEmail: "recruitment@rockyrealestate.com",
+    phone: "+971 50 211 3797",
+    // applyPath: "/careers/apply?job=property-consultant"
   },
   {
     id: 2,
-    title: "Marketing Coordinator",
-    department: "Marketing",
-    location: "Dubai",
+    title: "Senior Property Consultant",
+    subTitle: "Senior Consultant – Luxury & High-End Properties",
+    department: "Sales",
+    location: "Dubai, United Arab Emirates",
     jobType: "Full-time",
-    description: "Develop and execute digital marketing campaigns for off-plan and resale properties.",
-    applyPath: "/careers/apply?job=marketing-coordinator",
-  }
+    workMode: "On-site",
+    company: "Rocky Real Estate",
+    postedAt: "3 days ago",
+    applicants: 28,
+    description:
+      "Lead high-value property transactions in Dubai’s luxury real estate segment.",
+    responsibilities: [
+      "Manage high-net-worth client portfolios",
+      "Close luxury property deals",
+      "Mentor junior consultants",
+      "Build strong developer relationships"
+    ],
+    requirements: [
+      "3+ years Dubai real estate experience",
+      "Proven track record in luxury sales",
+      "Strong negotiation skills",
+      "RERA certified"
+    ],
+    benefits: [
+      "Higher commission slabs",
+      "Exclusive luxury listings",
+      "Priority lead allocation"
+    ],
+    applyEmail: "recruitment@rockyrealestate.com",
+    phone: "+971 50 211 3797",
+  },
+
+  {
+    id: 3,
+    title: "Real Estate Administrator",
+    subTitle: "Admin Executive – Real Estate Operations",
+    department: "Operations",
+    location: "Dubai, United Arab Emirates",
+    jobType: "Full-time",
+    workMode: "On-site",
+    company: "Rocky Real Estate",
+    postedAt: "2 days ago",
+    applicants: 15,
+    description:
+      "Support sales teams with documentation and transaction processing.",
+    responsibilities: [
+      "Prepare sales and lease documents",
+      "Coordinate with developers and clients",
+      "Maintain CRM data",
+      "Handle listing updates"
+    ],
+    requirements: [
+      "Experience in real estate admin preferred",
+      "Strong organizational skills",
+      "Attention to detail"
+    ],
+    benefits: [
+      "Stable salary",
+      "Career growth opportunities"
+    ],
+    applyEmail: "recruitment@rockyrealestate.com",
+    phone: "+971 50 211 3797",
+  },
+
+  {
+    id: 4,
+    title: "Digital Marketing Specialist",
+    subTitle: "Real Estate Marketing Expert",
+    department: "Marketing",
+    location: "Dubai, United Arab Emirates",
+    jobType: "Full-time",
+    workMode: "Hybrid",
+    company: "Rocky Real Estate",
+    postedAt: "1 day ago",
+    applicants: 20,
+    description:
+      "Drive digital campaigns and lead generation for property listings.",
+    responsibilities: [
+      "Manage social media campaigns",
+      "Run Google & Meta ads",
+      "Optimize SEO for listings",
+      "Track campaign performance"
+    ],
+    requirements: [
+      "2+ years digital marketing experience",
+      "Experience in real estate preferred",
+      "Knowledge of ad platforms"
+    ],
+    benefits: [
+      "Performance bonuses",
+      "Flexible work setup"
+    ],
+    applyEmail: "recruitment@rockyrealestate.com",
+    phone: "+971 50 211 3797",
+  },
+
+  {
+    id: 5,
+    title: "Leasing Consultant",
+    subTitle: "Residential Leasing Specialist",
+    department: "Leasing",
+    location: "Dubai, United Arab Emirates",
+    jobType: "Full-time",
+    workMode: "On-site",
+    company: "Rocky Real Estate",
+    postedAt: "4 days ago",
+    applicants: 18,
+    description:
+      "Assist clients in renting residential and commercial properties.",
+    responsibilities: [
+      "Handle rental inquiries",
+      "Conduct property viewings",
+      "Negotiate lease terms",
+      "Close leasing deals"
+    ],
+    requirements: [
+      "Leasing experience in Dubai",
+      "Good communication skills",
+      "RERA certification preferred"
+    ],
+    benefits: [
+      "Commission on leases",
+      "Marketing support"
+    ],
+    applyEmail: "recruitment@rockyrealestate.com",
+    phone: "+971 50 211 3797",
+  },
+
+  {
+    id: 6,
+    title: "CRM Coordinator",
+    subTitle: "Customer Relationship Management Executive",
+    department: "Support",
+    location: "Dubai, United Arab Emirates",
+    jobType: "Full-time",
+    workMode: "On-site",
+    company: "Rocky Real Estate",
+    postedAt: "5 days ago",
+    applicants: 10,
+    description:
+      "Manage and optimize CRM systems to support sales operations.",
+    responsibilities: [
+      "Maintain CRM data accuracy",
+      "Generate sales reports",
+      "Support lead distribution",
+      "Train staff on CRM usage"
+    ],
+    requirements: [
+      "CRM experience (HubSpot, Zoho, etc.)",
+      "Analytical mindset",
+      "Strong Excel skills"
+    ],
+    benefits: [
+      "Stable role",
+      "Growth in operations team"
+    ],
+    applyEmail: "recruitment@rockyrealestate.com",
+    phone: "+971 50 211 3797",
+  },
 ];
 
 export const developers: Developer[] = [
