@@ -6,8 +6,10 @@ import Container from "@/components/layout/Container";
 
 // Google Maps embed for Al Barsha 1, Dubai — replace with your actual embed URL from Google Maps
 const MAP_EMBED_URL =
-  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3610.348882374269!2d55.1855!3d25.1124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6822a4f7a0b5%3A0x1c1c1c1c1c1c1c1c!2sAl%20Barsha%201%2C%20Dubai!5e0!3m2!1sen!2sae!4v1";
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3612.59698298928!2d55.19358617561111!3d25.11550033500455!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6b003b04755d%3A0x73a5392515f651db!2sRocky%20Real%20Estate%20-%20Corporate%20office!5e0!3m2!1sen!2sae!4v1777463539046!5m2!1sen!2sae";
 
+
+  // <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3612.59698298928!2d55.19358617561111!3d25.11550033500455!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6b003b04755d%3A0x73a5392515f651db!2sRocky%20Real%20Estate%20-%20Corporate%20office!5e0!3m2!1sen!2sae!4v1777463539046!5m2!1sen!2sae" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 const ContactMap: React.FC = () => {
   return (
     <section
@@ -56,7 +58,7 @@ const ContactMap: React.FC = () => {
           </div>
 
           {/* Optional overlay contact card on map corner */}
-          <div
+          {/* <div
             className="absolute bottom-4 left-4 right-4 sm:left-6 sm:right-auto sm:max-w-[280px] p-4 rounded-lg bg-white shadow-lg"
             style={{ boxShadow: "0 4px 20px rgba(13, 54, 94, 0.12)" }}
           >
@@ -75,7 +77,7 @@ const ContactMap: React.FC = () => {
             >
               Get Directions →
             </a>
-          </div>
+          </div> */}
         </motion.div>
       </Container>
     </section>
