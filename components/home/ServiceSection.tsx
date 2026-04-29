@@ -75,7 +75,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ data, hideHeading = fal
                                 <div
                                     className="mb-4 flex size-12 items-center justify-center rounded-xl transition-colors duration-300"
                                     style={{
-                                        backgroundColor: "#E7DCCD",
+                                        backgroundColor: "#F6F6F6",
                                         color: "#081F3A",
                                     }}
                                     aria-hidden
