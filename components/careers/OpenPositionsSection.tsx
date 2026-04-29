@@ -132,7 +132,7 @@ const OpenPositionsSection: React.FC<OpenPositionsSectionProps> = ({
                                     </p>
 
                                     <Link
-                                        href={job.applyPath}
+                                        href={job.applyPath ?? "/careers/apply"}
                                         className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 group/btn w-fit"
                                         style={{
                                             backgroundColor: "#0d365e",
@@ -140,7 +140,7 @@ const OpenPositionsSection: React.FC<OpenPositionsSectionProps> = ({
                                         }}
                                         aria-label={`Apply for ${job.title} position`}
                                     >
-                                        Apply
+                                        View
                                         <svg
                                             className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5"
                                             fill="none"
