@@ -101,7 +101,7 @@ const CareersIntroSection: React.FC = () => {
                 <motion.h2
                   id="careers-intro-heading"
                   variants={slideUp}
-                  className="mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-medium leading-tight tracking-tight text-charcoal"
+                  className="mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-medium leading-tight tracking-tight text-[#0d365e]"
                 >
                   Join Dubai’s Leading Real Estate Team
                 </motion.h2>
