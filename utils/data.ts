@@ -487,6 +487,15 @@ export const teamMembers: TeamMember[] = [
     image: "/assets/teams/offplan_teams/mahul2.webp",
     // path: "/our-team/sarah-johnson",
   },
+  // {
+  //   id: 10,
+  //   name: "Rufaid",
+  //   department: "Marketing",
+  //   designation: "Web Developer",
+  //   image: "/assets/teams/rufaid.webp",
+  //   // path: "/our-team/sarah-johnson",
+  // },
+  
 ];
 
 export type NavLink = { id: string; path: string; title: string };
