@@ -4,6 +4,8 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
+import { openPositions, type JobPosition } from "@/utils/data";
+import { slugify } from "@/utils/slug";
 import Container from "@/components/layout/Container";
 
 const stagger = {
@@ -28,12 +30,6 @@ const slideRight = {
     transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
   },
 };
-
-const featuredRoles = [
-  { title: "Senior Sales Agent", department: "Sales" },
-  { title: "Buyer's Specialist", department: "Client Relations" },
-  { title: "Marketing Lead", department: "Marketing" },
-];
 
 const pillars = [
   {
@@ -65,10 +61,17 @@ const pillars = [
   },
 ];
 
-const CareersIntroSection: React.FC = () => {
+interface CareersIntroSectionProps {
+  data?: JobPosition[];
+}
+
+const CareersIntroSection: React.FC<CareersIntroSectionProps> = ({
+  data = openPositions,
+}) => {
   const sectionRef = useRef(null);
   // Require ~25% of section visible before animating (prevents early trigger when just a sliver is on screen)
   const isInView = useInView(sectionRef, { once: true, amount: 0.25 });
+  const featuredRoles = (Array.isArray(data) ? data : openPositions).slice(0, 3);
   return (
     <section
       ref={sectionRef}
@@ -229,15 +232,15 @@ const CareersIntroSection: React.FC = () => {
               <div className="flex flex-col gap-2">
                 {featuredRoles.map((role, i) => (
                   <motion.div
-                    key={role.title}
+                    key={role.id}
                     initial={{ opacity: 0, y: 12 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: 0.25 + i * 0.06 }}
                   >
                     <Link
-                      href="/careers/apply"
-                      className="group flex items-center justify-between rounded-xl border border-neutral-100 bg-white px-4 py-3.5 text-left transition-all duration-200 hover:border-[#0b2d4e]/20 hover:shadow-sm"
+                      href={`/careers/${slugify(role.title)}`}
+                      className="group flex cursor-pointer items-center justify-between rounded-xl border border-neutral-100 bg-white px-4 py-3.5 text-left transition-all duration-200 hover:border-[#0b2d4e]/20 hover:shadow-sm"
                     >
                       <div>
                         <p className="text-sm font-medium text-charcoal group-hover:text-[#0b2d4e] transition-colors">
