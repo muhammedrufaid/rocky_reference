@@ -875,7 +875,7 @@ export const openPositions: JobPosition[] = [
     title: "Property Consultant",
     subTitle: "Property Consultant – Off-Plan & Secondary Market",
     department: "Sales",
-    location: "Dubai, United Arab Emirates",
+    location: "Dubai",
     jobType: "Full-time",
     workMode: "On-site",
     company: "Rocky Real Estate",
@@ -883,14 +883,14 @@ export const openPositions: JobPosition[] = [
     applicants: 50,
 
     description:
-      "Join a high-performing real estate team to drive off-plan and secondary property sales in Dubai.",
+      "Rocky Real Estate is expanding, and we are looking for driven, results-oriented Property Consultants to join our high-performing team. With over 50 years of excellence in the Dubai real estate market, we provide the platform, support, and brand strength to help you succeed in both off-plan and secondary property sales.\n\nAt Rocky Real Estate, you focus on closing deals — we handle the rest.",
 
     responsibilities: [
       "Generate and manage client leads for off-plan and secondary properties",
       "Conduct property viewings and provide expert market advice",
       "Build and maintain strong client relationships",
       "Negotiate and close sales deals effectively",
-      "Stay updated on market trends and new project launches"
+      "Stay updated on market trends, pricing, and new project launches",
     ],
 
     requirements: [
@@ -898,17 +898,17 @@ export const openPositions: JobPosition[] = [
       "Strong sales, negotiation, and communication skills",
       "Self-motivated with a target-driven mindset",
       "RERA certification is an advantage",
-      "Ability to work independently and in a team"
+      "Ability to work independently while contributing to a team environment",
     ],
 
     benefits: [
-      "Up to 75% commission structure",
-      "Strong pipeline of qualified leads",
-      "Full marketing support",
-      "Back-office administrative support",
-      "On-time commission payments",
-      "Visa after first successful sale",
-      "Access to premium developer inventories"
+      "Competitive commission structure with up to 75% commission for potential candidates",
+      "Strong pipeline of qualified leads across off-plan and secondary markets",
+      "Full 360° marketing support to boost your listings and visibility",
+      "Dedicated back-office team to handle administration and documentation",
+      "Guaranteed on-time commission payments",
+      "Visa provided after first successful sale",
+      "Access to premium developer inventories and exclusive listings",
     ],
 
     applyEmail: "recruitment@rockyrealestate.com",
@@ -923,9 +923,6 @@ export const openPositions: JobPosition[] = [
     location: "Dubai, United Arab Emirates",
     jobType: "Full-time",
     workMode: "On-site",
-    company: "Rocky Real Estate",
-    postedAt: "3 days ago",
-    applicants: 28,
     description:
       "Lead high-value property transactions in Dubai’s luxury real estate segment.",
     responsibilities: [

@@ -1,40 +1,68 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import PageHero from "@/components/common/PageHero";
-import FaqsSection from "@/components/common/FaqsSection";
-import TestimonialSection from "@/components/home/TestimonialSection";
-import CareersIntroSection from "@/components/careers/CareersIntroSection";
-import CareersBenefitsSection from "@/components/careers/CareersBenefitsSection";
-import OpenPositionsSection from "@/components/careers/OpenPositionsSection";
-import WhyRockySection from "@/components/careers/WhyRockySection";
+import Container from "@/components/layout/Container";
+import { notFound } from "next/navigation";
+import { openPositions, type JobPosition } from "@/utils/data";
+import { slugify } from "@/utils/slug";
+import JobHeaderSection from "@/components/careers/JobHeaderSection";
+import JobDetailsSection from "@/components/careers/JobDetailsSection";
+import JobApplyCard from "@/components/careers/JobApplyCard";
+import RelatedJobsSection from "@/components/careers/RelatedJobsSection";
 
+type Props = { params: Promise<{ job: string }> };
 
-export const metadata = {
-    title: "Careers | Rocky Real Estate",
-    description:
-        "Explore career opportunities at Rocky Real Estate. Join our growing team in Dubai and build a successful career in the real estate industry.",
-};
+function getJobBySlug(slug: string): JobPosition | undefined {
+    return openPositions.find((j) => slugify(j.title) === slug);
+}
 
-export default function CareersPage() {
+export function generateStaticParams() {
+    return openPositions.map((j) => ({ job: slugify(j.title) }));
+}
+
+export async function generateMetadata({ params }: Props) {
+    const { job: jobSlug } = await params;
+    const job = getJobBySlug(jobSlug);
+    if (!job) {
+        return {
+            title: "Job Not Found | Rocky Real Estate",
+            description: "This job listing could not be found.",
+        };
+    }
+
+    return {
+        title: `${job.title} | Careers | Rocky Real Estate`,
+        description:
+            job.description ??
+            "Explore job details at Rocky Real Estate. Learn more about the job and apply for it.",
+    };
+}
+
+export default async function CareersIndividualPage({ params }: Props) {
+    const { job: jobSlug } = await params;
+    const job = getJobBySlug(jobSlug);
+    if (!job) notFound();
+
+    const relatedJobs = openPositions.filter((j) => j.id !== job.id).slice(0, 3);
+
     return (
         <div className="min-h-screen bg-white">
             <Header forceSolid />
             <main className="site-header-offset">
-                <PageHero
-                    title="Careers at Rocky Real Estate"
-                    description="Build a rewarding future in real estate by joining our expanding team"
-                    breadcrumb={[
-                        { label: "Home", href: "/" },
-                        { label: "Careers" },
-                    ]}
-                />
-                <CareersIntroSection />
-                <WhyRockySection />
-                <CareersBenefitsSection />
-                <OpenPositionsSection />
-                {/* <CareersApplySection /> */}
-                <TestimonialSection />
-                {/* <FaqsSection /> */}
+                <JobHeaderSection job={job} />
+
+                <section className="py-10 sm:py-12 lg:py-14">
+                    <Container>
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
+                            <div className="lg:col-span-8">
+                                <JobDetailsSection job={job} />
+                            </div>
+
+                            <JobApplyCard job={job} />
+                        </div>
+                    </Container>
+                </section>
+
+                <RelatedJobsSection jobs={relatedJobs} />
             </main>
             <Footer />
         </div>
