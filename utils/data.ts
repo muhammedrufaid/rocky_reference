@@ -548,6 +548,7 @@ export const navigationData: (NavLink | NavDropdown)[] = [
       { id: "6-4", title: "Our Team", path: "/our-team" },
       // { id: "6-5", title: "Why Choose Us", path: "/why-choose-us" },
       { id: "6-6", title: "Achievements", path: "/achievements" },
+      { id: "6-7", title: "Blog", path: "/blog" },
     ],
   },
 ];
