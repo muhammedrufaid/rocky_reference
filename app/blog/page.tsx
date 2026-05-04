@@ -1,6 +1,7 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/common/PageHero";
+import BlogListingSection from "@/components/blog/BlogListingSection";
 
 export const metadata = {
     title: "Blog | Rocky Real Estate",
@@ -14,14 +15,14 @@ export default function BlogPage() {
             <Header forceSolid />
             <main className="site-header-offset">
                 <PageHero
-                    title="Blog"
+                    title="Blogs"
                     description="Explore our blog and stay updated with the latest news and insights in the real estate industry."
                     breadcrumb={[
                         { label: "Home", href: "/" },
                         { label: "Blog" },
                     ]}
                 />
-                {/* <BlogSection /> */}
+                <BlogListingSection />
             </main>
             <Footer />
         </div>

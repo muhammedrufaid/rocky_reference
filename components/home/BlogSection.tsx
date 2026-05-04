@@ -2,9 +2,9 @@
 
 import React, { useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import Container from "@/components/layout/Container";
+import BlogPostCard from "@/components/blog/BlogPostCard";
 import { blogPosts } from "@/utils/data";
 
 const ArrowIcon = () => (
@@ -46,7 +46,7 @@ const BlogSection: React.FC = () => {
           <div>
             <motion.h2
               id="blog-section-heading"
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-medium text-[var(--rocky-blue)]"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-medium text-rocky-blue"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -55,7 +55,7 @@ const BlogSection: React.FC = () => {
               From Our Blog
             </motion.h2>
             <motion.p
-              className="mt-3 text-base md:text-lg text-[var(--charcoal)]/70 max-w-2xl"
+              className="mt-3 max-w-2xl text-base text-(--charcoal)/70 md:text-lg"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -81,7 +81,7 @@ const BlogSection: React.FC = () => {
           >
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-sm font-medium pb-0.5 transition-colors text-[var(--rocky-blue)] hover:opacity-80"
+              className="inline-flex items-center gap-2 pb-0.5 text-sm font-medium text-rocky-blue transition-colors hover:opacity-80"
             >
               View All Blogs <ArrowIcon />
             </Link>
@@ -101,37 +101,7 @@ const BlogSection: React.FC = () => {
                 ease: [0.22, 1, 0.36, 1] as const,
               }}
             >
-              <Link
-                href={post.path}
-                className="group block"
-              >
-                <div className="flex flex-col gap-4">
-                  <div className="relative h-[240px] md:h-[260px] overflow-hidden rounded-[12px] bg-[var(--soft-sand)]/30">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      fill
-                      className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
-                  <div>
-                    <p
-                      className="text-xs font-medium uppercase tracking-widest text-[#717171]"
-                      style={{ letterSpacing: "0.08em" }}
-                    >
-                      {post.category}
-                    </p>
-
-                    <h3 className="mt-2 text-base font-medium transition-colors line-clamp-2">
-                      {post.description}
-                    </h3>
-                    {/* <p className="mt-3 text-[15px] leading-relaxed text-[var(--charcoal)] line-clamp-2">
-
-                      </p> */}
-                  </div>
-                </div>
-              </Link>
+              <BlogPostCard post={post} variant="home" />
             </motion.article>
           ))}
         </div>
