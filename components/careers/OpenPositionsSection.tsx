@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/layout/Container";
-import { openPositions, type JobPosition } from "@/utils/data";
-import { slugify } from "@/utils/slug";
+import { openPositions } from "@/utils/data";
+import type { JobPosition } from "@/utils/types";
+import { slugify } from "@/utils/slugify";
 
 const JOBS_PER_PAGE = 6;
 

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import type { PropertyListing } from "@/utils/data";
+import type { PropertyListing } from "@/utils/types";
 import {
   AreaIcon,
   BathIcon,

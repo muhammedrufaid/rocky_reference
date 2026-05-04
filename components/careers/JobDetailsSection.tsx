@@ -1,4 +1,4 @@
-import type { JobPosition } from "@/utils/data";
+import type { JobPosition } from "@/utils/types";
 import JobSection from "@/components/careers/JobSection";
 import JobParagraphs from "@/components/careers/JobParagraphs";
 import JobBullets from "@/components/careers/JobBullets";

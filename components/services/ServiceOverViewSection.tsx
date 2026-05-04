@@ -4,7 +4,7 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import Container from "@/components/layout/Container";
-import type { Service } from "@/utils/data";
+import type { Service } from "@/utils/types";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },

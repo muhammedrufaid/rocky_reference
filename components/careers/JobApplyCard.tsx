@@ -1,7 +1,7 @@
  "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { JobPosition } from "@/utils/data";
+import type { JobPosition } from "@/utils/types";
 import ShareJobButton from "@/components/careers/ShareJobButton";
 
 type Props = { job: JobPosition };

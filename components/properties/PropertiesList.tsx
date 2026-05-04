@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Container from "@/components/layout/Container";
-import { propertyListings, type PropertyListing } from "@/utils/data";
+import { propertyListings } from "@/utils/data";
+import type { PropertyListing } from "@/utils/types";
 
 const LocationIcon = () => (
   <svg className="size-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

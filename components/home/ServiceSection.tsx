@@ -3,7 +3,7 @@
 import React, { useRef } from "react";
 import Link from "next/link";
 import Container from "@/components/layout/Container";
-import type { Service, SubService } from "@/utils/data";
+import type { Service, SubService } from "@/utils/types";
 import { serviceIcons } from "@/utils/icons";
 import { motion, useInView } from "framer-motion";
 

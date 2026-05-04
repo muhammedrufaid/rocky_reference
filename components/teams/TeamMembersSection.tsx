@@ -6,7 +6,8 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/layout/Container";
 import Pagination from "@/components/common/Pagination";
-import { getTeamMemberSlug, teamMembers } from "@/utils/data";
+import { teamMembers } from "@/utils/data";
+import { getTeamMemberSlug } from "@/utils/selectors";
 
 const ITEMS_PER_PAGE = 12;
 

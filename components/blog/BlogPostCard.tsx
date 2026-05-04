@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { BlogPost } from "@/utils/data";
+import type { BlogPost } from "@/utils/types";
 
 export type BlogPostCardVariant = "home" | "listing";
 

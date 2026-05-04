@@ -2,23 +2,20 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/common/PageHero";
 import Container from "@/components/layout/Container";
-import { blogPosts, type BlogPost } from "@/utils/data";
+import { blogPosts } from "@/utils/data";
+import type { BlogPost } from "@/utils/types";
+import { slugFromPath } from "@/utils/slugify";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
 type Props = { params: Promise<{ slug: string }> };
 
-function getSlugFromPath(path: string) {
-  const trimmed = path.replace(/\/+$/, "");
-  return trimmed.split("/").pop() ?? "";
-}
-
 function getPostBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find((p) => getSlugFromPath(p.path) === slug);
+  return blogPosts.find((p) => slugFromPath(p.path) === slug);
 }
 
 export function generateStaticParams() {
-  return blogPosts.map((p) => ({ slug: getSlugFromPath(p.path) }));
+  return blogPosts.map((p) => ({ slug: slugFromPath(p.path) }));
 }
 
 export async function generateMetadata({ params }: Props) {

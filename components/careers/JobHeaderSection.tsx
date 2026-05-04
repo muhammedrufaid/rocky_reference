@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { JobPosition } from "@/utils/data";
+import type { JobPosition } from "@/utils/types";
 import Container from "@/components/layout/Container";
 import JobBadge from "@/components/careers/JobBadge";
 

@@ -1,7 +1,8 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Container from "@/components/layout/Container";
-import { getTeamMemberBySlug, getTeamMemberSlug, teamMembers } from "@/utils/data";
+import { teamMembers } from "@/utils/data";
+import { getTeamMemberBySlug, getTeamMemberSlug } from "@/utils/selectors";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
@@ -62,10 +63,10 @@ export default async function OurTeamIndividualPage({ params }: Props) {
                   </p>
                 )}
                 <p className="text-charcoal/70 leading-relaxed">
-                  This is a placeholder profile page. You can extend{" "}
+                  This is a placeholder profile page. Add fields on{" "}
                   <code className="text-sm">TeamMember</code> in{" "}
-                  <code className="text-sm">utils/data.ts</code> with bio, contact links, and
-                  languages, then render them here.
+                  <code className="text-sm">utils/types/site.ts</code>, populate them in{" "}
+                  <code className="text-sm">utils/data.ts</code>, then render them here.
                 </p>
               </div>
             </div>

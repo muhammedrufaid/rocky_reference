@@ -1,6 +1,6 @@
 import Link from "next/link";
-import type { JobPosition } from "@/utils/data";
-import { slugify } from "@/utils/slug";
+import type { JobPosition } from "@/utils/types";
+import { slugify } from "@/utils/slugify";
 import Container from "@/components/layout/Container";
 import JobBadge from "@/components/careers/JobBadge";
 

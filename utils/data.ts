@@ -1,181 +1,18 @@
-export interface OffPlanProject {
-  id: number;
-  title: string;
-  developer: string;
-  location: string;
-  priceFrom: string;
-  image: string;
-  path: string;
-  completionYear?: string;
-}
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  imageAlt: string;
-  caption: string;
-}
-
-export interface Property {
-  id: number;
-  title: string;
-  type: "Buy" | "Rent";
-  location: string;
-  price: string;
-  image: string;
-  path: string;
-  beds?: number;
-  baths?: number;
-}
-
-export interface PropertyListing {
-  id: number;
-  title: string;
-  propertyTitle?: string;
-  towerName?: string;
-  subLocality?: string;
-  type: "Buy" | "Rent";
-  location: string;
-  price: string;
-  path: string;
-  images: string[];
-  beds?: number;
-  baths?: number;
-  area?: number; // deprecated, use propertySize
-  propertySize?: string | number;
-  propertySizeUnit?: string; // e.g. "SQFT"
-  propertyType?: "Apartment" | "Penthouse" | "Villa" | "Townhouse" | "Duplex" | "Studio";
-  agent?: { name: string; image: string; language?: string; phone?: string; email?: string; whatsapp?: string };
-  badge?: "Off Plan" | "New";
-}
-
-export interface PropertyFilters {
-  listingType: "rent" | "buy";
-  propertyType?: string; // Apartment, Villa, etc. or "" for all
-  minPrice?: string;
-  maxPrice?: string;
-  searchQuery?: string;
-}
-
-function parsePrice(priceStr: string): number | null {
-  const match = priceStr.replace(/,/g, "").match(/\d+/);
-  return match ? parseInt(match[0], 10) : null;
-}
-
-export function filterPropertyListings(
-  listings: PropertyListing[],
-  filters: PropertyFilters
-): PropertyListing[] {
-  return listings.filter((listing) => {
-    const listingTypeMatch =
-      filters.listingType === "buy"
-        ? listing.type === "Buy"
-        : listing.type === "Rent";
-    if (!listingTypeMatch) return false;
-
-    if (filters.propertyType && filters.propertyType !== "All Types") {
-      const tokens = String(filters.propertyType)
-        .split(",")
-        .map((t) => t.trim().toLowerCase())
-        .filter(Boolean);
-
-      if (tokens.length > 0) {
-        const listingType = listing.propertyType?.toLowerCase() ?? "";
-        if (!listingType) return false;
-        if (!tokens.includes(listingType)) return false;
-      }
-    }
-
-    const priceNum = parsePrice(listing.price);
-    if (priceNum != null) {
-      if (filters.minPrice) {
-        const min = parseInt(filters.minPrice, 10);
-        if (priceNum < min) return false;
-      }
-      if (filters.maxPrice) {
-        const max = parseInt(filters.maxPrice, 10);
-        if (priceNum > max) return false;
-      }
-    }
-
-    if (filters.searchQuery && filters.searchQuery.trim()) {
-      const qRaw = filters.searchQuery.trim().toLowerCase();
-      const tokens = qRaw
-        .split("|")
-        .map((t) => t.trim())
-        .filter(Boolean);
-
-      const matchesToken = (q: string) =>
-        listing.title.toLowerCase().includes(q) ||
-        listing.location.toLowerCase().includes(q) ||
-        (listing.propertyType?.toLowerCase().includes(q) ?? false) ||
-        (listing.towerName?.toLowerCase().includes(q) ?? false) ||
-        (listing.subLocality?.toLowerCase().includes(q) ?? false) ||
-        (listing.propertyTitle?.toLowerCase().includes(q) ?? false);
-
-      const match =
-        tokens.length > 0 ? tokens.some(matchesToken) : matchesToken(qRaw);
-      if (!match) return false;
-    }
-
-    return true;
-  });
-}
-
-export interface Testimonial {
-  id: number;
-  quote: string;
-  author: string;
-  rating: number;
-}
-
-export interface BlogPost {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  image: string;
-  path: string;
-}
-
-export interface Developer {
-  id: number;
-  name: string;
-  logo: string;
-  path?: string;
-}
-
-export interface TeamMember {
-  id: number;
-  name: string;
-  department: string;
-  designation?: string;
-  image: string;
-  path?: string;
-}
-
-export interface JobPosition {
-  id: number;
-  title: string;
-  subTitle?: string;
-  department: string;
-  location: string;
-  jobType: "Full-time" | "Part-time" | "Contract";
-  workMode?: "On-site" | "Remote" | "Hybrid";
-  description: string;
-  responsibilities: string[];
-  requirements: string[];
-  benefits?: string[];
-  company?: string;
-  postedAt?: string;
-  applicants?: number;
-  applyPath?: string;
-  applyEmail?: string;
-  phone?: string;
-}
-
+import type {
+  BlogPost,
+  Developer,
+  JobPosition,
+  NavDropdown,
+  NavLink,
+  OffPlanProject,
+  Project,
+  Property,
+  PropertyListing,
+  Service,
+  TeamMember,
+  Testimonial,
+  WhyChooseItem,
+} from "./types";
 
 export const featuredOffPlanProjects: OffPlanProject[] = [
   {
@@ -498,39 +335,6 @@ export const teamMembers: TeamMember[] = [
   
 ];
 
-function slugifyTeamMemberName(name: string): string {
-  return name
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_]+/g, "-")
-    .replace(/-+/g, "-");
-}
-
-/** Slug for `/our-team/[slug]`: last segment of `path` when set, otherwise a URL-safe name. */
-export function getTeamMemberSlug(member: TeamMember): string {
-  const raw = member.path?.trim();
-  if (raw) {
-    const trimmed = raw.replace(/\/+$/, "");
-    const last = trimmed.split("/").pop() ?? "";
-    if (last) return last;
-  }
-  return slugifyTeamMemberName(member.name);
-}
-
-export function getTeamMemberBySlug(slug: string): TeamMember | undefined {
-  return teamMembers.find((m) => getTeamMemberSlug(m) === slug);
-}
-
-export type NavLink = { id: string; path: string; title: string };
-export type NavDropdown = {
-  id: string;
-  path: string;
-  title: string;
-  type: "dropdown";
-  children: NavLink[];
-};
-
 export const navigationData: (NavLink | NavDropdown)[] = [
   { id: "1", title: "Buy", path: "/properties/buy/in-dubai" },
   { id: "2", title: "Rent", path: "/properties/rent/in-dubai" },
@@ -667,34 +471,6 @@ export const testimonials: Testimonial[] = [
     rating: 5,
   },
 ];
-
-export interface SubService {
-  id: number;
-  title: string;
-  description: string;
-  icon?: string;
-}
-
-export interface Service {
-  id: number;
-  slug: string;
-  title: string;
-  description: string;
-  icon?: string;
-  image?: string;
-  subservices: SubService[];
-  /** Value-focused heading for the overview section (not the hero title). */
-  overviewHeading?: string;
-  /** Detailed narrative paragraphs for the overview section. Avoids repeating hero description. */
-  overview?: string[];
-}
-
-export interface WhyChooseItem {
-  id: number;
-  icon: "expertise" | "transparency" | "support" | "market" | "end-to-end";
-  title: string;
-  description: string;
-}
 
 export const whyChooseAgentsData: WhyChooseItem[] = [
   {
@@ -889,10 +665,6 @@ export const services: Service[] = [
     ],
   },
 ];
-
-export function getServiceBySlug(slug: string): Service | undefined {
-  return services.find((s) => s.slug === slug);
-}
 
 export const openPositions: JobPosition[] = [
   {

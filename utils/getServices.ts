@@ -1,5 +1,5 @@
 import { getData } from './getData'
-import type { PropertyListing } from './data'
+import type { PropertyListing } from './types'
 
 let preferredSuggestionsEndpointIndex: number | null = null
 

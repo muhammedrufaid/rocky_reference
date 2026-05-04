@@ -4,8 +4,9 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { openPositions, type JobPosition } from "@/utils/data";
-import { slugify } from "@/utils/slug";
+import { openPositions } from "@/utils/data";
+import type { JobPosition } from "@/utils/types";
+import { slugify } from "@/utils/slugify";
 import Container from "@/components/layout/Container";
 
 const stagger = {
