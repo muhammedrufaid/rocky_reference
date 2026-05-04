@@ -113,12 +113,12 @@ const AllDevelopersShowcaseGridSection: React.FC<{ className?: string }> = ({
                 />
 
                 <div className="relative flex min-h-[140px] items-center justify-center p-6">
-                  <div className="relative h-12 w-full max-w-[160px] transition-transform duration-300 ease-out group-hover:scale-105 group-hover:-translate-y-0.5">
+                  <div className="relative aspect-5/2 w-full max-w-[180px] transition-transform duration-300 ease-out group-hover:scale-105 group-hover:-translate-y-0.5">
                     <Image
                       src={dev.logo}
                       alt={`${dev.name} logo`}
                       fill
-                      sizes="160px"
+                      sizes="180px"
                       className="object-contain opacity-70 grayscale transition-all duration-300 ease-out group-hover:opacity-100 group-hover:grayscale-0"
                     />
                   </div>
