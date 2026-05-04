@@ -498,6 +498,30 @@ export const teamMembers: TeamMember[] = [
   
 ];
 
+function slugifyTeamMemberName(name: string): string {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_]+/g, "-")
+    .replace(/-+/g, "-");
+}
+
+/** Slug for `/our-team/[slug]`: last segment of `path` when set, otherwise a URL-safe name. */
+export function getTeamMemberSlug(member: TeamMember): string {
+  const raw = member.path?.trim();
+  if (raw) {
+    const trimmed = raw.replace(/\/+$/, "");
+    const last = trimmed.split("/").pop() ?? "";
+    if (last) return last;
+  }
+  return slugifyTeamMemberName(member.name);
+}
+
+export function getTeamMemberBySlug(slug: string): TeamMember | undefined {
+  return teamMembers.find((m) => getTeamMemberSlug(m) === slug);
+}
+
 export type NavLink = { id: string; path: string; title: string };
 export type NavDropdown = {
   id: string;
