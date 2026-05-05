@@ -25,7 +25,8 @@ export default async function Home() {
   const readyPropertiesData = await getReadyProperties();
   return (
     <div className="min-h-screen bg-white">
-      <Header />
+      <Header forceSolid />
+      <main className="site-header-offset">
       <Hero />
       <FeaturedOffPlanProjects data={offPlanPropertiesData} />
       {/* <ExplorePropertySection data={readyPropertiesData}/> */}
@@ -42,6 +43,7 @@ export default async function Home() {
       <TestimonialSection />
       <BlogSection />
       <FaqsSection />
+      </main>
       <Footer />
     </div>
   );
