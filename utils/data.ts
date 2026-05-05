@@ -338,18 +338,19 @@ export const teamMembers: TeamMember[] = [
 export const navigationData: (NavLink | NavDropdown)[] = [
   { id: "1", title: "Buy", path: "/properties/buy/in-dubai" },
   { id: "2", title: "Rent", path: "/properties/rent/in-dubai" },
-  // { id: "3", title: "Off Plan", path: "/off-plan-properties/in-dubai" },
+  { id: "3", title: "Commercial", path: "/properties/buy/in-dubai?type=Commercial%20Full%20Building%2CCommercial%20Land%2CLabour%20Camp%2COffice%2CRetail%2CShop%2CShowroom%2CWarehouse" },
   {
-    id: "3",
+    id: "4",
     path: "/off-plan-properties/in-dubai",
     title: "Off Plan",
     type: "dropdown",
     children: [
-      { id: "3-1", title: "Developers", path: "/off-plan-properties/developers" },
+      { id: "3-1", title: "Off-Plan Properties", path: "/off-plan-properties/in-dubai" },
+      { id: "3-2", title: "Developers", path: "/off-plan-properties/developers" },
     ],
   },
   {
-    id: "4",
+    id: "5",
     path: "/services",
     title: "Services",
     type: "dropdown",
@@ -363,10 +364,10 @@ export const navigationData: (NavLink | NavDropdown)[] = [
       { id: "4-6", title: "After Sales Support", path: "/services/after-sales-support" },
     ],
   },
-  { id: "5", title: "Contact", path: "/contact" },
+  { id: "6", title: "Contact", path: "/contact" },
   {
-    id: "6",
-    path: "",
+    id: "7",
+    path: "/who-we-are",
     title: "About",
     type: "dropdown",
     children: [
