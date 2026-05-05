@@ -5,57 +5,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
   getPropertySuggestions,
-  getPropertyTypes,
-  normalizePropertyTypesPayload,
   type PropertySuggestion,
 } from "@/utils/getServices";
 import { generateSeoSlug } from "@/utils/seo";
-import { serializePropertyTypesForQuery } from "@/components/properties/PropertyTypeMultiSelectDropdown";
 
-type SearchCategory = "RESIDENTIAL" | "COMMERCIAL" | "OFFPLAN";
-type BuyOption = "BUY" | "RENT";
+type BuyOption = "BUY" | "RENT" | "OFFPLAN";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-const BUY_OPTIONS: BuyOption[] = ["BUY", "RENT"];
-const CATEGORIES: SearchCategory[] = ["RESIDENTIAL", "COMMERCIAL", "OFFPLAN"];
-
-/** Canonical API property types counted as residential (living). */
-const RESIDENTIAL_PROPERTY_TYPES = [
-  "Apartment",
-  "Penthouse",
-  "Townhouse",
-  "Villa",
-  "Residential Land",
-] as const;
-
-const RESIDENTIAL_TYPE_LOWER = new Set(
-  RESIDENTIAL_PROPERTY_TYPES.map((s) => s.toLowerCase())
-);
-
-function isResidentialPropertyType(name: string): boolean {
-  return RESIDENTIAL_TYPE_LOWER.has(name.trim().toLowerCase());
-}
-
-/**
- * Builds the `type` query param (comma-separated) for the listings API.
- * Residential and commercial are mutually exclusive: residential is a fixed allow-list;
- * commercial is every type from the API that is not residential.
- */
-function typeFilterCsvForCategory(
-  category: SearchCategory,
-  allApiTypes: string[]
-): string | undefined {
-  if (category === "RESIDENTIAL") {
-    return serializePropertyTypesForQuery([...RESIDENTIAL_PROPERTY_TYPES]);
-  }
-  if (category === "COMMERCIAL") {
-    const onlyCommercial = allApiTypes.filter((t) => !isResidentialPropertyType(t));
-    return onlyCommercial.length > 0
-      ? serializePropertyTypesForQuery(onlyCommercial)
-      : undefined;
-  }
-  return undefined;
-}
+const BUY_OPTIONS: BuyOption[] = ["BUY", "RENT", "OFFPLAN"];
 // Fetch more than we display initially; reveal the rest on scroll.
 const SUGGESTIONS_LIMIT = 20;
 const SEARCH_DEBOUNCE_MS = 200;
@@ -195,7 +152,6 @@ const HeroSearchCardV2: React.FC = () => {
   // ── State ──────────────────────────────────────────────────────────────────
   const router = useRouter();
   const [buyOption, setBuyOption] = useState<BuyOption>("BUY");
-  const [activeCategory, setActiveCategory] = useState<SearchCategory>("RESIDENTIAL");
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState<PropertySuggestion[]>([]);
   const [selectedItems, setSelectedItems] = useState<PropertySuggestion[]>([]);
@@ -205,7 +161,6 @@ const HeroSearchCardV2: React.FC = () => {
   // Controls the "+N More" overflow popover
   const [showOverflowPopover, setShowOverflowPopover] = useState(false);
   const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
-  const [apiPropertyTypes, setApiPropertyTypes] = useState<string[]>([]);
 
   // ── Refs ───────────────────────────────────────────────────────────────────
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -271,17 +226,6 @@ const HeroSearchCardV2: React.FC = () => {
   }, [searchQuery, selectedItems]);
 
   useEffect(() => {
-    let cancelled = false;
-    getPropertyTypes().then((data) => {
-      if (cancelled) return;
-      setApiPropertyTypes(normalizePropertyTypesPayload(data));
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       const target = e.target as Node;
       if (dropdownRef.current && !dropdownRef.current.contains(target)) {
@@ -315,23 +259,13 @@ const HeroSearchCardV2: React.FC = () => {
     const params = new URLSearchParams();
     if (slug) params.set("search", slug);
 
-    if (activeCategory === "OFFPLAN") {
+    if (buyOption === "OFFPLAN") {
       const qs = params.toString().replace(/\+/g, "%20");
       router.push(`/off-plan-properties/in-dubai${qs ? `?${qs}` : ""}`);
       return;
     }
 
     const tx = buyOption === "RENT" ? "rent" : "buy";
-    let typesForFilter = apiPropertyTypes;
-    if (activeCategory === "COMMERCIAL" && typesForFilter.length === 0) {
-      const data = await getPropertyTypes();
-      typesForFilter = normalizePropertyTypesPayload(data);
-      if (typesForFilter.length > 0) setApiPropertyTypes(typesForFilter);
-    }
-
-    const typeCsv = typeFilterCsvForCategory(activeCategory, typesForFilter);
-
-    if (typeCsv) params.set("type", typeCsv);
     const qs = params.toString().replace(/\+/g, "%20");
     router.push(`/properties/${tx}/in-dubai${qs ? `?${qs}` : ""}`);
   };
@@ -361,38 +295,6 @@ const HeroSearchCardV2: React.FC = () => {
 
       <div className="w-full max-w-[620px]">
 
-        {/* ── Category Tabs ── */}
-        <nav aria-label="Property category" className="mb-3 flex items-center gap-1">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              aria-pressed={activeCategory === cat}
-              className="relative cursor-pointer border-none bg-none pb-1.5 pt-0 px-0"
-            >
-              <span
-                className={[
-                  "inline-block px-4 py-1.5 rounded-md text-xs font-semibold tracking-[0.1em]",
-                  "transition-all duration-200 backdrop-blur-md",
-                  activeCategory === cat
-                    ? "bg-[rgba(8,31,58,0.72)] text-white border border-[rgba(195,173,149,0.4)]"
-                    : "bg-[rgba(8,31,58,0.28)] text-[rgba(255,255,255,0.55)] border border-[rgba(255,255,255,0.14)]",
-                ].join(" ")}
-              >
-                {cat}
-              </span>
-
-              {activeCategory === cat && (
-                <motion.div
-                  layoutId="hsv2-tab-underline"
-                  className="absolute bottom-0 left-4 right-4 h-px bg-[#C3AD95]"
-                  transition={{ type: "spring", stiffness: 420, damping: 32 }}
-                />
-              )}
-            </button>
-          ))}
-        </nav>
-
         {/* ── Search Bar ── */}
         <div
           className={[
@@ -405,76 +307,72 @@ const HeroSearchCardV2: React.FC = () => {
         >
 
           {/* Buy / Rent Dropdown ── */}
-          {activeCategory !== "OFFPLAN" && (
-            <div className="relative flex-shrink-0" ref={dropdownRef}>
-              <button
-                onClick={() => setShowDropdown((v) => !v)}
-                aria-haspopup="listbox"
-                aria-expanded={showDropdown}
-                className={[
-                  "h-full flex items-center gap-2 px-5 cursor-pointer select-none rounded-l-lg",
-                  "border-none outline-none text-white text-[0.78rem] font-semibold tracking-[0.1em]",
-                  "min-w-[88px] transition-colors duration-200",
-                  "bg-[#0D365E] hover:bg-[#0D365E]",
-                ].join(" ")}
+          <div className="relative shrink-0" ref={dropdownRef}>
+            <button
+              onClick={() => setShowDropdown((v) => !v)}
+              aria-haspopup="listbox"
+              aria-expanded={showDropdown}
+              className={[
+                "h-full flex items-center gap-2 px-5 cursor-pointer select-none rounded-l-lg",
+                "border-none outline-none text-white text-[0.78rem] font-semibold tracking-widest",
+                "min-w-[110px] transition-colors duration-200",
+                "bg-[#0D365E] hover:bg-[#0D365E]",
+              ].join(" ")}
+            >
+              <span>{buyOption}</span>
+              <motion.span
+                animate={{ rotate: showDropdown ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center"
               >
-                <span>{buyOption}</span>
-                <motion.span
-                  animate={{ rotate: showDropdown ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-center"
-                >
-                  <ChevronDownIcon />
-                </motion.span>
-              </button>
+                <ChevronDownIcon />
+              </motion.span>
+            </button>
 
-              <AnimatePresence>
-                {showDropdown && (
-                  <motion.ul
-                    role="listbox"
-                    aria-label="Search type"
-                    initial={{ opacity: 0, y: -6, scaleY: 0.94 }}
-                    animate={{ opacity: 1, y: 0, scaleY: 1 }}
-                    exit={{ opacity: 0, y: -4, scaleY: 0.96 }}
-                    transition={{ duration: 0.16 }}
-                    className={[
-                      "absolute top-full left-0 mt-1.5 z-50 overflow-hidden rounded-lg",
-                      "min-w-[120px] list-none p-0 m-0",
-                      "bg-gradient-to-b from-[#1C4E80] via-[#0D365E] to-[#081F3A]",
-                      "shadow-[0_8px_24px_rgba(8,31,58,0.35),inset_0_1px_0_rgba(255,255,255,0.08)]",
-                      "border border-[rgba(28,78,128,0.45)]",
-                    ].join(" ")}
-                    style={{ transformOrigin: "top" }}
-                  >
-                    {BUY_OPTIONS.map((opt) => (
-                      <li key={opt} role="option" aria-selected={opt === buyOption}>
-                        <button
-                          onClick={() => {
-                            setBuyOption(opt);
-                            setShowDropdown(false);
-                          }}
-                          className={[
-                            "w-full px-5 py-3 text-left text-[0.75rem] font-semibold tracking-[0.1em]",
-                            "border-none cursor-pointer transition-colors duration-150",
-                            opt === buyOption
-                              ? "text-[#C3AD95] bg-[rgba(195,173,149,0.1)]"
-                              : "text-[rgba(255,255,255,0.6)] bg-transparent hover:bg-[rgba(28,78,128,0.15)] hover:text-white",
-                          ].join(" ")}
-                        >
-                          {opt}
-                        </button>
-                      </li>
-                    ))}
-                  </motion.ul>
-                )}
-              </AnimatePresence>
-            </div>
-          )}
+            <AnimatePresence>
+              {showDropdown && (
+                <motion.ul
+                  role="listbox"
+                  aria-label="Search type"
+                  initial={{ opacity: 0, y: -6, scaleY: 0.94 }}
+                  animate={{ opacity: 1, y: 0, scaleY: 1 }}
+                  exit={{ opacity: 0, y: -4, scaleY: 0.96 }}
+                  transition={{ duration: 0.16 }}
+                  className={[
+                    "absolute top-full left-0 mt-1.5 z-50 overflow-hidden rounded-lg",
+                    "min-w-[120px] list-none p-0 m-0",
+                    "bg-linear-to-b from-[#1C4E80] via-[#0D365E] to-[#081F3A]",
+                    "shadow-[0_8px_24px_rgba(8,31,58,0.35),inset_0_1px_0_rgba(255,255,255,0.08)]",
+                    "border border-[rgba(28,78,128,0.45)]",
+                  ].join(" ")}
+                  style={{ transformOrigin: "top" }}
+                >
+                  {BUY_OPTIONS.map((opt) => (
+                    <li key={opt} role="option" aria-selected={opt === buyOption}>
+                      <button
+                        onClick={() => {
+                          setBuyOption(opt);
+                          setShowDropdown(false);
+                        }}
+                        className={[
+                          "w-full px-5 py-3 text-left text-[0.75rem] font-semibold tracking-widest",
+                          "border-none cursor-pointer transition-colors duration-150",
+                          opt === buyOption
+                            ? "text-[#C3AD95] bg-[rgba(195,173,149,0.1)]"
+                            : "text-[rgba(255,255,255,0.6)] bg-transparent hover:bg-[rgba(28,78,128,0.15)] hover:text-white",
+                        ].join(" ")}
+                      >
+                        {opt}
+                      </button>
+                    </li>
+                  ))}
+                </motion.ul>
+              )}
+            </AnimatePresence>
+          </div>
 
           {/* Divider */}
-          {activeCategory !== "OFFPLAN" && (
-            <div className="w-px self-stretch bg-[rgba(13,54,94,0.12)]" aria-hidden="true" />
-          )}
+          <div className="w-px self-stretch bg-[rgba(13,54,94,0.12)]" aria-hidden="true" />
 
           {/* Search Input + Tags ── */}
           <div className="relative flex-1 flex flex-wrap items-center gap-1.5 px-4 py-2 min-h-[52px]">
@@ -525,7 +423,7 @@ const HeroSearchCardV2: React.FC = () => {
                       style={{ transformOrigin: "top left" }}
                     >
                       <div className="px-3 py-2 border-b border-[rgba(13,54,94,0.08)]">
-                        <span className="text-[0.65rem] font-semibold tracking-[0.1em] text-[rgba(13,54,94,0.4)] uppercase">
+                        <span className="text-[0.65rem] font-semibold tracking-widest text-[rgba(13,54,94,0.4)] uppercase">
                           {overflowCount} More Selected
                         </span>
                       </div>
@@ -542,7 +440,7 @@ const HeroSearchCardV2: React.FC = () => {
                             <button
                               onClick={() => handleRemoveSelected(getSuggestionId(item))}
                               aria-label={`Remove ${getChipLabel(item)}`}
-                              className="ml-3 flex items-center justify-center w-5 h-5 rounded-full hover:bg-[rgba(13,54,94,0.1)] transition-colors duration-150 border-none cursor-pointer bg-transparent text-[#0D365E] flex-shrink-0"
+                              className="ml-3 flex items-center justify-center w-5 h-5 rounded-full hover:bg-[rgba(13,54,94,0.1)] transition-colors duration-150 border-none cursor-pointer bg-transparent text-[#0D365E] shrink-0"
                             >
                               <CloseIcon />
                             </button>
@@ -659,7 +557,7 @@ const HeroSearchCardV2: React.FC = () => {
             onClick={() => void handleSearch()}
             aria-label="Search"
             className={[
-              "flex-shrink-0 flex items-center justify-center px-5 cursor-pointer rounded-r-lg",
+              "shrink-0 flex items-center justify-center px-5 cursor-pointer rounded-r-lg",
               "border-none bg-transparent text-[#0D365E]",
               "transition-colors duration-200 hover:text-black hover:bg-gray-200",
             ].join(" ")}
