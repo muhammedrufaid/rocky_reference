@@ -49,7 +49,7 @@ const pillars = [
       </svg>
     ),
     title: "Market Intelligence",
-    desc: "Proprietary data, live pricing tools, and AI-assisted prospecting.",
+    desc: "Proprietary data, live pricing tools delivering real-time market insights.",
   },
   {
     icon: (
@@ -58,7 +58,7 @@ const pillars = [
       </svg>
     ),
     title: "Global Network",
-    desc: "38 nationalities, 123+ agents, and cross-border referral pipelines.",
+    desc: "30+ nationalities, 100+ agents, and cross-border referral pipelines.",
   },
 ];
 

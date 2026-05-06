@@ -43,7 +43,7 @@ const imageReveal = {
 
 const stats = [
     { number: "60,000+", label: "Properties Rented to Date" },
-    { number: "5", label: "Decades of Real Estate Excellence" },
+    { number: "50+", label: "Years of Market Experience" },
     { number: "AED 7B", label: "Worth of Assets Under Portfolio" },
     { number: "99%", label: "Occupancy Rate Across Portfolio" },
     { number: "AED 7.5B", label: "Cumulative Value of Properties Sold" },

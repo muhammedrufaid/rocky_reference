@@ -15,14 +15,14 @@ const benefits: Benefit[] = [
     {
         id: 1,
         title: "Health Insurance",
-        description: "Comprehensive medical, dental, and vision coverage for you and your family from day one.",
+        description: "Comprehensive medical coverage for you and your family from day one.",
         tag: "Day One Coverage",
     },
     {
         id: 2,
-        title: "Flexible Work Hours",
-        description: "Structure your day around your peak performance hours and personal commitments.",
-        tag: "Work-Life Balance",
+        title: "Verified Dubai Properties",
+        description: "Get TruBroker certified and explore 100% TruCheck verified Dubai listings.",
+        tag: "TruBroker Certified",
     },
     {
         id: 3,

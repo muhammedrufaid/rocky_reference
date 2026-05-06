@@ -483,7 +483,7 @@ export const whyChooseAgentsData: WhyChooseItem[] = [
   {
     id: 2,
     icon: "transparency",
-    title: "Our agents live and breathe Dubai’s property market. Every price trend, neighborhood, hidden opportunity, and more – they know everything.",
+    title: "Personalized, One-on-One Service",
     description: "You get tailored guidance with a dedicated agent who learns all your needs and delivers a seamless property journey.",
   },
   {

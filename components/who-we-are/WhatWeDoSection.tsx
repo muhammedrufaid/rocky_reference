@@ -29,7 +29,7 @@ const values = [
     },
     {
         title: "Customer Commitment",
-        description: "Clients at the heart of everything — personalised solutions always.",
+        description: "Client-focused service with tailored real estate solutions.",
         icon: (
             <svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="#C3AD95" strokeWidth="1.2">
                 <circle cx="16" cy="12" r="5" />
