@@ -374,7 +374,7 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
             <>
               {listings.map((listing, idx) => (
                 <PropertyCard
-                  key={listing.id}
+                  key={listing.path ?? listing.id}
                   listing={listing}
                   index={idx}
                   showListingType={showListingType}
