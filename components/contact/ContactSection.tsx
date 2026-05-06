@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 
-const INQUIRY_TYPES = ["Buy", "Sell", "Rent", "General"] as const;
+const INQUIRY_TYPES = [ "General", "Residential Sales", "Off Plan & Investments", "Residential Leasing", "Property Management", "Marketing"] as const;
+type InquiryType = (typeof INQUIRY_TYPES)[number];
 
 const LocationIcon = () => (
   <svg
@@ -89,12 +90,91 @@ const fadeUp = {
   }),
 };
 
+const InquiryTypeSelect: React.FC<{
+  id: string;
+  name: string;
+  value: InquiryType;
+  onChange: (next: InquiryType) => void;
+  inputBase: string;
+}> = ({ id, name, value, onChange, inputBase }) => {
+  const [open, setOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as Node | null;
+      if (target && wrapperRef.current?.contains(target)) return;
+      setOpen(false);
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  return (
+    <div ref={wrapperRef} className="relative">
+      {/* hidden input so native form semantics remain */}
+      <input type="hidden" id={id} name={name} value={value} />
+
+      <button
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className={`${inputBase} cursor-pointer text-left appearance-none bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a8a29e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")] bg-position-[right_1rem_center] bg-no-repeat pr-10`}
+      >
+        {value}
+      </button>
+
+      {open && (
+        <div
+          role="listbox"
+          aria-label="Select inquiry type"
+          className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-lg border border-stone-200 bg-white shadow-lg"
+        >
+          <div className="max-h-56 overflow-auto py-1">
+            {INQUIRY_TYPES.map((type) => {
+              const active = type === value;
+              return (
+                <button
+                  key={type}
+                  type="button"
+                  role="option"
+                  aria-selected={active}
+                  onClick={() => {
+                    onChange(type);
+                    setOpen(false);
+                  }}
+                  className={`w-full px-4 py-2 text-left text-sm transition-colors ${
+                    active
+                      ? "bg-stone-100 text-stone-900"
+                      : "text-stone-700 hover:bg-stone-50"
+                  }`}
+                >
+                  {type}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const ContactSection: React.FC = () => {
   const [formState, setFormState] = useState({
     fullName: "",
     email: "",
     phone: "",
-    inquiryType: "General" as (typeof INQUIRY_TYPES)[number],
+    inquiryType: "General" as InquiryType,
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
@@ -144,7 +224,7 @@ const ContactSection: React.FC = () => {
     <section
       id="contact-section"
       aria-labelledby="contact-section-heading"
-      className="relative overflow-hidden py-16 md:py-20 lg:py-24"
+      className="relative overflow-visible py-16 md:py-20 lg:py-24"
     >
       {/* Subtle background */}
       <div
@@ -364,20 +444,15 @@ const ContactSection: React.FC = () => {
                     >
                       Inquiry Type
                     </label>
-                    <select
+                    <InquiryTypeSelect
                       id="inquiryType"
                       name="inquiryType"
                       value={formState.inquiryType}
-                      onChange={handleChange}
-                      className={`${inputBase} cursor-pointer appearance-none bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a8a29e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")] bg-position-[right_1rem_center] bg-no-repeat pr-10`}
-                      aria-label="Select inquiry type"
-                    >
-                      {INQUIRY_TYPES.map((type) => (
-                        <option key={type} value={type}>
-                          {type}
-                        </option>
-                      ))}
-                    </select>
+                      onChange={(next) =>
+                        setFormState((prev) => ({ ...prev, inquiryType: next }))
+                      }
+                      inputBase={inputBase}
+                    />
                   </motion.div>
 
                   {/* Message */}
