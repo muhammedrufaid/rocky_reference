@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
+import { postContact } from "@/utils/getServices";
 
 const INQUIRY_TYPES = [ "General", "Residential Sales", "Off Plan & Investments", "Residential Leasing", "Property Management", "Marketing"] as const;
 type InquiryType = (typeof INQUIRY_TYPES)[number];
@@ -178,10 +179,60 @@ const ContactSection: React.FC = () => {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<
+    Partial<Record<keyof typeof formState, string>>
+  >({});
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validate = () => {
+    const next: Partial<Record<keyof typeof formState, string>> = {};
+
+    if (!formState.fullName.trim()) next.fullName = "Full name is required";
+    if (!formState.email.trim()) next.email = "Email is required";
+    else if (!/^\S+@\S+\.\S+$/.test(formState.email.trim()))
+      next.email = "Please enter a valid email";
+    if (!formState.phone.trim()) next.phone = "Phone is required";
+    if (!formState.message.trim()) next.message = "Message is required";
+
+    setFieldErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitted(false);
+    if (!validate()) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const startedAt = Date.now();
+      await postContact({
+        fullName: formState.fullName,
+        email: formState.email,
+        phone: formState.phone || undefined,
+        inquiryType: formState.inquiryType,
+        message: formState.message,
+      });
+      const minSendingMs = 800;
+      const elapsed = Date.now() - startedAt;
+      if (elapsed < minSendingMs) {
+        await new Promise((r) => setTimeout(r, minSendingMs - elapsed));
+      }
+      setSubmitted(true);
+      setFieldErrors({});
+      setFormState({
+        fullName: "",
+        email: "",
+        phone: "",
+        inquiryType: "General",
+        message: "",
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send message");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -190,7 +241,15 @@ const ContactSection: React.FC = () => {
     >
   ) => {
     const { name, value } = e.target;
-    setFormState((prev) => ({ ...prev, [name]: value }));
+    const nextValue =
+      name === "phone" ? String(value).replace(/[^\d]/g, "") : value;
+    setFieldErrors((prev) => {
+      if (!(name in prev)) return prev;
+      const next = { ...prev };
+      delete (next as any)[name];
+      return next;
+    });
+    setFormState((prev) => ({ ...prev, [name]: nextValue }));
   };
 
   const contacts = [
@@ -219,6 +278,8 @@ const ContactSection: React.FC = () => {
 
   const inputBase =
     "w-full h-11 rounded-lg border border-stone-200 bg-white px-4 text-sm text-stone-800 placeholder:text-stone-400 outline-none transition-all duration-200 focus:border-stone-400 focus:ring-2 focus:ring-stone-200";
+  const inputError =
+    "border-red-300 focus:border-red-400 focus:ring-red-100";
 
   return (
     <section
@@ -329,165 +390,156 @@ const ContactSection: React.FC = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}
           >
-            {submitted ? (
-              <motion.div
-                className="flex h-full min-h-[400px] flex-col items-center justify-center rounded-2xl bg-[#F6F6F6] p-8 text-center"
-                variants={fadeUp}
-                custom={1}
-              >
-                <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-stone-600">
-                  <CheckIcon />
-                </span>
-                <h3 className="mb-2 text-xl font-light text-stone-800">
-                  Message Received
-                </h3>
-                <p className="max-w-xs text-sm text-stone-500">
-                  Thank you for reaching out. A member of our team will be in
-                  touch with you shortly.
-                </p>
-                <button
-                  onClick={() => {
-                    setSubmitted(false);
-                    setFormState({
-                      fullName: "",
-                      email: "",
-                      phone: "",
-                      inquiryType: "General",
-                      message: "",
-                    });
-                  }}
-                  className="mt-6 text-xs font-medium text-stone-400 underline underline-offset-4 hover:text-stone-600 transition-colors"
-                >
-                  Send another message
-                </button>
-              </motion.div>
-            ) : (
-              <motion.form
-                onSubmit={handleSubmit}
-                className="rounded-2xl bg-[#F6F6F6] p-6 sm:p-8"
-                noValidate
-                aria-label="Contact form"
-                variants={fadeUp}
-                custom={1}
-              >
-                <div className="flex flex-col gap-4">
-                  {/* Full Name */}
-                  <motion.div variants={fadeUp} custom={2}>
+            <motion.form
+              onSubmit={handleSubmit}
+              className="rounded-2xl bg-[#F6F6F6] p-6 sm:p-8"
+              noValidate
+              aria-label="Contact form"
+              variants={fadeUp}
+              custom={1}
+            >
+              <div className="flex flex-col gap-4">
+                {/* Full Name */}
+                <motion.div variants={fadeUp} custom={2}>
+                  <label
+                    htmlFor="fullName"
+                    className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
+                  >
+                    Full Name <span aria-hidden>*</span>
+                  </label>
+                  <input
+                    id="fullName"
+                    name="fullName"
+                    type="text"
+                    autoComplete="name"
+                    required
+                    placeholder="Jane Smith"
+                    value={formState.fullName}
+                    onChange={handleChange}
+                    className={`${inputBase} ${fieldErrors.fullName ? inputError : ""}`}
+                    aria-required="true"
+                  />
+                  {fieldErrors.fullName ? (
+                    <p className="mt-1 text-xs text-red-600">{fieldErrors.fullName}</p>
+                  ) : null}
+                </motion.div>
+
+                {/* Email + Phone row */}
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <motion.div variants={fadeUp} custom={3}>
                     <label
-                      htmlFor="fullName"
+                      htmlFor="email"
                       className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
                     >
-                      Full Name <span aria-hidden>*</span>
+                      Email <span aria-hidden>*</span>
                     </label>
                     <input
-                      id="fullName"
-                      name="fullName"
-                      type="text"
-                      autoComplete="name"
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
                       required
-                      placeholder="Jane Smith"
-                      value={formState.fullName}
+                      placeholder="jane@example.com"
+                      value={formState.email}
                       onChange={handleChange}
-                      className={inputBase}
+                      className={`${inputBase} ${fieldErrors.email ? inputError : ""}`}
                       aria-required="true"
                     />
+                    {fieldErrors.email ? (
+                      <p className="mt-1 text-xs text-red-600">{fieldErrors.email}</p>
+                    ) : null}
                   </motion.div>
 
-                  {/* Email + Phone row */}
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <motion.div variants={fadeUp} custom={3}>
-                      <label
-                        htmlFor="email"
-                        className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
-                      >
-                        Email <span aria-hidden>*</span>
-                      </label>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        autoComplete="email"
-                        required
-                        placeholder="jane@example.com"
-                        value={formState.email}
-                        onChange={handleChange}
-                        className={inputBase}
-                        aria-required="true"
-                      />
-                    </motion.div>
-
-                    <motion.div variants={fadeUp} custom={4}>
-                      <label
-                        htmlFor="phone"
-                        className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
-                      >
-                        Phone
-                      </label>
-                      <input
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        autoComplete="tel"
-                        placeholder="+971 50 000 0000"
-                        value={formState.phone}
-                        onChange={handleChange}
-                        className={inputBase}
-                      />
-                    </motion.div>
-                  </div>
-
-                  {/* Inquiry Type */}
-                  <motion.div variants={fadeUp} custom={5}>
+                  <motion.div variants={fadeUp} custom={4}>
                     <label
-                      htmlFor="inquiryType"
+                      htmlFor="phone"
                       className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
                     >
-                      Inquiry Type
+                      Phone <span aria-hidden>*</span>
                     </label>
-                    <InquiryTypeSelect
-                      id="inquiryType"
-                      name="inquiryType"
-                      value={formState.inquiryType}
-                      onChange={(next) =>
-                        setFormState((prev) => ({ ...prev, inquiryType: next }))
-                      }
-                      inputBase={inputBase}
-                    />
-                  </motion.div>
-
-                  {/* Message */}
-                  <motion.div variants={fadeUp} custom={6}>
-                    <label
-                      htmlFor="message"
-                      className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
-                    >
-                      Message <span aria-hidden>*</span>
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      required
-                      rows={4}
-                      placeholder="Tell us about your property requirements…"
-                      value={formState.message}
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      autoComplete="tel"
+                      placeholder="+971 50 000 0000"
+                      value={formState.phone}
                       onChange={handleChange}
-                      className="w-full resize-none rounded-lg border border-stone-200 bg-white px-4 py-3 text-sm text-stone-800 placeholder:text-stone-400 outline-none transition-all duration-200 focus:border-stone-400 focus:ring-2 focus:ring-stone-200"
+                      className={`${inputBase} ${fieldErrors.phone ? inputError : ""}`}
                       aria-required="true"
                     />
-                  </motion.div>
-
-                  {/* Submit */}
-                  <motion.div variants={fadeUp} custom={7}>
-                    <button
-                      type="submit"
-                      className="w-full cursor-pointer rounded-lg bg-[#0d365e] px-6 py-3 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:bg-[#1c4e80] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-600 focus-visible:ring-offset-2 active:scale-[0.99]"
-                    >
-                      Send Enquiry &rarr;
-                    </button>
+                    {fieldErrors.phone ? (
+                      <p className="mt-1 text-xs text-red-600">{fieldErrors.phone}</p>
+                    ) : null}
                   </motion.div>
                 </div>
-              </motion.form>
-            )}
+
+                {/* Inquiry Type */}
+                <motion.div variants={fadeUp} custom={5}>
+                  <label
+                    htmlFor="inquiryType"
+                    className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
+                  >
+                    Inquiry Type
+                  </label>
+                  <InquiryTypeSelect
+                    id="inquiryType"
+                    name="inquiryType"
+                    value={formState.inquiryType}
+                    onChange={(next) =>
+                      setFormState((prev) => ({ ...prev, inquiryType: next }))
+                    }
+                    inputBase={inputBase}
+                  />
+                </motion.div>
+
+                {/* Message */}
+                <motion.div variants={fadeUp} custom={6}>
+                  <label
+                    htmlFor="message"
+                    className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.12em] text-stone-400"
+                  >
+                    Message <span aria-hidden>*</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={4}
+                    placeholder="Tell us about your property requirements…"
+                    value={formState.message}
+                    onChange={handleChange}
+                    className={`w-full resize-none rounded-lg border bg-white px-4 py-3 text-sm text-stone-800 placeholder:text-stone-400 outline-none transition-all duration-200 focus:ring-2 ${
+                      fieldErrors.message
+                        ? "border-red-300 focus:border-red-400 focus:ring-red-100"
+                        : "border-stone-200 focus:border-stone-400 focus:ring-stone-200"
+                    }`}
+                    aria-required="true"
+                  />
+                  {fieldErrors.message ? (
+                    <p className="mt-1 text-xs text-red-600">{fieldErrors.message}</p>
+                  ) : null}
+                </motion.div>
+
+                {/* Submit */}
+                <motion.div variants={fadeUp} custom={7}>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="w-full cursor-pointer rounded-lg bg-[#0d365e] px-6 py-3 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:bg-[#1c4e80] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-600 focus-visible:ring-offset-2 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    {submitting ? "Sending..." : "Send Enquiry →"}
+                  </button>
+                  {error ? (
+                    <p role="alert" className="mt-2 text-xs text-red-600">
+                      {error}
+                    </p>
+                  ) : null}
+                </motion.div>
+              </div>
+            </motion.form>
           </motion.div>
         </div>
       </Container>

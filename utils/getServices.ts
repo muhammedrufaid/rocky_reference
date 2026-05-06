@@ -1,4 +1,4 @@
-import { getData } from './getData'
+import { getData, postData } from './api'
 import type { PropertyListing } from './types'
 
 let preferredSuggestionsEndpointIndex: number | null = null
@@ -574,4 +574,16 @@ export async function getPropertyByRefNo(propertyRefNo: string): Promise<ApiProp
     console.error('Failed to fetch property by ref:', propertyRefNo, error)
     return null
   }
+}
+
+export type ContactPayload = {
+  fullName: string
+  email: string
+  phone?: string
+  inquiryType?: string
+  message: string
+}
+
+export async function postContact(payload: ContactPayload): Promise<unknown> {
+  return await postData('contact', payload)
 }
