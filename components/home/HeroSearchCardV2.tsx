@@ -484,7 +484,13 @@ const HeroSearchCardV2: React.FC = () => {
               placeholder={selectedItems.length === 0 ? "Search area, community or project..." : "Add more..."}
               aria-label="Search properties"
               aria-autocomplete="list"
-              aria-controls="hsv2-suggestions"
+              aria-controls={
+                showSuggestions &&
+                searchQuery.trim().length >= 2 &&
+                (suggestions.length > 0 || isFetchingSuggestions)
+                  ? "hsv2-suggestions"
+                  : undefined
+              }
               className="hsv2-input flex-1 min-w-[100px] outline-none border-none bg-transparent text-[0.875rem] text-[#333333] py-1"
             />
 

@@ -175,9 +175,9 @@ const Footer: React.FC = () => {
 
                     {/* Column 2 – Services */}
                     <section aria-labelledby="footer-services-heading">
-                        <h6 id="footer-services-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
+                        <h2 id="footer-services-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
                             Services
-                        </h6>
+                        </h2>
                         <nav aria-label="Footer services">
                             <ul className="space-y-3">
                                 {footerServices.map((item) => (
@@ -196,9 +196,9 @@ const Footer: React.FC = () => {
 
                     {/* Column 3 – Company */}
                     <section aria-labelledby="footer-company-heading">
-                        <h6 id="footer-company-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
+                        <h2 id="footer-company-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
                             Company
-                        </h6>
+                        </h2>
                         <nav aria-label="Footer company links">
                             <ul className="space-y-3">
                                 {footerCompany.map((item) => (
@@ -217,9 +217,9 @@ const Footer: React.FC = () => {
 
                     {/* Column 4 – Contact + Social */}
                     <section aria-labelledby="footer-contact-heading">
-                        <h6 id="footer-contact-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
+                        <h2 id="footer-contact-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
                             Contact
-                        </h6>
+                        </h2>
                         <address className="not-italic space-y-3 text-sm text-blue-100">
                             <p>
                                 <a href="tel:+97144476644" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded">

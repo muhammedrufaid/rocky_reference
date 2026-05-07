@@ -232,6 +232,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
                 <div className="px-4 pb-4 pt-0 flex gap-2">
                   <a
                     href="tel:+971564120637"
+                    aria-label={`Call about ${project.towerName || project.propertyTitle || "this property"}`}
                     className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-medium rounded-lg transition-colors duration-200 border hover:bg-[#0d365e] hover:text-white!"
                     style={{
                       borderColor: "#0d365e",
