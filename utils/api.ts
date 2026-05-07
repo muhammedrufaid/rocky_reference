@@ -2,6 +2,8 @@ interface ApiError extends Error {
   status?: number
   statusText?: string
   url?: string
+  body?: unknown
+  bodyText?: string
 }
 
 const API_BASE_URL = (process.env.NEXT_PUBLIC_BASE_URL || '').replace(/\/$/, '')
@@ -10,11 +12,20 @@ function buildApiUrl(path: string) {
   return `${API_BASE_URL}/api/${path.replace(/^\//, '')}`
 }
 
-async function parseJsonSafe(res: Response) {
+function safeJsonParse(text: string) {
   try {
-    return await res.json()
+    return JSON.parse(text) as unknown
   } catch {
     return null
+  }
+}
+
+async function readBody(res: Response): Promise<{ text: string; json: unknown | null }> {
+  try {
+    const text = await res.text()
+    return { text, json: text ? safeJsonParse(text) : null }
+  } catch {
+    return { text: '', json: null }
   }
 }
 
@@ -26,10 +37,16 @@ async function throwForNonOk(res: Response, apiUrl: string) {
   error.statusText = res.statusText
   error.url = apiUrl
 
+  const { text: bodyText, json: body } = await readBody(res)
+  error.body = body
+  error.bodyText = bodyText
+
   console.error('API Error:', {
     status: res.status,
     statusText: res.statusText,
     url: apiUrl,
+    body: body ?? undefined,
+    bodyTextPreview: bodyText ? bodyText.slice(0, 500) : undefined,
   })
 
   if (res.status === 429) {
@@ -37,9 +54,8 @@ async function throwForNonOk(res: Response, apiUrl: string) {
     throw error
   }
 
-  const errorData = await parseJsonSafe(res)
-  if (errorData && typeof (errorData as any)?.message === 'string') {
-    error.message = (errorData as any).message
+  if (body && typeof (body as any)?.message === 'string') {
+    error.message = (body as any).message
   }
 
   throw error
@@ -58,11 +74,16 @@ export const getData = async <T = unknown>(path: string, revalidate: number = 60
     })
 
     await throwForNonOk(res, apiUrl)
-    return (await res.json()) as T
+
+    const { json, text } = await readBody(res)
+    if (json !== null) return json as T
+    if (!text) return null as T
+    throw new Error(`Expected JSON response from ${apiUrl} but received non-JSON body`)
   } catch (error) {
     console.error('API Request Failed:', {
       error: error instanceof Error ? error.message : 'Unknown error',
       url: path,
+      apiUrl,
       timestamp: new Date().toISOString(),
     })
     throw error
@@ -85,12 +106,13 @@ export const postData = async <TResponse = unknown, TBody = unknown>(
     })
 
     await throwForNonOk(res, apiUrl)
-    const data = await parseJsonSafe(res)
-    return data as TResponse
+    const { json } = await readBody(res)
+    return (json as TResponse) ?? (null as TResponse)
   } catch (error) {
     console.error('API Request Failed:', {
       error: error instanceof Error ? error.message : 'Unknown error',
       url: path,
+      apiUrl,
       timestamp: new Date().toISOString(),
     })
     throw error

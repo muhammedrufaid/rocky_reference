@@ -33,9 +33,8 @@ const Hero: React.FC<HeroProps> = ({
       <div className="absolute inset-0 z-0">
         {/* Gradient fallback — shown while video loads or on error */}
         <div
-          className={`absolute inset-0 transition-opacity duration-500 ${
-            videoLoaded && !videoError ? "opacity-0" : "opacity-100"
-          }`}
+          className={`absolute inset-0 transition-opacity duration-500 ${videoLoaded && !videoError ? "opacity-0" : "opacity-100"
+            }`}
           style={{
             background:
               "linear-gradient(135deg, rgba(13, 54, 94, 0.72) 0%, rgba(20, 40, 60, 0.55) 100%)",
@@ -50,9 +49,8 @@ const Hero: React.FC<HeroProps> = ({
           playsInline
           onLoadedData={() => setVideoLoaded(true)}
           onError={() => setVideoError(true)}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
-            videoLoaded && !videoError ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${videoLoaded && !videoError ? "opacity-100" : "opacity-0"
+            }`}
           aria-hidden
         >
           <source src={videoSrc} type="video/mp4" />
@@ -97,15 +95,12 @@ const Hero: React.FC<HeroProps> = ({
       >
         <Container>
           <header className="text-center md:text-left max-w-2xl mb-6 md:mb-8">
-            <motion.h1
+            <h1
               id="hero-title"
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-white leading-tight tracking-tight"
-              initial={fadeInUp.initial}
-              animate={fadeInUp.animate}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
               Find Your Dream Home <br /> in Dubai
-            </motion.h1>
+            </h1>
             <motion.p
               className="mt-3 md:mt-4 text-base md:text-lg text-white/85 max-w-xl"
               initial={fadeInUp.initial}
