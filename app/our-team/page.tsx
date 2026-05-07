@@ -11,13 +11,39 @@ import DevelopmentPartnersSection from "@/components/home/DevelopmentPartnersSec
 import FaqsSection from "@/components/common/FaqsSection";
 import WhychooseAgentsSection from "@/components/teams/WhychooseAgentsSection";
 import Newsletter from "@/components/home/Newsletter";
+import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 
 
-export const metadata = {
-  title: "Our Team | Rocky Real Estate",
-  description:
-    "Meet our expert real estate advisors. Browse our team of specialists in sales, leasing, off-plan investments, and property management.",
-};
+export async function generateMetadata() {
+  const pathname = "/our-team";
+  const seo = await fetchSeoFromCms(pathname);
+
+  return buildPageMetadata({
+    pathname,
+    seo,
+    fallback: {
+      title: "Our Team | Real Estate Agents in Dubai | Rocky Real Estate",
+      description:
+        "Meet Rocky Real Estate's expert property agents in Dubai. Our team of trusted advisors specialises in sales, leasing, off-plan investments, and property management across UAE's top communities.",
+      image: toAbsoluteUrl("/assets/common/rockyabout.webp"),
+      keywords: [
+        "real estate agents Dubai",
+        "property experts Dubai",
+        "Dubai property advisors",
+        "Rocky Real Estate team",
+        "real estate brokers UAE",
+        "property sales agents Dubai",
+        "leasing agents Dubai",
+        "off-plan property specialists Dubai",
+        "property management experts UAE",
+        "trusted real estate agents Dubai",
+        "Dubai property consultants",
+        "residential property agents Dubai",
+      ],
+      authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
+    },
+  });
+}
 
 export default function OurTeamPage() {
   return (
