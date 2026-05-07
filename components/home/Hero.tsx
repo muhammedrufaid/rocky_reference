@@ -25,7 +25,10 @@ const Hero: React.FC<HeroProps> = ({
   const [videoError, setVideoError] = React.useState(false);
 
   return (
-    <main className="relative min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)]">
+    <section
+      className="relative min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)]"
+      aria-labelledby="hero-title"
+    >
       {/* Video background */}
       <div className="absolute inset-0 z-0">
         {/* Gradient fallback — shown while video loads or on error */}
@@ -89,9 +92,8 @@ const Hero: React.FC<HeroProps> = ({
       </div>
 
       {/* Content */}
-      <section
+      <div
         className="relative z-10 flex min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] flex-col justify-center pt-16 md:pt-20 pb-12 md:pb-16"
-        aria-labelledby="hero-title"
       >
         <Container>
           <header className="text-center md:text-left max-w-2xl mb-6 md:mb-8">
@@ -122,8 +124,8 @@ const Hero: React.FC<HeroProps> = ({
           {/* <HeroSearchCard /> */}
           <HeroSearchCardV2 />
         </Container>
-      </section>
-    </main>
+      </div>
+    </section>
   );
 };
 

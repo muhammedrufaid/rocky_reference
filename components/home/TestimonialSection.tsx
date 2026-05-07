@@ -54,7 +54,8 @@ const TestimonialSection: React.FC<{ backgroundColor?: string, className?: strin
   const nextRef = useRef<HTMLButtonElement>(null);
   return (
     <section
-      className={` bg-[${backgroundColor}] overflow-x-hidden ${className}`}
+      className={`overflow-x-hidden ${className}`}
+      style={{ backgroundColor }}
       aria-labelledby="testimonials-heading"
     >
       <Container>
