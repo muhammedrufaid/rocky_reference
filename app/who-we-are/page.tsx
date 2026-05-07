@@ -10,12 +10,36 @@ import AboutRockySection from "@/components/who-we-are/AboutRocky";
 import WhatWeDoSection from "@/components/who-we-are/WhatWeDoSection";
 import VisionMissionSection from "@/components/who-we-are/VisionMission";
 import Achievements from "@/components/who-we-are/Achievements";
+import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 
-export const metadata = {
-  title: "Who We Are | Rocky Real Estate",
-  description:
-    "Meet our expert real estate advisors. Browse our team of specialists in sales, leasing, off-plan investments, and property management.",
-};
+export async function generateMetadata() {
+  const pathname = "/who-we-are";
+  const seo = await fetchSeoFromCms(pathname);
+
+  return buildPageMetadata({
+    pathname,
+    seo,
+    fallback: {
+      title: "About Rocky Real Estate | Dubai Property Experts",
+      description:
+        "Learn about Rocky Real Estate — Dubai's trusted property agency. Discover our mission, values, achievements and expert team behind every successful transaction.",
+      image: toAbsoluteUrl("/assets/common/awards.webp"),
+      keywords: [
+        "about Rocky Real Estate",
+        "Dubai real estate agency",
+        "property experts Dubai",
+        "real estate company Dubai",
+        "trusted real estate broker Dubai",
+        "Dubai property consultants",
+        "real estate team Dubai",
+        "Rocky Real Estate about us",
+        "who we are Rocky Real Estate",
+        "best real estate agency Dubai",
+      ],
+      authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
+    },
+  });
+}
 
 export default function WhoWeArePage() {
   return (
