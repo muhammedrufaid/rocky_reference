@@ -34,7 +34,7 @@ const Newsletter: React.FC<{ className?: string }> = ({ className }) => {
                 >
                     {/* Background image — fills the entire card */}
                     <Image
-                        src="https://images.pexels.com/photos/13620067/pexels-photo-13620067.jpeg"
+                        src="/assets/common/newsletter.webp"
                         alt="Luxury Dubai property — professional home valuation service"
                         fill
                         className="object-cover"
