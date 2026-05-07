@@ -9,12 +9,38 @@ import WhychooseSection from "@/components/services/WhychooseSection";
 import DevelopmentPartnersSection from "@/components/home/DevelopmentPartnersSection";
 import { services } from "@/utils/data";
 import Newsletter from "@/components/home/Newsletter";
+import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 
-export const metadata = {
-  title: "Our Services | Rocky Real Estate",
-  description:
-    "Paperwork to handover — property management, brokerage, mortgage, professional inspection, listing & marketing, and after-sales support. Solutions tailored for Dubai's dynamic market.",
-};
+export async function generateMetadata() {
+  const pathname = "/services";
+  const seo = await fetchSeoFromCms(pathname);
+
+  return buildPageMetadata({
+    pathname,
+    seo,
+    fallback: {
+      title: "Real Estate Services in Dubai | Property Management, Brokerage & More | Rocky Real Estate",
+      description:
+        "Rocky Real Estate offers end-to-end property services in Dubai — property management, brokerage, mortgage assistance, professional snagging, listing & marketing, and after-sales support.",
+      image: toAbsoluteUrl("/assets/common/rockyabout.webp"),
+      keywords: [
+        "real estate services Dubai",
+        "property management Dubai",
+        "real estate brokerage Dubai",
+        "mortgage services Dubai",
+        "property snagging Dubai",
+        "professional property inspection UAE",
+        "property listing and marketing Dubai",
+        "after sales support real estate Dubai",
+        "property management company UAE",
+        "real estate solutions Dubai",
+        "end to end property services Dubai",
+        "Rocky Real Estate services",
+      ],
+      authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
+    },
+  });
+}
 
 export default function ServicesPage() {
   return (
