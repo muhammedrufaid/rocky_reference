@@ -81,7 +81,10 @@ export async function fetchSeoFromCms(pathname: string): Promise<CmsSeoPayload |
 
   try {
     const params = new URLSearchParams({ path: pathname });
-    const data = await getData<CmsSeoPayload>(`${endpoint}?${params.toString()}`, 300);
+    const data = await getData<CmsSeoPayload>(`${endpoint}?${params.toString()}`, 300, {
+      // SEO is optional; don't spam the dev overlay if CMS isn't configured yet.
+      silent: true,
+    });
     return data ?? null;
   } catch {
     return null;

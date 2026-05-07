@@ -6,10 +6,33 @@ interface ApiError extends Error {
   bodyText?: string
 }
 
-const API_BASE_URL = (process.env.NEXT_PUBLIC_BASE_URL || '').replace(/\/$/, '')
+function normalizeBaseUrl(value: string | undefined | null) {
+  return String(value ?? '').trim().replace(/\/$/, '')
+}
+
+function resolveApiBaseUrl(): string {
+  const explicit =
+    normalizeBaseUrl(process.env.NEXT_PUBLIC_BASE_URL) ||
+    normalizeBaseUrl(process.env.NEXT_PUBLIC_SITE_URL) ||
+    normalizeBaseUrl(process.env.SITE_URL)
+  if (explicit) return explicit
+
+  // Server-side fallback for local dev when env isn't set.
+  if (typeof window === 'undefined') {
+    const vercel = normalizeBaseUrl(process.env.VERCEL_URL)
+    if (vercel) return `https://${vercel}`
+    const port = normalizeBaseUrl(process.env.PORT) || '3000'
+    return `http://localhost:${port}`
+  }
+
+  // Browser-side fallback (same-origin).
+  return ''
+}
 
 function buildApiUrl(path: string) {
-  return `${API_BASE_URL}/api/${path.replace(/^\//, '')}`
+  const base = resolveApiBaseUrl()
+  const suffix = `/api/${path.replace(/^\//, '')}`
+  return base ? `${base}${suffix}` : suffix
 }
 
 function safeJsonParse(text: string) {
@@ -29,7 +52,7 @@ async function readBody(res: Response): Promise<{ text: string; json: unknown | 
   }
 }
 
-async function throwForNonOk(res: Response, apiUrl: string) {
+async function throwForNonOk(res: Response, apiUrl: string, options?: { silent?: boolean }) {
   if (res.ok) return
 
   const error: ApiError = new Error(`HTTP error! status: ${res.status} ${res.statusText}`)
@@ -41,13 +64,15 @@ async function throwForNonOk(res: Response, apiUrl: string) {
   error.body = body
   error.bodyText = bodyText
 
-  console.error('API Error:', {
-    status: res.status,
-    statusText: res.statusText,
-    url: apiUrl,
-    body: body ?? undefined,
-    bodyTextPreview: bodyText ? bodyText.slice(0, 500) : undefined,
-  })
+  if (!options?.silent) {
+    console.error('API Error:', {
+      status: res.status,
+      statusText: res.statusText,
+      url: apiUrl,
+      body: body ?? undefined,
+      bodyTextPreview: bodyText ? bodyText.slice(0, 500) : undefined,
+    })
+  }
 
   if (res.status === 429) {
     error.message = 'Rate limit exceeded - Please try again later'
@@ -61,7 +86,21 @@ async function throwForNonOk(res: Response, apiUrl: string) {
   throw error
 }
 
-export const getData = async <T = unknown>(path: string, revalidate: number = 60): Promise<T> => {
+type GetDataOptions = {
+  /** If true, do not `console.error` on failure (still throws). */
+  silent?: boolean
+}
+
+function shouldLogApiErrors(silent?: boolean) {
+  if (silent) return false
+  return process.env.NODE_ENV !== 'test'
+}
+
+export const getData = async <T = unknown>(
+  path: string,
+  revalidate: number = 60,
+  options: GetDataOptions = {},
+): Promise<T> => {
   const apiUrl = buildApiUrl(path)
   try {
     const res = await fetch(apiUrl, {
@@ -73,19 +112,20 @@ export const getData = async <T = unknown>(path: string, revalidate: number = 60
       next: { revalidate },
     })
 
-    await throwForNonOk(res, apiUrl)
+    await throwForNonOk(res, apiUrl, { silent: options.silent })
 
     const { json, text } = await readBody(res)
     if (json !== null) return json as T
     if (!text) return null as T
     throw new Error(`Expected JSON response from ${apiUrl} but received non-JSON body`)
   } catch (error) {
-    console.error('API Request Failed:', {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      url: path,
-      apiUrl,
-      timestamp: new Date().toISOString(),
-    })
+    if (shouldLogApiErrors(options.silent)) {
+      console.error('API Request Failed:', error, {
+        url: path,
+        apiUrl,
+        timestamp: new Date().toISOString(),
+      })
+    }
     throw error
   }
 }
@@ -109,12 +149,13 @@ export const postData = async <TResponse = unknown, TBody = unknown>(
     const { json } = await readBody(res)
     return (json as TResponse) ?? (null as TResponse)
   } catch (error) {
-    console.error('API Request Failed:', {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      url: path,
-      apiUrl,
-      timestamp: new Date().toISOString(),
-    })
+    if (shouldLogApiErrors(false)) {
+      console.error('API Request Failed:', error, {
+        url: path,
+        apiUrl,
+        timestamp: new Date().toISOString(),
+      })
+    }
     throw error
   }
 }
