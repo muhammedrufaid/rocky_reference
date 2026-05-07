@@ -95,6 +95,7 @@ const Footer: React.FC = () => {
                             aria-expanded={isOpen}
                             aria-controls="popular-searches-panel"
                             onClick={() => setIsOpen((prev) => !prev)}
+                            type="button"
                             className="flex w-full items-center justify-between gap-4 text-xs font-medium uppercase tracking-wider text-white cursor-pointer select-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white focus-visible:ring-offset-1 focus-visible:ring-offset-[#0d365e] rounded"
                         >
                             <span>Popular Searches</span>

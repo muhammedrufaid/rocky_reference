@@ -22,6 +22,12 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
   const [scrolled, setScrolled] = useState(false);
   const [footerInView, setFooterInView] = useState(false);
 
+  const handleDesktopDropdownBlur = (e: React.FocusEvent<HTMLElement>) => {
+    const next = e.relatedTarget as Node | null;
+    if (!next) return;
+    if (!e.currentTarget.contains(next)) setActiveNav(null);
+  };
+
   useEffect(() => {
     const el = headerRef.current;
     if (!el) return;
@@ -91,6 +97,12 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
         }`}
       >
         <Container>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-[60] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-[var(--rocky-blue)] focus:shadow-md"
+          >
+            Skip to content
+          </a>
           <div className="flex h-16 md:h-20 min-w-0 items-center justify-between gap-6">
             {/* Logo */}
             <Link
@@ -108,7 +120,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-8" aria-label="Primary navigation">
               {navigationData.map((item) =>
                 item.path && !("type" in item && item.type === "dropdown") ? (
                   <Link
@@ -137,6 +149,8 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                     className="relative"
                     onMouseEnter={() => setActiveNav(item.title)}
                     onMouseLeave={() => setActiveNav(null)}
+                    onFocusCapture={() => setActiveNav(item.title)}
+                    onBlurCapture={handleDesktopDropdownBlur}
                   >
                     {item.path ? (
                       <Link
@@ -148,6 +162,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                         }`}
                         aria-haspopup="true"
                         aria-expanded={activeNav === item.title}
+                        aria-controls={`desktop-dropdown-${item.id}`}
                       >
                         {item.title}
                         <svg className="w-3.5 h-3.5 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -164,6 +179,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                         }`}
                         aria-haspopup="true"
                         aria-expanded={activeNav === item.title}
+                        aria-controls={`desktop-dropdown-${item.id}`}
                       >
                         {item.title}
                         <svg className="w-3.5 h-3.5 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,15 +196,15 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                         />
                         <div className="absolute top-full left-0 pt-2">
                           <ul
+                            id={`desktop-dropdown-${item.id}`}
                             className="min-w-[220px] py-2 rounded-lg shadow-lg border border-[var(--border-light)] bg-white"
-                            role="menu"
+                            aria-label={`${item.title} submenu`}
                           >
                             {"children" in item && item.children.map((sub) => (
-                              <li key={sub.id} role="none" className="whitespace-nowrap">
+                              <li key={sub.id} className="whitespace-nowrap">
                                 <Link
                                   href={sub.path}
                                   className="block px-4 py-2.5 text-[15px] font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/30 hover:text-[var(--rocky-blue)] transition-colors whitespace-nowrap"
-                                  role="menuitem"
                                 >
                                   {sub.title}
                                 </Link>
@@ -246,6 +262,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
 
               {/* Mobile hamburger */}
               <button
+                type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className={`lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-[5px] rounded-lg transition-all duration-300 ${
                   isSolid
@@ -307,6 +324,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
             />
           </Link>
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(false)}
             className="w-8 h-8 flex items-center justify-center rounded-full text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/40 transition-colors"
             aria-label="Close menu"
@@ -318,7 +336,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
         </div>
 
         {/* Nav links — scrollable */}
-        <nav className="flex-1 overflow-y-auto py-4 pl-4 pr-5">
+        <nav className="flex-1 overflow-y-auto py-4 pl-4 pr-5" aria-label="Mobile primary navigation">
           <ul className="flex flex-col gap-0.5">
             {navigationData.map((item, idx) =>
               item.path && !("type" in item && item.type === "dropdown") ? (

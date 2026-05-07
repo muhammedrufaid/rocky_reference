@@ -81,7 +81,7 @@ const CategoryCard: React.FC<{
                     {/* Photo */}
                     <Image
                         src={category.image}
-                        alt=""
+                        alt={`${category.title} properties in Dubai`}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         quality={65}
@@ -90,7 +90,6 @@ const CategoryCard: React.FC<{
                             transition: "transform 0.8s cubic-bezier(0.22,1,0.36,1)",
                             transform: hovered ? "scale(1.07)" : "scale(1.01)",
                         }}
-                        aria-hidden
                     />
 
                     {/* Permanent soft vignette */}

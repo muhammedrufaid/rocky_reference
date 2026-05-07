@@ -84,11 +84,16 @@ const Newsletter: React.FC<{ className?: string }> = ({ className }) => {
                             custom={0.25}
                         >
                             <form className="flex w-full max-w-xl flex-col gap-3 sm:flex-row sm:items-center">
+                                <label htmlFor="newsletter-email" className="sr-only">
+                                    Email address
+                                </label>
                                 <input
+                                    id="newsletter-email"
+                                    name="email"
                                     type="email"
                                     placeholder="Enter your Email"
                                     className="h-12 w-full rounded-xl border border-white/35 bg-white/12 px-4 text-sm text-white placeholder:text-white/75 backdrop-blur-sm outline-none transition focus:border-white/70 focus:ring-1 focus:ring-white/35"
-                                    aria-label="Email address"
+                                    autoComplete="email"
                                 />
                                 <button
                                     type="submit"

@@ -58,23 +58,23 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-white">
       <Header forceSolid />
-      <main className="site-header-offset">
-      <Hero />
-      <FeaturedOffPlanProjects data={offPlanPropertiesData} />
-      {/* <ExplorePropertySection data={readyPropertiesData}/> */}
-      <PropertyCategoriesSection data={readyPropertiesData}/>
-      <DevelopmentPartnersSection />
-      {/* <ServiceSection data={services} />  */}
-      {/* <ServiceSectionv2 data={services} /> */}
-      {/* <AwardsSection /> */}
-      {/* <AwardsSection3 /> */}
-      {/* <WhyChooseUsSection /> */}
-      {/* <WhyChooseUsSection2 /> */}
-      <Newsletter className="pb-16 md:pb-20 lg:pb-24"/>
-      {/* <ValuationCTA /> */}
-      <TestimonialSection />
-      <BlogSection />
-      <FaqsSection />
+      <main id="main-content" className="site-header-offset" tabIndex={-1}>
+        <Hero />
+        <FeaturedOffPlanProjects data={offPlanPropertiesData} />
+        {/* <ExplorePropertySection data={readyPropertiesData}/> */}
+        <PropertyCategoriesSection data={readyPropertiesData} />
+        <DevelopmentPartnersSection />
+        {/* <ServiceSection data={services} />  */}
+        {/* <ServiceSectionv2 data={services} /> */}
+        {/* <AwardsSection /> */}
+        {/* <AwardsSection3 /> */}
+        {/* <WhyChooseUsSection /> */}
+        {/* <WhyChooseUsSection2 /> */}
+        <Newsletter className="pb-16 md:pb-20 lg:pb-24" />
+        {/* <ValuationCTA /> */}
+        <TestimonialSection />
+        <BlogSection />
+        <FaqsSection />
       </main>
       <Footer />
     </div>
