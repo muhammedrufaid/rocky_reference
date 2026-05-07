@@ -11,7 +11,7 @@ import {
   getTotalFromApiResponse,
   mapApiResponseToPropertyListings,
 } from "@/utils/getServices";
-import { areaSearchTermsFromPropertyFilters } from "@/utils/seo";
+import { areaSearchTermsFromPropertyFilters, buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 
 const PAGE_SIZE = 20;
 const FILTER_WINDOW_LIMIT = 500;
@@ -26,11 +26,38 @@ function parseNonNegativeInt(value: string | undefined) {
   return Number.isFinite(n) && n >= 0 ? n : undefined;
 }6
 
-export const metadata = {
-  title: "Developers | Rocky Real Estate",
-  description:
-    "Paperwork to handover — property management, brokerage, mortgage, professional inspection, listing & marketing, and after-sales support. Solutions tailored for Dubai's dynamic market.",
-};
+export async function generateMetadata() {
+  const pathname = "/off-plan-properties/in-dubai";
+  const seo = await fetchSeoFromCms(pathname);
+
+  return buildPageMetadata({
+    pathname,
+    seo,
+    fallback: {
+      title: "Off-Plan Properties in Dubai | New Launch Projects | Rocky Real Estate",
+      description:
+        "Browse the latest off-plan properties in Dubai with Rocky Real Estate. Discover new launch projects, flexible payment plans, and handpicked developments across Dubai's top communities.",
+      image: toAbsoluteUrl("/assets/common/rockyabout.webp"),
+      keywords: [
+        "off-plan properties Dubai",
+        "off-plan apartments Dubai",
+        "new launch properties Dubai",
+        "off-plan villas Dubai",
+        "buy off-plan property UAE",
+        "off-plan investment Dubai 2025",
+        "new development projects Dubai",
+        "flexible payment plan properties Dubai",
+        "off-plan townhouses Dubai",
+        "best off-plan projects Dubai",
+        "upcoming properties Dubai",
+        "off-plan property for sale UAE",
+        "new off-plan launches Dubai",
+        "off-plan real estate Dubai",
+      ],
+      authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
+    },
+  });
+}
 
 export default async function DevelopersPage({
   searchParams,
