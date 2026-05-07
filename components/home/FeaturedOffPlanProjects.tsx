@@ -164,6 +164,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      quality={65}
                     />
                     {/* Subtle gradient overlay for readability */}
                     <div

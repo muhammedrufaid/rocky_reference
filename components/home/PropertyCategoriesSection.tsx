@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 
@@ -78,10 +79,14 @@ const CategoryCard: React.FC<{
                     style={{ height: "440px" }}
                 >
                     {/* Photo */}
-                    <div
-                        className="absolute inset-0 bg-cover bg-center will-change-transform"
+                    <Image
+                        src={category.image}
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        quality={65}
+                        className="object-cover will-change-transform"
                         style={{
-                            backgroundImage: `url(${category.image})`,
                             transition: "transform 0.8s cubic-bezier(0.22,1,0.36,1)",
                             transform: hovered ? "scale(1.07)" : "scale(1.01)",
                         }}
