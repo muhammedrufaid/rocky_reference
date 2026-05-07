@@ -29,7 +29,7 @@ export async function generateMetadata() {
     pathname,
     seo,
     fallback: {
-      title: "Dubai's Leading Real Estate Agency | Rocky Real Estate",
+      title: "Dubai Real Estate Agency | Rocky Real Estate",
       description:
         "Buy, sell or invest in Dubai real estate with Rocky Real Estate. Explore off-plan projects, ready properties & luxury homes with award-winning expert agents.",
       image: toAbsoluteUrl("/assets/common/awards.webp"),
