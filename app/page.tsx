@@ -18,7 +18,39 @@ import PropertyCategoriesSection from "@/components/home/PropertyCategoriesSecti
 import AwardsSection from "@/components/home/AwardsSection";
 import AwardsSection3 from "@/components/home/AwardsSection3";
 import ServiceSectionv2 from "@/components/home/ServiceSectionv2";
+import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 
+
+export async function generateMetadata() {
+  const pathname = "/";
+  const seo = await fetchSeoFromCms(pathname);
+
+  return buildPageMetadata({
+    pathname,
+    seo,
+    fallback: {
+      title: "Dubai's Leading Real Estate Agency | Rocky Real Estate",
+      description:
+        "Buy, sell or invest in Dubai real estate with Rocky Real Estate. Explore off-plan projects, ready properties & luxury homes with award-winning expert agents.",
+      image: toAbsoluteUrl("/assets/common/awards.webp"),
+      keywords: [
+        "Dubai real estate",
+        "real estate agency Dubai",
+        "off plan properties Dubai",
+        "ready properties Dubai",
+        "luxury homes Dubai",
+        "property investment Dubai",
+        "buy property in Dubai",
+        "Dubai property for sale",
+        "villas for sale Dubai",
+        "apartments for sale Dubai",
+        "Rocky Real Estate",
+        "Dubai real estate broker",
+      ],
+      authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
+    },
+  });
+}
 
 export default async function Home() {
   const offPlanPropertiesData = await getOffPlanProperties();

@@ -1,3 +1,204 @@
+import type { Metadata } from "next";
+import { getData } from "@/utils/api";
+
+export type CmsSeoPayload = {
+  title?: string | null;
+  description?: string | null;
+  canonicalUrl?: string | null;
+  keywords?: string[] | string | null;
+  ogImage?: string | null;
+  ogTitle?: string | null;
+  ogDescription?: string | null;
+  twitterImage?: string | null;
+  authors?: Array<{ name?: string | null; url?: string | null }> | null;
+  robots?: {
+    index?: boolean | null;
+    follow?: boolean | null;
+  } | null;
+};
+
+function cleanText(value: unknown): string {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function normalizeKeywords(value: CmsSeoPayload["keywords"]): string[] {
+  if (Array.isArray(value)) {
+    return value.map((k) => cleanText(k)).filter(Boolean);
+  }
+  const raw = cleanText(value);
+  if (!raw) return [];
+  return raw
+    .split(",")
+    .map((k) => k.trim())
+    .filter(Boolean);
+}
+
+function safeUrl(value: string): URL | null {
+  try {
+    return new URL(value);
+  } catch {
+    return null;
+  }
+}
+
+export function getSiteUrl(override?: string): string {
+  const fromEnv =
+    cleanText(process.env.NEXT_PUBLIC_SITE_URL) ||
+    cleanText(process.env.SITE_URL) ||
+    cleanText(process.env.NEXT_PUBLIC_BASE_URL);
+
+  const candidate = cleanText(override) || fromEnv;
+  const url = candidate ? candidate.replace(/\/$/, "") : "https://rockyrealestate.com";
+  return url;
+}
+
+export function toAbsoluteUrl(pathOrUrl: string, siteUrlOverride?: string): string {
+  const value = cleanText(pathOrUrl);
+  if (!value) return getSiteUrl(siteUrlOverride);
+  const asUrl = safeUrl(value);
+  if (asUrl) return asUrl.toString();
+  const base = getSiteUrl(siteUrlOverride);
+  return `${base}${value.startsWith("/") ? "" : "/"}${value}`;
+}
+
+function clampTitle(value: string, maxLen: number): string {
+  const title = cleanText(value);
+  if (title.length <= maxLen) return title;
+  return title.slice(0, Math.max(0, maxLen - 1)).trimEnd() + "…";
+}
+
+function clampDescription(value: string, minLen: number, maxLen: number): string {
+  const desc = cleanText(value);
+  if (!desc) return "";
+  if (desc.length >= minLen && desc.length <= maxLen) return desc;
+  if (desc.length > maxLen) return desc.slice(0, maxLen).trimEnd();
+  return desc;
+}
+
+export async function fetchSeoFromCms(pathname: string): Promise<CmsSeoPayload | null> {
+  const endpoint =
+    cleanText(process.env.SEO_CMS_ENDPOINT) || "frontend/seo";
+
+  try {
+    const params = new URLSearchParams({ path: pathname });
+    const data = await getData<CmsSeoPayload>(`${endpoint}?${params.toString()}`, 300);
+    return data ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export function buildPageMetadata(options: {
+  pathname: string;
+  seo: CmsSeoPayload | null;
+  siteUrl?: string;
+  fallback: {
+    /** Primary keyword + brand; keep under 60 characters. */
+    title: string;
+    /** 140–160 characters recommended. */
+    description: string;
+    /** Absolute URL to social image. */
+    image: string;
+    /** Keywords to help CMS + internal search; not a ranking lever. */
+    keywords: string[];
+    /** Author(s) or organization. */
+    authors: Array<{ name: string; url?: string }>;
+  };
+}): Metadata {
+  const siteUrl = getSiteUrl(options.siteUrl);
+  const metadataBase = safeUrl(siteUrl) ?? new URL("https://rockyrealestate.com");
+
+  const canonicalInput = cleanText(options.seo?.canonicalUrl) || options.pathname;
+  const canonical = toAbsoluteUrl(canonicalInput, siteUrl);
+
+  const titleRaw = cleanText(options.seo?.title) || options.fallback.title;
+  const descriptionRaw = cleanText(options.seo?.description) || options.fallback.description;
+
+  const title = clampTitle(titleRaw, 60);
+  const description = clampDescription(descriptionRaw, 140, 160) || descriptionRaw;
+
+  const keywords = [
+    ...options.fallback.keywords,
+    ...normalizeKeywords(options.seo?.keywords),
+  ].filter(Boolean);
+
+  // Per project SEO rules: OG/Twitter title+description must match the page title+description exactly.
+  const ogTitle = title;
+  const ogDescription = description;
+
+  const ogImage = toAbsoluteUrl(
+    cleanText(options.seo?.ogImage) || options.fallback.image,
+    siteUrl,
+  );
+  const twitterImage = toAbsoluteUrl(
+    cleanText(options.seo?.twitterImage) || cleanText(options.seo?.ogImage) || options.fallback.image,
+    siteUrl,
+  );
+
+  const authors =
+    (options.seo?.authors ?? [])
+      .map((a) => ({ name: cleanText(a?.name), url: cleanText(a?.url) }))
+      .filter((a) => Boolean(a.name))
+      .map((a) => ({ name: a.name, url: a.url || undefined })) ??
+    [];
+
+  const mergedAuthors = authors.length > 0 ? authors : options.fallback.authors;
+
+  const index = options.seo?.robots?.index ?? true;
+  const follow = options.seo?.robots?.follow ?? true;
+
+  return {
+    metadataBase,
+    title,
+    description,
+    alternates: {
+      canonical,
+    },
+    robots: {
+      index,
+      follow,
+      googleBot: {
+        index,
+        follow,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
+    keywords,
+    authors: mergedAuthors,
+    openGraph: {
+      type: "website",
+      url: canonical,
+      title: ogTitle,
+      description: ogDescription,
+      locale: "en_AE",
+      siteName: "Rocky Real Estate",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: ogTitle,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [twitterImage],
+    },
+    other: {
+      "geo.region": "AE-DU",
+      "geo.placename": "Dubai",
+      "geo.position": "25.2048;55.2708",
+      ICBM: "25.2048, 55.2708",
+      publisher: "Rocky Real Estate",
+    },
+  };
+}
+
 export type SeoSlugResult = {
   slug: string;
   url: string;
