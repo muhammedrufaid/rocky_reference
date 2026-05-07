@@ -128,7 +128,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
             className="self-start sm:self-auto"
           >
             <Link
-              href="/off-plan"
+              href="/off-plan-properties/in-dubai"
               className="inline-flex items-center gap-2 text-sm font-medium pb-0.5 transition-colors text-[var(--rocky-blue)] hover:opacity-80"
             >
               View All Projects <ArrowIcon />
