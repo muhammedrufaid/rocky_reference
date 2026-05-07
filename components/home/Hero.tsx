@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 import HeroSearchCard from "./HeroSearchCard";
 import HeroSearchCardV2 from "./HeroSearchCardV2";
@@ -9,11 +8,6 @@ import HeroSearchCardV2 from "./HeroSearchCardV2";
 interface HeroProps {
   videoSrc?: string;
 }
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-};
 
 const Hero: React.FC<HeroProps> = ({
   // videoSrc = "https://www.pexels.com/download/video/29575342/",
@@ -101,19 +95,10 @@ const Hero: React.FC<HeroProps> = ({
             >
               Find Your Dream Home <br /> in Dubai
             </h1>
-            <motion.p
-              className="mt-3 md:mt-4 text-base md:text-lg text-white/85 max-w-xl"
-              initial={fadeInUp.initial}
-              animate={fadeInUp.animate}
-              transition={{
-                duration: 0.6,
-                delay: 0.15,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
+            <p className="mt-3 md:mt-4 text-base md:text-lg text-white/85 max-w-xl">
               Luxury villas, penthouses, apartments, and more. Explore
               properties you can buy or invest in across Dubai.
-            </motion.p>
+            </p>
           </header>
 
           {/* <HeroSearchCard /> */}
