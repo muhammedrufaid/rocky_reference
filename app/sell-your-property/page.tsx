@@ -7,15 +7,38 @@ import Newsletter from "@/components/home/Newsletter";
 import SellPropertyForm from "@/components/sell/SellPropertyForm";
 import WhySellWithUs from "@/components/sell/WhySellWithUs";
 import SalesHeroSection from "@/components/sell/SalesHeroSection";
+import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 
+export async function generateMetadata() {
+  const pathname = "/sell-your-property";
+  const seo = await fetchSeoFromCms(pathname);
 
-
-
-export const metadata = {
-  title: "Sell Your Property | Rocky Real Estate",
-  description:
-    "Meet our expert real estate advisors. Browse our team of specialists in sales, leasing, off-plan investments, and property management.",
-};
+  return buildPageMetadata({
+    pathname,
+    seo,
+    fallback: {
+      title: "Sell Your Property in Dubai | Get the Best Price | Rocky Real Estate",
+      description:
+        "Ready to sell your property in Dubai? Rocky Real Estate connects you with qualified buyers fast. Get a free valuation, expert marketing, and dedicated agent support to maximise your sale price.",
+      image: toAbsoluteUrl("/assets/common/selling.webp"),
+      keywords: [
+        "sell property Dubai",
+        "sell my property UAE",
+        "sell house Dubai",
+        "property for sale Dubai",
+        "sell apartment Dubai",
+        "Dubai property valuation",
+        "free property valuation Dubai",
+        "real estate agents to sell property Dubai",
+        "best price property Dubai",
+        "list property for sale Dubai",
+        "sell villa Dubai",
+        "property selling agents UAE",
+      ],
+      authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
+    },
+  });
+}
 
 export default function SellYourPropertyPage() {
   return (
