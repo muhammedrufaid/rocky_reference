@@ -30,7 +30,7 @@ const Hero: React.FC<HeroProps> = ({
               id="hero-title"
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-white leading-tight tracking-tight"
             >
-              Find Your Dream Home <br /> in Dubai
+              Find Your Dream Property <br /> in Dubai
             </h1>
             <p className="mt-3 md:mt-4 text-base md:text-lg text-white/85 max-w-xl">
               Luxury villas, penthouses, apartments, and more. Explore
