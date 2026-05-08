@@ -10,12 +10,84 @@ import {
   getTotalFromApiResponse,
   mapApiResponseToPropertyListings,
 } from "@/utils/getServices";
-import { areaSearchTermsFromPropertyFilters } from "@/utils/seo";
+import { areaSearchTermsFromPropertyFilters, buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 import PropertySearchBar from "@/components/properties/PropertySearchBar";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import FeaturedOffPlanProjects from "@/components/home/FeaturedOffPlanProjects";
 import ValuationCTA from "@/components/home/ValuationCTA";
 import Newsletter from "@/components/home/Newsletter";
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ type: string }>;
+  searchParams: Promise<{ q?: string; search?: string; type?: string }>;
+}) {
+  const { type } = await params;
+  const filters = await searchParams;
+
+  const isBuy = type === "buy";
+  const pathname = `/properties/${type}/in-dubai`;
+  const seo = await fetchSeoFromCms(pathname);
+
+  // Build area label for dynamic titles (e.g. "Business Bay")
+  const areaRaw = filters.search ?? filters.q ?? "";
+  const areaLabel = areaRaw
+    ? areaRaw
+        .split("-")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ")
+    : null;
+
+  const locationSuffix = areaLabel ? ` in ${areaLabel}, Dubai` : " in Dubai";
+
+  const title = isBuy
+    ? `Properties for Sale${locationSuffix} | Rocky Real Estate`
+    : `Properties for Rent${locationSuffix} | Rocky Real Estate`;
+
+  const description = isBuy
+    ? `Find properties for sale${locationSuffix} with Rocky Real Estate. Browse apartments, villas, and townhouses with expert agent support, competitive pricing, and seamless buying experience across UAE.`
+    : `Find properties for rent${locationSuffix} with Rocky Real Estate. Explore apartments, villas, and townhouses available to rent with flexible terms and dedicated leasing support across Dubai.`;
+
+  const buyKeywords = [
+    "properties for sale Dubai",
+    "buy property Dubai",
+    "apartments for sale Dubai",
+    "villas for sale Dubai",
+    "townhouses for sale Dubai",
+    "Dubai real estate for sale",
+    "freehold properties Dubai",
+    "property purchase UAE",
+    "residential properties Dubai",
+    ...(areaLabel ? [`properties for sale ${areaLabel} Dubai`, `buy apartment ${areaLabel}`] : []),
+  ];
+
+  const rentKeywords = [
+    "properties for rent Dubai",
+    "rent property Dubai",
+    "apartments for rent Dubai",
+    "villas for rent Dubai",
+    "townhouses for rent Dubai",
+    "Dubai rental properties",
+    "short term rentals Dubai",
+    "long term rentals Dubai",
+    "residential rentals UAE",
+    ...(areaLabel ? [`properties for rent ${areaLabel} Dubai`, `rent apartment ${areaLabel}`] : []),
+  ];
+
+  return buildPageMetadata({
+    pathname,
+    seo,
+    fallback: {
+      title,
+      description,
+      image: toAbsoluteUrl("/assets/common/rockyabout.webp"),
+      keywords: isBuy ? buyKeywords : rentKeywords,
+      authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
+    },
+  });
+}
 
 const PAGE_SIZE = 20;
 const FILTER_WINDOW_LIMIT = 500;
