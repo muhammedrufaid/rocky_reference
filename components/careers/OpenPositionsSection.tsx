@@ -66,11 +66,15 @@ const OpenPositionsSection: React.FC<OpenPositionsSectionProps> = ({
                 </header>
 
                 {/* Job Cards Grid — 1 col mobile → 2 tablet → 3 desktop */}
-                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 overflow-visible">
+                <div
+                    role="list"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 overflow-visible"
+                >
                     <AnimatePresence mode="popLayout">
                         {visibleJobs.map((job, index) => (
-                            <motion.li
+                            <motion.div
                                 key={job.id}
+                                role="listitem"
                                 layout
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -106,7 +110,7 @@ const OpenPositionsSection: React.FC<OpenPositionsSectionProps> = ({
                                                         className="px-2.5 py-1 rounded-full font-medium"
                                                         style={{
                                                             backgroundColor: "#eef3f9",
-                                                            color: "#4a7fa8",
+                                                            color: "#3a6a94",
                                                         }}
                                                     >
                                                         {job.department}
@@ -134,7 +138,7 @@ const OpenPositionsSection: React.FC<OpenPositionsSectionProps> = ({
 
                                             <p
                                                 className="text-sm leading-relaxed grow mb-5 line-clamp-2"
-                                                style={{ color: "#6b7a8d" }}
+                                                style={{ color: "#5a6a7d" }}
                                             >
                                                 {job.description}
                                             </p>
@@ -166,10 +170,10 @@ const OpenPositionsSection: React.FC<OpenPositionsSectionProps> = ({
                                         </div>
                                     </article>
                                 </Link>
-                            </motion.li>
+                            </motion.div>
                         ))}
                     </AnimatePresence>
-                </ul>
+                </div>
 
                 {/* Load More Button */}
                 {hasMore && (
