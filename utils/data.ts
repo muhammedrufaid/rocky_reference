@@ -439,22 +439,22 @@ export const testimonials: Testimonial[] = [
   {
     id: 1,
     quote:
-      "Rocky made finding our dream home seamless. Their attention to detail and market knowledge exceeded our expectations. Highly recommend for anyone serious about Dubai real estate.",
-    author: "Sarah Mitchell",
+      "When I rented a flat from Rocky, I visited their office to sign the contract and was assisted by Suchitra. She was very informative, and the entire process went smoothly. I would definitely recommend her if you’re planning to visit the Rocky office.",
+    author: "Praveen Kizhakekara",
     rating: 5,
   },
   {
     id: 2,
     quote:
-      "Professional, responsive, and genuinely invested in our needs. From the first viewing to the final handover, the entire experience was flawless.",
-    author: "James Al-Rashid",
+      "I’ve been dealing with Bhavesh for my investments and Anand for my rentals. Extremely professional individuals. You can immediately understand they put client first and the interaction is not transactional.",
+    author: "Laurentiu Joita",
     rating: 5,
   },
   {
     id: 3,
     quote:
-      "The best real estate agency we've worked with. Their off-plan expertise helped us secure a great investment. Trustworthy and transparent throughout.",
-    author: "Elena Vasquez",
+      "Very good Residential Tower in DSO, good amenities and excellent facility management. Highly recommended.",
+    author: "Sana Nazarudeen",
     rating: 5,
   },
   {
