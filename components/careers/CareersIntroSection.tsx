@@ -173,6 +173,8 @@ const CareersIntroSection: React.FC<CareersIntroSectionProps> = ({
                 className="object-cover transition-transform duration-700 hover:scale-[1.02]"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
+                fetchPriority="high"
+                loading="eager"
               />
               {/* Overlay */}
               <div
