@@ -66,111 +66,110 @@ const OpenPositionsSection: React.FC<OpenPositionsSectionProps> = ({
                 </header>
 
                 {/* Job Cards Grid — 1 col mobile → 2 tablet → 3 desktop */}
-                <div
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 overflow-visible"
-                    role="list"
-                >
+                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 overflow-visible">
                     <AnimatePresence mode="popLayout">
                         {visibleJobs.map((job, index) => (
-                            <Link
+                            <motion.li
                                 key={job.id}
-                                href={`/careers/${slugify(job.title)}`}
-                                className="block"
-                                aria-label={`View ${job.title}`}
+                                layout
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0 }}
+                                transition={{
+                                    duration: 0.4,
+                                    delay:
+                                        index >= visibleCount - JOBS_PER_PAGE
+                                            ? (index % JOBS_PER_PAGE) * 0.05
+                                            : 0,
+                                    ease: [0.22, 1, 0.36, 1] as const,
+                                }}
                             >
-                                <motion.article
-                                    role="listitem"
-                                    layout
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{
-                                        duration: 0.4,
-                                        delay:
-                                            index >= visibleCount - JOBS_PER_PAGE
-                                                ? (index % JOBS_PER_PAGE) * 0.05
-                                                : 0,
-                                        ease: [0.22, 1, 0.36, 1] as const,
-                                    }}
-                                    className="group cursor-pointer relative rounded-xl border bg-white p-6 shadow-sm transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_rgba(13,54,94,0.08)] hover:bg-[#fcfdfe]"
-                                    style={{ borderColor: "#e8edf3" }}
+                                <Link
+                                    href={`/careers/${slugify(job.title)}`}
+                                    className="block"
+                                    aria-label={`View ${job.title}`}
                                 >
-                                    <div className="flex flex-col h-full">
-                                        <div className="mb-4">
-                                            <h3
-                                                className="text-lg font-semibold leading-snug mb-2"
-                                                style={{ color: "#0d365e" }}
-                                            >
-                                                {job.title}
-                                            </h3>
-                                            <div className="flex flex-wrap gap-2 text-xs">
-                                                <span
-                                                    className="px-2.5 py-1 rounded-full font-medium"
-                                                    style={{
-                                                        backgroundColor: "#eef3f9",
-                                                        color: "#4a7fa8",
-                                                    }}
+                                    <article
+                                        className="group cursor-pointer relative rounded-xl border bg-white p-6 shadow-sm transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_rgba(13,54,94,0.08)] hover:bg-[#fcfdfe]"
+                                        style={{ borderColor: "#e8edf3" }}
+                                    >
+                                        <div className="flex flex-col h-full">
+                                            <div className="mb-4">
+                                                <h3
+                                                    className="text-lg font-semibold leading-snug mb-2"
+                                                    style={{ color: "#0d365e" }}
                                                 >
-                                                    {job.department}
-                                                </span>
-                                                <span
-                                                    className="px-2.5 py-1 rounded-full font-medium"
-                                                    style={{
-                                                        backgroundColor: "#f5f7fa",
-                                                        color: "#555",
-                                                    }}
-                                                >
-                                                    {job.location}
-                                                </span>
-                                                <span
-                                                    className="px-2.5 py-1 rounded-full font-medium"
-                                                    style={{
-                                                        backgroundColor: "#f0f4f8",
-                                                        color: "#0d365e",
-                                                    }}
-                                                >
-                                                    {job.jobType}
-                                                </span>
+                                                    {job.title}
+                                                </h3>
+                                                <div className="flex flex-wrap gap-2 text-xs">
+                                                    <span
+                                                        className="px-2.5 py-1 rounded-full font-medium"
+                                                        style={{
+                                                            backgroundColor: "#eef3f9",
+                                                            color: "#4a7fa8",
+                                                        }}
+                                                    >
+                                                        {job.department}
+                                                    </span>
+                                                    <span
+                                                        className="px-2.5 py-1 rounded-full font-medium"
+                                                        style={{
+                                                            backgroundColor: "#f5f7fa",
+                                                            color: "#555",
+                                                        }}
+                                                    >
+                                                        {job.location}
+                                                    </span>
+                                                    <span
+                                                        className="px-2.5 py-1 rounded-full font-medium"
+                                                        style={{
+                                                            backgroundColor: "#f0f4f8",
+                                                            color: "#0d365e",
+                                                        }}
+                                                    >
+                                                        {job.jobType}
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <p
-                                            className="text-sm leading-relaxed grow mb-5 line-clamp-2"
-                                            style={{ color: "#6b7a8d" }}
-                                        >
-                                            {job.description}
-                                        </p>
+                                            <p
+                                                className="text-sm leading-relaxed grow mb-5 line-clamp-2"
+                                                style={{ color: "#6b7a8d" }}
+                                            >
+                                                {job.description}
+                                            </p>
 
-                                        <span
-                                            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 group/btn w-fit"
-                                            style={{
-                                                backgroundColor: "#0d365e",
-                                                color: "#fff",
-                                            }}
-                                            aria-hidden
-                                        >
-                                            View
-                                            <svg
-                                                className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
+                                            <span
+                                                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 group/btn w-fit"
+                                                style={{
+                                                    backgroundColor: "#0d365e",
+                                                    color: "#fff",
+                                                }}
                                                 aria-hidden
                                             >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={2}
-                                                    d="M9 5l7 7-7 7"
-                                                />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </motion.article>
-                            </Link>
+                                                View
+                                                <svg
+                                                    className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    aria-hidden
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M9 5l7 7-7 7"
+                                                    />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </article>
+                                </Link>
+                            </motion.li>
                         ))}
                     </AnimatePresence>
-                </div>
+                </ul>
 
                 {/* Load More Button */}
                 {hasMore && (
