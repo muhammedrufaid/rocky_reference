@@ -42,7 +42,7 @@ export default function RelatedJobsSection({ jobs }: Props) {
                                     >
                                         {j.title}
                                     </div>
-                                    <div className="mt-1 text-sm" style={{ color: "#6b7a8d" }}>
+                                    <div className="mt-1 text-sm" style={{ color: "#5a6a7d" }}>
                                         {j.location}
                                     </div>
                                 </div>

@@ -120,7 +120,7 @@ export default function ShareJobButton({ title, className }: Props) {
                             <div className="text-sm font-semibold" style={{ color: "#0d365e" }}>
                                 Share
                             </div>
-                            <div className="text-xs mt-0.5" style={{ color: "#6b7a8d" }}>
+                            <div className="text-xs mt-0.5" style={{ color: "#5a6a7d" }}>
                                 Choose a platform
                             </div>
                         </div>

@@ -11,7 +11,7 @@ export default function JobSection({ title, children }: Props) {
             <h2 className="text-lg sm:text-xl font-semibold" style={{ color: "#0d365e" }}>
                 {title}
             </h2>
-            <div className="mt-4 text-sm sm:text-[15px] leading-relaxed" style={{ color: "#6b7a8d" }}>
+            <div className="mt-4 text-sm sm:text-[15px] leading-relaxed" style={{ color: "#5a6a7d" }}>
                 {children}
             </div>
         </section>

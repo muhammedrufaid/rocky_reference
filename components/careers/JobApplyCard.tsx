@@ -111,7 +111,7 @@ export default function JobApplyCard({ job }: Props) {
                         <h2 className="text-lg font-semibold" style={{ color: "#0d365e" }}>
                             Apply now
                         </h2>
-                        <p className="mt-1 text-sm" style={{ color: "#6b7a8d" }}>
+                        <p className="mt-1 text-sm" style={{ color: "#5a6a7d" }}>
                             We usually respond within a few business days.
                         </p>
                     </div>
@@ -188,7 +188,7 @@ export default function JobApplyCard({ job }: Props) {
                                 <div className="text-sm font-semibold" style={{ color: "#0d365e" }}>
                                     Apply for {job.title}
                                 </div>
-                                <div className="text-xs mt-0.5" style={{ color: "#6b7a8d" }}>
+                                <div className="text-xs mt-0.5" style={{ color: "#5a6a7d" }}>
                                     Fill in your details and upload your CV
                                 </div>
                             </div>
@@ -209,7 +209,7 @@ export default function JobApplyCard({ job }: Props) {
                                         <div className="font-semibold" style={{ color: "#0d365e" }}>
                                             Application submitted
                                         </div>
-                                        <div className="mt-1" style={{ color: "#6b7a8d" }}>
+                                        <div className="mt-1" style={{ color: "#5a6a7d" }}>
                                             Thanks — our team will reach out to you shortly.
                                         </div>
                                     </div>
@@ -281,7 +281,7 @@ export default function JobApplyCard({ job }: Props) {
                                             value={job.title}
                                             disabled
                                             className="w-full rounded-xl border bg-[#f5f7fa] px-3 py-2.5"
-                                            style={{ borderColor: "#e8edf3", color: "#6b7a8d" }}
+                                            style={{ borderColor: "#e8edf3", color: "#5a6a7d" }}
                                         />
                                     </label>
 
@@ -297,7 +297,7 @@ export default function JobApplyCard({ job }: Props) {
                                             className="w-full cursor-pointer rounded-xl border px-3 py-2.5"
                                             style={{ borderColor: "#e8edf3" }}
                                         />
-                                        <span className="text-[11px]" style={{ color: "#6b7a8d" }}>
+                                        <span className="text-[11px]" style={{ color: "#5a6a7d" }}>
                                             Accepted: PDF, DOC, DOCX
                                         </span>
                                     </label>
