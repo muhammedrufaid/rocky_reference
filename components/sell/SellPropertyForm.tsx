@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Container from "@/components/layout/Container";
+import { postSell } from "@/utils/getServices";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 18 },
@@ -91,9 +92,98 @@ const inputBase =
 const labelBase =
   "mb-2 block text-xs uppercase tracking-widest font-medium text-[#333333]/60";
 
+const inputError = "ring-1 ring-red-400 focus:ring-red-400";
+
 export default function SellPropertyForm() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-60px" });
+
+  const [formState, setFormState] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    propertyType: "",
+    locationArea: "",
+    message: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<
+    Partial<Record<keyof typeof formState, string>>
+  >({});
+
+  const validate = () => {
+    const next: Partial<Record<keyof typeof formState, string>> = {};
+
+    if (!formState.fullName.trim()) next.fullName = "Full name is required";
+    if (!formState.email.trim()) next.email = "Email is required";
+    else if (!/^\S+@\S+\.\S+$/.test(formState.email.trim()))
+      next.email = "Please enter a valid email";
+    if (!formState.phone.trim()) next.phone = "Phone is required";
+    if (!formState.propertyType.trim())
+      next.propertyType = "Property type is required";
+    if (!formState.locationArea.trim())
+      next.locationArea = "Location / area is required";
+
+    setFieldErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(false);
+    if (!validate()) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const startedAt = Date.now();
+      await postSell({
+        fullName: formState.fullName.trim(),
+        email: formState.email.trim(),
+        phone: formState.phone.trim(),
+        propertyType: formState.propertyType.trim(),
+        locationArea: formState.locationArea.trim(),
+        message: formState.message.trim() || undefined,
+      });
+      const minSendingMs = 800;
+      const elapsed = Date.now() - startedAt;
+      if (elapsed < minSendingMs) {
+        await new Promise((r) => setTimeout(r, minSendingMs - elapsed));
+      }
+      setSubmitted(true);
+      setFieldErrors({});
+      setFormState({
+        fullName: "",
+        email: "",
+        phone: "",
+        propertyType: "",
+        locationArea: "",
+        message: "",
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send enquiry");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    const nextValue =
+      name === "phone" ? String(value).replace(/[^\d]/g, "") : value;
+    setFieldErrors((prev) => {
+      if (!(name in prev)) return prev;
+      const next = { ...prev };
+      delete (next as Record<string, string>)[name];
+      return next;
+    });
+    setFormState((prev) => ({ ...prev, [name]: nextValue }));
+  };
 
   const trustPoints = [
     { icon: PriceTagIcon, label: "Top Market Price" },
@@ -125,7 +215,6 @@ export default function SellPropertyForm() {
               custom={1}
               aria-hidden
             />
-
 
             <motion.p
               className="mt-3 max-w-2xl text-base leading-relaxed text-[#333333]/60 md:text-lg"
@@ -211,34 +300,57 @@ export default function SellPropertyForm() {
             }}
           >
             <div className="rounded-2xl bg-[#F6F6F6] p-6 sm:p-8">
-              <form className="space-y-5" aria-label="Sell your property form">
+              <form
+                className="space-y-5"
+                aria-label="Sell your property form"
+                onSubmit={handleSubmit}
+                noValidate
+              >
                 {/* Row 1 */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label htmlFor="fullName" className={labelBase}>
-                      Full Name
+                      Full Name <span aria-hidden>*</span>
                     </label>
                     <input
                       id="fullName"
                       name="fullName"
                       type="text"
                       autoComplete="name"
-                      className={inputBase}
                       placeholder="Full Name"
+                      value={formState.fullName}
+                      onChange={handleChange}
+                      className={`${inputBase} ${fieldErrors.fullName ? inputError : ""}`}
+                      aria-required="true"
                     />
+                    {fieldErrors.fullName ? (
+                      <p className="mt-1 text-xs text-red-600">
+                        {fieldErrors.fullName}
+                      </p>
+                    ) : null}
                   </div>
                   <div>
                     <label htmlFor="phone" className={labelBase}>
-                      Phone Number
+                      Phone Number <span aria-hidden>*</span>
                     </label>
                     <input
                       id="phone"
                       name="phone"
                       type="tel"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       autoComplete="tel"
-                      className={inputBase}
                       placeholder="+971 50 000 0000"
+                      value={formState.phone}
+                      onChange={handleChange}
+                      className={`${inputBase} ${fieldErrors.phone ? inputError : ""}`}
+                      aria-required="true"
                     />
+                    {fieldErrors.phone ? (
+                      <p className="mt-1 text-xs text-red-600">
+                        {fieldErrors.phone}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
 
@@ -246,26 +358,36 @@ export default function SellPropertyForm() {
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label htmlFor="email" className={labelBase}>
-                      Email Address
+                      Email Address <span aria-hidden>*</span>
                     </label>
                     <input
                       id="email"
                       name="email"
                       type="email"
                       autoComplete="email"
-                      className={inputBase}
                       placeholder="you@example.com"
+                      value={formState.email}
+                      onChange={handleChange}
+                      className={`${inputBase} ${fieldErrors.email ? inputError : ""}`}
+                      aria-required="true"
                     />
+                    {fieldErrors.email ? (
+                      <p className="mt-1 text-xs text-red-600">
+                        {fieldErrors.email}
+                      </p>
+                    ) : null}
                   </div>
                   <div>
                     <label htmlFor="propertyType" className={labelBase}>
-                      Property Type
+                      Property Type <span aria-hidden>*</span>
                     </label>
                     <select
                       id="propertyType"
                       name="propertyType"
-                      className={`${inputBase} cursor-pointer appearance-none bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")] bg-position-[right_1rem_center] bg-no-repeat pr-10`}
-                      defaultValue=""
+                      value={formState.propertyType}
+                      onChange={handleChange}
+                      className={`${inputBase} cursor-pointer appearance-none bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")] bg-position-[right_1rem_center] bg-no-repeat pr-10 ${fieldErrors.propertyType ? inputError : ""}`}
+                      aria-required="true"
                     >
                       <option value="" disabled>
                         Select type
@@ -276,21 +398,34 @@ export default function SellPropertyForm() {
                         </option>
                       ))}
                     </select>
+                    {fieldErrors.propertyType ? (
+                      <p className="mt-1 text-xs text-red-600">
+                        {fieldErrors.propertyType}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
 
                 {/* Row 3 */}
                 <div>
-                  <label htmlFor="location" className={labelBase}>
-                    Location / Area
+                  <label htmlFor="locationArea" className={labelBase}>
+                    Location / Area <span aria-hidden>*</span>
                   </label>
                   <input
-                    id="location"
-                    name="location"
+                    id="locationArea"
+                    name="locationArea"
                     type="text"
-                    className={inputBase}
                     placeholder="e.g. Downtown Dubai"
+                    value={formState.locationArea}
+                    onChange={handleChange}
+                    className={`${inputBase} ${fieldErrors.locationArea ? inputError : ""}`}
+                    aria-required="true"
                   />
+                  {fieldErrors.locationArea ? (
+                    <p className="mt-1 text-xs text-red-600">
+                      {fieldErrors.locationArea}
+                    </p>
+                  ) : null}
                 </div>
 
                 {/* Row 4 */}
@@ -304,16 +439,29 @@ export default function SellPropertyForm() {
                     rows={4}
                     className={`${inputBase} resize-none`}
                     placeholder="Tell us about your property..."
+                    value={formState.message}
+                    onChange={handleChange}
                   />
                 </div>
 
                 <div className="pt-1">
+                  {submitted ? (
+                    <p role="status" className="mb-3 text-sm text-emerald-800">
+                      Thanks — we&apos;ll be in touch within 24 hours.
+                    </p>
+                  ) : null}
                   <button
                     type="submit"
-                    className="w-full cursor-pointer rounded-xl bg-[#0D365E] px-6 py-4 text-base font-medium text-white transition-colors hover:bg-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/40 focus-visible:ring-offset-2"
+                    disabled={submitting}
+                    className="w-full cursor-pointer rounded-xl bg-[#0D365E] px-6 py-4 text-base font-medium text-white transition-colors hover:bg-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/40 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
                   >
-                    Send Enquiry &rarr;
+                    {submitting ? "Sending…" : "Send Enquiry →"}
                   </button>
+                  {error ? (
+                    <p role="alert" className="mt-2 text-xs text-red-600">
+                      {error}
+                    </p>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -323,4 +471,3 @@ export default function SellPropertyForm() {
     </section>
   );
 }
-

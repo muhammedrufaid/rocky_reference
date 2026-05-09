@@ -587,3 +587,17 @@ export type ContactPayload = {
 export async function postContact(payload: ContactPayload): Promise<unknown> {
   return await postData('contact', payload)
 }
+
+/** Sell enquiry: `POST /api/sell` → upstream `{ROCKY_API_ORIGIN}/api/sell` (path override: `ROCKY_API_SELL_PATH`). */
+export type SellEnquiryPayload = {
+  fullName: string
+  phone: string
+  email: string
+  propertyType: string
+  locationArea: string
+  message?: string
+}
+
+export async function postSell(payload: SellEnquiryPayload): Promise<unknown> {
+  return await postData('sell', payload)
+}
