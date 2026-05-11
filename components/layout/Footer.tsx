@@ -11,8 +11,8 @@ const footerServices = [
     { title: "Professional Inspection", path: "services/professional-inspection" },
     { title: "Brokerage", path: "services/brokerage" },
     { title: "Mortgage", path: "services/mortgage" },
-    { title: "Property Listing & Marketing", path: "/services/property-listing-marketing" },
-    { title: "After Sales Support", path: "services/after-sales-support" },
+    // { title: "Property Listing & Marketing", path: "/services/property-listing-marketing" },
+    // { title: "After Sales Support", path: "services/after-sales-support" },
 ];
 
 const footerCompany = [
