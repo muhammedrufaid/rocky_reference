@@ -7,19 +7,19 @@ import Container from "./Container";
 import Image from "next/image";
 
 const footerServices = [
-    { title: "Professional Inspection", path: "/professional-inspection" },
-    { title: "Property Listing", path: "/property-listing" },
-    { title: "Property Management", path: "/property-management" },
-    { title: "Mortgage", path: "/mortgage" },
-    { title: "Brokerage", path: "/brokerage" },
-    { title: "After Sales Support", path: "/after-sales-support" },
+    { title: "Property Management", path: "services/property-management" },
+    { title: "Professional Inspection", path: "services/professional-inspection" },
+    { title: "Brokerage", path: "services/brokerage" },
+    { title: "Mortgage", path: "services/mortgage" },
+    { title: "Property Listing & Marketing", path: "/services/property-listing-marketing" },
+    { title: "After Sales Support", path: "services/after-sales-support" },
 ];
 
 const footerCompany = [
-    { title: "About Us", path: "/about" },
-    { title: "Areas We Serve", path: "/areas" },
+    { title: "About Us", path: "/who-we-are" },
+    // { title: "", path: "/" },
     { title: "Blog", path: "/blog" },
-    { title: "FAQs", path: "/faqs" },
+    // { title: "FAQs", path: "/faqs" },
     { title: "Contact", path: "/contact" },
     { title: "Careers", path: "/careers" },
 ];
