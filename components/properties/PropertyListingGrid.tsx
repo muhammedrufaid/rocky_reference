@@ -326,6 +326,14 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
   const getListingHref = (listing: PropertyListing) =>
     isOffPlan ? `/off-plan-properties/in-dubai/${encodeURIComponent(String(listing.id))}` : listing.path;
 
+  const keyCounts = new Map<string, number>();
+  const getListingKey = (listing: PropertyListing) => {
+    const base = String(listing.path ?? listing.id ?? getListingHref(listing) ?? "listing");
+    const next = (keyCounts.get(base) ?? 0) + 1;
+    keyCounts.set(base, next);
+    return next === 1 ? base : `${base}::${next}`;
+  };
+
   return (
     <section
       className="pt-8 md:pt-12"
@@ -374,7 +382,7 @@ export const PropertyListingGrid: React.FC<PropertyListingGridProps> = ({
             <>
               {listings.map((listing, idx) => (
                 <PropertyCard
-                  key={listing.path ?? listing.id}
+                  key={getListingKey(listing)}
                   listing={listing}
                   index={idx}
                   showListingType={showListingType}

@@ -197,9 +197,15 @@ const HeroSearchCardV2: React.FC = () => {
           controller.signal
         );
         const locationRows = results.filter(isLocationLikeSuggestion);
-        const deduped = locationRows.filter(
-          (r) => !selectedItems.some((s) => getSuggestionId(s) === getSuggestionId(r))
-        );
+        const seenIds = new Set<string>();
+        const deduped = locationRows.filter((r) => {
+          const id = getSuggestionId(r);
+          if (!id) return false;
+          if (seenIds.has(id)) return false;
+          if (selectedItems.some((s) => getSuggestionId(s) === id)) return false;
+          seenIds.add(id);
+          return true;
+        });
 
         if (requestId === lastRequestIdRef.current) {
           setSuggestions(deduped);
@@ -515,7 +521,11 @@ const HeroSearchCardV2: React.FC = () => {
                     style={{ maxHeight: `${SUGGESTIONS_MAX_HEIGHT_PX}px` }}
                   >
                     {suggestions.map((s, i) => (
-                      <li key={getSuggestionId(s)} role="option" aria-selected={false}>
+                      <li
+                        key={`${getSuggestionId(s)}::${i}`}
+                        role="option"
+                        aria-selected={false}
+                      >
                         <button
                           type="button"
                           onMouseDown={() => handleSuggestionSelect(s)}
