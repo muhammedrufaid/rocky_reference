@@ -395,13 +395,100 @@ export const categoryOptions: Record<string, string[]> = {
 export const blogPosts: BlogPost[] = [
   {
     id: 1,
-    title: "Private Contemporary Home Balancing Openness",
-    category: "Residential",
+    title: "Dubai Updates Investor Visa: Key Information for You",
+    category: "Insights",
     description:
-      "Explore how modern architecture blends indoor and outdoor spaces seamlessly, creating light-filled interiors that feel both private and expansive.",
+      "In 2026, Dubai updated the property-linked investor visa: no minimum property value for sole owners, new rules for joint ownership, and a clearer framework from the DLD and GDRFA.",
     image:
       "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&h=400&fit=crop",
     path: "/blog/private-contemporary-home",
+    content: [
+      {
+        type: "paragraph",
+        text: "In 2026, Dubai changed the property-linked residency visa to make it easier for investors to get UAE residency.",
+      },
+      {
+        type: "paragraph",
+        text: "The Dubai Land Department (DLD) announced on its Cube digital platform that sole property owners no longer need to meet a minimum property value to apply for a two-year investor visa. According to Gulf News reports, there are also new rules for jointly owned properties.",
+      },
+      {
+        type: "paragraph",
+        text: "If you are an investor or buyer, here is what you need to know.",
+      },
+      { type: "heading2", text: "No minimum for sole ownership" },
+      {
+        type: "paragraph",
+        text: "Before these changes, investors needed to invest at least AED 750,000 to qualify for the two-year property investor visa.",
+      },
+      {
+        type: "paragraph",
+        text: "Under the new rules, sole property owners no longer need to meet a minimum property value requirement, as long as the property is fully registered in their name.",
+      },
+      { type: "heading2", text: "New joint ownership threshold" },
+      {
+        type: "paragraph",
+        text: "While the minimum was removed for sole owners, a new rule applies to joint property ownership.",
+      },
+      {
+        type: "paragraph",
+        text: "Each investor in a jointly owned property must now own at least AED 400,000 to qualify for the investor visa. Eligibility is checked for each person, not as a group.",
+      },
+      {
+        type: "paragraph",
+        text: "This rule ensures that each applicant has made a genuine investment, rather than splitting ownership into small shares to meet requirements.",
+      },
+      { type: "heading2", text: "Unified visa framework" },
+      {
+        type: "paragraph",
+        text: "Starting in 2026, the main property-linked visas managed by the Dubai Land Department (DLD) and the General Directorate of Residency and Foreigners Affairs (GDRFA) include:",
+      },
+      { type: "heading3", text: "Two-Year Investor Visa" },
+      {
+        type: "list",
+        items: [
+          "This option suits entry-level investors.",
+          "There is no minimum property value required for sole owners.",
+          "For joint ownership, each investor must have at least AED 400,000 invested.",
+          "The residency is renewable.",
+        ],
+      },
+      { type: "heading3", text: "Five-Year Investor Visa" },
+      {
+        type: "list",
+        items: [
+          "You need a minimum property investment of AED 1 million.",
+          "This visa is available for people aged 55 and above.",
+          "The residency can be renewed.",
+        ],
+      },
+      { type: "heading3", text: "Ten-Year Golden Visa" },
+      {
+        type: "list",
+        items: [
+          "A minimum property investment of AED 2 million is required.",
+          "The investment can be in one property or several properties that together meet the required amount.",
+          "This residency is also renewable.",
+          "There is no minimum stay requirement outside the UAE.",
+        ],
+      },
+      { type: "heading2", text: "What this means for Property Investors" },
+      {
+        type: "paragraph",
+        text: "Investors inside and outside the UAE now have an easier path to residency. Smaller investments qualify, opening more long-term opportunities in the UAE.",
+      },
+      {
+        type: "paragraph",
+        text: "This update aims to boost activity in mid-market communities, studio and one-bedroom units, and new residential areas.",
+      },
+      {
+        type: "paragraph",
+        text: "Buyers should pay close attention to ownership structures since the rules for sole and joint ownership have changed.",
+      },
+      {
+        type: "paragraph",
+        text: "Dubai is working to make real estate investment more accessible and become a top destination for investors worldwide. The goal is to make long-term residency more attractive, attract global investors, and boost property market activity.",
+      },
+    ],
   },
   {
     id: 2,

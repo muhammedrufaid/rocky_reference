@@ -74,6 +74,12 @@ export interface Testimonial {
   rating: number;
 }
 
+export type BlogContentBlock =
+  | { type: "paragraph"; text: string }
+  | { type: "heading2"; text: string }
+  | { type: "heading3"; text: string }
+  | { type: "list"; items: string[] };
+
 export interface BlogPost {
   id: number;
   title: string;
@@ -81,6 +87,8 @@ export interface BlogPost {
   description: string;
   image: string;
   path: string;
+  /** When set, the article page renders structured body copy instead of the placeholder. */
+  content?: BlogContentBlock[];
 }
 
 export interface Developer {

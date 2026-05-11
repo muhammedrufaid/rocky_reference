@@ -1,4 +1,5 @@
 export type {
+  BlogContentBlock,
   BlogPost,
   Developer,
   JobPosition,
