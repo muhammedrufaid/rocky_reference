@@ -41,21 +41,21 @@ export async function generateMetadata() {
 export default function AchievementsPage() {
   return (
     <div className="min-h-screen bg-white">
-      <Header />
-      <main className="">
-        {/* <PageHero
+      <Header forceSolid/>
+      <main className="site-header-offset">
+        <PageHero
           title="Achievements"
           description="View our achievements and awards in the real estate industry."
           breadcrumb={[
             { label: "Home", href: "/" },
             { label: "Achievements" },
           ]}
-        /> */}
-        <ImageHeroSection
+        />
+        {/* <ImageHeroSection
           title="Achievements"
           description="View our achievements and awards in the real estate industry."
           image="/assets/common/awards.webp"
-        />
+        /> */}
         <AwardsTimelineSection showContent={true} />
         {/* <AchievementsSection />
         <GallerySection /> */}

@@ -123,7 +123,7 @@ const makeCardContentVariant = (delay: number) => ({
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const, delay: delay + 0.18 },
+        transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const, delay: delay + 0.06 },
     },
 });
 
@@ -156,7 +156,8 @@ const AwardCard: React.FC<{
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true, margin: "-60px" });
 
-    const imageDelay = index * 0.12;
+    // Keep a subtle stagger, but cap it so later cards don't feel "late".
+    const imageDelay = Math.min(index * 0.04, 0.18);
     const imageVariant = makeCardImageVariant(imageDelay);
     const contentVariant = makeCardContentVariant(imageDelay);
 
