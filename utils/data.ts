@@ -400,7 +400,7 @@ export const blogPosts: BlogPost[] = [
     description:
       "In 2026, Dubai updated the property-linked investor visa: no minimum property value for sole owners, new rules for joint ownership, and a clearer framework from the DLD and GDRFA.",
     image:
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&h=400&fit=crop",
+      "/assets/blogs/Investorvisablog1.webp",
     path: "/blog/private-contemporary-home",
     content: [
       {
