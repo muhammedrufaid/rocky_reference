@@ -6,41 +6,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 import { featuredProperties } from "@/utils/data";
-
-const LocationIcon = () => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="12"
-        height="12"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden
-    >
-        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-        <circle cx="12" cy="10" r="3" />
-    </svg>
-);
-
-const ArrowIcon = () => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden
-    >
-        <path d="M5 12h14M12 5l7 7-7 7" />
-    </svg>
-);
+import { ArrowRightIcon, LocationIcon } from "@/utils/icons";
 
 const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
     console.log(data, "data");
@@ -95,7 +61,7 @@ const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
                             href="/properties/buy/in-dubai"
                             className="inline-flex items-center gap-2 text-sm font-medium pb-0.5 transition-colors text-[var(--rocky-blue)] hover:opacity-80"
                         >
-                            View All Properties <ArrowIcon />
+                            View All Properties <ArrowRightIcon width="16" height="16" strokeWidth={1.5} />
                         </Link>
                     </motion.div>
                 </header>
@@ -193,7 +159,7 @@ const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
                                         style={{ color: "#9ca3af" }}
                                     >
                                         <span style={{ color: "#c3ad95" }}>
-                                            <LocationIcon />
+                                            <LocationIcon width="12" height="12" />
                                         </span>
                                         <span className="line-clamp-1">{project.locality}</span>
                                     </div>
@@ -241,7 +207,7 @@ const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
                                             className="ml-auto flex items-center gap-1.5 text-[11px] font-medium tracking-wide uppercase transition-all duration-200 group-hover:gap-2.5"
                                             style={{ color: "#0d365e" }}
                                         >
-                                            View <ArrowIcon />
+                                            View <ArrowRightIcon width="16" height="16" strokeWidth={1.5} />
                                         </span>
                                     </div>
                                 </div>

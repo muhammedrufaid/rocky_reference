@@ -8,6 +8,7 @@ import {
   type PropertySuggestion,
 } from "@/utils/getServices";
 import { generateSeoSlug } from "@/utils/seo";
+import { ChipCloseIcon, HeroChevronDownIcon, HeroSearchIcon } from "@/utils/icons";
 
 type BuyOption = "BUY" | "RENT" | "OFFPLAN";
 
@@ -108,25 +109,6 @@ function highlightMatchesToHtml(text: string, query: string): string {
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
-const SearchIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-    <circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" strokeWidth="1.6" />
-    <path d="M13.5 13.5L17 17" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-  </svg>
-);
-
-const ChevronDownIcon = () => (
-  <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-    <path d="M3 5L7 9L11 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const CloseIcon = () => (
-  <svg width="8" height="8" viewBox="0 0 8 8" fill="none" aria-hidden="true">
-    <path d="M1 1l6 6M7 1L1 7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-  </svg>
-);
-
 // ─── Tag chip ─────────────────────────────────────────────────────────────────
 const TagChip: React.FC<{ label: string; onRemove: () => void }> = ({ label, onRemove }) => (
   <span
@@ -142,7 +124,7 @@ const TagChip: React.FC<{ label: string; onRemove: () => void }> = ({ label, onR
       aria-label={`Remove ${label}`}
       className="ml-0.5 flex items-center justify-center w-3.5 h-3.5 rounded-full hover:bg-[rgba(13,54,94,0.15)] transition-colors duration-150 border-none cursor-pointer bg-transparent text-[#0D365E]"
     >
-      <CloseIcon />
+      <ChipCloseIcon />
     </button>
   </span>
 );
@@ -331,7 +313,7 @@ const HeroSearchCardV2: React.FC = () => {
                 transition={{ duration: 0.2 }}
                 className="flex items-center"
               >
-                <ChevronDownIcon />
+                <HeroChevronDownIcon />
               </motion.span>
             </button>
 
@@ -448,7 +430,7 @@ const HeroSearchCardV2: React.FC = () => {
                               aria-label={`Remove ${getChipLabel(item)}`}
                               className="ml-3 flex items-center justify-center w-5 h-5 rounded-full hover:bg-[rgba(13,54,94,0.1)] transition-colors duration-150 border-none cursor-pointer bg-transparent text-[#0D365E] shrink-0"
                             >
-                              <CloseIcon />
+                              <ChipCloseIcon />
                             </button>
                           </li>
                         ))}
@@ -578,7 +560,7 @@ const HeroSearchCardV2: React.FC = () => {
               "transition-colors duration-200 hover:text-black hover:bg-gray-200",
             ].join(" ")}
           >
-            <SearchIcon />
+            <HeroSearchIcon />
           </button>
         </div>
 

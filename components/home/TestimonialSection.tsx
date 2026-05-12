@@ -6,24 +6,9 @@ import Container from "@/components/layout/Container";
 import { testimonials } from "@/utils/data";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import { BlockQuoteIcon } from "@/utils/icons";
 import "swiper/css";
 import "swiper/css/navigation";
-
-const QuoteIcon = () => (
-  <svg
-    width="40"
-    height="40"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="text-[var(--charcoal)]/15 flex-shrink-0"
-  >
-    <path
-      d="M6 17h3l2-4V7H5v6h3l-2 4zm8 0h3l2-4V7h-6v6h3l-2 4z"
-      fill="currentColor"
-    />
-  </svg>
-);
 
 const StarRating = ({ rating }: { rating: number }) => (
   <div className="flex gap-1" role="img" aria-label={`${rating} out of 5 stars`}>
@@ -141,7 +126,7 @@ const TestimonialSection: React.FC<{ backgroundColor?: string, className?: strin
               >
                 {/* Quote icon – top-right corner */}
                 <div className="absolute top-5 right-5 md:top-6 md:right-6">
-                  <QuoteIcon />
+                  <BlockQuoteIcon />
                 </div>
 
                 {/* 5-star rating */}

@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import Container from "@/components/layout/Container";
+import { FilterFunnelIcon, ToolbarDropdownChevronIcon, ToolbarSearchIcon } from "@/utils/icons";
 
 const PROPERTY_TYPES = [
   "All Types",
@@ -45,52 +46,6 @@ const BUY_PRICES = [
   { label: "25M", value: "25000000" },
   { label: "50M+", value: "50000000" },
 ];
-
-const ChevronIcon = ({ open }: { open: boolean }) => (
-  <svg
-    className={`size-4 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    aria-hidden
-  >
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-  </svg>
-);
-
-const SearchIcon = () => (
-  <svg
-    className="size-5 shrink-0"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    aria-hidden
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-    />
-  </svg>
-);
-
-const FilterIcon = ({ active }: { active?: boolean }) => (
-  <svg
-    className="size-5 shrink-0"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    aria-hidden
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-    />
-  </svg>
-);
 
 interface DropdownProps {
   value: string;
@@ -151,7 +106,7 @@ function FilterDropdown({
         <span className="truncate">
           {displayValue}
         </span>
-        <ChevronIcon open={open} />
+        <ToolbarDropdownChevronIcon open={open} />
       </button>
 
       {open && (() => {
@@ -359,7 +314,7 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
                   : "border-[var(--border-light)] bg-white text-[var(--charcoal)] hover:border-[var(--rocky-blue)]/50"
               }`}
             >
-              <FilterIcon active={hasActiveFilters} />
+              <FilterFunnelIcon active={hasActiveFilters} />
               {hasActiveFilters && (
                 <span className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[var(--charcoal)]" aria-hidden />
               )}
@@ -408,7 +363,7 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
                   }}
                 >
                   <span>{type === "rent" ? "Rent" : "Buy"}</span>
-                  <ChevronIcon open={listingDropdownOpen} />
+                  <ToolbarDropdownChevronIcon open={listingDropdownOpen} />
                 </button>
                 {listingDropdownOpen && (
                   <ul
@@ -515,7 +470,7 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
                 onClick={applySearch}
                 className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[var(--rocky-blue)] text-white font-medium shadow-sm transition-all hover:bg-[var(--rocky-blue-hover)] hover:shadow-md"
               >
-                <SearchIcon /> Search
+                <ToolbarSearchIcon /> Search
               </button>
                     </div>
                   </div>
@@ -540,7 +495,7 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
                 }}
               >
                 <span>{type === "rent" ? "Rent" : "Buy"}</span>
-                <ChevronIcon open={listingDropdownOpen} />
+                <ToolbarDropdownChevronIcon open={listingDropdownOpen} />
               </button>
               {listingDropdownOpen && (
                 <ul
@@ -648,7 +603,7 @@ export default function PropertyFilterBar({ type }: PropertyFilterBarProps) {
               aria-label="Search properties"
               className="flex h-11 min-w-[52px] items-center justify-center rounded-lg bg-[var(--rocky-blue)] text-white transition-colors hover:bg-[var(--rocky-blue-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
             >
-              <SearchIcon />
+              <ToolbarSearchIcon />
             </button>
           </div>
         </form>

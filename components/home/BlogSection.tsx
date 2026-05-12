@@ -6,23 +6,7 @@ import { motion, useInView } from "framer-motion";
 import Container from "@/components/layout/Container";
 import BlogPostCard from "@/components/blog/BlogPostCard";
 import { blogPosts } from "@/utils/data";
-
-const ArrowIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-  >
-    <path d="M5 12h14M12 5l7 7-7 7" />
-  </svg>
-);
+import { ArrowRightIcon } from "@/utils/icons";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -83,7 +67,7 @@ const BlogSection: React.FC = () => {
               href="/blog"
               className="inline-flex items-center gap-2 pb-0.5 text-sm font-medium text-rocky-blue transition-colors hover:opacity-80"
             >
-              View All Blogs <ArrowIcon />
+              View All Blogs <ArrowRightIcon width="14" height="14" strokeWidth={2.5} />
             </Link>
           </motion.div>
         </header>

@@ -4,6 +4,7 @@ import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import Container from "@/components/layout/Container";
+import { ModalCloseIcon } from "@/utils/icons";
 
 type ImageHeroSectionProps = {
   title: string;
@@ -54,35 +55,6 @@ const modalPanel = {
     transition: { duration: 0.16, ease: [0.4, 0, 0.2, 1] as const },
   },
 };
-
-// ─── Icons ────────────────────────────────────────────────────────────────────
-
-function CloseIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M18 6 6 18M6 6l12 12"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function ChevronDownIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M6 9l6 6 6-6"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -283,7 +255,7 @@ export default function ImageHeroSection({
                     className="inline-flex cursor-pointer h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#F6F6F6] text-[#333333]/50 transition hover:border-[#E7DCCD] hover:bg-[#F6F6F6] hover:text-[#0D365E] focus:outline-none focus:ring-2 focus:ring-[#C3AD95]/40"
                     aria-label="Close"
                   >
-                    <CloseIcon />
+                    <ModalCloseIcon />
                   </button>
                 </div>
 

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/layout/Container";
+import { AccordionChevronIcon } from "@/utils/icons";
 
 const FAQ_ITEMS = [
   {
@@ -30,24 +31,6 @@ const FAQ_ITEMS = [
       "Yes. All initial consultations are complimentary. Whether you're buying, selling, or renting, our team will provide expert guidance at no cost to help you understand the market and your options.",
   },
 ];
-
-const ChevronIcon = ({ open }: { open: boolean }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-    className={`transition-transform duration-300 flex-shrink-0 ${open ? "rotate-180" : ""}`}
-  >
-    <path d="M6 9l6 6 6-6" />
-  </svg>
-);
 
 const ContactFAQ: React.FC = () => {
   const [openId, setOpenId] = useState<number | null>(FAQ_ITEMS[0]?.id ?? null);
@@ -102,7 +85,7 @@ const ContactFAQ: React.FC = () => {
                   {item.question}
                 </span>
                 <span style={{ color: "#0d365e" }}>
-                  <ChevronIcon open={openId === item.id} />
+                  <AccordionChevronIcon open={openId === item.id} />
                 </span>
               </button>
               <AnimatePresence initial={false}>

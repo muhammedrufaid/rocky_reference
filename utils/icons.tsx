@@ -258,6 +258,394 @@ export function ChevronLeftIcon({ title, ...props }: InlineIconProps) {
   );
 }
 
+/** Horizontal “view all” arrow; override `width` / `height` / `strokeWidth` per layout. */
+export function ArrowRightIcon({ title, className, width = "16", height = "16", strokeWidth = 1.5, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...ariaProps}
+      {...props}
+    >
+      {title ? <title>{title}</title> : null}
+      <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
+  );
+}
+
+/** Tiny X for tag chips (hero + property search); same viewBox, size via width/height. */
+export function ChipCloseIcon({ title, width = "8", height = "8", ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width={width} height={height} viewBox="0 0 8 8" fill="none" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path d="M1 1l6 6M7 1L1 7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function HeroSearchIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M13.5 13.5L17 17" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function HeroChevronDownIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path d="M3 5L7 9L11 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function ToolbarDropdownChevronIcon({ title, open, className, ...props }: InlineIconProps & { open: boolean }) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg
+      className={["size-4 shrink-0 transition-transform duration-200", open ? "rotate-180" : "", className].filter(Boolean).join(" ")}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      {...ariaProps}
+      {...props}
+    >
+      {title ? <title>{title}</title> : null}
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
+
+export function ToolbarSearchIcon({ title, className, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg className={["size-5 shrink-0", className].filter(Boolean).join(" ")} fill="none" stroke="currentColor" viewBox="0 0 24 24" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+  );
+}
+
+export function FilterFunnelIcon({ title, className, active, ...props }: InlineIconProps & { active?: boolean }) {
+  void active;
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg className={["size-5 shrink-0", className].filter(Boolean).join(" ")} fill="none" stroke="currentColor" viewBox="0 0 24 24" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+      />
+    </svg>
+  );
+}
+
+export function ModalCloseIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function TeamSearchIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...ariaProps}
+      {...props}
+    >
+      {title ? <title>{title}</title> : null}
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  );
+}
+
+export function SelectChevronDownIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...ariaProps}
+      {...props}
+    >
+      {title ? <title>{title}</title> : null}
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  );
+}
+
+export function AccordionChevronIcon({ title, open, className, ...props }: InlineIconProps & { open: boolean }) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={[`transition-transform duration-300 shrink-0`, open ? "rotate-180" : "", className].filter(Boolean).join(" ")}
+      {...ariaProps}
+      {...props}
+    >
+      {title ? <title>{title}</title> : null}
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  );
+}
+
+export function ListingCardMapPinIcon({ title, className, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg className={["size-4 shrink-0", className].filter(Boolean).join(" ")} fill="none" stroke="currentColor" viewBox="0 0 24 24" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+  );
+}
+
+export function ListingCardPhoneIcon({ title, className, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg className={["size-4 shrink-0", className].filter(Boolean).join(" ")} fill="none" stroke="currentColor" viewBox="0 0 24 24" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+      />
+    </svg>
+  );
+}
+
+export function OffPlanBedIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path d="M2 9V19M22 9V19M2 19H22M2 9H22M2 9C2 9 2 5 7 5H17C22 5 22 9 22 9" />
+      <path d="M12 5V9" />
+    </svg>
+  );
+}
+
+export function OffPlanBathIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path d="M4 12H20V17C20 19.2 18.2 21 16 21H8C5.8 21 4 19.2 4 17V12Z" />
+      <path d="M4 12V5C4 3.9 4.9 3 6 3H8C9.1 3 10 3.9 10 5V12" />
+      <line x1="2" y1="12" x2="22" y2="12" />
+    </svg>
+  );
+}
+
+export function OffPlanPropertySizeIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <path d="M9 3V21M3 9H9" />
+    </svg>
+  );
+}
+
+export function DownloadArrowIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
+    </svg>
+  );
+}
+
+export function OffPlanCarouselChevronLeftIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  );
+}
+
+export function OffPlanCarouselChevronRightIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <polyline points="9 18 15 12 9 6" />
+    </svg>
+  );
+}
+
+export function LayoutGridIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <rect x="3" y="3" width="7" height="7" />
+      <rect x="14" y="3" width="7" height="7" />
+      <rect x="14" y="14" width="7" height="7" />
+      <rect x="3" y="14" width="7" height="7" />
+    </svg>
+  );
+}
+
+export function MapPinFilledIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+    </svg>
+  );
+}
+
+export function SellTrustPriceTagIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...ariaProps}
+      {...props}
+    >
+      {title ? <title>{title}</title> : null}
+      <path d="M20.59 13.41 11 23H2v-9l9.59-9.59a2 2 0 0 1 2.82 0l6.18 6.18a2 2 0 0 1 0 2.82Z" />
+      <circle cx="7.5" cy="16.5" r="1.5" />
+    </svg>
+  );
+}
+
+export function SellTrustSparkIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...ariaProps}
+      {...props}
+    >
+      {title ? <title>{title}</title> : null}
+      <path d="M12 2v6" />
+      <path d="M12 16v6" />
+      <path d="m4.93 4.93 4.24 4.24" />
+      <path d="m14.83 14.83 4.24 4.24" />
+      <path d="M2 12h6" />
+      <path d="M16 12h6" />
+      <path d="m4.93 19.07 4.24-4.24" />
+      <path d="m14.83 9.17 4.24-4.24" />
+    </svg>
+  );
+}
+
+export function SellTrustShieldIcon({ title, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...ariaProps}
+      {...props}
+    >
+      {title ? <title>{title}</title> : null}
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+      <path d="M9.5 12.5 11 14l3.5-4" />
+    </svg>
+  );
+}
+
+export function ShareNetworkIcon({ title, className, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={["cursor-pointer", className].filter(Boolean).join(" ")} {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path d="M15 6.5L8.5 10.25M8.5 13.75L15 17.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="17" cy="5.5" r="2.5" stroke="currentColor" strokeWidth="2" />
+      <circle cx="6.5" cy="12" r="2.5" stroke="currentColor" strokeWidth="2" />
+      <circle cx="17" cy="18.5" r="2.5" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  );
+}
+
+export function BlockQuoteIcon({ title, className, ...props }: InlineIconProps) {
+  const ariaProps = getAriaProps(title);
+  return (
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={["text-(--charcoal)/15 shrink-0", className].filter(Boolean).join(" ")} {...ariaProps} {...props}>
+      {title ? <title>{title}</title> : null}
+      <path d="M6 17h3l2-4V7H5v6h3l-2 4zm8 0h3l2-4V7h-6v6h3l-2 4z" fill="currentColor" />
+    </svg>
+  );
+}
+
 export const serviceIcons: Record<string, React.ReactNode> = {
   "property-management": (
     <svg {...svgProps}>

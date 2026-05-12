@@ -12,6 +12,7 @@ import {
 import { generateSeoSlug, seoSlugToQuery } from "@/utils/seo";
 import { serializePropertyTypesForQuery } from "@/components/properties/PropertyTypeMultiSelectDropdown";
 import PropertyTypeCategoryDropdown from "@/components/properties/PropertyTypeCategoryDropdown";
+import { ChipCloseIcon, FilterFunnelIcon, ToolbarDropdownChevronIcon, ToolbarSearchIcon } from "@/utils/icons";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -51,54 +52,6 @@ const BUY_PRICES = [
   { label: "AED 1,500,000", value: "1500000" },
   { label: "AED 2,000,000+", value: "2000000" },
 ];
-
-// ─── Icons ────────────────────────────────────────────────────────────────────
-
-const ChevronIcon = ({ open }: { open: boolean }) => (
-  <svg
-    className={`size-4 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    aria-hidden
-  >
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-  </svg>
-);
-
-const SearchIcon = () => (
-  <svg
-    className="size-5 shrink-0"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    aria-hidden
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-    />
-  </svg>
-);
-
-const FilterIcon = () => (
-  <svg
-    className="size-5 shrink-0"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    aria-hidden
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-    />
-  </svg>
-);
 
 // ─── Suggestions helpers ──────────────────────────────────────────────────────
 
@@ -220,12 +173,6 @@ function highlightMatchesToHtml(text: string, query: string): string {
   return html;
 }
 
-const CloseIcon = () => (
-  <svg width="10" height="10" viewBox="0 0 8 8" fill="none" aria-hidden="true">
-    <path d="M1 1l6 6M7 1L1 7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-  </svg>
-);
-
 const TagChip: React.FC<{ label: string; onRemove: () => void }> = ({ label, onRemove }) => (
   <span
     className={[
@@ -241,7 +188,7 @@ const TagChip: React.FC<{ label: string; onRemove: () => void }> = ({ label, onR
       aria-label={`Remove ${label}`}
       className="ml-0.5 flex size-4 items-center justify-center rounded-full hover:bg-[rgba(28,78,128,0.12)] transition-colors border-none cursor-pointer bg-transparent text-[var(--rocky-blue)]"
     >
-      <CloseIcon />
+      <ChipCloseIcon width="10" height="10" />
     </button>
   </span>
 );
@@ -284,7 +231,7 @@ function FilterDropdown({ value, options, onChange, placeholder, label }: Dropdo
         style={{ color: "var(--charcoal)", borderColor: "var(--border-light)" }}
       >
         <span className="truncate">{displayValue}</span>
-        <ChevronIcon open={open} />
+        <ToolbarDropdownChevronIcon open={open} />
       </button>
 
       {open && (
@@ -506,7 +453,7 @@ function PriceRangeDropdown({
             <span className="text-[var(--charcoal)]/60">{placeholder}</span>
           )}
         </span>
-        <ChevronIcon open={open} />
+        <ToolbarDropdownChevronIcon open={open} />
       </button>
 
       {open && (
@@ -791,7 +738,7 @@ function BedsBathsDropdown({
             <span className="text-[var(--charcoal)]/60">Beds & Baths</span>
           )}
         </span>
-        <ChevronIcon open={open} />
+        <ToolbarDropdownChevronIcon open={open} />
       </button>
 
       {open && (
@@ -895,7 +842,7 @@ function ListingDropdown({
         style={{ color: "var(--rocky-blue)", borderColor: "var(--rocky-blue)" }}
       >
         <span>{transactionType === "rent" ? "Rent" : "Buy"}</span>
-        <ChevronIcon open={open} />
+        <ToolbarDropdownChevronIcon open={open} />
       </button>
       {open && (
         <ul
@@ -1405,7 +1352,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
                             aria-label={`Remove ${getChipLabel(item)}`}
                             className="ml-3 flex size-6 items-center justify-center rounded-full hover:bg-[rgba(28,78,128,0.1)] transition-colors border-none cursor-pointer bg-transparent text-[var(--rocky-blue)] shrink-0"
                           >
-                            <CloseIcon />
+                            <ChipCloseIcon width="10" height="10" />
                           </button>
                         </li>
                       ))}
@@ -1427,7 +1374,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
                   color: "#C0392B",
                 }}
               >
-                <CloseIcon /> Clear all
+                <ChipCloseIcon width="10" height="10" /> Clear all
               </button>
             )}
 
@@ -1464,7 +1411,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
             : "border-[var(--border-light)] bg-white text-[var(--charcoal)]"
             }`}
         >
-          <FilterIcon />
+          <FilterFunnelIcon />
           {hasActiveFilters && (
             <span
               className="absolute -right-0.5 -top-0.5 h-3.5 w-3.5 rounded-full bg-[var(--charcoal)]"
@@ -1531,7 +1478,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
                   onClick={() => handleSearch()}
                   className="flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[var(--rocky-blue)] font-medium text-white shadow-sm transition-all hover:bg-[var(--rocky-blue-hover)] hover:shadow-md"
                 >
-                  <SearchIcon /> Search
+                  <ToolbarSearchIcon /> Search
                 </button>
               </div>
             </div>
@@ -1613,7 +1560,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
                             aria-label={`Remove ${getChipLabel(item)}`}
                             className="ml-3 flex size-6 items-center justify-center rounded-full hover:bg-[rgba(28,78,128,0.1)] transition-colors border-none cursor-pointer bg-transparent text-[var(--rocky-blue)] shrink-0"
                           >
-                            <CloseIcon />
+                            <ChipCloseIcon width="10" height="10" />
                           </button>
                         </li>
                       ))}
@@ -1635,7 +1582,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
                   color: "#C0392B",
                 }}
               >
-                <CloseIcon /> Clear all
+                <ChipCloseIcon width="10" height="10" /> Clear all
               </button>
             )}
 
@@ -1689,7 +1636,7 @@ const PropertySearchBar: React.FC<PropertySearchBarProps> = ({
           aria-label="Search properties"
           className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-[var(--rocky-blue)] text-white transition-colors hover:bg-[var(--rocky-blue-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--rocky-blue)]/40 focus:ring-offset-1"
         >
-          <SearchIcon />
+          <ToolbarSearchIcon />
         </button>
       </div>
     </form>

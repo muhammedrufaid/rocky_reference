@@ -12,7 +12,19 @@ import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 import Container from '../layout/Container'
 import type { ApiPropertyDetail } from '@/utils/getServices'
-import { DirhamIcon } from '@/utils/icons'
+import {
+  CallIcon,
+  DirhamIcon,
+  DownloadArrowIcon,
+  LayoutGridIcon,
+  MapPinFilledIcon,
+  OffPlanBathIcon,
+  OffPlanBedIcon,
+  OffPlanCarouselChevronLeftIcon,
+  OffPlanCarouselChevronRightIcon,
+  OffPlanPropertySizeIcon,
+  WhatsAppIcon,
+} from '@/utils/icons'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -40,79 +52,6 @@ interface OffPlanHeroProps {
 // ─── Demo Data ────────────────────────────────────────────────────────────────
 
 
-
-// ─── Icons ────────────────────────────────────────────────────────────────────
-
-const BedIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M2 9V19M22 9V19M2 19H22M2 9H22M2 9C2 9 2 5 7 5H17C22 5 22 9 22 9" />
-    <path d="M12 5V9" />
-  </svg>
-)
-
-const BathIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 12H20V17C20 19.2 18.2 21 16 21H8C5.8 21 4 19.2 4 17V12Z" />
-    <path d="M4 12V5C4 3.9 4.9 3 6 3H8C9.1 3 10 3.9 10 5V12" />
-    <line x1="2" y1="12" x2="22" y2="12" />
-  </svg>
-)
-
-const SizeIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="18" height="18" rx="2" />
-    <path d="M9 3V21M3 9H9" />
-  </svg>
-)
-
-const PhoneIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.06 2.18 2 2 0 012.06.03h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-  </svg>
-)
-
-const DownloadIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
-  </svg>
-)
-
-const WhatsAppIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-  </svg>
-)
-
-const ChevronLeft = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
-)
-
-const ChevronRight = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="9 18 15 12 9 6" />
-  </svg>
-)
-
-const GridIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
-    <rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
-  </svg>
-)
-
-const CloseIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-  </svg>
-)
-
-const PinIcon = () => (
-  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-  </svg>
-)
 
 // ─── Animation Variants ───────────────────────────────────────────────────────
 
@@ -259,9 +198,9 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
   const locationParts = [resolvedCity, resolvedLocality, resolvedSubLocality, resolvedTowerName].filter(Boolean)
 
   const highlights = [
-    { icon: <BedIcon />, value: resolvedBedrooms, label: 'Beds' },
-    { icon: <BathIcon />, value: resolvedBathrooms, label: 'Baths' },
-    { icon: <SizeIcon />, value: `${resolvedPropertySize}`, label: 'sqft' },
+    { icon: <OffPlanBedIcon />, value: resolvedBedrooms, label: 'Beds' },
+    { icon: <OffPlanBathIcon />, value: resolvedBathrooms, label: 'Baths' },
+    { icon: <OffPlanPropertySizeIcon />, value: `${resolvedPropertySize}`, label: 'sqft' },
   ]
 
   useEffect(() => {
@@ -378,7 +317,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     custom={0}
                     className="flex items-center gap-1.5 flex-wrap"
                   >
-                    <span className="text-[#C3AD95]"><PinIcon /></span>
+                    <span className="text-[#C3AD95]"><MapPinFilledIcon /></span>
                     {locationParts.map((part, i) => (
                       <React.Fragment key={i}>
                         <span className="text-[#f6f6f6] text-[11px] tracking-[0.15em] uppercase font-light">
@@ -479,7 +418,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                       className="flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase text-[#f6f6f6] hover:text-[#f6f6f6]/80 transition-colors duration-200 cursor-pointer"
                     >
                       <span className='text-[#C3AD95]'>
-                        <GridIcon />
+                        <LayoutGridIcon />
                       </span>
                       All Photos ({safeImages.length})
                     </button>
@@ -536,7 +475,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                           onMouseEnter={e => (e.currentTarget.style.background = 'linear-gradient(135deg, #1C4E80, #0D365E)')}
                           onMouseLeave={e => (e.currentTarget.style.background = 'linear-gradient(135deg, #0D365E, #1C4E80)')}
                         >
-                          <PhoneIcon />
+                          <CallIcon width="14" height="14" />
                           Request Callback
                         </button>
 
@@ -546,7 +485,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                           className="flex items-center justify-center gap-2 w-full py-3 rounded-md text-[11px] tracking-[0.15em] uppercase font-medium text-[#25D366] transition-all duration-200 cursor-pointer"
                           style={{ background: 'rgba(37,211,102,0.08)', border: '1px solid rgba(37,211,102,0.22)' }}
                         >
-                          <WhatsAppIcon />
+                          <WhatsAppIcon width="14" height="14" />
                           WhatsApp Us
                         </button>
                       </div>
@@ -570,14 +509,14 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                   ref={prevRef}
                   className="w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-[#C3AD95]/50 hover:text-[#C3AD95] transition-all duration-200 cursor-pointer"
                 >
-                  <ChevronLeft />
+                  <OffPlanCarouselChevronLeftIcon />
                 </button>
                 <button
                   type="button"
                   ref={nextRef}
                   className="w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-[#C3AD95]/50 hover:text-[#C3AD95] transition-all duration-200 cursor-pointer"
                 >
-                  <ChevronRight />
+                  <OffPlanCarouselChevronRightIcon />
                 </button>
               </div>
             </div>
@@ -594,21 +533,21 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
           className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-[11px] tracking-[0.15em] uppercase font-medium text-[#E7DCCD] cursor-pointer"
           style={{ background: 'linear-gradient(135deg, #0D365E, #1C4E80)' }}
         >
-          <PhoneIcon /> Callback
+          <CallIcon width="14" height="14" /> Callback
         </button>
         {/* <button
           onClick={onDownloadBrochure}
           className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-[11px] tracking-[0.15em] uppercase font-medium text-[#C3AD95] cursor-pointer"
           style={{ background: 'rgba(195,173,149,0.08)', border: '1px solid rgba(195,173,149,0.2)' }}
         >
-          <DownloadIcon /> Brochure
+          <DownloadArrowIcon /> Brochure
         </button> */}
         <button
           onClick={handleWhatsApp}
           className="flex-1 flex items-center justify-center py-2.5 gap-2 text-[11px] tracking-[0.15em] uppercase font-medium rounded-md text-[#25D366] cursor-pointer"
           style={{ background: 'rgba(37,211,102,0.08)', border: '1px solid rgba(37,211,102,0.2)' }}
         >
-          <WhatsAppIcon /> WhatsApp Us
+          <WhatsAppIcon width="14" height="14" /> WhatsApp Us
         </button>
       </div>
 

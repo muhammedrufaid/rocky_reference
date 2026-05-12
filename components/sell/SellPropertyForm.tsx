@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Container from "@/components/layout/Container";
 import { postSell } from "@/utils/getServices";
+import { SellTrustPriceTagIcon, SellTrustShieldIcon, SellTrustSparkIcon } from "@/utils/icons";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 18 },
@@ -17,66 +18,6 @@ const fadeUp = {
     } as const,
   }),
 };
-
-const PriceTagIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-  >
-    <path d="M20.59 13.41 11 23H2v-9l9.59-9.59a2 2 0 0 1 2.82 0l6.18 6.18a2 2 0 0 1 0 2.82Z" />
-    <circle cx="7.5" cy="16.5" r="1.5" />
-  </svg>
-);
-
-const SparkIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-  >
-    <path d="M12 2v6" />
-    <path d="M12 16v6" />
-    <path d="m4.93 4.93 4.24 4.24" />
-    <path d="m14.83 14.83 4.24 4.24" />
-    <path d="M2 12h6" />
-    <path d="M16 12h6" />
-    <path d="m4.93 19.07 4.24-4.24" />
-    <path d="m14.83 9.17 4.24-4.24" />
-  </svg>
-);
-
-const ShieldIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-  >
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
-    <path d="M9.5 12.5 11 14l3.5-4" />
-  </svg>
-);
 
 const propertyTypes = [
   "Apartment",
@@ -186,9 +127,9 @@ export default function SellPropertyForm() {
   };
 
   const trustPoints = [
-    { icon: PriceTagIcon, label: "Top Market Price" },
-    { icon: SparkIcon, label: "Fast & Simple Process" },
-    { icon: ShieldIcon, label: "Fully Confidential" },
+    { icon: SellTrustPriceTagIcon, label: "Top Market Price" },
+    { icon: SellTrustSparkIcon, label: "Fast & Simple Process" },
+    { icon: SellTrustShieldIcon, label: "Fully Confidential" },
   ] as const;
 
   return (

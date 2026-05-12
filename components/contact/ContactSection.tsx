@@ -4,79 +4,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 import { postContact } from "@/utils/getServices";
+import { CallIcon, EmailIcon, LocationIcon } from "@/utils/icons";
 
 const INQUIRY_TYPES = [ "General", "Residential Sales", "Off Plan & Investments", "Residential Leasing", "Property Management", "Marketing"] as const;
 type InquiryType = (typeof INQUIRY_TYPES)[number];
-
-const LocationIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-  >
-    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-    <circle cx="12" cy="10" r="3" />
-  </svg>
-);
-
-const PhoneIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-  >
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-  </svg>
-);
-
-const MailIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-  >
-    <rect width="20" height="16" x="2" y="4" rx="2" />
-    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-  </svg>
-);
-
-const CheckIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden
-  >
-    <path d="M20 6 9 17l-5-5" />
-  </svg>
-);
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -256,21 +187,21 @@ const ContactSection: React.FC = () => {
     {
       id: "visit",
       label: "Visit Us",
-      icon: LocationIcon,
+      icon: <LocationIcon width="16" height="16" />,
       value: "Al Khaimah 2, Al Barsha 1\nDubai, UAE",
       href: undefined,
     },
     {
       id: "call",
       label: "Call Us",
-      icon: PhoneIcon,
+      icon: <CallIcon width="16" height="16" />,
       value: "+971 4 447 6644",
       href: "tel:+97144476644",
     },
     {
       id: "write",
       label: "Write to Us",
-      icon: MailIcon,
+      icon: <EmailIcon width="16" height="16" />,
       value: "info@rockyrealestate.com",
       href: "mailto:info@rockyrealestate.com",
     },
@@ -338,7 +269,6 @@ const ContactSection: React.FC = () => {
             >
               <div className="space-y-4">
                 {contacts.map((contact, i) => {
-                  const Icon = contact.icon;
                   const lines = contact.value.split("\n");
                   return (
                     <motion.div
@@ -352,7 +282,7 @@ const ContactSection: React.FC = () => {
                         className="mt-0.5 inline-flex text-[#C3AD95]"
                         aria-hidden
                       >
-                        <Icon />
+                        {contact.icon}
                       </span>
 
                       <div className="min-w-0">
