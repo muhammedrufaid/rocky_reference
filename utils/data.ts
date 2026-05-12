@@ -1,6 +1,8 @@
 import type {
   BlogPost,
   Developer,
+  DeveloperPageContent,
+  DeveloperPagePayload,
   JobPosition,
   NavDropdown,
   NavLink,
@@ -1056,43 +1058,6 @@ export const projects: Project[] = [
 ];
 
 // ─── Developer detail pages (`/off-plan-properties/developers/[developer]`) ───
-
-export type DeveloperAboutCopy = {
-  heading: string;
-  intro: string;
-  body: string;
-};
-
-export type DeveloperWhoIsCopy = {
-  heading: string;
-  /** Use blank lines (`\n\n`) between paragraphs. */
-  description: string;
-};
-
-export type DeveloperWhyChooseCopy = {
-  heading: string;
-  points: string[];
-};
-
-export type DeveloperPageContent = {
-  heroImage: string;
-  showcaseImage: string;
-  about: DeveloperAboutCopy;
-  whoIs: DeveloperWhoIsCopy;
-  whyChoose: DeveloperWhyChooseCopy;
-};
-
-export type DeveloperPagePayload = {
-  slug: string;
-  title: string;
-  description: string;
-  heroImage: string;
-  showcaseImage: string;
-  showcaseImageAlt: string;
-  about: DeveloperAboutCopy;
-  whoIs: DeveloperWhoIsCopy;
-  whyChoose: DeveloperWhyChooseCopy;
-};
 
 export function getDeveloperSlugFromPath(path?: string) {
   return (path ?? "").split("/").filter(Boolean).pop() ?? "";
