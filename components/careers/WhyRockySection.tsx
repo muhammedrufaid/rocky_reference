@@ -99,7 +99,8 @@ const WhyRockySection: React.FC<{
             <div
               className="absolute inset-x-0 bottom-0 h-28 pointer-events-none"
               style={{
-                background: "linear-gradient(to top, rgba(10,30,55,0.72) 0%, transparent 100%)",
+                background:
+                  "linear-gradient(to top, rgba(8,31,58,0.72) 0%, transparent 100%)",
               }}
             />
 
@@ -107,7 +108,7 @@ const WhyRockySection: React.FC<{
             <motion.a
               href="/brochure.pdf"
               download="brochure.pdf"
-              className="group absolute bottom-5 left-5 inline-flex items-center gap-2.5 rounded-xl bg-white/95 backdrop-blur-sm px-5 py-3 text-sm font-semibold transition-all duration-200 hover:bg-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
+              className="absolute bottom-5 left-5 inline-flex items-center gap-2.5 rounded-xl bg-white/95 backdrop-blur-sm px-5 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
               style={{ color: "#0d365e" }}
               initial={{ opacity: 0, y: 8 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -115,7 +116,7 @@ const WhyRockySection: React.FC<{
               transition={{ duration: 0.5, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
             >
               <svg
-                className="size-4 shrink-0 transition-transform duration-200 group-hover:translate-y-[1px]"
+                className="size-4 shrink-0"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -132,8 +133,7 @@ const WhyRockySection: React.FC<{
           <div className="lg:pl-4 flex flex-col">
             <motion.h2
               id="why-rocky-heading"
-              className="text-3xl sm:text-4xl md:text-[2.75rem] font-medium leading-tight mb-10 md:mb-12"
-              style={{ color: "#0d365e" }}
+              className="text-3xl sm:text-4xl md:text-[2.75rem] font-medium leading-tight text-[#0d365e] mb-10 md:mb-12"
               initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -142,11 +142,11 @@ const WhyRockySection: React.FC<{
               Why Rocky Real Estate?
             </motion.h2>
 
-            <div className="divide-y" style={{ borderColor: "#e3e8ef" }}>
+            <div className="divide-y divide-[#C3AD95]/25">
               {highlights.map((item) => (
                 <motion.div
                   key={item.title}
-                  className="group flex items-center gap-4 py-[14px] cursor-default"
+                  className="flex items-center gap-4 py-[14px] cursor-default"
                   initial={{ opacity: 0, y: 8 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -160,10 +160,10 @@ const WhyRockySection: React.FC<{
                     {item.number}
                   </span>
 
-                  {/* Icon */}
+                  {/* Icon — Soft Sand chip + Warm Taupe strokes */}
                   <span
-                    className="shrink-0 flex h-9 w-9 items-center justify-center rounded-lg transition-colors duration-300 group-hover:bg-[#dce8f4]"
-                    style={{ backgroundColor: "#eef3f9", color: "#0d365e" }}
+                    className="shrink-0 flex h-9 w-9 items-center justify-center rounded-lg "
+                    style={{ backgroundColor: "#f5f2ee", color: "#9f8870" }}
                     aria-hidden
                   >
                     {item.icon}
@@ -171,7 +171,7 @@ const WhyRockySection: React.FC<{
 
                   {/* Title */}
                   <h3
-                    className="text-sm md:text-[15px] font-medium leading-snug transition-colors duration-200 group-hover:text-[#1761a8]"
+                    className="text-sm md:text-[15px] font-medium leading-snug"
                     style={{ color: "#0d365e" }}
                   >
                     {item.title}

@@ -123,7 +123,9 @@ const CareersIntroSection: React.FC<CareersIntroSectionProps> = ({
                     variants={slideUp}
                     className="flex items-start gap-4"
                   >
-                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0b2d4e]/10 text-[#0b2d4e]">
+                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
+                    style={{ backgroundColor: "#f5f2ee", color: "#9f8870" }}
+                    >
                       {p.icon}
                     </span>
                     <div>
