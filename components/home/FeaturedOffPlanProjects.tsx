@@ -23,11 +23,11 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
     >
       <Container>
         {/* Header */}
-        <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 md:mb-14">
+        <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12 md:mb-16">
           <div>
             <motion.h2
               id="off-plan-section-heading"
-              className="text-2xl sm:text-3xl md:text-4xl font-medium leading-tight"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-medium leading-tight"
               style={{ color: "#0d365e" }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -37,7 +37,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
               Featured Off Plan Properties
             </motion.h2>
             <motion.p
-              className="mt-3 text-sm md:text-base max-w-lg"
+              className="mt-3 text-base md:text-lg max-w-2xl"
               style={{ color: "#555" }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

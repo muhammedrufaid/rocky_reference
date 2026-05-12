@@ -50,7 +50,7 @@ const TestimonialSection: React.FC<{ backgroundColor?: string, className?: strin
           <header className="text-left">
             <motion.h2
               id="testimonials-heading"
-              className="text-2xl sm:text-3xl md:text-4xl font-medium text-[var(--charcoal)]"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-medium leading-tight text-[var(--charcoal)]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
