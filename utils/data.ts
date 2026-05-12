@@ -633,8 +633,8 @@ export const services: Service[] = [
     title: "Property Management",
     image: "https://images.pexels.com/photos/7937684/pexels-photo-7937684.jpeg",
     icon: "property-management",
-    description: "End-to-end property management services to maximise your returns while ensuring excellent property condition.",
-    overviewHeading: "Why Choose Property Management?",
+    description: "We handle every aspect of property management and keep your property in excellent condition to help you get the best returns.",
+    overviewHeading: "Your Property, Professionally Managed",
     overview: [
       "Several challenges come up when owning an investment property, including tenant disputes, missed rent payments, and more.",
       "With our approach at Rocky Real Estate, you will not have to worry about such challenges. We offer property owners a seamless, efficient process by managing their properties professionally and transparently. Through this service, owners can manage their property, remain compliant, and maximise their profit potential.",
@@ -656,7 +656,7 @@ export const services: Service[] = [
     title: "Professional Inspection",
     image: "https://images.pexels.com/photos/7415041/pexels-photo-7415041.jpeg",
     icon: "professional-inspection",
-    description: "This service identifies every construction defect or unfinished work and records them before you take possession or move into your new property.",
+    description: "Snagging or professional inspections are arranged to resolve any defects or unfinished work before the handover.",
     overviewHeading: "Protect Your Investment Before Handover",
     overview: [
       "New-build and off-plan properties are often delivered with minor defects that usually go unnoticed. ",
@@ -677,7 +677,7 @@ export const services: Service[] = [
     title: "Brokerage",
     image: "https://images.pexels.com/photos/7937328/pexels-photo-7937328.jpeg",
     icon: "brokerage",
-    description: "Practical, data-driven advice to help you buy, sell, or lease a property.",
+    description: "We help you buy, sell, or lease a property with practical and data-driven advice",
     overviewHeading: "Expert Guidance Through Every Transaction",
     overview: [
       "At Rocky Real Estate, we aim to guide you to the right opportunities across commercial, residential, and investment real estate.",
@@ -696,7 +696,7 @@ export const services: Service[] = [
     title: "Mortgage",
     image: "https://images.pexels.com/photos/8439700/pexels-photo-8439700.jpeg",
     icon: "mortgage",
-    description: "We work with trusted banking partners and mortgage advisors to get you the best deals.",
+    description: "We get you the best mortgage deals with help from our trusted banking partners and mortgage advisors.",
     overviewHeading: "Simplifying Your Path to Property Ownership",
     overview: [
       "Becoming a homeowner can be a stressful process if you don’t secure the right mortgage. At Rocky Real Estate, we simplify this process with our seasoned mortgage specialists, who offer personalised advice tailored to your financial goals.",
@@ -717,7 +717,7 @@ export const services: Service[] = [
     title: "Property Listing & Marketing",
     image: "https://images.pexels.com/photos/8439700/pexels-photo-8439700.jpeg",
     icon: "property-listing-marketing",
-    description: "We ensure your property is marketed effectively on real estate portals, social media platforms, and more.",
+    description: "We market your property effectively on real estate portals, social media platforms, and more.",
     overviewHeading: "Reaching the Right Buyers and Tenants",
     overview: [
       "At Rocky Real Estate, we do more than just list your property. We use the right combination of online visibility, an exclusive network, and digital media to ensure your property is marketed effectively.",
@@ -738,7 +738,7 @@ export const services: Service[] = [
     title: "After Sales Support",
     image: "https://images.pexels.com/photos/7414964/pexels-photo-7414964.jpeg",
     icon: "after-sales-support",
-    description: "Paperwork to handover, we manage everything for our clients, even after the sale is done.",
+    description: "We manage everything from paperwork to handover, even after the sale is done.",
     overviewHeading: "Support That Continues After the Sale",
     overview: [
       "The moment you receive the keys is just the beginning of your property journey. But at Rocky Real Estate, our service extends beyond simply handing over the keys.",
@@ -1054,3 +1054,217 @@ export const projects: Project[] = [
     caption: "Solstice Residence — Blue Mountains, 2021",
   }
 ];
+
+// ─── Developer detail pages (`/off-plan-properties/developers/[developer]`) ───
+
+export type DeveloperAboutCopy = {
+  heading: string;
+  intro: string;
+  body: string;
+};
+
+export type DeveloperWhoIsCopy = {
+  heading: string;
+  /** Use blank lines (`\n\n`) between paragraphs. */
+  description: string;
+};
+
+export type DeveloperWhyChooseCopy = {
+  heading: string;
+  points: string[];
+};
+
+export type DeveloperPageContent = {
+  heroImage: string;
+  showcaseImage: string;
+  about: DeveloperAboutCopy;
+  whoIs: DeveloperWhoIsCopy;
+  whyChoose: DeveloperWhyChooseCopy;
+};
+
+export type DeveloperPagePayload = {
+  slug: string;
+  title: string;
+  description: string;
+  heroImage: string;
+  showcaseImage: string;
+  showcaseImageAlt: string;
+  about: DeveloperAboutCopy;
+  whoIs: DeveloperWhoIsCopy;
+  whyChoose: DeveloperWhyChooseCopy;
+};
+
+export function getDeveloperSlugFromPath(path?: string) {
+  return (path ?? "").split("/").filter(Boolean).pop() ?? "";
+}
+
+/** Per-route copy and imagery for developer pages. */
+const DEVELOPER_PAGE_CONTENT: Record<string, DeveloperPageContent> = {
+  emaar: {
+    heroImage: "/assets/developers/featured/emaar-hero.webp",
+    showcaseImage: "/assets/developers/featured/emaar-about.webp",
+    about: {
+      heading: "About Emaar Properties",
+      intro:
+        "The developers behind Burj Khalifa, the tallest tower in the world, Emaar Properties has redefined and transformed Dubai's skyline.",
+      body:
+        "Be it master communities or iconic landmarks, Emaar has earned international recognition. Designed to redefine modern living, Emaar has developed properties scattered across residential, retail, hospitality, entertainment, and more. But what makes them one of the biggest and most prestigious developers in the city? Let's explore.",
+    },
+    whoIs: {
+      heading: "Who is Emaar?",
+      description: `Founded in 1997 by Mohamed Alabbar, Emaar Properties is headquartered in Dubai and operates across several sectors.
+
+Currently one of the largest real estate developers in the country, Emaar has now expanded internationally with properties in the Middle East, North America, Europe, North Africa, and Asia.
+
+Emaar is known for its iconic landmarks across Dubai, including the Burj Khalifa, Dubai Mall, Dubai Hills Estate, and more, in prime locations such as Dubai Marina, Arabian Ranches, Emaar Beachfront, and more.`,
+    },
+    whyChoose: {
+      heading: "Why Choose Emaar?",
+      points: [
+        "With Emaar Properties, you get a home in the most prestigious and prime locations in Dubai.",
+        "You get premium quality, excellent design, and timely delivery.",
+        "An elevated lifestyle where master communities offer schools, healthcare, retail, and more.",
+        "Ideal for families, international buyers, and investors seeking long-term value.",
+        "And, strong rental yields and resale demand.",
+      ],
+    },
+  },
+  meraas: {
+    heroImage: "/assets/developers/featured/meraas.webp",
+    showcaseImage: "/assets/developers/featured/citywalk-featured.webp",
+    about: {
+      heading: "About Meraas",
+      intro:
+        "Another major developer under Dubai Holding, Meraas, has shaped Dubai’s skyline and made it a lifestyle destination.",
+      body:
+        "From master waterfront districts to beachfront residences and more, Meraas has always focused on developments that offer residents a dynamic lifestyle through contemporary design.\n\nBut how did Meraas become one of the most influential developers in Dubai? Let’s explore.",
+    },
+    whoIs: {
+      heading: "Who is Meraas?",
+      description: `Established in 2007, Meraas, which operates under Dubai Holding, has developed several recognizable urban communities and lifestyle destinations across Dubai.
+
+Meraas focuses on developing mixed-use properties with entertainment, residential, and retail components in prime locations across Dubai, including Jumeirah Bay Island, City Walk, La Mer, and Bluewaters Island.`,
+    },
+    whyChoose: {
+      heading: "Why Choose Meraas?",
+      points: [
+        "Waterfront properties in prime locations across Dubai",
+        "Reliable and strong brand credibility, backed by Dubai Holding",
+        "Lifestyle destinations combining retail, residential, entertainment, and dining",
+        "Perfect for residents and investors alike who seek a more modern, design-focused living experience",
+      ],
+    },
+  },
+  damac: {
+    heroImage: "/assets/developers/featured/damac.webp",
+    showcaseImage: "/assets/developers/featured/citywalk-featured.webp",
+    about: {
+      heading: "About DAMAC",
+      intro:
+        "One of the most prominent names in Dubai’s real estate market, DAMAC Properties, has played a significant role in redefining the city’s skyline.",
+      body:
+        "Known for their high-end developments, DAMAC Properties combines luxury living with architectural masterpieces and branded collaborations. As part of DAMAC Group, the developers focus on creating premium lifestyle experiences in Dubai and internationally. But what makes them one of the most recognized developers in the city? Let's explore.",
+    },
+    whoIs: {
+      heading: "Who is DAMAC?",
+      description: `Founded in 2002 by Hussain Sajwani, DAMAC Properties has grown into one of the largest luxury real estate developers.
+
+Over the years, the developers have specialised in commercial, residential, and luxury properties in prime locations across Dubai, including Business Bay, Dubai Marina, DAMAC Hills, and DAMAC Hills 2.
+
+With over 1,000 units, DAMAC continues to launch and develop master communities and residences.`,
+    },
+    whyChoose: {
+      heading: "Why Choose DAMAC?",
+      points: [
+        "High-end and luxury properties in prime locations across Dubai.",
+        "Wide range of properties for residents to choose from, including apartments, villas, and branded residences.",
+        "Brand collaborations with global brands in the design, fashion, and hospitality fields.",
+        "Perfect for investors seeking strong rental appeal and premium properties.",
+      ],
+    },
+  },
+  leos: {
+    heroImage: "/assets/developers/featured/citywalk-featured.webp",
+    showcaseImage: "/assets/developers/featured/emaar-featured.webp",
+    about: {
+      heading: "About Leos",
+      intro:
+        "A renowned luxury property developer, Leos has created a strong presence in the UAE, the UK, and internationally.",
+      body:
+        "Known for blending European design with modern lifestyles, the developers have become experts in commercial, residential, and mixed-use real estate projects across Dubai. The developers also pride themselves on being completely transparent and trustworthy with businesses and individuals alike.\n\nBut what makes them one of the most promising developers in the city? Let’s explore.",
+    },
+    whoIs: {
+      heading: "Who is Leos?",
+      description: `Founded and led by Rui Liu, the developers expanded to the UAE in 2022 with their first development in Jumeirah Village Circle (JVC).
+
+Leos, which began internationally, is now headquartered in Dubai, with architectural master developments throughout the city. The developers’ projects range from residential to commercial to mixed-use. They also pride themselves on being completely transparent, innovative, and trustworthy.`,
+    },
+    whyChoose: {
+      heading: "Why Choose Leos?",
+      points: [
+        "Modern architectural design",
+        "Innovative, contemporary, and smart living layouts in every development",
+        "International developer with experience across the UAE and UK markets",
+        "Modern European-inspired architectural design",
+        "Lifestyle-focused projects with wellness and community amenities",
+        "Strong emphasis on innovation, smart living, and contemporary layouts",
+        "Attractive opportunities for investors seeking emerging developers with growth potential",
+      ],
+    },
+  },
+};
+
+const DEVELOPER_PAGE_GENERIC_DESCRIPTION =
+  "Explore off-plan projects by this developer in Dubai.";
+
+export function getDeveloperPagePayload(slug: string): DeveloperPagePayload | null {
+  const dev = developers.find((d) => getDeveloperSlugFromPath(d.path) === slug);
+  const project = projects.find((p) => p.id === slug);
+  if (!dev && !project) return null;
+
+  const title = project?.title ?? dev?.name ?? slug;
+  const description = project?.description ?? DEVELOPER_PAGE_GENERIC_DESCRIPTION;
+  const page = DEVELOPER_PAGE_CONTENT[slug];
+
+  const heroImage =
+    page?.heroImage ?? project?.imageUrl ?? "/assets/developers/featured/emaar-hero.webp";
+  const showcaseImage =
+    page?.showcaseImage ?? project?.imageUrl ?? "/assets/developers/featured/emaar-about.webp";
+
+  const displayName = dev?.name ?? title;
+  const about = page?.about ?? {
+    heading: `About ${displayName}`,
+    intro: description.split(". ")[0] ? `${description.split(". ")[0]}.` : description,
+    body: description.includes(". ")
+      ? description.slice(description.indexOf(". ") + 2)
+      : "",
+  };
+
+  const whoIs = page?.whoIs ?? {
+    heading: `Who is ${displayName}?`,
+    description: `${description}\n\n${DEVELOPER_PAGE_GENERIC_DESCRIPTION}`,
+  };
+
+  const whyChoose = page?.whyChoose ?? {
+    heading: `Why Choose ${displayName}?`,
+    points: [
+      "Established Dubai developer with an active off-plan pipeline",
+      "Locations aligned with connectivity, retail, and lifestyle demand",
+      "Suited to end-users and investors seeking long-term market exposure",
+      "Quality-focused product with strong community amenities",
+      "Expert guidance helps you compare payment plans and handover timelines",
+    ],
+  };
+
+  return {
+    slug,
+    title,
+    description,
+    heroImage,
+    showcaseImage,
+    showcaseImageAlt: `${title} — Dubai developments`,
+    about,
+    whoIs,
+    whyChoose,
+  };
+}

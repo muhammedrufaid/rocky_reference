@@ -194,7 +194,7 @@ export default function DeveloperHeroSection({
 
         <Container>
           <div className="relative z-20 w-full py-28 md:py-32 lg:py-36">
-            <div className="max-w-xl text-center md:text-left">
+            <div className="mx-auto max-w-xl text-center uppercase">
 
               {/* Editorial label */}
               {/* <motion.p
@@ -220,43 +220,17 @@ export default function DeveloperHeroSection({
                 {title}
               </motion.h1>
 
-              {/* Description */}
-              <motion.p
-                className="mt-4 max-w-md text-sm leading-[1.75] text-white/68 md:text-base"
-                variants={fadeUp}
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                custom={0.16}
-              >
-                {description ??
-                  "Developers behind the tallest building in the world, Burj Khalifa, Emaar has redefined the Dubai skyline with iconic master communities and internationally recognized properties."}
-              </motion.p>
-
-              {/* CTAs */}
-              <motion.div
-                className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
-                variants={fadeUp}
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                custom={0.24}
-              >
-                {/* Primary */}
-                <button
-                  type="button"
-                  onClick={openModal}
-                  className="group cursor-pointer relative inline-flex w-full items-center justify-center overflow-hidden rounded-xl bg-[#0D365E] px-7 py-3.5 text-sm font-medium tracking-wide text-white/90 transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-[#C3AD95]/40 focus:ring-offset-1 focus:ring-offset-transparent sm:w-auto"
+              {/* {description ? (
+                <motion.p
+                  className="mt-4 max-w-md mx-auto text-sm leading-[1.75] text-white/68 md:text-base"
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate={isInView ? "visible" : "hidden"}
+                  custom={0.16}
                 >
-                  Enquire Now
-                </button>
-
-                {/* Secondary ghost */}
-                <button
-                  type="button"
-                  className="inline-flex cursor-pointer w-full items-center justify-center gap-2 rounded-xl border border-white/20 px-7 py-3.5 text-sm font-medium tracking-wide text-white/75 backdrop-blur-sm transition-all duration-300 hover:border-white/35 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20 sm:w-auto"
-                >
-                  View Properties
-                </button>
-              </motion.div>
+                  {description}
+                </motion.p>
+              ) : null} */}
 
               {/* Trust signals */}
               {/* <motion.p
@@ -300,7 +274,7 @@ export default function DeveloperHeroSection({
               {/* Top accent bar — Rocky Blue */}
               {/* <div className="h-1 w-full bg-[#0D365E]" /> */}
 
-              <div className="p-6 sm:p-8">
+              <div className="p-6 sm:p-8 uppercase">
                 {/* Header */}
                 <div className="flex items-start justify-between gap-4">
                   <div>
@@ -365,7 +339,7 @@ export default function DeveloperHeroSection({
                             required
                             autoComplete="name"
                             placeholder="Your name"
-                            className="mt-2 h-11 w-full rounded-xl border border-[#E7DCCD] bg-[#F6F6F6] px-3.5 text-sm text-[#081F3A] placeholder:text-[#333333]/35 outline-none transition focus:border-[#C3AD95] focus:bg-white focus:ring-2 focus:ring-[#C3AD95]/20"
+                            className="mt-2 h-11 w-full rounded-xl border border-[#E7DCCD] bg-[#F6F6F6] px-3.5 text-sm text-[#081F3A] normal-case placeholder:text-[#333333]/35 outline-none transition focus:border-[#C3AD95] focus:bg-white focus:ring-2 focus:ring-[#C3AD95]/20"
                           />
                         </div>
                         <div>
@@ -380,7 +354,7 @@ export default function DeveloperHeroSection({
                             inputMode="tel"
                             autoComplete="tel"
                             placeholder="+971…"
-                            className="mt-2 h-11 w-full rounded-xl border border-[#E7DCCD] bg-[#F6F6F6] px-3.5 text-sm text-[#081F3A] placeholder:text-[#333333]/35 outline-none transition focus:border-[#C3AD95] focus:bg-white focus:ring-2 focus:ring-[#C3AD95]/20"
+                            className="mt-2 h-11 w-full rounded-xl border border-[#E7DCCD] bg-[#F6F6F6] px-3.5 text-sm text-[#081F3A] normal-case placeholder:text-[#333333]/35 outline-none transition focus:border-[#C3AD95] focus:bg-white focus:ring-2 focus:ring-[#C3AD95]/20"
                           />
                         </div>
                       </div>
@@ -397,7 +371,7 @@ export default function DeveloperHeroSection({
                           type="email"
                           autoComplete="email"
                           placeholder="you@email.com"
-                          className="mt-2 h-11 w-full rounded-xl border border-[#E7DCCD] bg-[#F6F6F6] px-3.5 text-sm text-[#081F3A] placeholder:text-[#333333]/35 outline-none transition focus:border-[#C3AD95] focus:bg-white focus:ring-2 focus:ring-[#C3AD95]/20"
+                          className="mt-2 h-11 w-full rounded-xl border border-[#E7DCCD] bg-[#F6F6F6] px-3.5 text-sm text-[#081F3A] normal-case placeholder:text-[#333333]/35 outline-none transition focus:border-[#C3AD95] focus:bg-white focus:ring-2 focus:ring-[#C3AD95]/20"
                         />
                       </div>
 
@@ -411,7 +385,7 @@ export default function DeveloperHeroSection({
                           onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
                           rows={4}
                           placeholder="Tell us what you're looking for…"
-                          className="mt-2 w-full resize-none rounded-xl border border-[#E7DCCD] bg-[#F6F6F6] px-3.5 py-3 text-sm text-[#081F3A] placeholder:text-[#333333]/35 outline-none transition focus:border-[#C3AD95] focus:bg-white focus:ring-2 focus:ring-[#C3AD95]/20"
+                          className="mt-2 w-full resize-none rounded-xl border border-[#E7DCCD] bg-[#F6F6F6] px-3.5 py-3 text-sm text-[#081F3A] normal-case placeholder:text-[#333333]/35 outline-none transition focus:border-[#C3AD95] focus:bg-white focus:ring-2 focus:ring-[#C3AD95]/20"
                         />
                       </div>
 

@@ -66,7 +66,7 @@ export default function DeveloperGlobalPresenceSection({
   return (
     <section
       ref={ref}
-      className="pb-16 md:pb-20 lg:pb-24 bg-white"
+      className="py-8 md:py-12 lg:py-16 bg-white"
       aria-labelledby={`${whoHeadingId} ${whyHeadingId}`}
     >
       <Container>
@@ -77,14 +77,14 @@ export default function DeveloperGlobalPresenceSection({
             animate={inView ? "visible" : "hidden"}
             className="flex flex-col justify-center"
           >
-            <motion.div
+            {/* <motion.div
               className="mb-4 h-0.5"
               style={{ backgroundColor: "#c3ad95", originX: 0 }}
               initial={{ scaleX: 0, width: 48 }}
               animate={inView ? { scaleX: 1, width: 48 } : { scaleX: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const, delay: 0.15 }}
               aria-hidden
-            />
+            /> */}
 
             <motion.h2
               id={whoHeadingId}
@@ -117,16 +117,16 @@ export default function DeveloperGlobalPresenceSection({
             variants={fadeRight}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="flex flex-col justify-center"
+            className="flex flex-col lg:self-start"
           >
-            <motion.div
+            {/* <motion.div
               className="mb-4 h-0.5"
               style={{ backgroundColor: "#c3ad95", originX: 0 }}
               initial={{ scaleX: 0, width: 48 }}
               animate={inView ? { scaleX: 1, width: 48 } : { scaleX: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const, delay: 0.25 }}
               aria-hidden
-            />
+            /> */}
 
             <motion.h2
               id={whyHeadingId}

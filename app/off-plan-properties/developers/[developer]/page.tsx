@@ -2,8 +2,11 @@ import { notFound } from "next/navigation";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import TestimonialSection from "@/components/home/TestimonialSection";
-import Newsletter from "@/components/home/Newsletter";
-import { developers, projects } from "@/utils/data";
+import {
+  developers,
+  getDeveloperPagePayload,
+  getDeveloperSlugFromPath,
+} from "@/utils/data";
 import DeveloperHeroSection from "@/components/off-plan-properties/DeveloperHeroSection";
 import DeveloperAboutSection from "@/components/off-plan-properties/DeveloperAboutSection";
 import DeveloperGlobalPresenceSection from "@/components/off-plan-properties/DeveloperGlobalPresenceSection";
@@ -11,23 +14,9 @@ import DeveloperShowcaseImageSection from "@/components/off-plan-properties/Deve
 
 type Props = { params: Promise<{ developer: string }> };
 
-function getDeveloperSlugFromPath(path?: string) {
-  return (path ?? "").split("/").filter(Boolean).pop() ?? "";
-}
-
-function getDeveloperData(developer: string) {
-  const project = projects.find((p) => p.id === developer);
-  const dev = developers.find((d) => getDeveloperSlugFromPath(d.path) === developer);
-  if (!project && !dev) return null;
-  return {
-    title: project?.title ?? dev?.name ?? developer,
-    description: project?.description ?? "Explore off-plan projects by this developer in Dubai.",
-  };
-}
-
 export async function generateMetadata({ params }: Props) {
   const { developer } = await params;
-  const data = getDeveloperData(developer);
+  const data = getDeveloperPagePayload(developer);
   if (!data) return { title: "Developer Not Found | Rocky Real Estate" };
   return {
     title: `${data.title} | Rocky Real Estate`,
@@ -41,7 +30,7 @@ export function generateStaticParams() {
 
 export default async function DeveloperPage({ params }: Props) {
   const { developer } = await params;
-  const data = getDeveloperData(developer);
+  const data = getDeveloperPagePayload(developer);
   if (!data) notFound();
 
   return (
@@ -51,14 +40,24 @@ export default async function DeveloperPage({ params }: Props) {
         <DeveloperHeroSection
           title={data.title}
           description={data.description}
-          image="/assets/developers/featured/emaar-hero.webp"
+          image={data.heroImage}
         />
-        <DeveloperAboutSection />
+        <DeveloperAboutSection
+          heading={data.about.heading}
+          intro={data.about.intro}
+          body={data.about.body}
+          headingId={`developer-about-${data.slug}`}
+        />
         <DeveloperShowcaseImageSection
-          imageSrc="/assets/developers/featured/emaar-about.webp"
-          imageAlt={`${data.title} — Dubai skyline and developments`}
+          imageSrc={data.showcaseImage}
+          imageAlt={data.showcaseImageAlt}
         />
-        <DeveloperGlobalPresenceSection />
+        <DeveloperGlobalPresenceSection
+          heading={data.whoIs.heading}
+          description={data.whoIs.description}
+          whyHeading={data.whyChoose.heading}
+          points={data.whyChoose.points}
+        />
         {/* <Newsletter className="pb-16 md:pb-20 lg:pb-24" /> */}
         <TestimonialSection />
       </main>

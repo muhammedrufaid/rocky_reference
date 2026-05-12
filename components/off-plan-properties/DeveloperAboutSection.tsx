@@ -12,6 +12,8 @@ type DeveloperAboutSectionProps = {
   tag1?: string;
   tag2?: string;
   tag3?: string;
+  /** Stable id for `aria-labelledby` (unique per developer route). */
+  headingId?: string;
 };
 
 const fadeUp = {
@@ -31,6 +33,7 @@ export default function DeveloperAboutSection({
   heading = "About Emaar",
   intro = "The developers behind the Burj Khalifa — the tallest tower in the world — Emaar Properties has redefined and transformed Dubai's skyline.",
   body = "Be it master communities or iconic landmarks, Emaar has earned international recognition. Designed to redefine modern living, Emaar has developed properties across residential, retail, hospitality, entertainment, and more.",
+  headingId = "developer-about-heading",
 }: DeveloperAboutSectionProps) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
@@ -39,12 +42,12 @@ export default function DeveloperAboutSection({
     <section
       ref={ref}
       className="py-8 md:py-12 lg:py-16 bg-white"
-      aria-labelledby="emaar-about-heading"
+      aria-labelledby={headingId}
     >
       <Container>
         <div className="mx-auto max-w-3xl text-center">
           <motion.h2
-            id="emaar-about-heading"
+            id={headingId}
             className="text-2xl font-medium leading-[1.12] tracking-[-0.025em] text-[#081F3A] sm:text-3xl md:text-4xl"
             variants={fadeUp}
             initial="hidden"

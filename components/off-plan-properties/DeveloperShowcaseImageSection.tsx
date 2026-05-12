@@ -29,7 +29,7 @@ export default function DeveloperShowcaseImageSection({
   const inView = useInView(ref, { once: true, margin: "-48px" });
 
   return (
-    <section ref={ref} className="bg-white pb-4 md:pb-6" aria-label={imageAlt}>
+    <section ref={ref} className="bg-white" aria-label={imageAlt}>
       <Container>
         <motion.figure
           variants={fadeUp}
@@ -39,7 +39,7 @@ export default function DeveloperShowcaseImageSection({
           style={{ boxShadow: "0 6px 28px rgba(13, 54, 94, 0.10)" }}
         >
           <Image
-            src="/assets/developers/featured/emaar-hero.webp"
+            src={imageSrc}
             alt={imageAlt}
             fill
             className="object-cover"
