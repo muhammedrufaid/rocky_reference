@@ -110,7 +110,6 @@ const FaqsSection: React.FC = () => {
 
       <Container className="relative">
         {/* Section Header */}
-        {/* Section Header */}
         <header className="mb-4 md:mb-8">
           <motion.h2
             id="faqs-section-heading"
