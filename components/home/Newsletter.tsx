@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Container from "@/components/layout/Container";
 import { motion, useInView } from "framer-motion";
+import { postNewsletter } from "@/utils/getServices";
 
 const fadeUp = {
     hidden: { opacity: 0, y: 28 },
@@ -17,12 +18,49 @@ const fadeUp = {
 const Newsletter: React.FC<{ className?: string }> = ({ className }) => {
     const sectionRef = useRef<HTMLElement>(null);
     const isInView = useInView(sectionRef, { once: true, margin: "-60px" });
+    const [email, setEmail] = useState("");
+    const [submitting, setSubmitting] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [fieldError, setFieldError] = useState<string | null>(null);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setSubmitted(false);
+        setError(null);
+        const trimmed = email.trim();
+        if (!trimmed) {
+            setFieldError("Email is required");
+            return;
+        }
+        if (!/^\S+@\S+\.\S+$/.test(trimmed)) {
+            setFieldError("Please enter a valid email");
+            return;
+        }
+        setFieldError(null);
+        setSubmitting(true);
+        try {
+            const startedAt = Date.now();
+            await postNewsletter({ email: trimmed });
+            const minSendingMs = 800;
+            const elapsed = Date.now() - startedAt;
+            if (elapsed < minSendingMs) {
+                await new Promise((r) => setTimeout(r, minSendingMs - elapsed));
+            }
+            setSubmitted(true);
+            setEmail("");
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
     return (
         <section
             ref={sectionRef}
             className={className ?? "pb-16 md:pb-20 lg:pb-24"}
-            aria-labelledby="valuation-heading"
+            aria-labelledby="newsletter-heading"
         >
             <Container>
                 <motion.article
@@ -55,7 +93,7 @@ const Newsletter: React.FC<{ className?: string }> = ({ className }) => {
                     {/* Text content — sits above image and overlay */}
                     <div className="relative z-10 flex flex-col justify-center px-8 py-12 sm:px-10 sm:py-14 lg:w-1/2 lg:px-14 lg:py-16">
                         <motion.h2
-                            id="valuation-heading"
+                            id="newsletter-heading"
                             className="text-2xl font-medium leading-tight tracking-tight sm:text-3xl md:text-4xl lg:text-[2.25rem]"
                             style={{ color: "#ffffff" }}
                             variants={fadeUp}
@@ -83,7 +121,11 @@ const Newsletter: React.FC<{ className?: string }> = ({ className }) => {
                             animate={isInView ? "visible" : "hidden"}
                             custom={0.25}
                         >
-                            <form className="flex w-full max-w-xl flex-col gap-3 sm:flex-row sm:items-center">
+                            <form
+                                className="flex w-full max-w-xl flex-col gap-3 sm:flex-row sm:items-center"
+                                onSubmit={handleSubmit}
+                                noValidate
+                            >
                                 <label htmlFor="newsletter-email" className="sr-only">
                                     Email address
                                 </label>
@@ -91,22 +133,43 @@ const Newsletter: React.FC<{ className?: string }> = ({ className }) => {
                                     id="newsletter-email"
                                     name="email"
                                     type="email"
+                                    value={email}
+                                    onChange={(ev) => {
+                                        setEmail(ev.target.value);
+                                        if (fieldError) setFieldError(null);
+                                        if (error) setError(null);
+                                    }}
                                     placeholder="Enter your Email"
-                                    className="h-12 w-full rounded-xl border border-white/35 bg-white/12 px-4 text-sm text-white placeholder:text-white/75 backdrop-blur-sm outline-none transition focus:border-white/70 focus:ring-1 focus:ring-white/35"
+                                    disabled={submitting}
+                                    className="h-12 w-full rounded-xl border border-white/35 bg-white/12 px-4 text-sm text-white placeholder:text-white/75 backdrop-blur-sm outline-none transition focus:border-white/70 focus:ring-1 focus:ring-white/35 disabled:opacity-60"
                                     autoComplete="email"
                                 />
                                 <button
                                     type="submit"
-                                    className="inline-flex h-12 cursor-pointer items-center justify-center rounded-xl px-7 text-sm font-medium transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)]"
+                                    disabled={submitting}
+                                    className="inline-flex h-12 cursor-pointer items-center justify-center rounded-xl px-7 text-sm font-medium transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)] disabled:pointer-events-none disabled:opacity-60"
                                     style={{
                                         backgroundColor: "#c3ad95",
                                         color: "#081f3a",
                                         boxShadow: "0 4px 14px rgba(0, 0, 0, 0.25)",
                                     }}
                                 >
-                                    Subscribe
+                                    {submitting ? "Subscribing…" : "Subscribe"}
                                 </button>
                             </form>
+                            {(fieldError || error || submitted) && (
+                                <p
+                                    className="mt-2 text-sm"
+                                    style={{
+                                        color: submitted ? "rgba(255,255,255,0.9)" : "#fecaca",
+                                    }}
+                                    role={fieldError || error ? "alert" : "status"}
+                                >
+                                    {submitted
+                                        ? "You’re subscribed. Thank you!"
+                                        : fieldError || error}
+                                </p>
+                            )}
                         </motion.div>
                     </div>
                 </motion.article>

@@ -601,3 +601,12 @@ export type SellEnquiryPayload = {
 export async function postSell(payload: SellEnquiryPayload): Promise<unknown> {
   return await postData('sell', payload)
 }
+
+/** Newsletter signup: `POST /api/newsletter` → upstream `{ROCKY_API_ORIGIN}/api/newsletter` (path override: `ROCKY_API_NEWSLETTER_PATH`). */
+export type NewsletterPayload = {
+  email: string
+}
+
+export async function postNewsletter(payload: NewsletterPayload): Promise<unknown> {
+  return await postData('newsletter', payload)
+}
