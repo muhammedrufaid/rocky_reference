@@ -42,9 +42,9 @@ export async function generateMetadata() {
 
 export default function SellYourPropertyPage() {
   return (
-    <div className="min-h-screen ">
-      <Header  />
-      <main className="">
+    <div className="min-h-screen bg-white">
+      <Header forceSolid/>
+      <main className="site-header-offset">
         {/* <PageHero
           title="Sell Your Property"
           description=""
