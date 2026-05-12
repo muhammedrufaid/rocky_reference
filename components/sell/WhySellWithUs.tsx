@@ -19,7 +19,7 @@ const features = [
         icon: Clock,
         title: "Fast & Simple Process",
         description:
-            "From valuation to handover, we manage the entire journey for you — no paperwork headaches, no guesswork.",
+            "A seamless process where we handle the entire journey, from valuation to handover",
     },
     {
         num: "03",
@@ -33,7 +33,7 @@ const features = [
         icon: Users,
         title: "1,000+ Sellers Trusted Us",
         description:
-            "Hundreds of homeowners have achieved their asking price through Rocky Real Estate — and counting.",
+            "Over a 1000+ homeowners have achieved their asking price through Rocky Real Estate",
     },
 ] as const;
 

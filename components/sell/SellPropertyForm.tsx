@@ -213,7 +213,7 @@ export default function SellPropertyForm() {
               <div className="min-w-0">
                 <div className="flex flex-wrap items-baseline gap-x-2">
                   <p className="text-base font-medium text-[#081F3A]">
-                    Sarah Al Habtoor
+                    Perhat Atayev
                   </p>
                   <p className="text-sm text-[#333333]/60">Property Specialist</p>
                 </div>
