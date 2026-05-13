@@ -56,10 +56,10 @@ const ServiceOverviewSection: React.FC<ServiceOverviewSectionProps> = ({
       aria-labelledby="service-overview-heading"
     >
       <Container>
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 md:gap-12 lg:gap-16 items-start">
           {/* Left: Detailed narrative content */}
           <motion.div
-            className="flex flex-col justify-center"
+            className="flex flex-col justify-center lg:pr-2"
             variants={fadeLeft}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
@@ -115,12 +115,12 @@ const ServiceOverviewSection: React.FC<ServiceOverviewSectionProps> = ({
 
           {/* Right: Image */}
           <motion.div
-            className="relative"
+            className="relative lg:mt-1"
             variants={fadeRight}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+            <div className="relative w-full overflow-hidden rounded-2xl shadow-xl aspect-3/2 md:aspect-16/10 lg:aspect-video">
               <Image
                 src={imageSrc}
                 alt={`${service.title} - Rocky Real Estate professional service`}
