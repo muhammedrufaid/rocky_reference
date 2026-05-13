@@ -207,7 +207,7 @@ export default function SellPropertyForm() {
                 aria-hidden
               >
                 <span className="text-sm font-medium tracking-[0.22em] pl-[0.22em]">
-                  SA
+                  PA
                 </span>
               </div>
               <div className="min-w-0">
@@ -221,7 +221,7 @@ export default function SellPropertyForm() {
                   href="tel:+97144476644"
                   className="mt-1 inline-flex text-base font-medium text-[#0D365E] hover:text-[#1C4E80] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#1C4E80]/30 focus-visible:ring-offset-2 rounded"
                 >
-                  +971 4 447 6644
+                  +971 56 412 0637
                 </a>
               </div>
             </motion.div>
