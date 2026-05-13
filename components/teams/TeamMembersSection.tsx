@@ -6,10 +6,71 @@ import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/layout/Container";
 import Pagination from "@/components/common/Pagination";
 import { teamMembers } from "@/utils/data";
-import { getTeamMemberSlug } from "@/utils/selectors";
 import { SelectChevronDownIcon, TeamSearchIcon } from "@/utils/icons";
 
 const ITEMS_PER_PAGE = 12;
+
+/** Title case per word (e.g. "GIZEM OKSUZ" → "Gizem Oksuz"). Tailwind `capitalize` does not lowercase the rest of each word. */
+function formatTeamMemberName(name: string): string {
+  const locale = "en";
+  return name
+    .trim()
+    .split(/\s+/)
+    .map((word) => {
+      if (!word) return word;
+      const lower = word.toLocaleLowerCase(locale);
+      return lower.charAt(0).toLocaleUpperCase(locale) + lower.slice(1);
+    })
+    .join(" ");
+}
+
+function getTeamMemberInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
+  return `${parts[0]![0]}${parts[parts.length - 1]![0]}`.toUpperCase();
+}
+
+type TeamMemberCardImageProps = {
+  name: string;
+  image: string;
+};
+
+const TeamMemberCardImage: React.FC<TeamMemberCardImageProps> = ({ name, image }) => {
+  const trimmed = image.trim();
+  const [loadFailed, setLoadFailed] = useState(false);
+
+  useEffect(() => {
+    setLoadFailed(false);
+  }, [trimmed]);
+
+  const showPlaceholder = !trimmed || loadFailed;
+
+  return (
+    <>
+      {!showPlaceholder && (
+        <Image
+          src={trimmed}
+          alt={formatTeamMemberName(name)}
+          fill
+          className="object-cover"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+          onError={() => setLoadFailed(true)}
+        />
+      )}
+      {showPlaceholder && (
+        <div
+          className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#0d365e]/10 via-transparent to-[#e7dccd]/50"
+          aria-hidden
+        >
+          <span className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-[#0d365e]/35">
+            {getTeamMemberInitials(name)}
+          </span>
+        </div>
+      )}
+    </>
+  );
+};
 
 const cardVariants = {
   hidden: { opacity: 0, y: 32, scale: 0.96 },
@@ -137,13 +198,9 @@ const TeamMembersSection: React.FC = () => {
                     {/* Image - separate block */}
                     <div className="relative w-full aspect-[6/7] overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-bl from-[#0d365e]/10 via-[#f5f3f0] to-[#e7dccd] border border-gray-100/80 shadow-sm">
                       <div className="absolute inset-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110">
-                        <Image
-                          src={member.image}
-                          alt={member.name}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                        />
+                        <div className="relative h-full w-full">
+                          <TeamMemberCardImage name={member.name} image={member.image} />
+                        </div>
                       </div>
 
                       {/* Overlay on hover */}
@@ -153,18 +210,18 @@ const TeamMembersSection: React.FC = () => {
                       />
 
                       {/* Department badge */}
-                      <span
+                      {/* <span
                         className="absolute top-3 left-3 sm:top-4 sm:left-4 px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-medium tracking-wider uppercase text-[#0d365e] bg-white/95 backdrop-blur-sm rounded-full border border-white/80 shadow-sm"
                       >
                         {member.department}
-                      </span>
+                      </span> */}
 
                     </div>
 
                     {/* Content - separate block */}
                     <div className="flex flex-col gap-2">
-                      <h3 className="text-base sm:text-lg font-medium text-[#0d365e] group-hover:text-[#1a5a96] transition-colors duration-200">
-                        {member.name}
+                      <h3 className="normal-case text-base sm:text-lg font-medium text-[#0d365e] group-hover:text-[#1a5a96] transition-colors duration-200">
+                        {formatTeamMemberName(member.name)}
                       </h3>
                       {member.designation && (
                         <p className="text-sm text-[#9f8870] group-hover:text-[#0d365e]/80 transition-colors duration-200">
