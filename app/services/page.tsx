@@ -10,6 +10,7 @@ import DevelopmentPartnersSection from "@/components/home/DevelopmentPartnersSec
 import { services } from "@/utils/data";
 import Newsletter from "@/components/home/Newsletter";
 import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
+import ServiceSectionv2 from "@/components/home/ServiceSectionv2";
 
 export async function generateMetadata() {
   const pathname = "/services";
@@ -56,14 +57,14 @@ export default function ServicesPage() {
           ]}
         />
         <ServiceIntroSection />
-        <ServiceSection data={services} hideHeading backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24" />
+        {/* <ServiceSection data={services} hideHeading backgroundColor="#ffffff" className="pb-16 md:pb-20 lg:pb-24" /> */}
+        <ServiceSectionv2 data={services} />
         <WhychooseSection />
         {/* <DevelopmentPartnersSection /> */}
         {/* <FaqsSection />   */}
         <Newsletter />
         {/* <ValuationCTA className="py-16 md:py-20 lg:py-24" /> */}
-        <TestimonialSection/>
-
+        <TestimonialSection />
       </main>
       <Footer />
     </div>
