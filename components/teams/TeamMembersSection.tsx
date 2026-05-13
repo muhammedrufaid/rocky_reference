@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/layout/Container";
 import Pagination from "@/components/common/Pagination";
@@ -134,10 +133,7 @@ const TeamMembersSection: React.FC = () => {
                   custom={index}
                   layout
                 >
-                  <Link
-                    href={`/our-team/${getTeamMemberSlug(member)}`}
-                    className="group flex flex-col gap-4 sm:gap-5 rounded-xl outline-none ring-offset-2 focus-visible:ring-2 focus-visible:ring-[#0d365e]"
-                  >
+                  <div className="group flex flex-col gap-4 sm:gap-5 rounded-xl">
                     {/* Image - separate block */}
                     <div className="relative w-full aspect-[6/7] overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-bl from-[#0d365e]/10 via-[#f5f3f0] to-[#e7dccd] border border-gray-100/80 shadow-sm">
                       <div className="absolute inset-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110">
@@ -180,7 +176,7 @@ const TeamMembersSection: React.FC = () => {
                         aria-hidden
                       />
                     </div>
-                  </Link>
+                  </div>
                 </motion.article>
               ))}
             </div>
