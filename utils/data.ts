@@ -287,60 +287,77 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 5,
-    name: "",
-    department: "",
-    designation: "",
-    image: "",
+    name: "Wasif Aftab",
+    department: "secondary-team",
+    designation: "Secondary Team Leader",
+    image: "/assets/teams/",
     // path: "/our-team/sarah-johnson",
   },
   {
     id: 6,
-    name: "",
-    department: "",
-    designation: "",
-    image: "",
+    name: "Manali Galani",
+    department: "offplan-team",
+    designation: "Offplan Team Leader",
+    image: "/assets/teams/offplan/manali.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
     id: 7,
-    name: "",
-    department: "",
-    designation: "",
+    name: "Ruqaiya Said",
+    department: "property-management",
+    designation: "Head of Property Management",
     image: "",
     // path: "/our-team/sarah-johnson",
   },
   {
     id: 8,
-    name: "",
+    name: "Qasim Khan",
     department: "",
-    designation: "",
+    designation: "Data Science & AI Manager",
     image: "",
     // path: "/our-team/sarah-johnson",
   },
   {
     id: 9,
-    name: "",
+    name: "Klaurish Yageanne",
     department: "",
-    designation: "",
+    designation: "HR Generalist",
     image: "",
     // path: "/our-team/sarah-johnson",
   },
   {
     id: 10,
-    name: "",
+    name: "Revathy Ravi",
     department: "",
-    designation: "",
+    designation: "Asst Accountant",
     image: "",
     // path: "/our-team/sarah-johnson",
   },
-
-
-
-
-
-
-
-
+  {
+    id: 11,
+    name: "Perhat Atayev",
+    department: "",
+    designation: "Senior Telesales",
+    image: "/assets/teams/telesales/perhat.webp",
+    // path: "/our-team/sarah-johnson",
+  },
+  {
+    id: 12,
+    name: "Mariam",
+    department: "",
+    designation: "Marketing Manager",
+    image: "/assets/teams/marketing/mariam.webp",
+    // path: "/our-team/sarah-johnson",
+  },
+  {
+    id: 13,
+    name: "Czarina Tanggap",
+    department: "",
+    designation: "Head of CRM",
+    image: "",
+    // path: "/our-team/sarah-johnson",
+  },
+  
   // {
   //   id: 6,
   //   name: "Ann",
