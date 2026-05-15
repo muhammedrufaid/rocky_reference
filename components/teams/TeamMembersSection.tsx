@@ -93,8 +93,17 @@ const TeamMembersSection: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const departments = useMemo(() => {
-    return [...new Set(teamMembers.map((m) => m.department))].sort();
+    const names = teamMembers
+      .map((m) => m.department.trim())
+      .filter((d) => d.length > 0);
+    return [...new Set(names)].sort();
   }, []);
+
+  useEffect(() => {
+    if (departments.length === 0 && departmentFilter) {
+      setDepartmentFilter("");
+    }
+  }, [departments, departmentFilter]);
 
   const filteredMembers = useMemo(() => {
     return teamMembers.filter((member) => {
@@ -145,27 +154,29 @@ const TeamMembersSection: React.FC = () => {
               className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm text-gray-700 placeholder-gray-400 border border-gray-200 rounded-lg bg-white outline-none transition-all duration-200 focus:border-[#0d365e] focus:ring-2 focus:ring-[#0d365e]/20"
             />
           </div>
-          <div className="relative w-full sm:w-auto sm:min-w-[220px] flex-shrink-0">
-            <select
-              value={departmentFilter}
-              onChange={(e) => setDepartmentFilter(e.target.value)}
-              aria-label="Filter by department"
-              className="w-full pl-4 pr-10 py-2.5 sm:py-3 text-sm text-gray-700 border border-gray-200 rounded-lg bg-white appearance-none outline-none cursor-pointer transition-all duration-200 focus:border-[#0d365e] focus:ring-2 focus:ring-[#0d365e]/20"
-            >
-              <option value="">All Departments</option>
-              {departments.map((dept) => (
-                <option key={dept} value={dept}>
-                  {dept}
-                </option>
-              ))}
-            </select>
-            <span
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
-              aria-hidden
-            >
-              <SelectChevronDownIcon />
-            </span>
-          </div>
+          {departments.length > 0 && (
+            <div className="relative w-full sm:w-auto sm:min-w-[220px] flex-shrink-0">
+              <select
+                value={departmentFilter}
+                onChange={(e) => setDepartmentFilter(e.target.value)}
+                aria-label="Filter by department"
+                className="w-full pl-4 pr-10 py-2.5 sm:py-3 text-sm text-gray-700 border border-gray-200 rounded-lg bg-white appearance-none outline-none cursor-pointer transition-all duration-200 focus:border-[#0d365e] focus:ring-2 focus:ring-[#0d365e]/20"
+              >
+                <option value="">All Departments</option>
+                {departments.map((dept) => (
+                  <option key={dept} value={dept}>
+                    {dept}
+                  </option>
+                ))}
+              </select>
+              <span
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                aria-hidden
+              >
+                <SelectChevronDownIcon />
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Pagination - above cards */}
