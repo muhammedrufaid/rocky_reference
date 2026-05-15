@@ -208,25 +208,14 @@ const TeamMembersSection: React.FC = () => {
                   <div className="group flex flex-col gap-4 sm:gap-5 rounded-xl">
                     {/* Image - separate block */}
                     <div className="relative w-full aspect-[6/7] overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-bl from-[#0d365e]/10 via-[#f5f3f0] to-[#e7dccd] border border-gray-100/80 shadow-sm">
-                      <div className="absolute inset-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110">
-                        <div className="relative h-full w-full">
-                          <TeamMemberCardImage name={member.name} image={member.image} />
-                        </div>
+                      <div className="relative h-full w-full">
+                        <TeamMemberCardImage name={member.name} image={member.image} />
                       </div>
 
-                      {/* Overlay on hover */}
                       <div
                         className="absolute inset-0 bg-gradient-to-t from-[#0d365e]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                         aria-hidden
                       />
-
-                      {/* Department badge */}
-                      {/* <span
-                        className="absolute top-3 left-3 sm:top-4 sm:left-4 px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-medium tracking-wider uppercase text-[#0d365e] bg-white/95 backdrop-blur-sm rounded-full border border-white/80 shadow-sm"
-                      >
-                        {member.department}
-                      </span> */}
-
                     </div>
 
                     {/* Content - separate block */}
@@ -240,7 +229,7 @@ const TeamMembersSection: React.FC = () => {
                         </p>
                       )}
                       <div
-                        className="h-0.5 w-8 rounded-full bg-[var(--rocky-blue)] transition-all duration-300 group-hover:w-12"
+                        className="h-0.5 w-8 rounded-full bg-[var(--rocky-blue)]"
                         aria-hidden
                       />
                     </div>
