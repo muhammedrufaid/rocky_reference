@@ -841,13 +841,115 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 2,
-    title: "Contemporary Home Private Balancing Openness",
-    category: "Commercial",
+    title: "Freehold vs Leasehold Property in Dubai: Everything You Need to Know",
+    category: "Insights",
     description:
-      "Discover design principles that bring natural materials and clean lines together for a timeless kitchen that serves as the heart of the home.",
+      "A guide for foreign investors and expatriates on freehold and leasehold property in Dubai—ownership rights, pros and cons, and how to choose the right option for your goals.",
     image:
-      "https://images.pexels.com/photos/618079/pexels-photo-618079.jpeg",
-    path: "/blog/contemporary-home-private",
+      "https://images.pexels.com/photos/323705/pexels-photo-323705.jpeg",
+    path: "/blog/freehold-vs-leasehold-dubai",
+    content: [
+      {
+        type: "paragraph",
+        text: "If you are a foreign investor or an expatriate in Dubai looking to invest, here is a guide on what to look out for before you begin the process.",
+      },
+      {
+        type: "paragraph",
+        text: "Each form of ownership, whether freehold or leasehold, offers different outcomes and benefits. Let us explore them.",
+      },
+      { type: "heading2", text: "Property ownership for foreigners in Dubai" },
+      {
+        type: "paragraph",
+        text: "Dubai remains one of the most investor-friendly cities in the world, where expatriates and foreigners can legally purchase property in government-approved zones.",
+      },
+      {
+        type: "paragraph",
+        text: "In 2026, foreign buyers can purchase either a freehold property in approved freehold areas or a leasehold property in selected communities in Dubai.",
+      },
+      {
+        type: "paragraph",
+        text: "While expatriates and foreigners can invest in and buy property, their ownership rights will differ significantly.",
+      },
+      { type: "heading2", text: "What is a Leasehold Property?" },
+      {
+        type: "paragraph",
+        text: "A leasehold property is one where a buyer has usage rights for a fixed period, usually up to 99 years. However, there are a few pros and cons when you choose a leasehold property.",
+      },
+      { type: "heading3", text: "The pros" },
+      {
+        type: "list",
+        items: [
+          "Leasehold properties are more affordable, especially for first-time investors, due to their low entry prices.",
+          "As a foreigner, you have access to additional locations where freehold ownership is not permitted.",
+          "There is also the possibility of a lease renewal, subject to the agreed-upon terms and conditions.",
+          "You will not have to worry about major repairs, as they are often handled by the landlord or freeholder.",
+        ],
+      },
+      { type: "heading3", text: "The cons" },
+      {
+        type: "list",
+        items: [
+          "Any and all renovations, modifications, and alterations typically require written approval from the freeholder.",
+          "You have no land ownership, just usage rights.",
+          "There are limitations to your long-term investment, as capital appreciation may be lower than with freehold ownership.",
+          "There is limited flexibility for alterations or subleasing.",
+        ],
+      },
+      { type: "heading2", text: "What is a Freehold Property?" },
+      {
+        type: "paragraph",
+        text: "Introduced in 2002, a freehold property is where you are provided full ownership of the property and the land it stands on, indefinitely. The owners are given complete control over the transfer, sale, lease, or occupation of the property at any time.",
+      },
+      {
+        type: "paragraph",
+        text: "Since its introduction, Dubai has experienced rapid growth in its real estate market and has become a preferred destination for investors worldwide.",
+      },
+      { type: "heading3", text: "The pros" },
+      {
+        type: "list",
+        items: [
+          "A higher investment potential where you get stronger rental yields and capital appreciation.",
+          "You get complete ownership rights over the property and land.",
+          "Whether or not you have a registered will, the property can be passed on to heirs.",
+          "You also have complete freedom to resell, occupy, or lease the property without restrictions.",
+          "You can purchase property remotely, without residing in the UAE.",
+          [
+            "Investors may qualify for ",
+            { text: "UAE residency visas", href: "/blog/private-contemporary-home" },
+            ", either the 2-year renewable visa or the 10-year Golden Visa.",
+          ],
+        ],
+      },
+      { type: "heading3", text: "The cons" },
+      {
+        type: "list",
+        items: [
+          "As an owner, you will be responsible for all maintenance, structural repairs, and service charges.",
+          "The restrictions on approved freehold communities still apply to foreign owners.",
+        ],
+      },
+      { type: "heading2", text: "Which property do you choose?" },
+      {
+        type: "paragraph",
+        text: "The choice between a leasehold property and a freehold property depends on your investment goals.",
+      },
+      {
+        type: "paragraph",
+        text: "If you want a shorter-term occupancy, lower upfront investment, or reduced maintenance responsibility, then leasehold properties are the best option for you.",
+      },
+      {
+        type: "paragraph",
+        text: "However, if you plan on long-term ownership where you seek capital appreciation, want eligibility for UAE residency, or want a property that you can rent or resell without restrictions, then freehold properties are the perfect choice for you.",
+      },
+      {
+        type: "paragraph",
+        text: "At Rocky Real Estate, our experienced advisors will guide you through every stage, from finding the right community for you to securing the best deal.",
+      },
+      {
+        type: "paragraph",
+        text: "Speak to our experts today to explore freehold and leasehold properties tailored to your goals.",
+      },
+    ],
   },
   {
     id: 3,

@@ -16,9 +16,16 @@ export default function BlogPostView({
   return (
     <section className="py-10 sm:py-12 lg:py-14">
       <Container>
-        <h1 className="text-3xl font-medium tracking-tight text-[#081F3A] sm:text-4xl">
+        <div className="grid grid-cols-12 gap-8 lg:gap-10">
+          <div className="col-span-12 lg:col-span-9">
+            <h1 className="text-3xl font-medium tracking-tight text-[#081F3A] sm:text-4xl">
+              {post.title}
+            </h1>
+          </div>
+        </div>
+        {/* <h1 className="text-3xl font-medium tracking-tight text-[#081F3A] sm:text-4xl">
           {post.title}
-        </h1>
+        </h1> */}
 
         <div className="mt-6 grid grid-cols-12 gap-8 lg:gap-10">
           <article className="col-span-12 lg:col-span-9">

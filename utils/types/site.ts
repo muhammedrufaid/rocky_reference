@@ -74,11 +74,13 @@ export interface Testimonial {
   rating: number;
 }
 
+export type BlogInlinePart = string | { text: string; href: string };
+
 export type BlogContentBlock =
   | { type: "paragraph"; text: string }
   | { type: "heading2"; text: string }
   | { type: "heading3"; text: string }
-  | { type: "list"; items: string[] };
+  | { type: "list"; items: (string | BlogInlinePart[])[] };
 
 export interface BlogPost {
   id: number;

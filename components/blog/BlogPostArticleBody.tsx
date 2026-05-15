@@ -1,4 +1,25 @@
-import type { BlogContentBlock } from "@/utils/types";
+import Link from "next/link";
+import type { BlogContentBlock, BlogInlinePart } from "@/utils/types";
+
+function BlogInlineContent({ parts }: { parts: BlogInlinePart[] }) {
+  return (
+    <>
+      {parts.map((part, i) =>
+        typeof part === "string" ? (
+          <span key={i}>{part}</span>
+        ) : (
+          <Link
+            key={i}
+            href={part.href}
+            className="font-medium text-[#081F3A] underline decoration-[#C3AD95]/60 underline-offset-2 transition-colors hover:text-[#C3AD95]"
+          >
+            {part.text}
+          </Link>
+        ),
+      )}
+    </>
+  );
+}
 
 export default function BlogPostArticleBody({ blocks }: { blocks: BlogContentBlock[] }) {
   return (
@@ -36,7 +57,13 @@ export default function BlogPostArticleBody({ blocks }: { blocks: BlogContentBlo
                 className="mt-3 list-disc space-y-2 pl-5 text-[#333333]/80 leading-relaxed"
               >
                 {block.items.map((item, i) => (
-                  <li key={i}>{item}</li>
+                  <li key={i}>
+                    {typeof item === "string" ? (
+                      item
+                    ) : (
+                      <BlogInlineContent parts={item} />
+                    )}
+                  </li>
                 ))}
               </ul>
             );

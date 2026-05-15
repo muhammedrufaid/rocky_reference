@@ -1,5 +1,6 @@
 export type {
   BlogContentBlock,
+  BlogInlinePart,
   BlogPost,
   Developer,
   DeveloperAboutCopy,
