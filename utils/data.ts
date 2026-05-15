@@ -618,7 +618,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 47,
-    name: "Nishitha",
+    name: "Nishitha Rachael",
     department: "Marketing",
     designation: "Content Writer",
     image: "",
