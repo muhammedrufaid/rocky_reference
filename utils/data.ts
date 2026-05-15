@@ -290,7 +290,7 @@ export const teamMembers: TeamMember[] = [
     name: "Wasif Aftab",
     department: "secondary-team",
     designation: "Secondary Team Leader",
-    image: "/assets/teams/",
+    image: "/assets/teams/secondary/wasif.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -312,9 +312,9 @@ export const teamMembers: TeamMember[] = [
   {
     id: 8,
     name: "Qasim Khan",
-    department: "",
+    department: "Analytics",
     designation: "Data Science & AI Manager",
-    image: "",
+    image: "/assets/teams/analytics/qasim.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -330,7 +330,7 @@ export const teamMembers: TeamMember[] = [
     name: "Revathy Ravi",
     department: "",
     designation: "Asst Accountant",
-    image: "",
+    image: "/assets/teams/accountant/revathy.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -357,7 +357,7 @@ export const teamMembers: TeamMember[] = [
     image: "",
     // path: "/our-team/sarah-johnson",
   },
-  
+
   // {
   //   id: 6,
   //   name: "Ann",
