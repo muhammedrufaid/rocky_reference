@@ -305,7 +305,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: 8,
     name: "Qasim Khan",
-    department: "Analytics",
+    department: "Data & AI",
     designation: "Data Science & AI Manager",
     image: "/assets/teams/analytics/qasim.webp",
     // path: "/our-team/sarah-johnson",

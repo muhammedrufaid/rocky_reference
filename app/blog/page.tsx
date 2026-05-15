@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/common/PageHero";
 import BlogListingSection from "@/components/blog/BlogListingSection";
 import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
+import Newsletter from "@/components/home/Newsletter";
 
 export async function generateMetadata() {
     const pathname = "/blog";
@@ -49,6 +50,7 @@ export default function BlogPage() {
                     ]}
                 />
                 <BlogListingSection />
+                <Newsletter />
             </main>
             <Footer />
         </div>
