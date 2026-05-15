@@ -315,7 +315,7 @@ export const teamMembers: TeamMember[] = [
     name: "Klaurish Yageanne",
     department: "HR Department",
     designation: "HR Generalist",
-    image: "",
+    image: "/assets/teams/hr/klaurish.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -371,7 +371,7 @@ export const teamMembers: TeamMember[] = [
     name: "Bhavesh Magnani",
     department: "Property Consultant",
     designation: "Senior Property Consultant",
-    image: "",
+    image: "/assets/teams/secondary/bhavesh.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -379,7 +379,7 @@ export const teamMembers: TeamMember[] = [
     name: "Jyotika Ronghangpal",
     department: "Property Consultant",
     designation: "Senior Property Consultant",
-    image: "",
+    image: "/assets/teams/secondary/jyotika.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -403,7 +403,7 @@ export const teamMembers: TeamMember[] = [
     name: "Nadeem Riaz",
     department: "Property Consultant",
     designation: "Senior Property Consultant",
-    image: "",
+    image: "/assets/teams/secondary/nadeem.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -428,7 +428,7 @@ export const teamMembers: TeamMember[] = [
     name: "Ahmed Fawzy",
     department: "Property Consultant",
     designation: "Property Consultant",
-    image: "",
+    image: "/assets/teams/secondary/ahmedfawzy.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -452,7 +452,7 @@ export const teamMembers: TeamMember[] = [
     name: "Kharis Rodiel",
     department: "Property Consultant",
     designation: "Property Consultant",
-    image: "",
+    image: "/assets/teams/secondary/kharis.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -484,7 +484,7 @@ export const teamMembers: TeamMember[] = [
     name: "Muhammed Rizwan",
     department: "Property Consultant",
     designation: "Property Consultant",
-    image: "",
+    image: "/assets/teams/secondary/rizwan.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -492,7 +492,7 @@ export const teamMembers: TeamMember[] = [
     name: "Novnath Patil",
     department: "Property Consultant",
     designation: "Property Consultant",
-    image: "",
+    image: "/assets/teams/secondary/patil.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -516,7 +516,7 @@ export const teamMembers: TeamMember[] = [
     name: "Shabeer Basheer",
     department: "Property Consultant",
     designation: "Property Consultant",
-    image: "",
+    image: "/assets/teams/secondary/shabeerbasheer.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -533,7 +533,7 @@ export const teamMembers: TeamMember[] = [
     name: "Ann Wanjiku",
     department: "Off Plan",
     designation: "Off Plan Property Consultant",
-    image: "",
+    image: "/assets/teams/offplan/ann.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -549,7 +549,7 @@ export const teamMembers: TeamMember[] = [
     name: "Amit Anand Kalebag",
     department: "Off Plan",
     designation: "Off Plan Property Consultant",
-    image: "",
+    image: "/assets/teams/offplan/amit.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -597,7 +597,7 @@ export const teamMembers: TeamMember[] = [
     name: "Fathimath Liana",
     department: "HR Department",
     designation: "Recruitment Specialist",
-    image: "",
+    image: "/assets/teams/hr/liana.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -605,7 +605,7 @@ export const teamMembers: TeamMember[] = [
     name: "Gabriela Viricimo",
     department: "Telesales",
     designation: "Telesales",
-    image: "",
+    image: "/assets/teams/telesales/gabriela.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
