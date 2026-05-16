@@ -660,7 +660,7 @@ export const teamMembers: TeamMember[] = [
     name: "Shaheen Mahmood",
     department: "Marketing",
     designation: "Videographer & Editor",
-    image: "/assets/teams/marketing/shaheen.webp",
+    image: "/assets/teams/marketing/shaheen1.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
