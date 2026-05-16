@@ -1375,7 +1375,7 @@ export const developers: Developer[] = [
   {
     id: 9,
     name: "IRTH Group",
-    logo: "/assets/developers/irth.webp",
+    logo: "/assets/developers/Irth1.webp",
     path: "/off-plan-properties/developers/irth-group",
   },
   {

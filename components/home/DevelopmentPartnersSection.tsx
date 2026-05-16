@@ -13,7 +13,9 @@ function createDevelopersLoop<T>(arr: T[], repeatCount: number): T[] {
     .flat();
 }
 
-const developersLoop = createDevelopersLoop(developers, 4);
+const FEATURED_DEVELOPER_COUNT = 10;
+const featuredDevelopers = developers.slice(0, FEATURED_DEVELOPER_COUNT);
+const developersLoop = createDevelopersLoop(featuredDevelopers, 4);
 
 const LogoCard = ({
   developer,
@@ -26,15 +28,15 @@ const LogoCard = ({
 }) => (
   <Link
     href={developer.path ?? "#"}
-    className="group flex flex-shrink-0 items-center justify-center"
+    className="group flex shrink-0 items-center justify-center"
   >
-    <div className="flex h-16 w-36 flex-shrink-0 items-center justify-center rounded-lg bg-[rgba(8,31,58,0.05)] px-5 py-3 backdrop-blur-sm transition-all duration-300 group-hover:scale-105 group-hover:bg-[rgba(8,31,58,0.1)]">
-      <div className="relative h-10 w-full">
+    <div className="flex h-16 w-36 shrink-0 items-center justify-center rounded-lg bg-[rgba(8,31,58,0.05)] px-2 py-1 backdrop-blur-sm transition-all duration-300 group-hover:scale-105 group-hover:bg-[rgba(8,31,58,0.1)]">
+      <div className="relative h-14 w-full">
         <Image
           src={developer.logo}
           alt={developer.name}
           fill
-          className="object-contain brightness-0 opacity-40 transition-all duration-300 group-hover:brightness-100 group-hover:opacity-100"
+          className="object-contain object-center brightness-0 opacity-40 transition-all duration-300 group-hover:brightness-100 group-hover:opacity-100"
           sizes="144px"
           priority={priority}
         />
@@ -130,7 +132,7 @@ const DevelopmentPartnersSection: React.FC = () => {
                 key={`${developer.id}-${index}`}
                 developer={developer}
                 index={index}
-                priority={index < developers.length}
+                priority={index < featuredDevelopers.length}
               />
             ))}
           </div>
