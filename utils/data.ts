@@ -1031,16 +1031,16 @@ export const blogPosts: BlogPost[] = [
       },
     ],
   },
-  {
-    id: 4,
-    title: "Dubai Real Estate Market Insights: What to Expect in 2026",
-    category: "Residential",
-    description:
-      "Stay ahead of the curve with our expert analysis of the Dubai real estate market trends, predictions, and opportunities for 2026.",
-    image:
-      "https://images.pexels.com/photos/10514386/pexels-photo-10514386.jpeg",
-    path: "/blog/dubai-real-estate-market-insights",
-  },
+  // {
+  //   id: 4,
+  //   title: "Dubai Real Estate Market Insights: What to Expect in 2026",
+  //   category: "Residential",
+  //   description:
+  //     "Stay ahead of the curve with our expert analysis of the Dubai real estate market trends, predictions, and opportunities for 2026.",
+  //   image:
+  //     "https://images.pexels.com/photos/10514386/pexels-photo-10514386.jpeg",
+  //   path: "/blog/dubai-real-estate-market-insights",
+  // },
 ];
 
 export const testimonials: Testimonial[] = [

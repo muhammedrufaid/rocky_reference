@@ -6,6 +6,7 @@ import { slugFromPath } from "@/utils/slugify";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BlogPostView from "@/components/blog/BlogPostView";
+import Newsletter from "@/components/home/Newsletter";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -64,6 +65,7 @@ export default async function BlogPostPage({ params }: Props) {
       <Header forceSolid />
       <main className="site-header-offset">
         <BlogPostView post={post} morePosts={morePosts} />
+        <Newsletter />
       </main>
       <Footer />
     </div>
