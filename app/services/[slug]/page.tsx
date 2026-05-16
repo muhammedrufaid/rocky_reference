@@ -9,6 +9,7 @@ import ValuationCTA from "@/components/home/ValuationCTA";
 import { services } from "@/utils/data";
 import { getServiceBySlug } from "@/utils/selectors";
 import ServiceOverviewSection from "@/components/services/ServiceOverViewSection";
+import Newsletter from "@/components/home/Newsletter";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -58,7 +59,8 @@ export default async function ServiceIndividualPage({ params }: Props) {
         {/* <WhychooseSection /> */}
         {/* <DevelopmentPartnersSection /> */}
         {/* <FaqsSection />   */}
-        <ValuationCTA className="pb-16 md:pb-20 lg:pb-24" />
+        <Newsletter />
+        {/* <ValuationCTA className="pb-16 md:pb-20 lg:pb-24" /> */}
         <TestimonialSection />
 
       </main>
