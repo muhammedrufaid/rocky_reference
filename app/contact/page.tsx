@@ -54,7 +54,7 @@ export default function ContactPage() {
         />
         <ContactSection />
         <ContactMap />
-        <OfficeGallerySection />
+        {/* <OfficeGallerySection /> */}
         <TestimonialSection />
       </main>
       <Footer />
