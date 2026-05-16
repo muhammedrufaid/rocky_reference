@@ -113,12 +113,12 @@ function highlightMatchesToHtml(text: string, query: string): string {
 const TagChip: React.FC<{ label: string; onRemove: () => void }> = ({ label, onRemove }) => (
   <span
     className={[
-      "inline-flex items-center gap-1 px-2.5 py-1 rounded-md",
+      "inline-flex shrink items-center gap-1 min-w-0 max-w-full sm:max-w-[14rem] px-2 py-1 sm:px-2.5 rounded-md",
       "bg-[rgba(13,54,94,0.08)] text-[#0D365E] text-[0.72rem] font-semibold",
-      "border border-[rgba(13,54,94,0.15)] whitespace-nowrap",
+      "border border-[rgba(13,54,94,0.15)]",
     ].join(" ")}
   >
-    {label}
+    <span className="truncate">{label}</span>
     <button
       onClick={onRemove}
       aria-label={`Remove ${label}`}
@@ -286,7 +286,7 @@ const HeroSearchCardV2: React.FC = () => {
         {/* ── Search Bar ── */}
         <div
           className={[
-            "flex items-stretch rounded-lg overflow-visible transition-shadow duration-300",
+            "flex w-full max-w-full items-stretch rounded-lg overflow-visible transition-shadow duration-300",
             isFocused
               ? "shadow-[0_0_0_2px_#1C4E80,0_12px_40px_rgba(8,31,58,0.28)]"
               : "shadow-[0_8px_32px_rgba(8,31,58,0.22)]",
@@ -301,17 +301,17 @@ const HeroSearchCardV2: React.FC = () => {
               aria-haspopup="listbox"
               aria-expanded={showDropdown}
               className={[
-                "h-full flex items-center gap-2 px-5 cursor-pointer select-none rounded-l-lg",
-                "border-none outline-none text-white text-[0.78rem] font-semibold tracking-widest",
-                "min-w-[110px] transition-colors duration-200",
+                "h-full flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 cursor-pointer select-none rounded-l-lg",
+                "border-none outline-none text-white text-[0.72rem] sm:text-[0.78rem] font-semibold tracking-widest",
+                "min-w-[72px] sm:min-w-[110px] transition-colors duration-200",
                 "bg-[#0D365E] hover:bg-[#0D365E]",
               ].join(" ")}
             >
-              <span>{buyOption}</span>
+              <span className="truncate">{buyOption}</span>
               <motion.span
                 animate={{ rotate: showDropdown ? 180 : 0 }}
                 transition={{ duration: 0.2 }}
-                className="flex items-center"
+                className="flex items-center shrink-0"
               >
                 <HeroChevronDownIcon />
               </motion.span>
@@ -363,7 +363,7 @@ const HeroSearchCardV2: React.FC = () => {
           <div className="w-px self-stretch bg-[rgba(13,54,94,0.12)]" aria-hidden="true" />
 
           {/* Search Input + Tags ── */}
-          <div className="relative flex-1 flex flex-wrap items-center gap-1.5 px-4 py-2 min-h-[52px]">
+          <div className="relative min-w-0 flex-1 flex flex-wrap items-center gap-1.5 px-2 sm:px-4 py-2 min-h-[52px]">
 
             {/* Visible tags (up to MAX_VISIBLE_TAGS) */}
             {visibleItems.map((item) => (
@@ -479,7 +479,7 @@ const HeroSearchCardV2: React.FC = () => {
                   ? "hsv2-suggestions"
                   : undefined
               }
-              className="hsv2-input flex-1 min-w-[100px] outline-none border-none bg-transparent text-[0.875rem] text-[#333333] py-1"
+              className="hsv2-input flex-1 min-w-0 basis-12 sm:basis-16 outline-none border-none bg-transparent text-[0.875rem] text-[#333333] py-1"
             />
 
             {/* Suggestions Dropdown */}
@@ -555,7 +555,7 @@ const HeroSearchCardV2: React.FC = () => {
             onClick={() => void handleSearch()}
             aria-label="Search"
             className={[
-              "shrink-0 flex items-center justify-center px-5 cursor-pointer rounded-r-lg",
+              "shrink-0 flex items-center justify-center w-11 sm:w-auto px-3 sm:px-5 cursor-pointer rounded-r-lg",
               "border-none bg-transparent text-[#0D365E]",
               "transition-colors duration-200 hover:text-black hover:bg-gray-200",
             ].join(" ")}
