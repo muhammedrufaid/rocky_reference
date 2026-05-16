@@ -960,13 +960,76 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 3,
-    title: "Balancing Private Contemporary Home Openness",
-    category: "Luxury",
+    title: "5 Ways to Summer-Proof Your Home in Dubai",
+    category: "Residential",
     description:
-      "From floor-to-ceiling windows to thoughtful zoning, learn how top architects achieve the perfect balance between openness and intimacy.",
+      "With Dubai’s summer heat and humidity on the way, protect your home while you travel—HVAC settings, insulation, DEWA-friendly habits, and exterior upkeep.",
     image:
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
-    path: "/blog/balancing-private-contemporary",
+    path: "/blog/summer-proof-home-dubai",
+    content: [
+      {
+        type: "paragraph",
+        text: "With summer approaching quickly in Dubai, residents are doing everything they can to avoid the harsh heat. From sunscreens to umbrellas and hats, we stock up on everything that can help us.",
+      },
+      {
+        type: "paragraph",
+        text: "But what about your home?",
+      },
+      {
+        type: "paragraph",
+        text: "Your home can face several issues during the summer, because of the heat and humidity, especially if you are traveling. Here are five things you must do to summer-proof your home.",
+      },
+      { type: "heading2", text: "Air Conditioning and HVAC Optimization" },
+      {
+        type: "paragraph",
+        text: "Turning off the air conditioner at home is the one thing we make sure to do before heading out on vacation. But that’s exactly what we shouldn’t do during summer, experts say.",
+      },
+      {
+        type: "paragraph",
+        text: "Instead, set your air conditioner’s thermostat to 24°C and on auto mode. This is to balance airflow and prevent humidity and mold from forming indoors. Additionally, ensure you service your air conditioner monthly.",
+      },
+      { type: "heading2", text: "Energy efficiency" },
+      {
+        type: "paragraph",
+        text: "To save energy efficiently during the summer, choose sustainable living options like LED lights instead of incandescent bulbs, and turn off all appliances (except the refrigerator) when not being used.",
+      },
+      {
+        type: "paragraph",
+        text: "Dubai Electricity and Water Authority (DEWA) also advises residents to turn off the water supply to all appliances (washing machine, dishwasher, etc.) before traveling.",
+      },
+      { type: "heading2", text: "Insulate your property to block heat" },
+      {
+        type: "paragraph",
+        text: "If you want to maintain a comfortable indoor temperature, you should properly and carefully insulate your home.",
+      },
+      {
+        type: "paragraph",
+        text: "This includes drawing blackout curtains/blinds during the day, using weatherstripping to seal gaps in doors and windows, and installing UV-reflective film on your windows, which helps reduce solar heat gain. Additionally, to reduce indoor humidity, get a humidifier.",
+      },
+      { type: "heading2", text: "Preventive maintenance" },
+      {
+        type: "paragraph",
+        text: "A lot of damage can go unnoticed during the summer, which is why you should do the following to prevent future structural maintenance.",
+      },
+      {
+        type: "paragraph",
+        text: "Make sure to inspect your roofs, water tanks, pipes, etc., for cracks and leaks, and repair them before they worsen from direct sunlight exposure. Additionally, use high-quality UV-resistant covers and coatings for your outdoor furniture.",
+      },
+      { type: "heading2", text: "Garden and exterior maintenance" },
+      {
+        type: "paragraph",
+        text: "Ensure your pretty garden, big or small, is well-maintained as well. Water them early in the morning or late in the evening, and install shade sails to help retain moisture.",
+      },
+      {
+        type: "paragraph",
+        text: "Additionally, it is advised to plant only heat-tolerant plants to reduce water consumption.",
+      },
+      {
+        type: "paragraph",
+        text: "So this summer, don't just protect yourself but make sure to use these tips and tricks to protect your home from the scorching heat that’s approaching, and in return get a reduced electricity (DEWA) bill.",
+      },
+    ],
   },
   {
     id: 4,
