@@ -1463,6 +1463,62 @@ export function getDeveloperSlugFromPath(path?: string) {
 
 /** Per-route copy and imagery for developer pages. */
 const DEVELOPER_PAGE_CONTENT: Record<string, DeveloperPageContent> = {
+  binghatti: {
+    heroImage: "/assets/developers/featured/binghatti-featured.avif",
+    showcaseImage: "/assets/developers/featured/binghatti-featured.avif",
+    about: {
+      heading: "About Binghatti",
+      intro:
+        "Bold architecture, value-driven luxury, and more—that's what Binghatti stands for. And these identifiable projects have made them one of Dubai's most prolific developers.",
+      body:
+        "Highly attractive to both homeowners and investors, their properties are a blend of stunning design and practical layouts. Be it high-profile branded residences or affordable luxury, they continue to redefine the real estate market.\n\nBut what truly sets them apart? Let's explore.",
+    },
+    whoIs: {
+      heading: "Who is Binghatti?",
+      description: `Founded in 2008 by Dr. Hussain Binghatti, Binghatti Developers is a part of the wider Binghatti Holding, which includes construction, hospitality, and real estate.
+
+The vision for this empire was to always deliver architecturally distinctive developments without compromising on design. And today, Binghatti is recognized as one of Dubai's largest private developers with dozens of projects across the Dubai skyline in Downtown Dubai, Business Bay, JVC, and more.
+
+Their accessible, functional, and investment-driven developments, with bold designs, contrasting colors, and geometric patterns, have made the developers' buildings the most recognizable in the city.`,
+    },
+    whyChoose: {
+      heading: "Why Choose Binghatti?",
+      points: [
+        "Competitive pricing, all while maintaining a luxury look, is one of the main reasons Binghatti is the one for you.",
+        "Binghatti properties stand out in high-demand areas, which support resale value and strong rental yields.",
+        "Their proven track record of delivering dozens of completed projects across the city and global partnerships with brands like Bugatti and Mercedes-Benz elevate their brand to the ultra-luxury status.",
+      ],
+    },
+  },
+  azizi: {
+    heroImage: "/assets/developers/featured/citywalk-featured.webp",
+    showcaseImage: "/assets/developers/featured/emaar-featured.webp",
+    about: {
+      heading: "About Azizi Developments",
+      intro:
+        "One of the reasons for Dubai's exquisite residential landscape is Azizi Developments. They have shaped the city's skyline through scale, accessibility, and strategic locations.",
+      body:
+        "Azizi Developments has become a household name among investors and end users in the city, known for its value-driven homes, affordability, and excellent quality. They continue to play a significant role in Dubai by making real estate reliable, investment-friendly, and attainable.\n\nBe it their centrally located projects or communities, every design is intended to meet the needs of today's urban lifestyle.\n\nBut what makes Azizi Developments one of the most trusted developers in the city? Let's explore.",
+    },
+    whoIs: {
+      heading: "Who is Azizi?",
+      description: `Founded in 2007 by Mirwais Azizi, Azizi Developments is a leading private real estate developer in Dubai. Formed as part of the larger Azizi Group, the company spans multiple industries, including trading, banking, and energy.
+
+The group's vision has always been to deliver high-quality homes at competitive prices. They continue to see the vision through while maintaining complete transparency, timely delivery, and strong after-sales support to their clients.
+
+With thousands of residential units across Dubai, Azizi continues to develop mixed-use and large-scale projects in prime locations, including Al Furjan, Downtown Jebel Ali, Palm Jumeirah, Dubai South, MBR City, and Dubai Healthcare City.`,
+    },
+    whyChoose: {
+      heading: "Why Choose Azizi?",
+      points: [
+        "Azizi offers value-driven pricing at prime locations in Dubai, ideal for new home owners and investors.",
+        "Located across Dubai, Azizi developments have properties in areas with strong demand and robust infrastructure, such as Dubai South and Palm Jumeirah.",
+        "Azizi properties are desirable and highly appealing to tenants, offering affordable pricing, efficient layouts, and community-focused living.",
+        "Over the years, Azizi has built trust through its consistency and timely delivery, having completed thousands of units and is currently working on large-scale projects.",
+        "Catering to a broad audience, Azizi ensures resale demand and liquidity for families, investors, and international buyers.",
+      ],
+    },
+  },
   emaar: {
     heroImage: "/assets/developers/featured/emaar-hero.webp",
     showcaseImage: "/assets/developers/featured/emaar-about.webp",
@@ -1489,6 +1545,62 @@ Emaar is known for its iconic landmarks across Dubai, including the Burj Khalifa
         "An elevated lifestyle where master communities offer schools, healthcare, retail, and more.",
         "Ideal for families, international buyers, and investors seeking long-term value.",
         "And, strong rental yields and resale demand.",
+      ],
+    },
+  },
+  nakheel: {
+    heroImage: "/assets/developers/featured/meraas.webp",
+    showcaseImage: "/assets/developers/featured/citywalk-featured.webp",
+    about: {
+      heading: "About Nakheel Properties",
+      intro:
+        "A government-owned master developer, Nakheel Properties, has redefined the city's coastline with its properties.",
+      body:
+        "A key member of the Dubai Holding Group, Nakheel Properties, is known for its iconic, world-famous properties, including Palm Jumeirah. While the developers have individual properties across the city, they are known for creating islands and huge master communities, housing hundreds of thousands of residents.\n\nBut what makes them the masters of Dubai's coastline? Let's explore.",
+    },
+    whoIs: {
+      heading: "Who is Nakheel?",
+      description: `Founded in 2003 and managed by HH Sheikh Ahmed bin Saeed Al Maktoum, Nakheel Properties was established to expand Dubai's shoreline.
+
+Nakheel Properties' portfolio covers over 15,000 hectares of land and is home to over 700,000 people. In addition to residential properties, Nakheel owns and operates major retail hotspots, including Dragon Mart, Ibn Battuta Mall, and more. Their portfolio also extends to hotels, community centers, beach clubs, and more.
+
+In 2024, Nakheel Properties was rebranded and integrated into Dubai Holding, where mega projects like Palm Jebel Ali and Dubai Islands were re-launched.`,
+    },
+    whyChoose: {
+      heading: "Why Choose Nakheel?",
+      points: [
+        "If you want private beaches or panoramic sea views, Nakheel's developments are the undisputed leaders of beachfront and island living.",
+        "Over the last two decades, Nakheel Properties recorded a record-breaking value appreciation, especially at The Palm.",
+        "Almost all Nakheel master communities feature malls, schools, medical facilities, and more.",
+        "As Nakheel is part of Dubai Holding, residents can expect a high level of security and trust, especially for international investors.",
+        "Nakheel offers entry points for every type of buyer, be it a budget-friendly apartment in International City or a luxurious villa on the Palm.",
+      ],
+    },
+  },
+  "dubai-properties": {
+    heroImage: "/assets/developers/featured/citywalk-featured.webp",
+    showcaseImage: "/assets/developers/featured/emaar-about.webp",
+    about: {
+      heading: "About Dubai Properties",
+      intro:
+        "Dubai Properties, part of the larger Dubai Holding, is a major contributor to Dubai's development.",
+      body:
+        "With properties that cater to families, investors, and professionals, Dubai Properties focuses on building communities and a convenient lifestyle, while emphasizing practical living.\n\nHow did they become one of the most influential developers in the city? Let's explore.",
+    },
+    whoIs: {
+      heading: "Who is Dubai Properties?",
+      description: `Established in 2002, Dubai Properties has grown into a master developer and is responsible for some of Dubai's most recognizable properties.
+
+The developers, operating under Dubai Holding, focus on redefining the modern lifestyle in the city. Their developments include residential, commercial, office, and hospitality properties, all located in prime locations across Dubai.`,
+    },
+    whyChoose: {
+      heading: "Why Choose Dubai Properties?",
+      points: [
+        "With Dubai Properties, you get a wide range of properties, including residential, commercial, and more that cater to affordable and mid-luxury markets alike.",
+        "The perfect place for families, professionals, and investors.",
+        "A master community focused on comfortable, urban living with access to parks, lifestyle amenities, retail outlets, and more.",
+        "Properties located in prime locations across Dubai.",
+        "And most importantly, they are backed by one of Dubai's most trusted and prestigious companies, Dubai Holding.",
       ],
     },
   },
@@ -1543,6 +1655,168 @@ With over 1,000 units, DAMAC continues to launch and develop master communities 
         "Wide range of properties for residents to choose from, including apartments, villas, and branded residences.",
         "Brand collaborations with global brands in the design, fashion, and hospitality fields.",
         "Perfect for investors seeking strong rental appeal and premium properties.",
+      ],
+    },
+  },
+  "danube-properties": {
+    heroImage: "/assets/developers/featured/citywalk-featured.webp",
+    showcaseImage: "/assets/developers/featured/emaar-featured.webp",
+    about: {
+      heading: "About Danube Properties",
+      intro:
+        "Part of the larger Danube Group, Danube Properties is one of the biggest developers in the region. Known for its affordable luxury homes, Danube Properties has made a strong impact in the Dubai real estate market.",
+      body:
+        "The developers offer flexible payment plans, making it more accessible to first-time homebuyers and middle-income investors, both locally and internationally.\n\nHowever, what makes them one of the fastest-growing developers in the country? Let's explore.",
+    },
+    whoIs: {
+      heading: "Who is Danube Properties?",
+      description: `Established in 2014, Danube Group and its real estate arm, Danube Properties, were founded by Rizwan Sajan.
+
+Danube Properties has delivered several successful projects in prime locations across Dubai and continues to grow in the rapidly evolving market. They are known for their affordable pricing and innovative post-handover payment plans.`,
+    },
+    whyChoose: {
+      heading: "Why Choose Danube Properties?",
+      points: [
+        "Developments are located in prime locations across the country.",
+        "Timely project delivery.",
+        "Affordable and value-driven properties across Dubai.",
+        "Ideal for first-time buyers seeking flexible post-handover payment plans.",
+      ],
+    },
+  },
+  "irth-group": {
+    heroImage: "/assets/developers/Irth1.webp",
+    showcaseImage: "/assets/developers/Irth1.webp",
+    about: {
+      heading: "About IRTH Group",
+      intro:
+        "IRTH Group, an emerging developer in Dubai, is redefining the landscape through its design-led, modern residential developments.",
+      body:
+        "With a focus on architectural quality, an elevated lifestyle, and more, IRTH Group develops thoughtfully planned, exclusive communities. Located strategically throughout Dubai, they aim to offer refined, practical living spaces for residents.\n\nBut what makes them one of the most promising developers right now? Let's explore.",
+    },
+    whoIs: {
+      heading: "Who is IRTH Group?",
+      description: `IRTH Group was established as a privately held real estate investment and development company, focusing on mixed-use and residential projects across Dubai.
+
+The developers place significant focus on delivering contemporary architecture, high-quality construction, and a community that caters to modern homeowners and investors alike. IRTH Group also combine their expertise in development, investment, and asset management to deliver developments.
+
+Their projects are also strategically located in prime areas in Dubai and offer long-term growth potential, accessibility, and more.`,
+    },
+    whyChoose: {
+      heading: "Why Choose IRTH Group?",
+      points: [
+        "The company's developments are designed for comfort, sustainability, and long-term value.",
+        "Branded residential communities perfect for investors and homeowners alike.",
+        "Aim to deliver high-quality developments with contemporary architecture.",
+        "Strategically located in prime districts across Dubai.",
+      ],
+    },
+  },
+  arada: {
+    heroImage: "/assets/developers/featured/citywalk-featured.webp",
+    showcaseImage: "/assets/developers/featured/meraas.webp",
+    about: {
+      heading: "About Arada",
+      intro:
+        "A rising developer in the region, Arada is known for creating modern master communities focusing on wellness and urban living.",
+      body:
+        "The developers integrate retail, education, and entertainment in their residential spaces, redefining community living in the UAE, one development at a time.\n\nBut what makes them one of the most innovative developers in the UAE? Let's explore.",
+    },
+    whoIs: {
+      heading: "Who is Arada?",
+      description: `Arada was founded by Prince Khaled bin Alwaleed Al Saud and Sultan bin Ahmed Al Qasimi in 2017, with a vision to deliver community-focused and design-led developments in the region.
+
+Arada has not only focused on Sharjah, where it is headquartered, but has quickly expanded across the UAE with communities that combine retail, commercial, residential, and more. Their developments focus on smart-home and sustainability-focused environments, which are perfect for professionals, investors, and families alike.`,
+    },
+    whyChoose: {
+      heading: "Why Choose Arada?",
+      points: [
+        "Modern master communities focused on wellness and urban living.",
+        "Integrated retail, education, and entertainment within residential developments.",
+        "Smart-home and sustainability-focused environments across the UAE.",
+        "Ideal for professionals, investors, and families seeking community-focused living.",
+      ],
+    },
+  },
+  viva: {
+    heroImage: "/assets/developers/featured/citywalk-featured.webp",
+    showcaseImage: "/assets/developers/featured/emaar-featured.webp",
+    about: {
+      heading: "About Viva Development",
+      intro:
+        "Another emerging development in the UAE, Viva Development, creates communities that combine residential, lifestyle, and retail.",
+      body:
+        "The developer aims to deliver projects emphasizing sustainable urban planning, modern design, and contemporary architecture, ideal for professionals, families, and investors alike.\n\nBut what makes them a rapidly growing developer? Let's explore.",
+    },
+    whoIs: {
+      heading: "Who is Viva Development?",
+      description: `Viva Development operates as part of a broader real estate and lifestyle group with decades of experience in place-making and property development across the UAE.
+
+With a portfolio spanning millions of square feet of real estate, the group has expanded beyond development into retail and lifestyle sectors, reflecting a vision centered on improving quality of life through integrated communities. (Viva City)
+
+The developer focuses on delivering contemporary residential projects that prioritize accessibility, efficient design, and community-focused living while supporting Dubai's evolving urban growth.`,
+    },
+    whyChoose: {
+      heading: "Why Choose Viva Development?",
+      points: [
+        "Focus on community-oriented and lifestyle-driven developments.",
+        "Modern architectural design combined with practical layouts.",
+        "Integration of residential, retail, and lifestyle components.",
+        "Commitment to enhancing everyday living experiences.",
+        "Growing developer with expanding real estate and lifestyle portfolio.",
+      ],
+    },
+  },
+  tarrad: {
+    heroImage: "/assets/developers/featured/citywalk-featured.webp",
+    showcaseImage: "/assets/developers/featured/emaar-featured.webp",
+    about: {
+      heading: "About Tarrad Development",
+      intro:
+        "Tarrad Development is a quickly emerging developer in the UAE that focuses on redefining modern living across Dubai.",
+      body:
+        "Designed and recognized for their growing portfolio, Tarrad Developments aims to deliver projects that combine practical urban living with quality construction. With projects that include Mackerel Tower, Celesto Tower 1, Celesto Tower 2, and the upcoming Celesto Series, Tarrad Developments offers \"quality and innovation in every square foot.\"\n\nBut what makes them a promising name in the real estate market? Let's explore.",
+    },
+    whoIs: {
+      heading: "Who is Tarrad Development?",
+      description: `Founded in 2020 in the UAE, Tarrad Development is a privately held real estate development company with properties across the UAE, China, Iraq, and Turkey.
+
+The developers design spaces for residents who seek functionality, elegance, and investment in one place. They prioritize strategic locations and practical pricing to attract investors and end users to their fully furnished, smart homes and waterfront master communities.
+
+The developers continue to redefine excellence in Dubai's luxury real estate market as they craft architectural masterpieces.`,
+    },
+    whyChoose: {
+      heading: "Why Choose Tarrad Developments?",
+      points: [
+        "Strategic locations and practical pricing.",
+        "Suitable for investors and end users alike.",
+        "Luxury living with smart, fully furnished homes and waterfront communities.",
+        "Architectural masterpieces with efficient layouts designed for urban lifestyles.",
+      ],
+    },
+  },
+  meraki: {
+    heroImage: "/assets/developers/featured/citywalk-featured.webp",
+    showcaseImage: "/assets/developers/featured/emaar-featured.webp",
+    about: {
+      heading: "About Meraki",
+      intro:
+        "An award-winning developer, Meraki Developers focuses on delivering premium design-led residential and commercial spaces.",
+      body:
+        "With a focus on quality over quantity, Meraki has crafted a portfolio that emphasizes thoughtful planning, well-being, and long-term value, making it one of the most trusted emerging developers in Dubai.\n\nBut what makes them stand out among other developers in Dubai? Let's explore.",
+    },
+    whoIs: {
+      heading: "Who is Meraki?",
+      description: `Part of the larger Meraki Group, Meraki Developers was introduced in 2015 in the UAE. The privately owned real estate development company joined the vast market with one vision - to develop boutique residential communities to blend design excellence and functionality.
+
+Strategically located across Dubai, Meraki Developers continue to deliver projects suitable for investors, families, and young professionals alike.`,
+    },
+    whyChoose: {
+      heading: "Why Choose Meraki?",
+      points: [
+        "Design-led developments perfect for investors, families, and professionals.",
+        "Strategic locations with growth potential.",
+        "Boutique residential communities for more urban, modern living.",
       ],
     },
   },
