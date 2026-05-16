@@ -458,6 +458,22 @@ interface PropertySuggestionsResponse {
  * Fetches property suggestions for search autocomplete.
  * Tries both new and legacy API endpoints for compatibility.
  */
+function buildPropertySuggestionsUrl(query: string, limit: number): string {
+  const params = new URLSearchParams({
+    q: query,
+    limit: String(limit),
+  })
+  const path = `frontend/properties/search-by-area?${params.toString()}`
+
+  // Client: same-origin proxy — browsers block HTTPS pages from fetching HTTP backends.
+  if (typeof window !== 'undefined') {
+    return `/api/${path}`
+  }
+
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL ?? '').replace(/\/$/, '')
+  return baseUrl ? `${baseUrl}/api/${path}` : `/api/${path}`
+}
+
 export async function getPropertySuggestions(
   query: string,
   limit: number = 6,
@@ -466,16 +482,7 @@ export async function getPropertySuggestions(
   const trimmedQuery = query.trim()
   if (!trimmedQuery) return []
 
-  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL ?? '').replace(/\/$/, '')
-  const params = new URLSearchParams({
-    q: trimmedQuery,
-    limit: String(limit),
-  })
-  const endpoints = [
-    `${baseUrl}/api/frontend/properties/search-by-area?${params.toString()}`,
-    // `${baseUrl}/api/frontend/properties/search?${params.toString()}`,
-    // `${baseUrl}/api/properties/search?${params.toString()}`,
-  ]
+  const endpoints = [buildPropertySuggestionsUrl(trimmedQuery, limit)]
 
   const normalizeSuggestions = (data: PropertySuggestionsResponse): PropertySuggestion[] =>
     (data.suggestions ?? [])
