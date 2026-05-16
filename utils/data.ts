@@ -558,7 +558,7 @@ export const teamMembers: TeamMember[] = [
     designation: "Off Plan Property Consultant",
     image: "/assets/teams/offplan/abdullah.webp",
     // path: "/our-team/sarah-johnson",
-  },
+  }, 
   {
     id: 40,
     name: "Ziad Elsayed",
