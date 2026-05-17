@@ -10,17 +10,44 @@ import { services } from "@/utils/data";
 import { getServiceBySlug } from "@/utils/selectors";
 import ServiceOverviewSection from "@/components/services/ServiceOverViewSection";
 import Newsletter from "@/components/home/Newsletter";
+import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
-  if (!service) return { title: "Service Not Found | Rocky Real Estate" };
-  return {
-    title: `${service.title} | Rocky Real Estate`,
-    description: service.description,
-  };
+  const pathname = `/services/${slug}`;
+
+  if (!service) {
+    return {
+      title: "Service Not Found | Rocky Real Estate",
+      description: "This service page could not be found.",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const seo = await fetchSeoFromCms(pathname);
+
+  return buildPageMetadata({
+    pathname,
+    seo,
+    fallback: {
+      title: `${service.title} | Rocky Real Estate`,
+      description: service.description,
+      image: service.image
+        ? toAbsoluteUrl(service.image)
+        : toAbsoluteUrl("/assets/common/rockyabout.webp"),
+      keywords: [
+        `${service.title} Dubai`,
+        `${service.title} UAE`,
+        "real estate services Dubai",
+        "Rocky Real Estate",
+        "property services Dubai",
+      ],
+      authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
+    },
+  });
 }
 
 export function generateStaticParams() {

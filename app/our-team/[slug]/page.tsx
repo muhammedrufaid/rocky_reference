@@ -5,6 +5,7 @@ import { teamMembers } from "@/utils/data";
 import { getTeamMemberBySlug, getTeamMemberSlug } from "@/utils/selectors";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -15,19 +16,41 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const member = getTeamMemberBySlug(slug);
+  const pathname = `/our-team/${slug}`;
 
   if (!member) {
     return {
       title: "Team Member Not Found | Rocky Real Estate",
       description: "This team profile could not be found.",
+      robots: { index: false, follow: false },
     };
   }
 
   const role = [member.designation, member.department].filter(Boolean).join(" · ");
-  return {
-    title: `${member.name} | Our Team | Rocky Real Estate`,
-    description: role || `Meet ${member.name}, part of the Rocky Real Estate team.`,
-  };
+  const description =
+    role || `Meet ${member.name}, a trusted real estate advisor at Rocky Real Estate in Dubai.`;
+
+  const seo = await fetchSeoFromCms(pathname);
+
+  return buildPageMetadata({
+    pathname,
+    seo,
+    fallback: {
+      title: `${member.name} | Our Team | Rocky Real Estate`,
+      description,
+      image: member.image
+        ? toAbsoluteUrl(member.image)
+        : toAbsoluteUrl("/assets/common/rockyabout.webp"),
+      keywords: [
+        `${member.name} Rocky Real Estate`,
+        "real estate agents Dubai",
+        "property advisors Dubai",
+        "Rocky Real Estate team",
+        ...(member.department ? [`${member.department} Dubai`] : []),
+      ],
+      authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
+    },
+  });
 }
 
 export default async function OurTeamIndividualPage({ params }: Props) {

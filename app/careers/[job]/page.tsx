@@ -9,6 +9,7 @@ import JobHeaderSection from "@/components/careers/JobHeaderSection";
 import JobDetailsSection from "@/components/careers/JobDetailsSection";
 import JobApplyCard from "@/components/careers/JobApplyCard";
 import RelatedJobsSection from "@/components/careers/RelatedJobsSection";
+import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 
 type Props = { params: Promise<{ job: string }> };
 
@@ -23,19 +24,38 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
     const { job: jobSlug } = await params;
     const job = getJobBySlug(jobSlug);
+    const pathname = `/careers/${jobSlug}`;
+
     if (!job) {
         return {
             title: "Job Not Found | Rocky Real Estate",
             description: "This job listing could not be found.",
+            robots: { index: false, follow: false },
         };
     }
 
-    return {
-        title: `${job.title} | Careers | Rocky Real Estate`,
-        description:
-            job.description ??
-            "Explore job details at Rocky Real Estate. Learn more about the job and apply for it.",
-    };
+    const seo = await fetchSeoFromCms(pathname);
+    const description =
+        job.description ??
+        "Explore job details at Rocky Real Estate. Learn more about the role and apply to join our team in Dubai.";
+
+    return buildPageMetadata({
+        pathname,
+        seo,
+        fallback: {
+            title: `${job.title} | Careers | Rocky Real Estate`,
+            description,
+            image: toAbsoluteUrl("/assets/careers/careers-hero.webp"),
+            keywords: [
+                `${job.title} Dubai`,
+                "real estate jobs Dubai",
+                "property careers Dubai",
+                "Rocky Real Estate careers",
+                "real estate vacancies Dubai",
+            ],
+            authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
+        },
+    });
 }
 
 export default async function CareersIndividualPage({ params }: Props) {

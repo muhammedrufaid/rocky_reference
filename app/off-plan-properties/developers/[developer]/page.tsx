@@ -11,17 +11,45 @@ import DeveloperHeroSection from "@/components/off-plan-properties/DeveloperHero
 import DeveloperAboutSection from "@/components/off-plan-properties/DeveloperAboutSection";
 import DeveloperGlobalPresenceSection from "@/components/off-plan-properties/DeveloperGlobalPresenceSection";
 import DeveloperShowcaseImageSection from "@/components/off-plan-properties/DeveloperShowcaseImageSection";
+import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 
 type Props = { params: Promise<{ developer: string }> };
 
 export async function generateMetadata({ params }: Props) {
   const { developer } = await params;
   const data = getDeveloperPagePayload(developer);
-  if (!data) return { title: "Developer Not Found | Rocky Real Estate" };
-  return {
-    title: `${data.title} | Rocky Real Estate`,
-    description: data.description,
-  };
+  const pathname = `/off-plan-properties/developers/${developer}`;
+
+  if (!data) {
+    return {
+      title: "Developer Not Found | Rocky Real Estate",
+      description: "This developer page could not be found.",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const seo = await fetchSeoFromCms(pathname);
+
+  return buildPageMetadata({
+    pathname,
+    seo,
+    fallback: {
+      title: `${data.title} | Property Developer Dubai | Rocky Real Estate`,
+      description: data.description,
+      image: data.heroImage
+        ? toAbsoluteUrl(data.heroImage)
+        : toAbsoluteUrl("/assets/common/rockyabout.webp"),
+      keywords: [
+        `${data.title} Dubai`,
+        `${data.title} off-plan projects`,
+        "property developers Dubai",
+        "off-plan developers UAE",
+        "Dubai developer projects",
+        "Rocky Real Estate developers",
+      ],
+      authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
+    },
+  });
 }
 
 export function generateStaticParams() {
