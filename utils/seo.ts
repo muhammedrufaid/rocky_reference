@@ -48,7 +48,7 @@ export function getSiteUrl(override?: string): string {
     cleanText(process.env.NEXT_PUBLIC_BASE_URL);
 
   const candidate = cleanText(override) || fromEnv;
-  const url = candidate ? candidate.replace(/\/$/, "") : "https://rocky-ref.vercel.app";
+  const url = candidate ? candidate.replace(/\/$/, "") : "https://www.rockyrealestate.com/";
   return url;
 }
 
