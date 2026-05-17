@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getData } from "@/utils/api";
+import type { ApiPropertyDetail } from "@/utils/getServices";
 
 export type CmsSeoPayload = {
   title?: string | null;
@@ -202,6 +203,127 @@ export function buildPageMetadata(options: {
       publisher: "Rocky Real Estate",
     },
   };
+}
+
+function stripHtml(value: string): string {
+  return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+export function getPropertyDisplayTitle(property: ApiPropertyDetail): string {
+  return cleanText(property.propertyTitle) || cleanText(property.towerName) || property.propertyRefNo;
+}
+
+export function getPropertyLocationLabel(property: ApiPropertyDetail): string {
+  const parts = [property.subLocality, property.locality, property.city]
+    .map((p) => cleanText(p))
+    .filter(Boolean);
+  return parts.join(", ") || "Dubai";
+}
+
+export function getPropertyOgImage(property: ApiPropertyDetail, siteUrl?: string): string {
+  const first = (property.images ?? []).map((img) => cleanText(img)).find(Boolean);
+  if (first) return toAbsoluteUrl(first, siteUrl);
+  return toAbsoluteUrl("/assets/common/rockyabout.webp", siteUrl);
+}
+
+function buildPropertyDetailTitle(
+  property: ApiPropertyDetail,
+  transaction: "buy" | "rent" | "off-plan",
+): string {
+  const title = getPropertyDisplayTitle(property);
+  const location = getPropertyLocationLabel(property);
+
+  if (transaction === "off-plan") {
+    return `${title} Off-Plan in ${location} | Rocky Real Estate`;
+  }
+  if (transaction === "rent") {
+    return `${title} for Rent in ${location} | Rocky Real Estate`;
+  }
+  return `${title} for Sale in ${location} | Rocky Real Estate`;
+}
+
+function buildPropertyDetailDescription(
+  property: ApiPropertyDetail,
+  transaction: "buy" | "rent" | "off-plan",
+): string {
+  const title = getPropertyDisplayTitle(property);
+  const location = getPropertyLocationLabel(property);
+  const typeLabel = cleanText(property.propertyType) || "property";
+  const beds = cleanText(property.bedrooms);
+  const bedsPhrase = beds ? `${beds} bedroom ` : "";
+
+  const fromApi = stripHtml(cleanText(property.propertyDescription));
+  if (fromApi.length >= 80) {
+    const clamped = clampDescription(fromApi, 140, 160);
+    return clamped || fromApi.slice(0, 160).trimEnd();
+  }
+
+  if (transaction === "off-plan") {
+    return `Explore ${title}, an off-plan ${typeLabel} in ${location}. Register your interest with Rocky Real Estate for payment plans, handover details, and expert buying support in Dubai.`;
+  }
+  if (transaction === "rent") {
+    return `Rent ${bedsPhrase}${typeLabel} — ${title} in ${location}. View listing details, amenities, and enquire with Rocky Real Estate for viewings and leasing support in Dubai.`;
+  }
+  return `Buy ${bedsPhrase}${typeLabel} — ${title} for sale in ${location}. View photos, features, and pricing. Enquire with Rocky Real Estate for viewings and purchase support in Dubai.`;
+}
+
+function buildPropertyDetailKeywords(
+  property: ApiPropertyDetail,
+  transaction: "buy" | "rent" | "off-plan",
+): string[] {
+  const title = getPropertyDisplayTitle(property);
+  const location = getPropertyLocationLabel(property);
+  const typeLabel = cleanText(property.propertyType);
+
+  const base = [
+    title,
+    property.propertyRefNo,
+    `${location} property`,
+    "Rocky Real Estate",
+    "Dubai real estate",
+  ];
+
+  if (transaction === "off-plan") {
+    return [
+      ...base,
+      "off-plan property Dubai",
+      "new launch Dubai",
+      ...(typeLabel ? [`${typeLabel} off-plan Dubai`] : []),
+    ];
+  }
+  if (transaction === "rent") {
+    return [
+      ...base,
+      "property for rent Dubai",
+      ...(typeLabel ? [`${typeLabel} for rent ${location}`] : []),
+    ];
+  }
+  return [
+    ...base,
+    "property for sale Dubai",
+    ...(typeLabel ? [`${typeLabel} for sale ${location}`] : []),
+  ];
+}
+
+export function buildPropertyDetailMetadata(options: {
+  property: ApiPropertyDetail;
+  pathname: string;
+  seo: CmsSeoPayload | null;
+  transaction: "buy" | "rent" | "off-plan";
+}): Metadata {
+  const { property, pathname, seo, transaction } = options;
+
+  return buildPageMetadata({
+    pathname,
+    seo,
+    fallback: {
+      title: buildPropertyDetailTitle(property, transaction),
+      description: buildPropertyDetailDescription(property, transaction),
+      image: getPropertyOgImage(property),
+      keywords: buildPropertyDetailKeywords(property, transaction),
+      authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
+    },
+  });
 }
 
 export type SeoSlugResult = {

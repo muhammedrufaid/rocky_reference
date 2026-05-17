@@ -6,19 +6,34 @@ import OffPlanIndividualHero from "@/components/properties/OffPlanIndividualHero
 import PropertyDetailPage from "@/components/properties/PropertyDetailPage";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import Newsletter from "@/components/home/Newsletter";
+import { buildPropertyDetailMetadata, fetchSeoFromCms } from "@/utils/seo";
 
+type Props = { params: Promise<{ slug: string }> };
 
-export const metadata = {
-    title: "Our Team | Rocky Real Estate",
-    description:
-        "Meet our expert real estate advisors. Browse our team of specialists in sales, leasing, off-plan investments, and property management.",
-};
+export async function generateMetadata({ params }: Props) {
+    const { slug } = await params;
+    const pathname = `/off-plan-properties/in-dubai/${slug}`;
+    const property = await getPropertyByRefNo(slug);
 
-export default async function OffPlanPropertyPage({
-    params,
-}: {
-    params: Promise<{ slug: string }>;
-}) {
+    if (!property) {
+        return {
+            title: "Property Not Found | Rocky Real Estate",
+            description: "This off-plan property could not be found.",
+            robots: { index: false, follow: false },
+        };
+    }
+
+    const seo = await fetchSeoFromCms(pathname);
+
+    return buildPropertyDetailMetadata({
+        property,
+        pathname,
+        seo,
+        transaction: "off-plan",
+    });
+}
+
+export default async function OffPlanPropertyPage({ params }: Props) {
     const { slug } = await params;
     const property = await getPropertyByRefNo(slug);
 
