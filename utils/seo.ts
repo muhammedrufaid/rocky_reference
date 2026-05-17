@@ -95,6 +95,8 @@ export function buildPageMetadata(options: {
   pathname: string;
   seo: CmsSeoPayload | null;
   siteUrl?: string;
+  /** Open Graph type; defaults to `website`. Use `article` for blog posts. */
+  openGraphType?: "website" | "article";
   fallback: {
     /** Primary keyword + brand; keep under 60 characters. */
     title: string;
@@ -171,7 +173,7 @@ export function buildPageMetadata(options: {
     keywords,
     authors: mergedAuthors,
     openGraph: {
-      type: "website",
+      type: options.openGraphType ?? "website",
       url: canonical,
       title: ogTitle,
       description: ogDescription,

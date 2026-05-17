@@ -3,10 +3,10 @@ import Footer from "@/components/layout/Footer";
 import { blogPosts } from "@/utils/data";
 import type { BlogPost } from "@/utils/types";
 import { slugFromPath } from "@/utils/slugify";
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BlogPostView from "@/components/blog/BlogPostView";
 import Newsletter from "@/components/home/Newsletter";
+import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -19,36 +19,42 @@ export function generateStaticParams() {
   return blogPosts.map((p) => ({ slug: slugFromPath(p.path) }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
+  const pathname = `/blog/${slug}`;
 
   if (!post) {
     return {
       title: "Blog Post Not Found | Rocky Real Estate",
       description: "This blog post could not be found.",
+      robots: { index: false, follow: false },
     };
   }
 
-  return {
-    title: `${post.title} | Blog | Rocky Real Estate`,
-    description: post.description,
-    alternates: {
-      canonical: `/blog/${slug}`,
-    },
-    openGraph: {
+  const seo = await fetchSeoFromCms(pathname);
+
+  return buildPageMetadata({
+    pathname,
+    seo,
+    openGraphType: "article",
+    fallback: {
       title: `${post.title} | Blog | Rocky Real Estate`,
       description: post.description,
-      images: [post.image],
-      type: "article",
+      image: post.image
+        ? toAbsoluteUrl(post.image)
+        : toAbsoluteUrl("/assets/common/rockyabout.webp"),
+      keywords: [
+        post.title,
+        "Dubai real estate blog",
+        "property news Dubai",
+        "UAE real estate insights",
+        "Rocky Real Estate blog",
+        ...(post.category ? [`${post.category} Dubai real estate`] : []),
+      ],
+      authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
     },
-    twitter: {
-      card: "summary_large_image",
-      title: `${post.title} | Blog | Rocky Real Estate`,
-      description: post.description,
-      images: [post.image],
-    },
-  };
+  });
 }
 
 export default async function BlogPostPage({ params }: Props) {
