@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/layout/Container";
@@ -87,6 +87,102 @@ const cardVariants = {
   exit: { opacity: 0, scale: 0.96, transition: { duration: 0.25 } },
 };
 
+type DepartmentFilterProps = {
+  departments: string[];
+  value: string;
+  onChange: (value: string) => void;
+};
+
+function DepartmentFilter({ departments, value, onChange }: DepartmentFilterProps) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  const options = useMemo(
+    () => [{ value: "", label: "All Departments" }, ...departments.map((d) => ({ value: d, label: d }))],
+    [departments],
+  );
+
+  const selectedLabel =
+    options.find((opt) => opt.value === value)?.label ?? "All Departments";
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handlePointerDown = (event: MouseEvent | TouchEvent) => {
+      if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [open]);
+
+  return (
+    <div ref={rootRef} className="relative w-full sm:w-auto sm:min-w-[220px] shrink-0">
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label="Filter by department"
+        className="flex w-full items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white py-2.5 sm:py-3 pl-4 pr-10 text-left text-sm text-gray-700 outline-none transition-all duration-200 focus:border-[#0d365e] focus:ring-2 focus:ring-[#0d365e]/20"
+      >
+        <span className="truncate">{selectedLabel}</span>
+        <span
+          className={`pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          aria-hidden
+        >
+          <SelectChevronDownIcon />
+        </span>
+      </button>
+
+      {open && (
+        <ul
+          role="listbox"
+          aria-label="Departments"
+          className="absolute left-0 right-0 top-full z-50 mt-1 max-h-60 overflow-y-auto rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
+        >
+          {options.map((opt) => {
+            const isSelected = opt.value === value;
+            return (
+              <li key={opt.value || "all"} role="presentation">
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={isSelected}
+                  onClick={() => {
+                    onChange(opt.value);
+                    setOpen(false);
+                  }}
+                  className={`w-full px-4 py-2.5 text-left text-sm transition-colors ${
+                    isSelected
+                      ? "bg-[#0d365e] text-white"
+                      : "text-gray-700 hover:bg-gray-50"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 const TeamMembersSection: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState<string>("");
@@ -107,10 +203,12 @@ const TeamMembersSection: React.FC = () => {
 
   const filteredMembers = useMemo(() => {
     return teamMembers.filter((member) => {
+      const q = searchQuery.trim().toLowerCase();
       const matchesSearch =
-        searchQuery.trim() === "" ||
-        member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        member.department.toLowerCase().includes(searchQuery.toLowerCase());
+        q === "" ||
+        member.name.toLowerCase().includes(q) ||
+        member.department.toLowerCase().includes(q) ||
+        (member.designation?.toLowerCase().includes(q) ?? false);
       const matchesDepartment =
         !departmentFilter || member.department === departmentFilter;
       return matchesSearch && matchesDepartment;
@@ -133,11 +231,12 @@ const TeamMembersSection: React.FC = () => {
       aria-labelledby="team-members-heading"
     >
       <Container>
-        {/* Heading */}
-
+        <h2 id="team-members-heading" className="sr-only">
+          Team members
+        </h2>
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10 md:mb-12 max-w-2xl">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-8 sm:mb-10 md:mb-12">
           <div className="relative flex-1 w-full min-w-0">
             <span
               className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-400"
@@ -149,47 +248,19 @@ const TeamMembersSection: React.FC = () => {
               type="search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by name or department..."
+              placeholder="Search by name, role, or department..."
               aria-label="Search team members"
               className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm text-gray-700 placeholder-gray-400 border border-gray-200 rounded-lg bg-white outline-none transition-all duration-200 focus:border-[#0d365e] focus:ring-2 focus:ring-[#0d365e]/20"
             />
           </div>
           {departments.length > 0 && (
-            <div className="relative w-full sm:w-auto sm:min-w-[220px] flex-shrink-0">
-              <select
-                value={departmentFilter}
-                onChange={(e) => setDepartmentFilter(e.target.value)}
-                aria-label="Filter by department"
-                className="w-full pl-4 pr-10 py-2.5 sm:py-3 text-sm text-gray-700 border border-gray-200 rounded-lg bg-white appearance-none outline-none cursor-pointer transition-all duration-200 focus:border-[#0d365e] focus:ring-2 focus:ring-[#0d365e]/20"
-              >
-                <option value="">All Departments</option>
-                {departments.map((dept) => (
-                  <option key={dept} value={dept}>
-                    {dept}
-                  </option>
-                ))}
-              </select>
-              <span
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
-                aria-hidden
-              >
-                <SelectChevronDownIcon />
-              </span>
-            </div>
+            <DepartmentFilter
+              departments={departments}
+              value={departmentFilter}
+              onChange={setDepartmentFilter}
+            />
           )}
         </div>
-
-        {/* Pagination - above cards */}
-        {filteredMembers.length > 0 && totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-            totalItems={filteredMembers.length}
-            pageSize={ITEMS_PER_PAGE}
-            className="mb-6 sm:mb-8"
-          />
-        )}
 
         {/* Grid - image and content separated */}
         <AnimatePresence mode="popLayout">
@@ -250,6 +321,17 @@ const TeamMembersSection: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {filteredMembers.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            totalItems={filteredMembers.length}
+            pageSize={ITEMS_PER_PAGE}
+            className="mt-8 sm:mt-10"
+          />
+        )}
       </Container>
     </section>
   );

@@ -41,7 +41,8 @@ const Pagination: React.FC<PaginationProps> = ({
   siblingCount = 1,
   className = "",
 }) => {
-  if (totalPages <= 1) return null;
+  const showPageControls = totalPages > 1;
+  if (!showPageControls && totalItems == null) return null;
 
   const range = (start: number, end: number) =>
     Array.from({ length: end - start + 1 }, (_, i) => start + i);
@@ -80,6 +81,7 @@ const Pagination: React.FC<PaginationProps> = ({
       ) : (
         <div />
       )}
+      {showPageControls && (
       <div className="flex items-center gap-1 order-1 sm:order-2">
         <button
           type="button"
@@ -126,6 +128,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <ChevronRight />
         </button>
       </div>
+      )}
     </nav>
   );
 };
