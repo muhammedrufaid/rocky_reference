@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import Container from "@/components/layout/Container";
+import AchievementsStatsGrid from "@/components/who-we-are/AchievementsStatsGrid";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -26,29 +27,10 @@ const titleReveal = {
     visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease } },
 };
 
-const gridReveal = {
-    hidden: { opacity: 0, y: 14, scale: 0.995 },
-    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease } },
-};
-
-const statCardReveal = {
-    hidden: { opacity: 0, y: 14, filter: "blur(6px)" },
-    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.65, ease } },
-};
-
 const imageReveal = {
     hidden: { opacity: 0, y: 16, scale: 0.99 },
     visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease } },
 };
-
-const stats = [
-    { number: "60,000+", label: "Properties Rented to Date" },
-    { number: "50+", label: "Years of Market Experience" },
-    { number: "AED 7B", label: "Worth of Assets Under Portfolio" },
-    { number: "99%", label: "Occupancy Rate Across Portfolio" },
-    { number: "AED 7.5B", label: "Cumulative Value of Properties Sold" },
-    { number: "1,000+", label: "Properties Managed and Leased" },
-];
 
 const Achievements: React.FC<{ className?: string }> = ({ className }) => {
     const sectionRef = useRef<HTMLElement>(null);
@@ -116,46 +98,7 @@ const Achievements: React.FC<{ className?: string }> = ({ className }) => {
                     </div> */}
                 </motion.div>
 
-                {/* Stats Grid */}
-                <motion.div
-                    variants={prefersReducedMotion ? undefined : gridReveal}
-                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 border border-[#EFE7DE] rounded-2xl overflow-hidden mt-16 bg-white"
-                >
-                    {stats.map((stat, idx) => {
-                        const baseRight = idx % 2 === 0 ? "border-r" : "";
-                        const baseBottom = idx < stats.length - 2 ? "border-b" : "";
-
-                        const mdRight = idx % 3 !== 2 ? "md:border-r" : "md:border-r-0";
-                        const mdBottom = idx < stats.length - 3 ? "md:border-b" : "md:border-b-0";
-
-                        const lgRight = idx < stats.length - 1 ? "lg:border-r" : "lg:border-r-0";
-
-                        return (
-                        <motion.div
-                            key={stat.label}
-                            variants={prefersReducedMotion ? undefined : statCardReveal}
-                            className={[
-                                "bg-white px-6 py-7 flex flex-col gap-2 border-[#EFE7DE]",
-                                baseRight,
-                                baseBottom,
-                                mdRight,
-                                mdBottom,
-                                "lg:border-b-0",
-                                lgRight,
-                                // reset base borders where needed
-                                "md:[&]:border-r-0 md:[&]:border-b-0",
-                            ].join(" ")}
-                        >
-                            <span className="text-[clamp(24px,2.5vw,32px)] font-normal text-[#0D365E] leading-none">
-                                {stat.number}
-                            </span>
-                            <span className="text-[11px] font-normal text-[#9F8870] tracking-[0.08em] uppercase leading-snug max-w-[140px]">
-                                {stat.label}
-                            </span>
-                        </motion.div>
-                        );
-                    })}
-                </motion.div>
+                <AchievementsStatsGrid className="mt-16" />
 
                 {/* Divider */}
                 {/* <motion.div
