@@ -162,8 +162,7 @@ const WhyRockySection: React.FC<{
 
                   {/* Icon — Soft Sand chip + Warm Taupe strokes */}
                   <span
-                    className="shrink-0 flex h-9 w-9 items-center justify-center rounded-lg "
-                    style={{ backgroundColor: "#f5f2ee", color: "#9f8870" }}
+                    className="shrink-0 flex h-9 w-9 bg-[#f5f2ee] text-[#9f8870] items-center justify-center rounded-lg "
                     aria-hidden
                   >
                     {item.icon}
@@ -171,8 +170,7 @@ const WhyRockySection: React.FC<{
 
                   {/* Title */}
                   <h3
-                    className="text-sm md:text-[15px] font-medium leading-snug"
-                    style={{ color: "#0d365e" }}
+                    className="text-sm md:text-[15px] text-[#0D365E] font-medium leading-snug"
                   >
                     {item.title}
                   </h3>

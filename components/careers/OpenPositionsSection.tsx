@@ -107,29 +107,30 @@ const OpenPositionsSection: React.FC<OpenPositionsSectionProps> = ({
                                                 </h3>
                                                 <div className="flex flex-wrap gap-2 text-xs">
                                                     <span
-                                                        className="px-2.5 py-1 rounded-full font-medium"
-                                                        style={{
-                                                            backgroundColor: "#eef3f9",
-                                                            color: "#3a6a94",
-                                                        }}
+                                                        className="px-2.5 py-1 bg-[#f5f2ee] text-[#9f8870]  rounded-full font-medium"
+                                                        // style={{
+                                                        //     backgroundColor: "#eef3f9",
+                                                        //     color: "#3a6a94",
+                                                        // }}
                                                     >
                                                         {job.department}
                                                     </span>
                                                     <span
-                                                        className="px-2.5 py-1 rounded-full font-medium"
-                                                        style={{
-                                                            backgroundColor: "#f5f7fa",
-                                                            color: "#555",
-                                                        }}
+                                                        className="px-2.5 py-1 bg-[#f5f7fa] text-[#555] rounded-full font-medium"
+                                                        // style={{
+                                                        //     backgroundColor: "#f5f7fa",
+                                                        //     color: "#555",
+                                                        // }}
                                                     >
                                                         {job.location}
                                                     </span>
                                                     <span
-                                                        className="px-2.5 py-1 rounded-full font-medium"
-                                                        style={{
-                                                            backgroundColor: "#f0f4f8",
-                                                            color: "#0d365e",
-                                                        }}
+                                                                // : { backgroundColor: "#f5f7fa", color: "#555" };
+                                                        className="px-2.5 py-1 bg-[#f5f7fa] text-[#555]  rounded-full font-medium"
+                                                        // style={{
+                                                        //     backgroundColor: "#f0f4f8",
+                                                        //     color: "#0d365e",
+                                                        // }}
                                                     >
                                                         {job.jobType}
                                                     </span>

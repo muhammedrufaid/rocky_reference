@@ -6,7 +6,8 @@ type Props = {
 export default function JobBadge({ label, variant = "muted" }: Props) {
     const style =
         variant === "primary"
-            ? { backgroundColor: "#eef3f9", color: "#0d365e" }
+        // bg-[] text-[#9f8870] 
+            ? { backgroundColor: "#f5f2ee", color: "#9f8870" }
             : { backgroundColor: "#f5f7fa", color: "#555" };
 
     return (
