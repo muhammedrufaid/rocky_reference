@@ -24,31 +24,9 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
   const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lineRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Track the pinST instance so we can refresh it after desc expansion
-  const pinSTRef = useRef<ScrollTrigger | null>(null);
-  const refreshRafRef = useRef<number | null>(null);
-  const isPinRefreshingRef = useRef(false);
-
   const [activeIndex, setActiveIndex] = useState(0);
   // Start at -1 so the initial activation (index 0) doesn't early-return.
   const activeIndexRef = useRef(-1);
-
-  const schedulePinRefresh = useCallback(() => {
-    // Avoid calling ScrollTrigger.refresh() from within ScrollTrigger callbacks,
-    // which can cause re-entrant activation loops and stack overflows.
-    if (!pinSTRef.current) return;
-    if (refreshRafRef.current != null) return;
-
-    refreshRafRef.current = window.requestAnimationFrame(() => {
-      refreshRafRef.current = null;
-      isPinRefreshingRef.current = true;
-      try {
-        pinSTRef.current?.refresh();
-      } finally {
-        isPinRefreshingRef.current = false;
-      }
-    });
-  }, []);
 
   const scrollToProject = useCallback((index: number) => {
     const el = imageRefs.current[index];
@@ -111,9 +89,6 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
             duration: animate ? 0.42 : 0,
             ease: EASE_OUT_EXPO,
             overwrite: "auto",
-            onComplete: () => {
-              schedulePinRefresh();
-            },
           });
         } else if (i === prev) {
           gsap.to(desc, {
@@ -125,13 +100,12 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
             overwrite: "auto",
             onComplete: () => {
               gsap.set(desc, { display: "none" });
-              schedulePinRefresh();
             },
           });
         }
       });
     },
-    [schedulePinRefresh]
+    []
   );
 
   useEffect(() => {
@@ -220,9 +194,9 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
           willChange: "transform, opacity",
         });
 
-        // Hide all descriptions initially; only the active one is revealed.
-        descRefs.current.forEach((el) => {
-          if (el) gsap.set(el, { display: "none" });
+        // Hide all descriptions initially except index 0 (revealed by activateProject).
+        descRefs.current.forEach((el, i) => {
+          if (el && i !== 0) gsap.set(el, { display: "none" });
         });
 
         // Ensure the first project is open immediately on first view.
@@ -267,8 +241,6 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
           invalidateOnRefresh: true,
         });
 
-        pinSTRef.current = pinST;
-
         // Per-image ScrollTriggers that drive the active index in the left panel.
         imageRefs.current.forEach((el, index) => {
           if (!el) return;
@@ -276,13 +248,14 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
             trigger: el,
             start: "top 60%",
             end: "bottom 40%",
-            onEnter: () => {
-              if (isPinRefreshingRef.current) return;
-              activateProject(index);
+            onEnter: () => activateProject(index),
+            onEnterBack: () => activateProject(index),
+            onLeaveBack: () => {
+              if (index > 0) activateProject(index - 1);
             },
-            onEnterBack: () => {
-              if (isPinRefreshingRef.current) return;
-              activateProject(index);
+            onLeave: () => {
+              const next = index + 1;
+              if (next < projects.length) activateProject(next);
             },
           });
         });
@@ -313,11 +286,6 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
     }, section);
 
     return () => {
-      pinSTRef.current = null;
-      if (refreshRafRef.current != null) {
-        window.cancelAnimationFrame(refreshRafRef.current);
-        refreshRafRef.current = null;
-      }
       ctx.revert();
     };
   }, [activateProject]);
@@ -325,7 +293,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
   return (
     <section
       ref={sectionRef}
-      className={`${className ?? "pb-16 md:pb-20 lg:pb-24"} relative overflow-hidden`}
+      className={`${className ?? "site-header-offset pb-16 md:pb-20 lg:pb-24"} relative overflow-hidden`}
       aria-labelledby="featured-projects-heading"
     >
       {/* <Container> */}
@@ -410,7 +378,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
                   ref={(el) => {
                     imageRefs.current[index] = el;
                   }}
-                  className="relative h-[46vh] sm:h-[54vh] lg:h-[62vh] overflow-hidden rounded-2xl flex-shrink-0"
+                  className="relative h-[30vh] sm:h-[36vh] lg:h-[42vh] overflow-hidden rounded-2xl flex-shrink-0"
                 >
                   <Image
                     src={project.imageUrl}

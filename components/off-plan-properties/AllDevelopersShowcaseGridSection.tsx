@@ -61,7 +61,7 @@ const AllDevelopersShowcaseGridSection: React.FC<{ className?: string }> = ({
       style={{ backgroundColor: "#FFFFFF" }}
     >
       <Container>
-        <header className="mb-10 md:mb-14">
+        <header className="">
           <motion.h2
             id="all-developers-showcase-heading"
             className="text-2xl font-medium text-[var(--rocky-blue)] sm:text-3xl md:text-4xl lg:text-[2.5rem]"
