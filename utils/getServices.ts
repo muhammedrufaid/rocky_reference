@@ -591,6 +591,7 @@ export type ContactPayload = {
   message: string
 }
 
+/** Contact enquiry: `POST /api/contact` → upstream `{ROCKY_API_ORIGIN}/api/contact` (path override: `ROCKY_API_CONTACT_PATH`). */
 export async function postContact(payload: ContactPayload): Promise<unknown> {
   return await postData('contact', payload)
 }
