@@ -608,7 +608,7 @@ function bedsBathsLabel(beds: number | null, baths: number | null) {
   const parts: string[] = [];
   if (hasBeds) {
     if (beds === 0) parts.push("Studio");
-    else if (beds >= 8) parts.push("8+ Beds");
+    else if (beds >= 6) parts.push("6+ Beds");
     else parts.push(`${beds} ${pluralize(beds, "Bed")}`);
   }
   if (hasBaths) {
@@ -706,9 +706,7 @@ function BedsBathsDropdown({
     { label: "3", value: 3 },
     { label: "4", value: 4 },
     { label: "5", value: 5 },
-    { label: "6", value: 6 },
-    { label: "7", value: 7 },
-    { label: "8+", value: 8 },
+    { label: "6+", value: 6 },
   ];
 
   const bathsOptions: Array<{ label: string; value: number }> = [

@@ -205,7 +205,7 @@ export default async function PropertiesPage({
           if (maxN != null && price > maxN) return false;
         }
 
-        // Beds (Studio = 0; 8+ = 8)
+        // Beds (Studio = 0; 6+ = 6)
         if (bedsN != null) {
           const bedsRaw = item?.beds ?? item?.bedrooms;
           const beds = Number(bedsRaw);
@@ -216,8 +216,8 @@ export default async function PropertiesPage({
               propertyTypeRaw === "apartment" || propertyTypeRaw.includes("apartment");
             if (!isApartment) return false;
           }
-          if (bedsN >= 8) {
-            if (beds < 8) return false;
+          if (bedsN >= 6) {
+            if (beds < 6) return false;
           } else {
             if (beds !== bedsN) return false;
           }
