@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 
 import Container from "@/components/layout/Container";
 import { developers } from "@/utils/data";
+import FeaturedProjectsTimelineSection from "./FeaturedProjectsTimelineSection";
 
 const easing = [0.22, 1, 0.36, 1] as const;
 
@@ -82,6 +83,10 @@ const AllDevelopersShowcaseGridSection: React.FC<{ className?: string }> = ({
             Browse Dubai’s leading real estate developers offering luxury residences, off-plan projects, and high-return investment opportunities in prime locations.
           </motion.p>
         </header>
+
+        <div>
+        <FeaturedProjectsTimelineSection />
+        </div>
 
         <motion.div
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5"

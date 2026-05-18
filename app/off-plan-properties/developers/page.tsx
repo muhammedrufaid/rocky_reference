@@ -59,7 +59,7 @@ export default async function DevelopersPage() {
 
         {/* <Newsletter className="py-16 md:py-20 lg:py-24" /> */}
         <AllDevelopersShowcaseGridSection />
-        <FeaturedProjectsTimelineSection />
+
         <FeaturedOffPlanProjects data={offPlanPropertiesData} />
 
         <Newsletter className="pb-16 md:pb-20 lg:pb-24" />

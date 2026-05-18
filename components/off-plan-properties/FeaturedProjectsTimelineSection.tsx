@@ -325,10 +325,10 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
   return (
     <section
       ref={sectionRef}
-      className={`${className ?? "pt-16 md:pt-20 lg:pt-24"} relative overflow-hidden`}
+      className={`${className ?? "pb-16 md:pb-20 lg:pb-24"} relative overflow-hidden`}
       aria-labelledby="featured-projects-heading"
     >
-      <Container>
+      {/* <Container> */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
           {/* LEFT PANEL — pinned by ScrollTrigger on desktop */}
@@ -441,7 +441,7 @@ const FeaturedProjectsTimelineSection: React.FC<{ className?: string }> = ({
           </div>
 
         </div>
-      </Container>
+      {/* </Container> */}
     </section>
   );
 };
