@@ -10,6 +10,7 @@ import {
   Sparkles,
   Check,
   Info,
+  ClipboardList,
 } from "lucide-react";
 
 export interface PropertyContentLayoutProps {
@@ -175,7 +176,7 @@ function ListingDetailsSection({
   }>;
 }) {
   return (
-    <SectionCard title="Listing Details">
+    <SectionCard title="Listing Details" icon={<ClipboardList size={18} aria-hidden="true" />}>
       <div className="overflow-hidden rounded-xl border border-[#F6F6F6]">
         <table className="w-full text-left text-sm">
           <tbody>
@@ -196,7 +197,7 @@ function ListingDetailsSection({
 
 function LocationSection({ mapQuery }: { mapQuery: string }) {
   return (
-    <SectionCard title="Location">
+    <SectionCard title="Location" icon={<MapPin size={18} aria-hidden="true" />}>
       <div className="overflow-hidden rounded-xl border border-[#F6F6F6] bg-[#F6F6F6]">
         <iframe
           title="Location map"

@@ -242,7 +242,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
 
               {/* Primary CTA - WhatsApp */}
               <a
-                href="https://wa.me/971501234567"
+                href="https://wa.me/+971564120637"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp Rocky Real Estate"
