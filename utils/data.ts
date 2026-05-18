@@ -379,7 +379,7 @@ export const teamMembers: TeamMember[] = [
     name: "Jyotika Ronghangpal",
     department: "Property Consultant",
     designation: "Senior Property Consultant",
-    image: "/assets/teams/secondary/jyotika.webp",
+    image: "/assets/teams/secondary/jyotika1.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -408,7 +408,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 21,
-    name: "Salman Siraj",
+    name: "Salma Siraj",
     department: "Property Consultant",
     designation: "Senior Property Consultant",
     image: "",
@@ -508,7 +508,7 @@ export const teamMembers: TeamMember[] = [
     name: "Rajesh Pattiyil",
     department: "Property Consultant",
     designation: "Property Consultant",
-    image: "",
+    image: "/assets/teams/secondary/rajesh.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
