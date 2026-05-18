@@ -202,42 +202,7 @@ export default function PropertyAgentContactCard({
           )}
         </div>
 
-        <div className="mt-5 border-t border-[#F6F6F6] pt-5">
-          {/* <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-[#081F3A]">Share</p>
-            <span className="text-[#0D365E]">
-              <Share2 size={16} aria-hidden="true" />
-            </span>
-          </div> */}
 
-          <div className="flex flex-wrap gap-3">
-            {shareTargets.facebook ? (
-              <SocialIconButton href={shareTargets.facebook} label="Facebook">
-                <Facebook size={18} aria-hidden="true" />
-              </SocialIconButton>
-            ) : null}
-            {shareTargets.x ? (
-              <SocialIconButton href={shareTargets.x} label="X (Twitter)">
-                <XMark size={18} />
-              </SocialIconButton>
-            ) : null}
-            {shareTargets.linkedin ? (
-              <SocialIconButton href={shareTargets.linkedin} label="LinkedIn">
-                <Linkedin size={18} aria-hidden="true" />
-              </SocialIconButton>
-            ) : null}
-            {shareTargets.whatsapp ? (
-              <SocialIconButton href={shareTargets.whatsapp} label="WhatsApp">
-                <span className="text-[#0D365E]">
-                  <WhatsAppMark size={18} />
-                </span>
-              </SocialIconButton>
-            ) : null}
-            <SocialIconButton href="#" label="Instagram">
-              <Instagram size={18} aria-hidden="true" />
-            </SocialIconButton>
-          </div>
-        </div>
       </div>
     </aside>
   );
