@@ -12,34 +12,6 @@ const gaId = (process.env.NEXT_PUBLIC_GA_ID ?? "").trim();
 
 export const metadata: Metadata = {
   metadataBase,
-  title: "Rocky Real Estate - 5 Decades of Real Estate Excellence",
-  description:
-    "Rocky Real Estate is a trusted Dubai property company with over 50 years of experience in sales, leasing, and property management across residential and commercial assets.",
-  alternates: {
-    canonical: siteUrl,
-  },
-  openGraph: {
-    type: "website",
-    url: siteUrl,
-    title: "Rocky Real Estate - 5 Decades of Real Estate Excellence",
-    description:
-      "Rocky Real Estate is a trusted Dubai property company with over 50 years of experience in sales, leasing, and property management across residential and commercial assets.",
-    siteName: "Rocky Real Estate",
-    locale: "en_AE",
-    images: [
-      {
-        url: toAbsoluteUrl("/assets/common/Rocky-Logo-Original.svg", siteUrl),
-        alt: "Rocky Real Estate",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Rocky Real Estate - 5 Decades of Real Estate Excellence",
-    description:
-      "Rocky Real Estate is a trusted Dubai property company with over 50 years of experience in sales, leasing, and property management across residential and commercial assets.",
-    images: [toAbsoluteUrl("/assets/common/Rocky-Logo-Original.svg", siteUrl)],
-  },
 };
 
 export default function RootLayout({
@@ -90,10 +62,8 @@ export default function RootLayout({
           </>
         ) : null}
 
-        <Script
-          id="schema-org"
+        <script
           type="application/ld+json"
-          strategy="afterInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(combinedSchema) }}
         />
       </head>

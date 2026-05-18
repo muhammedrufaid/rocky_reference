@@ -11,7 +11,16 @@ import {
   getTotalFromApiResponse,
   mapApiResponseToPropertyListings,
 } from "@/utils/getServices";
-import { areaSearchTermsFromPropertyFilters, buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
+import {
+  areaSearchTermsFromPropertyFilters,
+  buildListingCanonicalPath,
+  buildPageMetadata,
+  fetchSeoFromCms,
+  formatAreaLabelFromFilters,
+  getListingPageNumber,
+  toAbsoluteUrl,
+  withPaginationNoIndex,
+} from "@/utils/seo";
 
 const PAGE_SIZE = 20;
 const FILTER_WINDOW_LIMIT = 500;
@@ -24,19 +33,28 @@ function parsePositiveInt(value: string | undefined) {
 function parseNonNegativeInt(value: string | undefined) {
   const n = value != null ? Number(value) : NaN;
   return Number.isFinite(n) && n >= 0 ? n : undefined;
-}6
+}
 
-export async function generateMetadata() {
-  const pathname = "/off-plan-properties/in-dubai";
-  const seo = await fetchSeoFromCms(pathname);
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; search?: string; page?: string }>;
+}) {
+  const filters = await searchParams;
+  const basePath = "/off-plan-properties/in-dubai";
+  const canonicalPathname = buildListingCanonicalPath(basePath, filters);
+  const seo = await fetchSeoFromCms(basePath);
+  const page = getListingPageNumber(filters.page);
+  const areaLabel = formatAreaLabelFromFilters(filters.search, filters.q);
+  const locationSuffix = areaLabel ? ` in ${areaLabel}, Dubai` : " in Dubai";
 
-  return buildPageMetadata({
-    pathname,
+  const metadata = buildPageMetadata({
+    pathname: basePath,
+    canonicalPathname,
     seo,
     fallback: {
-      title: "Off-Plan Properties in Dubai | New Launch Projects | Rocky Real Estate",
-      description:
-        "Browse the latest off-plan properties in Dubai with Rocky Real Estate. Discover new launch projects, flexible payment plans, and handpicked developments across Dubai's top communities.",
+      title: `Off-Plan Properties${locationSuffix} | New Launch Projects | Rocky Real Estate`,
+      description: `Browse off-plan properties${locationSuffix} with Rocky Real Estate. Discover new launch projects, flexible payment plans, and handpicked developments across Dubai's top communities.`,
       image: toAbsoluteUrl("/assets/common/rockyabout.webp"),
       keywords: [
         "off-plan properties Dubai",
@@ -44,19 +62,18 @@ export async function generateMetadata() {
         "new launch properties Dubai",
         "off-plan villas Dubai",
         "buy off-plan property UAE",
-        "off-plan investment Dubai 2025",
         "new development projects Dubai",
         "flexible payment plan properties Dubai",
         "off-plan townhouses Dubai",
         "best off-plan projects Dubai",
-        "upcoming properties Dubai",
-        "off-plan property for sale UAE",
-        "new off-plan launches Dubai",
         "off-plan real estate Dubai",
+        ...(areaLabel ? [`off-plan properties ${areaLabel} Dubai`] : []),
       ],
       authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
     },
   });
+
+  return page > 1 ? withPaginationNoIndex(metadata) : metadata;
 }
 
 export default async function DevelopersPage({
@@ -187,7 +204,7 @@ export default async function DevelopersPage({
 
   const breadcrumb = [
     { label: "Home", href: "/" },
-    { label: "Off-plan properties", href: "/off-plan-properties" },
+    { label: "Off-plan properties", href: "/off-plan-properties/in-dubai" },
     { label: "In Dubai" },
   ];
 

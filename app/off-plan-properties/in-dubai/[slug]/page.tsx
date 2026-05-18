@@ -6,7 +6,9 @@ import OffPlanIndividualHero from "@/components/properties/OffPlanIndividualHero
 import PropertyDetailPage from "@/components/properties/PropertyDetailPage";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import Newsletter from "@/components/home/Newsletter";
-import { buildPropertyDetailMetadata, fetchSeoFromCms } from "@/utils/seo";
+import { buildPropertyDetailMetadata, fetchSeoFromCms, getSiteUrl } from "@/utils/seo";
+import JsonLd from "@/components/seo/JsonLd";
+import { buildRealEstateListingJsonLd } from "@/utils/jsonLd";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -41,8 +43,11 @@ export default async function OffPlanPropertyPage({ params }: Props) {
         notFound();
     }
 
+    const pageUrl = `${getSiteUrl()}/off-plan-properties/in-dubai/${slug}`;
+
     return (
         <div className="min-h-screen bg-white">
+            <JsonLd data={buildRealEstateListingJsonLd(property, pageUrl)} />
             <Header />
             <main>
                 <OffPlanIndividualHero data={property} />

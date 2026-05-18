@@ -92,8 +92,63 @@ export async function fetchSeoFromCms(pathname: string): Promise<CmsSeoPayload |
   }
 }
 
+/** Human-readable area label from `search` slug or `q` query (e.g. `business-bay` → `Business Bay`). */
+export function formatAreaLabelFromFilters(
+  search?: string | null,
+  q?: string | null,
+): string | null {
+  const areaRaw = cleanText(search) || cleanText(q);
+  if (!areaRaw) return null;
+  return areaRaw
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
+/** Canonical path for listing pages; preserves area `search` / `q`, never `page`. */
+export function buildListingCanonicalPath(
+  pathname: string,
+  filters: { search?: string | null; q?: string | null },
+): string {
+  const searchSlug = cleanText(filters.search);
+  if (searchSlug) {
+    return `${pathname}?search=${encodeURIComponent(searchSlug)}`;
+  }
+  const q = cleanText(filters.q);
+  if (q) {
+    return `${pathname}?q=${encodeURIComponent(q)}`;
+  }
+  return pathname;
+}
+
+export function getListingPageNumber(page?: string | null): number {
+  const n = page != null ? Number(page) : NaN;
+  if (!Number.isFinite(n) || n < 1) return 1;
+  return Math.floor(n);
+}
+
+/** Paginated listing pages (page 2+): allow crawl, avoid index bloat. */
+export function withPaginationNoIndex(metadata: Metadata): Metadata {
+  return {
+    ...metadata,
+    robots: {
+      index: false,
+      follow: true,
+      googleBot: {
+        index: false,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
+  };
+}
+
 export function buildPageMetadata(options: {
   pathname: string;
+  /** Overrides pathname for canonical / OG url (e.g. listing `?search=`). */
+  canonicalPathname?: string;
   seo: CmsSeoPayload | null;
   siteUrl?: string;
   /** Open Graph type; defaults to `website`. Use `article` for blog posts. */
@@ -114,7 +169,10 @@ export function buildPageMetadata(options: {
   const siteUrl = getSiteUrl(options.siteUrl);
   const metadataBase = safeUrl(siteUrl) ?? new URL("https://rockyrealestate.com");
 
-  const canonicalInput = cleanText(options.seo?.canonicalUrl) || options.pathname;
+  const canonicalInput =
+    cleanText(options.seo?.canonicalUrl) ||
+    options.canonicalPathname ||
+    options.pathname;
   const canonical = toAbsoluteUrl(canonicalInput, siteUrl);
 
   const titleRaw = cleanText(options.seo?.title) || options.fallback.title;

@@ -10,7 +10,16 @@ import {
   getTotalFromApiResponse,
   mapApiResponseToPropertyListings,
 } from "@/utils/getServices";
-import { areaSearchTermsFromPropertyFilters, buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
+import {
+  areaSearchTermsFromPropertyFilters,
+  buildListingCanonicalPath,
+  buildPageMetadata,
+  fetchSeoFromCms,
+  formatAreaLabelFromFilters,
+  getListingPageNumber,
+  toAbsoluteUrl,
+  withPaginationNoIndex,
+} from "@/utils/seo";
 import PropertySearchBar from "@/components/properties/PropertySearchBar";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import FeaturedOffPlanProjects from "@/components/home/FeaturedOffPlanProjects";
@@ -22,23 +31,26 @@ export async function generateMetadata({
   searchParams,
 }: {
   params: Promise<{ type: string }>;
-  searchParams: Promise<{ q?: string; search?: string; type?: string }>;
+  searchParams: Promise<{ q?: string; search?: string; type?: string; page?: string }>;
 }) {
   const { type } = await params;
   const filters = await searchParams;
 
-  const isBuy = type === "buy";
-  const pathname = `/properties/${type}/in-dubai`;
-  const seo = await fetchSeoFromCms(pathname);
+  if (type !== "buy" && type !== "rent") {
+    return {
+      title: "Page Not Found | Rocky Real Estate",
+      description: "This property listing page could not be found.",
+      robots: { index: false, follow: false },
+    };
+  }
 
-  // Build area label for dynamic titles (e.g. "Business Bay")
-  const areaRaw = filters.search ?? filters.q ?? "";
-  const areaLabel = areaRaw
-    ? areaRaw
-        .split("-")
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" ")
-    : null;
+  const isBuy = type === "buy";
+  const basePath = `/properties/${type}/in-dubai`;
+  const canonicalPathname = buildListingCanonicalPath(basePath, filters);
+  const seo = await fetchSeoFromCms(basePath);
+  const page = getListingPageNumber(filters.page);
+
+  const areaLabel = formatAreaLabelFromFilters(filters.search, filters.q);
 
   const locationSuffix = areaLabel ? ` in ${areaLabel}, Dubai` : " in Dubai";
 
@@ -76,8 +88,9 @@ export async function generateMetadata({
     ...(areaLabel ? [`properties for rent ${areaLabel} Dubai`, `rent apartment ${areaLabel}`] : []),
   ];
 
-  return buildPageMetadata({
-    pathname,
+  const metadata = buildPageMetadata({
+    pathname: basePath,
+    canonicalPathname,
     seo,
     fallback: {
       title,
@@ -87,6 +100,8 @@ export async function generateMetadata({
       authors: [{ name: "Rocky Real Estate", url: toAbsoluteUrl("/") }],
     },
   });
+
+  return page > 1 ? withPaginationNoIndex(metadata) : metadata;
 }
 
 const PAGE_SIZE = 20;

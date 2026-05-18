@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Container from "./Container";
 import Image from "next/image";
+import { generateSeoSlug } from "@/utils/seo";
 
 const footerServices = [
     { title: "Property Management", path: "services/property-management" },
@@ -142,7 +143,7 @@ const Footer: React.FC = () => {
                                         {popularSearches.map((area) => (
                                             <li key={area}>
                                                 <Link
-                                                    href={`/areas?q=${encodeURIComponent(area)}`}
+                                                    href={`/properties/buy/in-dubai?search=${encodeURIComponent(generateSeoSlug(area))}`}
                                                     className="text-xs text-blue-200 hover:text-white py-1 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
                                                 >
                                                     {area}

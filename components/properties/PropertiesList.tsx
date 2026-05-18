@@ -181,7 +181,7 @@ export default function PropertiesList({ type, searchParams }: PropertiesListPro
             </h1>
             <p className="mt-2 text-sm text-[var(--charcoal)]/60 max-w-xl">
               {PAGE_DESCRIPTION}{" "}
-              <Link href="/about" className="text-[var(--rocky-blue)]/80 hover:text-[var(--rocky-blue)] underline-offset-2 hover:underline">
+              <Link href="/who-we-are" className="text-[var(--rocky-blue)]/80 hover:text-[var(--rocky-blue)] underline-offset-2 hover:underline">
                 Read more
               </Link>
             </p>

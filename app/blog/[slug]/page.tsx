@@ -6,7 +6,9 @@ import { slugFromPath } from "@/utils/slugify";
 import { notFound } from "next/navigation";
 import BlogPostView from "@/components/blog/BlogPostView";
 import Newsletter from "@/components/home/Newsletter";
-import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
+import { buildPageMetadata, fetchSeoFromCms, getSiteUrl, toAbsoluteUrl } from "@/utils/seo";
+import JsonLd from "@/components/seo/JsonLd";
+import { buildBlogPostingJsonLd } from "@/utils/jsonLd";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -66,8 +68,11 @@ export default async function BlogPostPage({ params }: Props) {
     .filter((p) => slugFromPath(p.path) !== slug)
     .slice(0, 3);
 
+  const pageUrl = `${getSiteUrl()}/blog/${slug}`;
+
   return (
     <div className="min-h-screen bg-[#FFFFFF]">
+      <JsonLd data={buildBlogPostingJsonLd(post, pageUrl)} />
       <Header forceSolid />
       <main className="site-header-offset">
         <BlogPostView post={post} morePosts={morePosts} />

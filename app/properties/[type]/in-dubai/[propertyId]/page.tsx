@@ -6,7 +6,10 @@ import { getPropertyByRefNo } from "@/utils/getServices";
 import {
   buildPropertyDetailMetadata,
   fetchSeoFromCms,
+  getSiteUrl,
 } from "@/utils/seo";
+import JsonLd from "@/components/seo/JsonLd";
+import { buildRealEstateListingJsonLd } from "@/utils/jsonLd";
 import PropertyHeader from "@/components/properties/PropertyHeader";
 import PropertyHighlights from "@/components/properties/PropertyHighlights";
 import PropertyDescription from "@/components/properties/PropertyDescription";
@@ -44,23 +47,24 @@ export async function generateMetadata({ params }: Props) {
   });
 }
 
-export default async function PropertiesPage({
-  params,
-}: Props) {
-  const { propertyId } = await params;
-  const propertyRefNo = propertyId;
+export default async function PropertiesPage({ params }: Props) {
+  const { type, propertyId } = await params;
 
-  const property = await getPropertyByRefNo(propertyRefNo);
+  if (type !== "buy" && type !== "rent") {
+    notFound();
+  }
+
+  const property = await getPropertyByRefNo(propertyId);
 
   if (!property) {
     notFound();
   }
 
-  const images = property.images ?? [];
-  const propertyTitle = property.propertyTitle ?? property.towerName ?? property.propertyRefNo;
+  const pageUrl = `${getSiteUrl()}/properties/${type}/in-dubai/${propertyId}`;
 
   return (
     <div className="min-h-screen bg-white">
+      <JsonLd data={buildRealEstateListingJsonLd(property, pageUrl)} />
       <Header />
       <main className="">
           {/* <PropertyGallery
