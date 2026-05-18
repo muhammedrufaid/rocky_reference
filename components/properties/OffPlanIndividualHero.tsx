@@ -99,9 +99,36 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
   const resolvedPropertySize = data?.propertySize ?? propertySize
   const resolvedPropertyType = data?.propertyType ?? propertyType
   const resolvedOffPlan = data?.offPlan ? data.offPlan.toLowerCase() === 'yes' : offPlan
-  const resolvedWhatsappNumber = (data?.listingAgentPhone ?? whatsappNumber)?.replace(/\D/g, '') || '971501234567'
+  const resolvedContactPhone =
+    (data?.listingAgentPhone ?? whatsappNumber)?.replace(/\D/g, '') || '97144476644'
+
+  const callbackPhoneHref = useMemo(
+    () => `tel:+${resolvedContactPhone}`,
+    [resolvedContactPhone],
+  )
 
   const safeImages = useMemo(() => (Array.isArray(resolvedImages) ? resolvedImages.filter(Boolean) : []), [resolvedImages])
+
+  const openWhatsApp = useCallback(
+    (prefilledText?: string) => {
+      const base = `https://wa.me/${resolvedContactPhone}`
+      const url = prefilledText ? `${base}?text=${prefilledText}` : base
+      window.open(url, '_blank', 'noopener,noreferrer')
+    },
+    [resolvedContactPhone],
+  )
+
+  const handleWhatsApp = useCallback(() => openWhatsApp(), [openWhatsApp])
+
+  const handleRequestCallbackClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+      if (onRequestCallback) {
+        e.preventDefault()
+        onRequestCallback()
+      }
+    },
+    [onRequestCallback],
+  )
   const canLoop = safeImages.length > 1
 
   const heroSwiperRef = useRef<SwiperType | null>(null)
@@ -117,8 +144,6 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
   const [zoomed, setZoomed] = useState(false)
   const lightboxTouchX = useRef(0)
   const lightboxThumbRef = useRef<HTMLDivElement>(null)
-
-  const handleWhatsApp = () => window.open(`https://wa.me/${resolvedWhatsappNumber}`, '_blank')
 
   const syncHeroTo = useCallback(
     (idx: number) => {
@@ -467,21 +492,23 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                       )}
 
                       <div className="flex flex-col gap-2 pt-1">
-                        {/* Primary CTA */}
-                        <button
-                          onClick={onRequestCallback}
-                          className="group relative flex items-center justify-center gap-2 w-full py-3 rounded-md overflow-hidden text-[11px] tracking-[0.15em] uppercase font-medium transition-all duration-300 cursor-pointer"
+                        {/* Primary CTA — same number as WhatsApp, opens phone dialer */}
+                        <a
+                          href={callbackPhoneHref}
+                          onClick={handleRequestCallbackClick}
+                          className="group relative flex items-center justify-center gap-2 w-full py-3 rounded-md overflow-hidden text-[11px] tracking-[0.15em] uppercase font-medium transition-all duration-300 cursor-pointer no-underline"
                           style={{ background: 'linear-gradient(135deg, #0D365E, #1C4E80)', color: '#E7DCCD' }}
                           onMouseEnter={e => (e.currentTarget.style.background = 'linear-gradient(135deg, #1C4E80, #0D365E)')}
                           onMouseLeave={e => (e.currentTarget.style.background = 'linear-gradient(135deg, #0D365E, #1C4E80)')}
                         >
                           <CallIcon width="14" height="14" />
                           Request Callback
-                        </button>
+                        </a>
 
                         {/* WhatsApp */}
                         <button
                           onClick={handleWhatsApp}
+                          type="button"
                           className="flex items-center justify-center gap-2 w-full py-3 rounded-md text-[11px] tracking-[0.15em] uppercase font-medium text-[#25D366] transition-all duration-200 cursor-pointer"
                           style={{ background: 'rgba(37,211,102,0.08)', border: '1px solid rgba(37,211,102,0.22)' }}
                         >
@@ -528,13 +555,14 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center gap-2 px-4 py-3 border-t border-white/8"
         style={{ background: 'rgba(8,31,58,0.97)', backdropFilter: 'blur(16px)' }}
       >
-        <button
-          onClick={onRequestCallback}
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-[11px] tracking-[0.15em] uppercase font-medium text-[#E7DCCD] cursor-pointer"
+        <a
+          href={callbackPhoneHref}
+          onClick={handleRequestCallbackClick}
+          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-[11px] tracking-[0.15em] uppercase font-medium text-[#E7DCCD] cursor-pointer no-underline"
           style={{ background: 'linear-gradient(135deg, #0D365E, #1C4E80)' }}
         >
           <CallIcon width="14" height="14" /> Callback
-        </button>
+        </a>
         {/* <button
           onClick={onDownloadBrochure}
           className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-[11px] tracking-[0.15em] uppercase font-medium text-[#C3AD95] cursor-pointer"
@@ -544,6 +572,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
         </button> */}
         <button
           onClick={handleWhatsApp}
+          type="button"
           className="flex-1 flex items-center justify-center py-2.5 gap-2 text-[11px] tracking-[0.15em] uppercase font-medium rounded-md text-[#25D366] cursor-pointer"
           style={{ background: 'rgba(37,211,102,0.08)', border: '1px solid rgba(37,211,102,0.2)' }}
         >
