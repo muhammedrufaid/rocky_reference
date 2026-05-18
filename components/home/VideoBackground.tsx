@@ -14,11 +14,12 @@ const VideoBackground: React.FC<VideoBackgroundProps> = ({ videoSrc }) => {
     <div className="absolute inset-0 z-0" aria-hidden>
       {/* Gradient fallback — shown while video loads or on error */}
       <div
-        className={`absolute inset-0 transition-opacity duration-500 ${videoLoaded && !videoError ? "opacity-0" : "opacity-100"
-          }`}
+        className={`absolute inset-0 transition-opacity duration-1000 ${
+          videoLoaded && !videoError ? "opacity-0" : "opacity-100"
+        }`}
         style={{
           background:
-            "linear-gradient(135deg, rgba(13, 54, 94, 0.72) 0%, rgba(20, 40, 60, 0.55) 100%)",
+            "linear-gradient(135deg, rgba(8, 18, 28, 0.65) 0%, rgba(8, 18, 28, 0.45) 100%)",
         }}
         aria-hidden
       />
@@ -28,22 +29,18 @@ const VideoBackground: React.FC<VideoBackgroundProps> = ({ videoSrc }) => {
         muted
         loop
         playsInline
+        preload="auto"
         onLoadedData={() => setVideoLoaded(true)}
         onError={() => setVideoError(true)}
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${videoLoaded && !videoError ? "opacity-100" : "opacity-0"
-          }`}
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+          videoLoaded && !videoError ? "opacity-100" : "opacity-0"
+        }`}
         aria-hidden
       >
         <source src={videoSrc} type="video/mp4" />
       </video>
 
-      {/*
-        Subtle dual-tone overlay:
-        - Left side: a very light dark wash so white text stays readable
-        - Right side: almost fully transparent so the cityscape breathes
-        - A thin bottom vignette grounds the search bar area
-        No dominant blue cast — just enough contrast for legibility.
-      */}
+      {/* Left-anchored text overlay — keeps headline readable */}
       <div
         className="absolute inset-0 z-[1]"
         style={{
@@ -59,7 +56,7 @@ const VideoBackground: React.FC<VideoBackgroundProps> = ({ videoSrc }) => {
         aria-hidden
       />
 
-      {/* Bottom vignette — anchors the UI without affecting the skyline */}
+      {/* Bottom vignette — anchors the search bar area */}
       <div
         className="absolute inset-x-0 bottom-0 z-[2] h-40 pointer-events-none"
         style={{
