@@ -73,7 +73,7 @@ const DevelopmentPartnersSection: React.FC = () => {
         <header className="mb-12 text-center md:mb-16">
           <motion.h2
             id="development-partners-heading"
-            className="text-2xl font-medium text-[var(--rocky-blue)] sm:text-3xl md:text-4xl lg:text-[2.5rem]"
+            className="text-2xl font-medium text-[#0D365E] sm:text-3xl md:text-4xl lg:text-[2.5rem]"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
@@ -82,7 +82,7 @@ const DevelopmentPartnersSection: React.FC = () => {
             Development Partners
           </motion.h2>
           <motion.p
-            className="mx-auto mt-3 max-w-2xl text-base text-[var(--charcoal)]/70 md:text-lg"
+            className="mx-auto mt-3 max-w-2xl text-base text-[#555] md:text-lg"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}

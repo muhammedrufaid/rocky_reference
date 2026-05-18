@@ -30,7 +30,7 @@ const BlogSection: React.FC = () => {
           <div>
             <motion.h2
               id="blog-section-heading"
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-medium text-rocky-blue"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-medium text-[#0D365E]"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -39,7 +39,7 @@ const BlogSection: React.FC = () => {
               From Our Blog
             </motion.h2>
             <motion.p
-              className="mt-3 max-w-2xl text-base text-(--charcoal)/70 md:text-lg"
+              className="mt-3 max-w-2xl text-base text-[#555] md:text-lg"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}

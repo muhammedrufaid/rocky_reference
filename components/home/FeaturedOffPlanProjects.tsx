@@ -28,7 +28,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
             <motion.h2
               id="off-plan-section-heading"
               className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-medium leading-tight"
-              style={{ color: "#0d365e" }}
+              style={{ color: "#0D365E" }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -37,8 +37,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
               Featured Off Plan Properties
             </motion.h2>
             <motion.p
-              className="mt-3 text-base md:text-lg max-w-2xl"
-              style={{ color: "#555" }}
+              className="mt-3 text-base text-[#555] md:text-lg max-w-2xl"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}

@@ -94,8 +94,7 @@ const Newsletter: React.FC<{ className?: string }> = ({ className }) => {
                     <div className="relative z-10 flex flex-col justify-center px-8 py-12 sm:px-10 sm:py-14 lg:w-1/2 lg:px-14 lg:py-16">
                         <motion.h2
                             id="newsletter-heading"
-                            className="text-2xl font-medium leading-tight tracking-tight sm:text-3xl md:text-4xl lg:text-[2.25rem]"
-                            style={{ color: "#ffffff" }}
+                            className="text-2xl font-medium leading-tight tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[2.25rem]"
                             variants={fadeUp}
                             initial="hidden"
                             animate={isInView ? "visible" : "hidden"}
@@ -105,7 +104,7 @@ const Newsletter: React.FC<{ className?: string }> = ({ className }) => {
                         </motion.h2>
 
                         <motion.p
-                            className="mt-4 max-w-lg text-base leading-relaxed text-white/85 md:text-lg"
+                            className="mt-4 max-w-lg text-base leading-relaxed text-white/75 md:text-lg"
                             variants={fadeUp}
                             initial="hidden"
                             animate={isInView ? "visible" : "hidden"}
