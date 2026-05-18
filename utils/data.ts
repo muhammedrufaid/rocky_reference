@@ -853,7 +853,7 @@ export const blogPosts: BlogPost[] = [
     description:
       "A guide for foreign investors and expatriates on freehold and leasehold property in Dubai—ownership rights, pros and cons, and how to choose the right option for your goals.",
     image:
-      "https://images.pexels.com/photos/323705/pexels-photo-323705.jpeg",
+      "/assets/blogs/leaseholdproperty2.webp",
     path: "/blog/freehold-vs-leasehold-dubai",
     content: [
       {
@@ -965,7 +965,7 @@ export const blogPosts: BlogPost[] = [
     description:
       "With Dubai’s summer heat and humidity on the way, protect your home while you travel—HVAC settings, insulation, DEWA-friendly habits, and exterior upkeep.",
     image:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
+      "/assets/blogs/summerhome.webp",
     path: "/blog/summer-proof-home-dubai",
     content: [
       {
