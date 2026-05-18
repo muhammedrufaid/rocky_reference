@@ -21,7 +21,7 @@ const StarRating = ({ rating }: { rating: number }) => (
         fill={i < rating ? "currentColor" : "none"}
         stroke={i < rating ? "currentColor" : "currentColor"}
         strokeWidth={i < rating ? 0 : 1.5}
-        className="text-[var(--rocky-blue)]/60"
+        className="text-[#0D365E]"
         aria-hidden="true"
         focusable="false"
       >
