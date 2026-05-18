@@ -48,11 +48,11 @@ export default function WhySellWithUs({ className }: WhySellWithUsProps) {
         </p> */}
 
                 {/* Headline (match SellPropertyForm typography) */}
-                <h2 className="text-2xl font-medium leading-tight tracking-tight text-[#081F3A] sm:text-3xl md:text-4xl lg:text-[2.5rem]">
+                <h2 className="text-2xl font-medium leading-tight tracking-tight text-[#0D365E] sm:text-3xl md:text-4xl lg:text-[2.5rem]">
                     Why Sell With Us?
                 </h2>
                 {/* <div className="mt-4 h-[2px] w-10 bg-[#C3AD95]" aria-hidden /> */}
-                <p className="mt-3 mb-14 max-w-2xl text-base leading-[1.7] text-[#333333]/60 md:text-lg">
+                <p className="mt-3 mb-14 max-w-2xl text-base leading-[1.7] text-[#555] md:text-lg">
                     Everything you need to sell your property in Dubai faster, smarter, and at the right price.
                 </p>
 

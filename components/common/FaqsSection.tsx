@@ -113,8 +113,7 @@ const FaqsSection: React.FC = () => {
         <header className="mb-4 md:mb-8">
           <motion.h2
             id="faqs-section-heading"
-            className="text-2xl font-medium sm:text-3xl md:text-4xl lg:text-[2.5rem] tracking-tight"
-            style={{ color: "#333333" }}
+            className="text-2xl font-medium text-[#0D365E] sm:text-3xl md:text-4xl lg:text-[2.5rem] tracking-tight"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}

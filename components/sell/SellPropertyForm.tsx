@@ -143,7 +143,7 @@ export default function SellPropertyForm() {
             animate={isInView ? "visible" : "hidden"}
           >
             <motion.h2
-              className="mt-6 text-2xl font-medium leading-tight text-[#081F3A] sm:text-3xl md:text-4xl"
+              className="mt-6 text-2xl font-medium leading-tight text-[#0D365E] sm:text-3xl md:text-4xl"
               variants={fadeUp}
               custom={2}
             >
@@ -158,7 +158,7 @@ export default function SellPropertyForm() {
             />
 
             <motion.p
-              className="mt-3 max-w-2xl text-base leading-relaxed text-[#333333]/60 md:text-lg"
+              className="mt-3 max-w-2xl text-base leading-relaxed text-[#555] md:text-lg"
               variants={fadeUp}
               custom={3}
             >
