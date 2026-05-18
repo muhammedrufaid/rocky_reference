@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Container from "@/components/layout/Container";
 import {
@@ -282,10 +282,27 @@ function numberFromDigits(digits: string) {
   return Number.isFinite(n) ? n : 0;
 }
 
-function formatWithCommas(value: string) {
-  const n = numberFromDigits(value);
-  if (!n) return "";
+function formatWithCommas(digits: string) {
+  if (!digits) return "";
+  const n = numberFromDigits(digits);
+  if (!Number.isFinite(n)) return "";
   return n.toLocaleString();
+}
+
+function countDigitsBeforeCursor(value: string, cursor: number) {
+  return value.slice(0, cursor).replace(/[^\d]/g, "").length;
+}
+
+function cursorPositionAfterDigits(formatted: string, digitsBefore: number) {
+  if (digitsBefore <= 0) return 0;
+  let count = 0;
+  for (let i = 0; i < formatted.length; i++) {
+    if (/\d/.test(formatted[i]!)) {
+      count++;
+      if (count === digitsBefore) return i + 1;
+    }
+  }
+  return formatted.length;
 }
 
 function formatCompactNumber(n: number) {
@@ -340,8 +357,11 @@ function PriceRangeDropdown({
   const [draftMax, setDraftMax] = useState(maxValue);
   const [activeField, setActiveField] = useState<"min" | "max">("min");
   const [align, setAlign] = useState<"left" | "right">("left");
-  const [focusedField, setFocusedField] = useState<"min" | "max" | null>(null);
   const [error, setError] = useState<string>("");
+  const pendingPriceCursorRef = useRef<{
+    field: "min" | "max";
+    digitsBefore: number;
+  } | null>(null);
 
   const suggestionOptions = useMemo(() => {
     return options.filter((o: { label: string; value: string }) => {
@@ -435,6 +455,44 @@ function PriceRangeDropdown({
     setOpen(false);
   };
 
+  useLayoutEffect(() => {
+    const pending = pendingPriceCursorRef.current;
+    if (!pending) return;
+
+    const input = pending.field === "min" ? minInputRef.current : maxInputRef.current;
+    if (!input) {
+      pendingPriceCursorRef.current = null;
+      return;
+    }
+
+    const digits = pending.field === "min" ? draftMin : draftMax;
+    const formatted = formatWithCommas(digits);
+    const pos = cursorPositionAfterDigits(formatted, pending.digitsBefore);
+    input.setSelectionRange(pos, pos);
+    pendingPriceCursorRef.current = null;
+  }, [draftMin, draftMax]);
+
+  const handlePriceInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: "min" | "max"
+  ) => {
+    const input = e.target;
+    const cursor = input.selectionStart ?? input.value.length;
+    const digitsBefore = countDigitsBeforeCursor(input.value, cursor);
+    const next = normalizePriceInput(input.value);
+
+    pendingPriceCursorRef.current = { field, digitsBefore };
+
+    if (field === "min") {
+      setDraftMin(next);
+      setError(validate(next, draftMax));
+      return;
+    }
+
+    setDraftMax(next);
+    setError(validate(draftMin, next));
+  };
+
   return (
     <div className="relative" ref={ref}>
       <button
@@ -474,18 +532,9 @@ function PriceRangeDropdown({
                 <input
                   ref={minInputRef}
                   inputMode="numeric"
-                  value={focusedField === "min" ? draftMin : formatWithCommas(draftMin)}
+                  value={formatWithCommas(draftMin)}
                   onFocus={() => setActiveField("min")}
-                  onFocusCapture={() => setFocusedField("min")}
-                  onBlur={() => {
-                    setFocusedField((f) => (f === "min" ? null : f));
-                    setDraftMin(normalizePriceInput(draftMin));
-                  }}
-                  onChange={(e) => {
-                    const next = normalizePriceInput(e.target.value);
-                    setDraftMin(next);
-                    setError(validate(next, draftMax));
-                  }}
+                  onChange={(e) => handlePriceInputChange(e, "min")}
                   placeholder="0"
                   className={[
                     "mt-1 h-11 w-full rounded-lg border bg-white px-3 text-sm font-medium outline-none transition-all",
@@ -503,18 +552,9 @@ function PriceRangeDropdown({
                 <input
                   ref={maxInputRef}
                   inputMode="numeric"
-                  value={focusedField === "max" ? draftMax : formatWithCommas(draftMax)}
+                  value={formatWithCommas(draftMax)}
                   onFocus={() => setActiveField("max")}
-                  onFocusCapture={() => setFocusedField("max")}
-                  onBlur={() => {
-                    setFocusedField((f) => (f === "max" ? null : f));
-                    setDraftMax(normalizePriceInput(draftMax));
-                  }}
-                  onChange={(e) => {
-                    const next = normalizePriceInput(e.target.value);
-                    setDraftMax(next);
-                    setError(validate(draftMin, next));
-                  }}
+                  onChange={(e) => handlePriceInputChange(e, "max")}
                   placeholder="Any"
                   className={[
                     "mt-1 h-11 w-full rounded-lg border bg-white px-3 text-sm font-medium outline-none transition-all",
