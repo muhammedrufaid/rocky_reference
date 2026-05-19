@@ -94,8 +94,7 @@ const OpenPositionsSection: React.FC<OpenPositionsSectionProps> = ({
                                     aria-label={`View ${job.title}`}
                                 >
                                     <article
-                                        className="group cursor-pointer relative rounded-xl border bg-white p-6 shadow-sm transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_rgba(13,54,94,0.08)] hover:bg-[#fcfdfe]"
-                                        style={{ borderColor: "#e8edf3" }}
+                                        className="group relative cursor-pointer rounded-xl border border-(--border-light) bg-white p-6 transition-colors hover:bg-(--soft-sand)/20"
                                     >
                                         <div className="flex flex-col h-full">
                                             <div className="mb-4">

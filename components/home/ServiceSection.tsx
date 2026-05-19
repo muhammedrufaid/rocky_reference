@@ -93,7 +93,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ data, hideHeading = fal
                                 </p>
                             </>
                         );
-                        const articleClass = "group cursor-pointer relative flex flex-col rounded-2xl p-6 md:p-8 transition-all duration-300 bg-white border border-[var(--border-light)] hover:border-[var(--sandstone-taupe)]/40 hover:shadow-[0_12px_40px_rgba(13,54,94,0.08)]";
+                        const articleClass = "group cursor-pointer relative flex flex-col rounded-2xl border border-(--border-light) bg-white p-6 transition-colors hover:bg-(--soft-sand)/20 md:p-8";
                         return (
                             <motion.article
                                 key={item.id}
