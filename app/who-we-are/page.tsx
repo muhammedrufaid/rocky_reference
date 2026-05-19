@@ -55,7 +55,7 @@ export default function WhoWeArePage() {
             { label: "Who We Are" },
           ]}
         />
-                <AchievementsStatsGrid className="mt-16" />
+        <AchievementsStatsGrid className="mt-16" />
         <AboutRockySection />
         <WhatWeDoSection />
         <VisionMissionSection />

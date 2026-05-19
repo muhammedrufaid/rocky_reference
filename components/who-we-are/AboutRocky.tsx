@@ -157,7 +157,7 @@ const AboutRockySection: React.FC<{ className?: string }> = ({ className }) => {
                         </div>
 
                         {/* Stat strip pinned to bottom of image */}
-                        <div className="absolute bottom-5 left-5 right-5 grid grid-cols-4 gap-px overflow-hidden rounded-xl border border-[rgba(255,255,255,0.14)] bg-[rgba(8,31,58,0.28)] backdrop-blur-md">
+                        {/* <div className="absolute bottom-5 left-5 right-5 grid grid-cols-4 gap-px overflow-hidden rounded-xl border border-[rgba(255,255,255,0.14)] bg-[rgba(8,31,58,0.28)] backdrop-blur-md">
                             {highlights.map(({ label, sub }) => (
                                 <div key={label} className="flex flex-col items-center bg-[rgba(8,31,58,0.72)] py-3 backdrop-blur-md">
                                     <span className="text-xl font-light tracking-tight text-white leading-none">
@@ -168,7 +168,7 @@ const AboutRockySection: React.FC<{ className?: string }> = ({ className }) => {
                                     </span>
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
                     </motion.div>
                 </div>
             </Container>
