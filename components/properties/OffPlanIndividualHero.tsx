@@ -502,7 +502,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                           onMouseLeave={e => (e.currentTarget.style.background = 'linear-gradient(135deg, #0D365E, #1C4E80)')}
                         >
                           <CallIcon width="14" height="14" />
-                          Request Callback
+                          Call the Agent
                         </a>
 
                         {/* WhatsApp */}
