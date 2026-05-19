@@ -190,14 +190,14 @@ export default function SellPropertyForm() {
               })}
             </div>
 
-            <motion.div
+            {/* <motion.div
               className="my-8 h-px w-full bg-[#E7DCCD]"
               variants={fadeUp}
               custom={7}
               aria-hidden
-            />
+            /> */}
 
-            <motion.div
+            {/* <motion.div
               className="flex items-center gap-4"
               variants={fadeUp}
               custom={8}
@@ -224,7 +224,7 @@ export default function SellPropertyForm() {
                   +971 56 412 0637
                 </a>
               </div>
-            </motion.div>
+            </motion.div> */}
           </motion.div>
 
           {/* RIGHT */}
