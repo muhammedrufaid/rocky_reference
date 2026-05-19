@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Container from "@/components/layout/Container";
+import { DirhamIcon } from "@/utils/icons";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -31,7 +32,7 @@ export const achievementStats = [
     { value: 50, suffix: "+", label: "Years of Market Experience", countUp: true },
     {
         value: 7,
-        prefix: "AED ",
+        showDirhamIcon: true,
         suffix: "B",
         label: "Worth of Assets Under Portfolio",
         countUp: true,
@@ -39,7 +40,7 @@ export const achievementStats = [
     { value: 99, suffix: "%", label: "Occupancy Rate Across Portfolio", countUp: true },
     {
         value: 7.5,
-        prefix: "AED ",
+        showDirhamIcon: true,
         suffix: "B",
         label: "Cumulative Value of Properties Sold",
         decimals: 1,
@@ -129,7 +130,7 @@ const StatCard: React.FC<{
             ? formatStatValue(stat.value, { decimals, useGrouping })
             : formatStatValue(count, { decimals, useGrouping });
 
-    const prefix = "prefix" in stat ? stat.prefix : "";
+    const showDirhamIcon = "showDirhamIcon" in stat && stat.showDirhamIcon;
 
     return (
         <motion.div
@@ -139,10 +140,14 @@ const StatCard: React.FC<{
                 borderClassName,
             ].join(" ")}
         >
-            <span className="text-[clamp(24px,2.5vw,32px)] font-normal text-[#0D365E] leading-none tabular-nums">
-                {prefix}
-                {displayValue}
-                {stat.suffix}
+            <span className="inline-flex flex-nowrap items-center gap-1 whitespace-nowrap text-[clamp(24px,2.5vw,32px)] font-normal text-[#0D365E] leading-none tabular-nums">
+                {showDirhamIcon ? (
+                    <DirhamIcon className="w-[0.85em] h-[0.85em] shrink-0" aria-hidden />
+                ) : null}
+                <span className="whitespace-nowrap">
+                    {displayValue}
+                    {stat.suffix}
+                </span>
             </span>
             <span className="text-[11px] font-normal text-[#9F8870] tracking-[0.08em] uppercase leading-snug max-w-[140px]">
                 {stat.label}
