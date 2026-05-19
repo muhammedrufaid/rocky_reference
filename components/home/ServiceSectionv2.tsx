@@ -1,6 +1,9 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 
 // ---------------------------------------------------------------------------
@@ -30,45 +33,17 @@ interface ServiceSectionv3Props {
 }
 
 // ---------------------------------------------------------------------------
-// Tag map — maps slug to a short category label
-// ---------------------------------------------------------------------------
-
-const TAG_MAP: Record<string, string> = {
-  "property-management": "Management",
-  "professional-inspection": "Inspection",
-  brokerage: "Brokerage",
-  mortgage: "Finance",
-  "listing-marketing": "Marketing",
-  "after-sales": "Support",
-};
-
-// ---------------------------------------------------------------------------
-// ArrowRight icon
-// ---------------------------------------------------------------------------
-
-const ArrowRight = () => (
-  <svg
-    width="13"
-    height="13"
-    viewBox="0 0 16 16"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.8"
-    aria-hidden
-  >
-    <path d="M3 8h10M9 4l4 4-4 4" />
-  </svg>
-);
-
-// ---------------------------------------------------------------------------
-// ServiceCard sub-component — REDESIGNED
+// ServiceCard sub-component
 // ---------------------------------------------------------------------------
 
 interface CardProps {
   item: ServiceCard;
+  index: number;
 }
 
-const ServiceCard: React.FC<CardProps> = ({ item }) => {
+const ServiceCardItem: React.FC<CardProps> = ({ item, index }) => {
+  const [hovered, setHovered] = useState(false);
+
   const href = item.slug ? `/services/${item.slug}` : undefined;
 
   const imageSrc =
@@ -79,94 +54,151 @@ const ServiceCard: React.FC<CardProps> = ({ item }) => {
   const imageAlt =
     typeof item.image === "string" ? item.title : item.image?.alt ?? item.title;
 
-  const tag = item.slug ? TAG_MAP[item.slug] : undefined;
+  const cardShell = (
+    <div
+      className="relative w-full overflow-hidden rounded-xl"
+      style={{ paddingBottom: "58%" }}
+    >
+      <Image
+        src={imageSrc}
+        alt={imageAlt}
+        fill
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        quality={65}
+        className="object-cover will-change-transform"
+        style={{
+          transition: "transform 0.8s cubic-bezier(0.22,1,0.36,1)",
+          transform: hovered ? "scale(1.07)" : "scale(1.01)",
+        }}
+      />
 
-  const inner = (
-    <>
-      {/* ── Image ── */}
-      <div className="relative h-[204px] overflow-hidden bg-[#E7DCCD]">
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
-        />
-        {/* Softer modern overlay + vignette */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/35" aria-hidden />
-        <div className="absolute inset-0 ring-1 ring-inset ring-white/10" aria-hidden />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(160deg, rgba(5,18,30,0.08) 0%, transparent 40%, rgba(5,18,30,0.72) 100%)",
+        }}
+        aria-hidden
+      />
 
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(5,18,30,0.88) 0%, rgba(5,18,30,0.48) 50%, rgba(5,18,30,0.10) 100%)",
+          transition: "opacity 0.5s ease",
+          opacity: hovered ? 1 : 0,
+        }}
+        aria-hidden
+      />
+
+      <div
+        className="absolute top-4 right-4 flex items-center justify-center rounded-full"
+        style={{
+          width: "36px",
+          height: "36px",
+          backgroundColor: "rgba(255,255,255,0.12)",
+          backdropFilter: "blur(8px)",
+          border: "1px solid rgba(255,255,255,0.18)",
+          transition:
+            "transform 0.45s cubic-bezier(0.22,1,0.36,1), background-color 0.3s ease",
+          transform: hovered ? "rotate(0deg)" : "rotate(-45deg)",
+        }}
+        aria-hidden
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="rgba(255,255,255,0.9)"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
       </div>
 
-      {/* ── Body ── */}
-      <div className="flex flex-1 flex-col px-5 pb-5 pt-5 md:px-6 md:pb-6 md:pt-6">
-        {/* Title */}
+      <div className="absolute bottom-0 left-0 right-0 p-5">
+        <div
+          style={{
+            height: "1px",
+            backgroundColor: "rgba(255,255,255,0.30)",
+            marginBottom: "10px",
+            transition: "width 0.55s cubic-bezier(0.22,1,0.36,1)",
+            width: hovered ? "100%" : "32px",
+          }}
+          aria-hidden
+        />
+
         <h3
-          className="text-[16.5px] font-medium leading-snug tracking-[-0.2px] md:text-[18px] lg:text-[19px]"
-          style={{ color: "#0D365E" }}
+          className="text-white font-medium"
+          style={{
+            fontSize: "1.35rem",
+            lineHeight: 1.15,
+            letterSpacing: "-0.01em",
+            transition: "transform 0.5s cubic-bezier(0.22,1,0.36,1)",
+            transform: hovered ? "translateY(-4px)" : "translateY(0)",
+          }}
         >
           {item.title}
         </h3>
 
-        {/* Description */}
-        <p
-          className="mt-2.5 flex-1 text-[13.5px] leading-[1.7] md:text-[14px]"
-          style={{ color: "#333333", opacity: 0.82 }}
-        >
-          {item.description}
-        </p>
-
-        {/* Footer */}
         <div
-          className="mt-5 flex items-center justify-between border-t pt-4"
-          style={{ borderColor: "rgba(13,54,94,0.10)" }}
+          style={{
+            overflow: "hidden",
+            transition:
+              "max-height 0.5s cubic-bezier(0.22,1,0.36,1), opacity 0.45s ease, margin-top 0.45s ease",
+            maxHeight: hovered ? "80px" : "0px",
+            opacity: hovered ? 1 : 0,
+            marginTop: hovered ? "8px" : "0px",
+          }}
         >
-          {/* Animated accent bar */}
-          <div
-            className="h-[2px] w-7 rounded-full transition-all duration-300 group-hover:w-11"
-            style={{ background: "#C3AD95" }}
-            aria-hidden
-          />
-
-          {/* Learn more link */}
-          {href && (
-            <span className="flex items-center gap-[6px] text-[12.5px] font-medium leading-none tracking-[0.14px] text-[#1C4E80] transition-all duration-200 group-hover:gap-2.5">
-              Learn more
-              <ArrowRight />
-            </span>
-          )}
+          <p
+            className="text-sm leading-relaxed"
+            style={{ color: "rgba(255,255,255,0.78)", maxWidth: "300px" }}
+          >
+            {item.description}
+          </p>
         </div>
       </div>
-    </>
+    </div>
   );
 
+  const interactiveProps = {
+    onMouseEnter: () => setHovered(true),
+    onMouseLeave: () => setHovered(false),
+    className:
+      "block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0d365e] focus-visible:ring-offset-4 rounded-xl",
+    "aria-label": `${item.title} — ${item.description}`,
+  };
+
   return (
-    <article className="h-full">
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{
+        duration: 0.65,
+        delay: index * 0.08,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
       {href ? (
-        <Link
-          href={href}
-          className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[rgba(13,54,94,0.09)] bg-white/90 shadow-[0_1px_0_rgba(0,0,0,0.03)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-[rgba(28,78,128,0.22)] hover:shadow-[0_18px_50px_rgba(13,54,94,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1C4E80]/40 focus-visible:ring-offset-2"
-        >
-          {inner}
+        <Link href={href} {...interactiveProps}>
+          {cardShell}
         </Link>
       ) : (
-        <div
-          className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[rgba(13,54,94,0.09)] bg-white/90 shadow-[0_1px_0_rgba(0,0,0,0.03)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-[rgba(28,78,128,0.22)] hover:shadow-[0_18px_50px_rgba(13,54,94,0.12)]"
-        >
-          {/* Top accent bar */}
-          <div
-            className="h-[3px] w-full origin-left scale-x-0 bg-gradient-to-r from-[#0D365E] via-[#1C4E80] to-[#C3AD95] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100"
-            aria-hidden
-          />
-          {inner}
-        </div>
+        <article {...interactiveProps}>{cardShell}</article>
       )}
-    </article>
+    </motion.div>
   );
 };
 
 // ---------------------------------------------------------------------------
-// Main section component — UNCHANGED
+// Main section component
 // ---------------------------------------------------------------------------
 
 const ServiceSectionv2: React.FC<ServiceSectionv3Props> = ({
@@ -184,41 +216,58 @@ const ServiceSectionv2: React.FC<ServiceSectionv3Props> = ({
       aria-labelledby="services-heading"
     >
       <Container>
-        <header className="mb-12 text-center md:mb-16">
-          <h2
-            id="services-heading"
-            className="text-2xl font-medium sm:text-3xl md:text-4xl lg:text-[2.5rem] tracking-tight"
-            style={{ color: "var(--rocky-blue)" }}
+        <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12 md:mb-16">
+          <motion.div
+            className="text-center sm:text-left w-full"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
           >
-            {heading}
-          </h2>
-          <p
-            className="mx-auto mt-4 max-w-2xl text-base md:text-lg"
-            style={{ color: "var(--charcoal)" }}
-          >
-            {subheading}
-          </p>
+            <h2
+              id="services-heading"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-medium leading-tight"
+              style={{ color: "#0D365E" }}
+            >
+              {heading}
+            </h2>
+            <p className="mt-3 text-base text-[#555] md:text-lg max-w-2xl mx-auto sm:mx-0">
+              {subheading}
+            </p>
 
-          {cta?.href && cta?.label && (
-            <div className="mt-7 flex justify-center">
-              <Link
-                href={cta.href}
-                className="inline-flex items-center gap-2 rounded-full bg-[#0D365E] px-5 py-2.5 text-[13px] font-medium text-white shadow-sm transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1C4E80]/40 focus-visible:ring-offset-2"
+            {cta?.href && cta?.label && (
+              <motion.div
+                className="mt-7 flex justify-center sm:justify-start"
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.15 }}
               >
-                {cta.label}
-                <ArrowRight />
-              </Link>
-            </div>
-          )}
+                <Link
+                  href={cta.href}
+                  className="inline-flex items-center gap-2 rounded-full bg-[#0D365E] px-5 py-2.5 text-[13px] font-medium text-white shadow-sm transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0d365e] focus-visible:ring-offset-2"
+                >
+                  {cta.label}
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    aria-hidden
+                  >
+                    <path d="M3 8h10M9 4l4 4-4 4" />
+                  </svg>
+                </Link>
+              </motion.div>
+            )}
+          </motion.div>
         </header>
 
-        {/* Grid */}
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {data.map((item) => (
-            <ServiceCard
-              key={String(item.id)}
-              item={item}
-            />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
+          {data.map((item, index) => (
+            <ServiceCardItem key={String(item.id)} item={item} index={index} />
           ))}
         </div>
       </Container>
