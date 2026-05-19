@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Container from "@/components/layout/Container";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -26,12 +27,25 @@ const statCardReveal = {
 };
 
 export const achievementStats = [
-    { value: 60000, suffix: "+", label: "Properties Rented to Date", useGrouping: true },
-    { value: 50, suffix: "+", label: "Years of Market Experience" },
-    { value: 7, prefix: "AED ", suffix: "B", label: "Worth of Assets Under Portfolio" },
-    { value: 99, suffix: "%", label: "Occupancy Rate Across Portfolio" },
-    { value: 7.5, prefix: "AED ", suffix: "B", label: "Cumulative Value of Properties Sold", decimals: 1 },
-    { value: 1000, suffix: "+", label: "Properties Managed and Leased", useGrouping: true },
+    { value: 60000, suffix: "+", label: "Properties Rented to Date", useGrouping: true, countUp: true },
+    { value: 50, suffix: "+", label: "Years of Market Experience", countUp: true },
+    {
+        value: 7,
+        prefix: "AED ",
+        suffix: "B",
+        label: "Worth of Assets Under Portfolio",
+        countUp: true,
+    },
+    { value: 99, suffix: "%", label: "Occupancy Rate Across Portfolio", countUp: true },
+    {
+        value: 7.5,
+        prefix: "AED ",
+        suffix: "B",
+        label: "Cumulative Value of Properties Sold",
+        decimals: 1,
+        countUp: true,
+    },
+    { value: 1000, suffix: "+", label: "Properties Managed and Leased", useGrouping: true, countUp: true },
 ] as const;
 
 export type AchievementStat = (typeof achievementStats)[number];
@@ -60,18 +74,14 @@ function useCountUp(
     decimals = 0
 ) {
     const [count, setCount] = useState(0);
-    const rafRef = useRef<number | null>(null);
-    const hasRun = useRef(false);
 
     useEffect(() => {
-        if (!start) return;
-
-        if (hasRun.current) {
-            setCount(target);
+        if (!start) {
+            setCount(0);
             return;
         }
-        hasRun.current = true;
 
+        let rafId = 0;
         const startTime = performance.now();
         const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
 
@@ -80,19 +90,21 @@ function useCountUp(
             const progress = Math.min(elapsed / duration, 1);
             const next = easeOutQuart(progress) * target;
             setCount(decimals > 0 ? Number(next.toFixed(decimals)) : Math.round(next));
-            if (progress < 1) rafRef.current = requestAnimationFrame(step);
+            if (progress < 1) rafId = requestAnimationFrame(step);
         };
 
-        rafRef.current = requestAnimationFrame(step);
-        return () => {
-            if (rafRef.current) cancelAnimationFrame(rafRef.current);
-        };
+        rafId = requestAnimationFrame(step);
+        return () => cancelAnimationFrame(rafId);
     }, [start, target, duration, decimals]);
 
     return count;
 }
 
-const COUNT_DURATIONS = [2000, 1500, 1600, 1400, 1700, 1800];
+const COUNT_UP_DURATIONS: Record<number, number> = {
+    2: 2200,
+    3: 2400,
+    4: 2600,
+};
 
 const StatCard: React.FC<{
     stat: AchievementStat;
@@ -103,17 +115,19 @@ const StatCard: React.FC<{
 }> = ({ stat, index, shouldAnimate, prefersReducedMotion, borderClassName }) => {
     const decimals = "decimals" in stat ? stat.decimals : 0;
     const useGrouping = "useGrouping" in stat ? stat.useGrouping : false;
-    const animate = shouldAnimate && !prefersReducedMotion;
+    const countUp = "countUp" in stat && stat.countUp;
+    const animate = countUp && shouldAnimate && !prefersReducedMotion;
     const count = useCountUp(
         stat.value,
-        COUNT_DURATIONS[index] ?? 1600,
+        COUNT_UP_DURATIONS[index] ?? 2200,
         animate,
         decimals
     );
 
-    const displayValue = prefersReducedMotion
-        ? formatStatValue(stat.value, { decimals, useGrouping })
-        : formatStatValue(count, { decimals, useGrouping });
+    const displayValue =
+        !countUp || prefersReducedMotion
+            ? formatStatValue(stat.value, { decimals, useGrouping })
+            : formatStatValue(count, { decimals, useGrouping });
 
     const prefix = "prefix" in stat ? stat.prefix : "";
 
@@ -161,29 +175,26 @@ const AchievementsStatsGrid: React.FC<{ className?: string }> = ({ className }) 
     const prefersReducedMotion = useReducedMotion();
 
     return (
-        <motion.div
-            ref={gridRef}
-            variants={prefersReducedMotion ? undefined : gridReveal}
-            initial={prefersReducedMotion ? false : "hidden"}
-            animate={prefersReducedMotion ? undefined : isInView ? "visible" : "hidden"}
-            className={[
-                "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 border border-[#EFE7DE] rounded-2xl overflow-hidden bg-white",
-                className,
-            ]
-                .filter(Boolean)
-                .join(" ")}
-        >
-            {achievementStats.map((stat, idx) => (
-                <StatCard
-                    key={stat.label}
-                    stat={stat}
-                    index={idx}
-                    shouldAnimate={isInView}
-                    prefersReducedMotion={prefersReducedMotion}
-                    borderClassName={getStatBorderClasses(idx, achievementStats.length)}
-                />
-            ))}
-        </motion.div>
+        <Container className={className}>
+            <motion.div
+                ref={gridRef}
+                variants={prefersReducedMotion ? undefined : gridReveal}
+                initial={prefersReducedMotion ? false : "hidden"}
+                animate={prefersReducedMotion ? undefined : isInView ? "visible" : "hidden"}
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 border border-[#EFE7DE] rounded-2xl overflow-hidden bg-white"
+            >
+                {achievementStats.map((stat, idx) => (
+                    <StatCard
+                        key={stat.label}
+                        stat={stat}
+                        index={idx}
+                        shouldAnimate={isInView}
+                        prefersReducedMotion={prefersReducedMotion}
+                        borderClassName={getStatBorderClasses(idx, achievementStats.length)}
+                    />
+                ))}
+            </motion.div>
+        </Container>
     );
 };
 

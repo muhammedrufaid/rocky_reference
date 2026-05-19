@@ -11,6 +11,7 @@ import WhatWeDoSection from "@/components/who-we-are/WhatWeDoSection";
 import VisionMissionSection from "@/components/who-we-are/VisionMission";
 import Achievements from "@/components/who-we-are/Achievements";
 import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
+import AchievementsStatsGrid from "@/components/who-we-are/AchievementsStatsGrid";
 
 export async function generateMetadata() {
   const pathname = "/who-we-are";
@@ -54,7 +55,7 @@ export default function WhoWeArePage() {
             { label: "Who We Are" },
           ]}
         />
-
+                <AchievementsStatsGrid className="mt-16" />
         <AboutRockySection />
         <WhatWeDoSection />
         <VisionMissionSection />

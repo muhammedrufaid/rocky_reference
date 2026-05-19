@@ -98,7 +98,7 @@ const Achievements: React.FC<{ className?: string }> = ({ className }) => {
                     </div> */}
                 </motion.div>
 
-                <AchievementsStatsGrid className="mt-16" />
+
 
                 {/* Divider */}
                 {/* <motion.div
