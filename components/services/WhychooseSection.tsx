@@ -64,7 +64,7 @@ const WhychooseSection: React.FC = () => {
     <section
       ref={sectionRef}
       className="py-16 md:py-20 lg:py-24"
-      style={{ backgroundColor: "#faf9f7" }}
+      style={{ backgroundColor: "" }}
       aria-labelledby="why-choose-services-heading"
     >
       <Container>
@@ -164,26 +164,6 @@ const WhychooseSection: React.FC = () => {
               </motion.li>
             ))}
           </ul>
-        </motion.div>
-
-        {/* Trust line */}
-        <motion.div
-          ref={statsRef}
-          className="mt-14 md:mt-16 pt-8 border-t border-[var(--charcoal)]/10 flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-12"
-          variants={fadeUp}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          custom={0.85}
-        >
-          <div className="flex items-center gap-3">
-            <span className="text-2xl md:text-3xl font-medium tabular-nums" style={{ color: "var(--rocky-blue)" }}>{yearsCount}+</span>
-            <span className="text-sm md:text-base" style={{ color: "var(--charcoal)", opacity: 0.8 }}>Years of experience</span>
-          </div>
-          <div className="hidden sm:block w-px h-8" style={{ backgroundColor: "var(--charcoal)", opacity: 0.15 }} />
-          <div className="flex items-center gap-3">
-            <span className="text-2xl md:text-3xl font-medium tabular-nums" style={{ color: "var(--rocky-blue)" }}>{transparencyCount}%</span>
-            <span className="text-sm md:text-base" style={{ color: "var(--charcoal)", opacity: 0.8 }}>Transparent service</span>
-          </div>
         </motion.div>
       </Container>
     </section>
