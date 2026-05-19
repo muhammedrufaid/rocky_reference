@@ -137,7 +137,7 @@ function DepartmentFilter({ departments, value, onChange }: DepartmentFilterProp
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label="Filter by department"
-        className="flex w-full items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white py-2.5 sm:py-3 pl-4 pr-10 text-left text-sm text-gray-700 outline-none transition-all duration-200 focus:border-[#0d365e] focus:ring-2 focus:ring-[#0d365e]/20"
+        className="flex w-full cursor-pointer items-center justify-between gap-2 rounded-lg border border-gray-200 bg-white py-2.5 sm:py-3 pl-4 pr-10 text-left text-sm text-gray-700 outline-none transition-all duration-200 focus:border-[#0d365e] focus:ring-2 focus:ring-[#0d365e]/20"
       >
         <span className="truncate">{selectedLabel}</span>
         <span
@@ -166,7 +166,7 @@ function DepartmentFilter({ departments, value, onChange }: DepartmentFilterProp
                     onChange(opt.value);
                     setOpen(false);
                   }}
-                  className={`w-full px-4 py-2.5 text-left text-sm transition-colors ${
+                  className={`w-full px-4 py-2.5 text-left text-sm cursor-pointer transition-colors ${
                     isSelected
                       ? "bg-[#0d365e] text-white"
                       : "text-gray-700 hover:bg-gray-50"
