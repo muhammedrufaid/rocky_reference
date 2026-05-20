@@ -48,11 +48,12 @@ export default function OurTeamPage() {
       <main className="site-header-offset">
         <PageHero
           title="Our Team"
-          description=""
           breadcrumb={[
             { label: "Home", href: "/" },
             { label: "Our Team" },
           ]}
+          ctaLabel="Join Our Team"
+          ctaHref="/careers"
         />
         <TeamsIntroSection />
         <TeamMembersSection />

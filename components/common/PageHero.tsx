@@ -4,10 +4,20 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import Container from "@/components/layout/Container";
+import { ArrowRightIcon } from "@/utils/icons";
 
 export interface BreadcrumbItem {
   label: string;
   href?: string;
+}
+
+/** `true` opens a generic popup; a string identifies a specific popup for listeners. */
+export type PageHeroCtaPopup = boolean | string;
+
+export const PAGE_HERO_CTA_POPUP_EVENT = "rocky:page-hero-cta-popup";
+
+export interface PageHeroCtaPopupDetail {
+  popupId?: string;
 }
 
 export interface PageHeroProps {
@@ -16,6 +26,12 @@ export interface PageHeroProps {
   breadcrumb: BreadcrumbItem[];
   /** Background image path. When provided, image shows with overlay. Otherwise uses gradient background. */
   image?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  /** When set, CTA is a button that triggers a popup instead of navigating. */
+  ctaPopup?: PageHeroCtaPopup;
+  /** Optional handler when `ctaPopup` is set; runs before the document custom event. */
+  onCtaPopupClick?: (popupId: string | undefined) => void;
 }
 
 const fadeUp = {
@@ -32,26 +48,87 @@ const gradientBg =
 const imageOverlay =
   "linear-gradient(135deg, rgba(13, 54, 94, 0.82) 0%, rgba(8, 31, 58, 0.78) 50%, rgba(13, 54, 94, 0.75) 100%)";
 
+const ctaClassName =
+  "group inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/80 hover:text-[#c3ad95]";
+
+const ctaStyle: React.CSSProperties = { color: "rgba(255, 255, 255, 0.85)" };
+
+function PageHeroCtaContent({ label }: { label: string }) {
+  return (
+    <>
+      <PulseDot />
+      {label}
+      <ArrowRightIcon
+        width="12"
+        height="12"
+        strokeWidth={2.5}
+        className="transition-transform duration-200 group-hover:translate-x-0.5"
+        aria-hidden
+      />
+    </>
+  );
+}
+
+function resolveCtaPopupId(ctaPopup: PageHeroCtaPopup): string | undefined {
+  return typeof ctaPopup === "string" ? ctaPopup : undefined;
+}
+
+function PulseDot() {
+  return (
+    <span className="relative flex items-center justify-center w-2.5 h-2.5 shrink-0">
+      {/* Ping ring — animates outward and fades */}
+      <span
+        className="absolute inline-flex h-full w-full rounded-full animate-ping"
+        style={{ backgroundColor: "rgba(195, 173, 149, 0.5)" }}
+      />
+      {/* Solid core dot */}
+      <span
+        className="relative inline-flex w-2.5 h-2.5 rounded-full"
+        style={{ backgroundColor: "#c3ad95" }}
+      />
+    </span>
+  );
+}
+
 const PageHero: React.FC<PageHeroProps> = ({
   title,
   description,
   breadcrumb,
   image,
+  ctaLabel,
+  ctaHref,
+  ctaPopup,
+  onCtaPopupClick,
 }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-40px" });
 
+  const trimmedCtaLabel = ctaLabel?.trim();
+  const isPopupCta = Boolean(ctaPopup);
+  const showCta = Boolean(trimmedCtaLabel) && (isPopupCta || Boolean(ctaHref));
+
+  const handleCtaPopupClick = () => {
+    if (!ctaPopup) return;
+    const popupId = resolveCtaPopupId(ctaPopup);
+    onCtaPopupClick?.(popupId);
+    document.dispatchEvent(
+      new CustomEvent<PageHeroCtaPopupDetail>(PAGE_HERO_CTA_POPUP_EVENT, {
+        detail: { popupId },
+      }),
+    );
+  };
+
   const sectionStyle = image
     ? {
-        backgroundImage: `url(${image})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundColor: "#081f3a",
-      }
+      backgroundImage: `url(${image})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundColor: "#081f3a",
+    }
     : {
-        background: gradientBg,
-        backgroundColor: "#081f3a",
-      };
+      background: gradientBg,
+      backgroundColor: "#081f3a",
+    };
 
   return (
     <section
@@ -153,7 +230,6 @@ const PageHero: React.FC<PageHeroProps> = ({
               {description}
             </motion.p>
           )}
-
           {/* Divider accent */}
           <motion.div
             className="mt-8 h-px w-12"
@@ -164,6 +240,41 @@ const PageHero: React.FC<PageHeroProps> = ({
             custom={0.26}
             aria-hidden
           />
+
+          {showCta && (
+            <motion.div
+              className="mt-8"
+              variants={fadeUp}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              custom={0.22}
+            >
+              {isPopupCta ? (
+                <button
+                  type="button"
+                  onClick={handleCtaPopupClick}
+                  className={ctaClassName}
+                  style={ctaStyle}
+                  aria-haspopup="dialog"
+                  aria-controls={
+                    typeof ctaPopup === "string" ? ctaPopup : undefined
+                  }
+                >
+                  <PageHeroCtaContent label={trimmedCtaLabel!} />
+                </button>
+              ) : (
+                <Link
+                  href={ctaHref!}
+                  className={ctaClassName}
+                  style={ctaStyle}
+                >
+                  <PageHeroCtaContent label={trimmedCtaLabel!} />
+                </Link>
+              )}
+            </motion.div>
+          )}
+
+
         </div>
       </Container>
     </section>
