@@ -8,21 +8,7 @@ import Pagination from "@/components/common/Pagination";
 import { teamMembers } from "@/utils/data";
 import { SelectChevronDownIcon, TeamSearchIcon } from "@/utils/icons";
 
-const ITEMS_PER_PAGE = 12;
-
-/** Title case per word (e.g. "GIZEM OKSUZ" → "Gizem Oksuz"). Tailwind `capitalize` does not lowercase the rest of each word. */
-function formatTeamMemberName(name: string): string {
-  const locale = "en";
-  return name
-    .trim()
-    .split(/\s+/)
-    .map((word) => {
-      if (!word) return word;
-      const lower = word.toLocaleLowerCase(locale);
-      return lower.charAt(0).toLocaleUpperCase(locale) + lower.slice(1);
-    })
-    .join(" ");
-}
+const ITEMS_PER_PAGE = 15;
 
 function getTeamMemberInitials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -51,7 +37,7 @@ const TeamMemberCardImage: React.FC<TeamMemberCardImageProps> = ({ name, image }
       {!showPlaceholder && (
         <Image
           src={trimmed}
-          alt={formatTeamMemberName(name)}
+          alt={name.trim()}
           fill
           className="object-cover"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
@@ -265,7 +251,7 @@ const TeamMembersSection: React.FC = () => {
         {/* Grid - image and content separated */}
         <AnimatePresence mode="popLayout">
           {filteredMembers.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-6 sm:gap-8">
               {paginatedMembers.map((member, index) => (
                 <motion.article
                   key={member.id}
@@ -292,7 +278,7 @@ const TeamMembersSection: React.FC = () => {
                     {/* Content - separate block */}
                     <div className="flex flex-col gap-2">
                       <h3 className="normal-case text-base sm:text-lg font-medium text-[#0d365e] group-hover:text-[#1a5a96] transition-colors duration-200">
-                        {formatTeamMemberName(member.name)}
+                        {member.name.trim()}
                       </h3>
                       {member.designation && (
                         <p className="text-sm text-[#9f8870] group-hover:text-[#0d365e]/80 transition-colors duration-200">
