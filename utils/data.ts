@@ -320,14 +320,6 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 10,
-    name: "Revathy Ravi",
-    department: "Finance",
-    designation: "Accountant",
-    image: "/assets/teams/accountant/revathy.webp",
-    // path: "/our-team/sarah-johnson",
-  },
-  {
-    id: 11,
     name: "Perhat Atayev",
     department: "Telesales",
     designation: "Senior Telesales",
@@ -335,7 +327,7 @@ export const teamMembers: TeamMember[] = [
     // path: "/our-team/sarah-johnson",
   },
   {
-    id: 12,
+    id: 11,
     name: "Mariam Al Madamgha",
     department: "",
     designation: "Marketing Manager",
@@ -343,11 +335,19 @@ export const teamMembers: TeamMember[] = [
     // path: "/our-team/sarah-johnson",
   },
   {
-    id: 13,
+    id: 12,
     name: "Czarina Tanggap",
     department: "CRM",
     designation: "Head of CRM",
     image: "/assets/teams/crm/czrina.webp",
+    // path: "/our-team/sarah-johnson",
+  },
+  {
+    id: 13,
+    name: "Revathy Ravi",
+    department: "Finance",
+    designation: "Accountant",
+    image: "/assets/teams/accountant/revathy.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
