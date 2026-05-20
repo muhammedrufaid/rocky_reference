@@ -88,9 +88,9 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
     <>
       <header
         ref={headerRef}
-        className={`font-dubai fixed top-0 left-0 right-0 z-50 w-full min-w-0 overflow-x-clip transition-all duration-500 ease-out ${isHidden ? "-translate-y-full" : ""
+        className={`font-dubai fixed top-0 left-0 right-0 z-50 w-full min-w-0 overflow-visible transition-all duration-500 ease-out ${isHidden ? "-translate-y-full" : ""
           } ${isSolid
-            ? "bg-white backdrop-blur-md shadow-sm border-b border-[var(--border-light)]"
+            ? "bg-white shadow-sm border-b border-[var(--border-light)]"
             : "bg-transparent"
           }`}
       >
@@ -118,7 +118,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-8" aria-label="Primary navigation">
+            <nav className="hidden lg:flex items-center gap-8 overflow-visible" aria-label="Primary navigation">
               {navigationData.map((item) =>
                 item.path && !("type" in item && item.type === "dropdown") ? (
                   <Link
@@ -187,17 +187,17 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                           className={`absolute bottom-0 left-0 h-0.5 w-full transition-all ${isSolid ? "bg-[#C3AD95]" : "bg-[#C3AD95]"
                             }`}
                         />
-                        <div className="absolute top-full left-0 pt-2">
+                        <div className="absolute top-full left-0 z-[60] pt-2 before:absolute before:-top-2 before:left-0 before:right-0 before:h-2 before:content-['']">
                           <ul
                             id={`desktop-dropdown-${item.id}`}
-                            className="min-w-[220px] py-2 rounded-lg shadow-lg border border-[var(--border-light)] bg-white"
+                            className="header-nav-dropdown relative isolate min-w-[220px] py-2 rounded-lg bg-white shadow-lg border border-[var(--border-light)] [transform:translateZ(0)]"
                             aria-label={`${item.title} submenu`}
                           >
                             {"children" in item && item.children.map((sub) => (
                               <li key={sub.id} className="whitespace-nowrap">
                                 <Link
                                   href={sub.path}
-                                  className="block px-4 py-2.5 text-[15px] font-medium text-[var(--charcoal)] hover:bg-[var(--soft-sand)]/30 hover:text-[var(--rocky-blue)] transition-colors whitespace-nowrap"
+                                  className="block px-4 py-2.5 text-[15px] font-medium text-[#333333] hover:bg-[var(--soft-sand)]/30 hover:text-[var(--rocky-blue)] transition-colors whitespace-nowrap"
                                 >
                                   {sub.title}
                                 </Link>

@@ -48,3 +48,10 @@ h1, h2, h3, h4, h5, h6 {
 .font-dubai {
   font-family: var(--font-dubai), Arial, Helvetica, sans-serif;
 }
+
+/* Safari: compositing on fixed header ancestors can paint dropdown panels without link text */
+.header-nav-dropdown {
+  isolation: isolate;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
