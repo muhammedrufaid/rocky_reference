@@ -1038,16 +1038,40 @@ export const blogPosts: BlogPost[] = [
       },
     ],
   },
-  // {
-  //   id: 4,
-  //   title: "Dubai Real Estate Market Insights: What to Expect in 2026",
-  //   category: "Residential",
-  //   description:
-  //     "Stay ahead of the curve with our expert analysis of the Dubai real estate market trends, predictions, and opportunities for 2026.",
-  //   image:
-  //     "https://images.pexels.com/photos/10514386/pexels-photo-10514386.jpeg",
-  //   path: "/blog/dubai-real-estate-market-insights",
-  // },
+  {
+    id: 4,
+    title: "Luxurious 3BHK at The Residence Marina Gate 2, Dubai Marina",
+    category: "Residential",
+    description:
+      "A fully furnished 1,809 sq. ft. 3BHK at The Residence Marina Gate 2 in Dubai Marina—pool, sauna, steam room, gym, and minutes from Dubai Marina Mall and Marina Beach.",
+    image: "/assets/common/rent.webp",
+    video: "https://youtu.be/G0oA5D3G9-U?si=Z9S_mG18k4hA32vS",
+    path: "/blog/luxurious-3bhk-residence-marina-gate-2-dubai-marina",
+    content: [
+      {
+        type: "paragraph",
+        text: "Step into a completely furnished, luxurious 3BHK apartment at The Residence Marina Gate 2, Dubai Marina.",
+      },
+      {
+        type: "paragraph",
+        text: "Located in the heart of Dubai, the 1,809 sq. ft. apartment offers several top-notch amenities, including a swimming pool, sauna and steam room, gymnasium, and more.",
+      },
+      {
+        type: "paragraph",
+        text: "Minutes away from Dubai Marina Mall and Marina Beach, this is the perfect location.",
+      },
+      {
+        type: "list",
+        items: [
+          [
+            "Want to rent it? Contact us at +971 4 447 6644 or ",
+            { text: "rent it here", href: "/properties/rent/in-dubai/RO-R-03024" },
+            ".",
+          ],
+        ],
+      },
+    ],
+  },
 ];
 
 export const testimonials: Testimonial[] = [
