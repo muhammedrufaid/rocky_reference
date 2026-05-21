@@ -250,7 +250,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Ashok Uttamchandani",
     department: "",
     designation: "Founder",
-    image: "",
+    image: "/assets/teams/ashok-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -258,7 +258,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Kiran Uttamchandani",
     department: "",
     designation: "",
-    image: "",
+    image: "/assets/teams/kiran-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
