@@ -339,7 +339,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Mariam Al Madamgha",
     department: "",
     designation: "Marketing Manager",
-    image: "/assets/teams/marketing/mariam.webp",
+    image: "/assets/teams/marketing/mariam-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
