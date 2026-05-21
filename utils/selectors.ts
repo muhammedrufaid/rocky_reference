@@ -1,6 +1,6 @@
 import { slugify, slugFromPath } from "./slugify";
 import type { Service, TeamMember } from "./types";
-import { services, teamMembers } from "./data";
+import { services, teamMembers2 } from "./data";
 
 /** Slug for `/our-team/[slug]`: last segment of `path` when set, otherwise `slugify(name)`. */
 export function getTeamMemberSlug(member: TeamMember): string {
@@ -13,7 +13,7 @@ export function getTeamMemberSlug(member: TeamMember): string {
 }
 
 export function getTeamMemberBySlug(slug: string): TeamMember | undefined {
-  return teamMembers.find((m) => getTeamMemberSlug(m) === slug);
+  return teamMembers2.find((m) => getTeamMemberSlug(m) === slug);
 }
 
 export function getServiceBySlug(slug: string): Service | undefined {

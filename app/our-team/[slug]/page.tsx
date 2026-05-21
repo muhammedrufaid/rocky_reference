@@ -1,7 +1,7 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Container from "@/components/layout/Container";
-import { teamMembers } from "@/utils/data";
+import { teamMembers2 } from "@/utils/data";
 import { getTeamMemberBySlug, getTeamMemberSlug } from "@/utils/selectors";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -10,7 +10,7 @@ import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return teamMembers.map((m) => ({ slug: getTeamMemberSlug(m) }));
+  return teamMembers2.map((m) => ({ slug: getTeamMemberSlug(m) }));
 }
 
 export async function generateMetadata({ params }: Props) {

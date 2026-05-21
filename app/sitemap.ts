@@ -5,7 +5,7 @@ import {
   getDeveloperSlugFromPath,
   openPositions,
   services,
-  teamMembers,
+  teamMembers2,
 } from "@/utils/data";
 import { getTeamMemberSlug } from "@/utils/selectors";
 import { getSiteUrl } from "@/utils/seo";
@@ -75,7 +75,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
   }));
 
-  const teamRoutes: MetadataRoute.Sitemap = teamMembers.map((member) => ({
+  const teamRoutes: MetadataRoute.Sitemap = teamMembers2.map((member) => ({
     url: `${baseUrl}/our-team/${getTeamMemberSlug(member)}`,
     lastModified: now,
     changeFrequency: "monthly",

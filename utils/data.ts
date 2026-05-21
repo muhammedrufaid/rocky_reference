@@ -244,7 +244,7 @@ export const propertyListings: PropertyListing[] = [
   },
 ];
 
-export const teamMembers: TeamMember[] = [
+export const teamMembers2: TeamMember[] = [
   {
     id: 1,
     name: "Ashok Uttamchandani",
@@ -291,7 +291,7 @@ export const teamMembers: TeamMember[] = [
     name: "Wasif Aftab",
     department: "Property Consultant",
     designation: "Secondary Team Leader",
-    image: "/assets/teams/secondary/wasif.webp",
+    image: "/assets/teams/secondary/wasif11.webp",
     // path: "/our-team/sarah-johnson",
   },
   {

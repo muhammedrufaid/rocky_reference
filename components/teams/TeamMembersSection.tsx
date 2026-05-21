@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/layout/Container";
 import Pagination from "@/components/common/Pagination";
-import { teamMembers } from "@/utils/data";
+import { teamMembers2 } from "@/utils/data";
 import { SelectChevronDownIcon, TeamSearchIcon } from "@/utils/icons";
 
 const ITEMS_PER_PAGE = 15;
@@ -175,7 +175,7 @@ const TeamMembersSection: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const departments = useMemo(() => {
-    const names = teamMembers
+    const names = teamMembers2
       .map((m) => m.department.trim())
       .filter((d) => d.length > 0);
     return [...new Set(names)].sort();
@@ -188,7 +188,7 @@ const TeamMembersSection: React.FC = () => {
   }, [departments, departmentFilter]);
 
   const filteredMembers = useMemo(() => {
-    return teamMembers.filter((member) => {
+    return teamMembers2.filter((member) => {
       const q = searchQuery.trim().toLowerCase();
       const matchesSearch =
         q === "" ||
