@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
+import PropertyImage from "@/components/common/PropertyImage";
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 import { featuredProperties } from "@/utils/data";
@@ -92,7 +92,7 @@ const ExplorePropertySection: React.FC<{ data: any }> = ({ data }) => {
                                     className="relative overflow-hidden rounded-xl"
                                     style={{ aspectRatio: "3/2" }}
                                 >
-                                    <Image
+                                    <PropertyImage
                                         src={project?.images?.[0] || "https://placehold.co/400x300/f0ede8/0d365e?text=Property"}
                                         alt={project?.towerName || project?.propertyRefNo}
                                         fill

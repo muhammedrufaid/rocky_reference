@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
+import PropertyImage from "@/components/common/PropertyImage";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -135,7 +135,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
       {/* ── Image ── */}
       <div className="relative sm:w-48 md:w-52 lg:w-56 shrink-0 overflow-hidden bg-[#f0ede8]">
         <div className="relative w-full h-44 sm:h-[224px] md:h-[236px] lg:h-[246px]">
-          <Image
+          <PropertyImage
             src={mainImage}
             alt={displayTitle}
             fill

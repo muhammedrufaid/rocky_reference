@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
+import PropertyImage from "@/components/common/PropertyImage";
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 import { ArrowRightIcon, CallIcon, DirhamIcon, LocationIcon, WhatsAppIcon } from "@/utils/icons";
@@ -92,7 +92,7 @@ const FeaturedOffPlanProjects: React.FC<FeaturedOffPlanProjectsProps> = ({ data,
                 <Link href={`/off-plan-properties/in-dubai/${project.propertyRefNo}`} className="flex flex-col flex-1">
                   {/* Image — aspect-[4/3] suits 4-col layout */}
                   <figure className="relative aspect-[4/3] overflow-hidden">
-                    <Image
+                    <PropertyImage
                       src={project.images?.[0] ?? "https://placehold.co/400x300/f0ede8/0d365e?text=Property"}
                       alt={project.propertyTitle}
                       fill
