@@ -13,15 +13,15 @@ interface FaqItem {
 const faqs: FaqItem[] = [
   {
     id: "faq-1",
-    question: "What does Rocky Real Estate’s Property Management include?",
-    answer:
-      "At Rocky Real Estate, we provide end-to-end service: screening, rent collection, legal compliance, maintenance, detailed financial reporting, and more. We currently manage over 300 buildings, treating every unit like our own.",
-  },
-  {
-    id: "faq-2",
     question: "Why should you choose Rocky Real Estate?",
     answer:
       "With a legacy of over 50 years, we offer 'Local Intelligence' and have navigated every market cycle in Dubai, providing a stable, transparent partnership.",
+  },
+  {
+    id: "faq-2",
+    question: "What does Rocky Real Estate’s Property Management include?",
+    answer:
+      "At Rocky Real Estate, we provide end-to-end service: screening, rent collection, legal compliance, maintenance, detailed financial reporting, and more. We currently manage over 300 buildings, treating every unit like our own.",
   },
   {
     id: "faq-3",
