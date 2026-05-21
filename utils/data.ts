@@ -291,7 +291,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Wasif Aftab",
     department: "Property Consultant",
     designation: "Secondary Team Leader",
-    image: "/assets/teams/secondary/wasif11.webp",
+    image: "/assets/teams/secondary/wasif-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
