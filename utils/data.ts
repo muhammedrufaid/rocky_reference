@@ -625,7 +625,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 48,
-    name: "Mehri Berdiyeva",
+    name: "Mahri Berdiyeva",
     department: "Telesales",
     designation: "Telesales",
     image: "/assets/teams/telesales/mehri.webp",
