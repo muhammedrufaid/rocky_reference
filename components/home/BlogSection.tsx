@@ -73,7 +73,7 @@ const BlogSection: React.FC = () => {
         </header>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {blogPosts.map((post, index) => (
+          {blogPosts.slice(0, 4).map((post, index) => (
             <motion.article
               key={post.id}
               initial={{ opacity: 0, y: 24 }}

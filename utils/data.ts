@@ -1045,7 +1045,7 @@ export const blogPosts: BlogPost[] = [
     description:
       "A fully furnished 1,809 sq. ft. 3BHK at The Residence Marina Gate 2 in Dubai Marina—pool, sauna, steam room, gym, and minutes from Dubai Marina Mall and Marina Beach.",
     image: "/assets/common/rent.webp",
-    video: "https://youtu.be/G0oA5D3G9-U?si=Z9S_mG18k4hA32vS",
+    // video: "https://youtu.be/G0oA5D3G9-U?si=Z9S_mG18k4hA32vS",
     path: "/blog/luxurious-3bhk-residence-marina-gate-2-dubai-marina",
     content: [
       {
@@ -1068,6 +1068,153 @@ export const blogPosts: BlogPost[] = [
             { text: "rent it here", href: "/properties/rent/in-dubai/RO-R-03024" },
             ".",
           ],
+        ],
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: "Buying Property in Dubai as a Foreigner: Step-by-Step Guide",
+    category: "Insights",
+    description:
+      "A clear 7-step guide for foreigners buying property in Dubai—from freehold zones and finances to RERA brokers, MOU, NOC, DLD transfer, and closing costs.",
+    image: "/assets/common/buy.webp",
+    path: "/blog/buying-property-dubai-foreigner",
+    content: [
+      {
+        type: "paragraph",
+        text: "Purchasing a property in Dubai, as a foreigner, might seem like a daunting process. But we’re here to make it simple.",
+      },
+      {
+        type: "paragraph",
+        text: "The first thing to know is that buying a property in Dubai as a foreigner is quite simple: you do not need to be a UAE resident, and you can obtain 100% freehold ownership in designated zones.",
+      },
+      {
+        type: "paragraph",
+        text: "We are here to break it down into 7 simple steps.",
+      },
+      {
+        type: "heading2",
+        text: "1. Choose the property type and location",
+      },
+      {
+        type: "paragraph",
+        text: "Foreigners, whether residing in the UAE or outside, can buy a property in Dubai in designated freehold zones. In addition to choosing the location, the buyer will need to decide whether to purchase an off-plan or ready property before beginning the process.",
+      },
+      {
+        type: "paragraph",
+        text: "Note: Off-plan properties offer more flexible payment terms compared to ready properties.",
+      },
+      {
+        type: "paragraph",
+        text: "There are over 60 areas in the freehold zone. Some of the key locations for foreigners include: Downtown Dubai, Dubai Marina, Jumeirah Village Circle (JVC), Business Bay, Palm Jumeirah, DIFC, Arabian Ranches, and more.",
+      },
+      { type: "heading2", text: "2. Finances and documents" },
+      {
+        type: "paragraph",
+        text: "Once you decide on the type of property and location, get your finances and paperwork in order.",
+      },
+      {
+        type: "paragraph",
+        text: "If you’re a cash buyer, the required documents will include a valid passport and proof of funds (e.g., bank statements).",
+      },
+      {
+        type: "paragraph",
+        text: "If you’re a pre-approved buyer, you will need to obtain a “mortgage in principle” from a UAE bank to showcase your exact buying budget.",
+      },
+      {
+        type: "paragraph",
+        text: "And if you’re a mortgaged buyer, the most common type, you will need a minimum monthly salary of AED 15,000, along with a valid passport, a credit report, and proof of income.",
+      },
+      { type: "heading2", text: "3. Hire a RERA-registered broker" },
+      {
+        type: "paragraph",
+        text: "To proceed, it is absolutely necessary to hire a Real Estate Regulatory Authority (RERA)-registered agent or broker to ensure compliance with official regulations and access only verified listings.",
+      },
+      {
+        type: "paragraph",
+        text: "To verify agents, you can use the official Dubai REST Application.",
+      },
+      {
+        type: "heading2",
+        text: "4. Make an offer and sign the Memorandum of Understanding (MOU)",
+      },
+      {
+        type: "paragraph",
+        text: "The next step is to make an offer to the seller once you find your desired property. Then you can sign the Memorandum of Understanding (MOU), also known as Form F, which outlines all the terms of the sale.",
+      },
+      {
+        type: "paragraph",
+        text: "At this stage of the process, you will need to pay a security deposit, typically 10% of the purchase price.",
+      },
+      { type: "heading2", text: "5. Apply for the NOC" },
+      {
+        type: "paragraph",
+        text: "The next step is to apply for a No Objection Certificate (NOC) from the developer. Doing this confirms that there are no mortgages, utility bills, or outstanding service fees on the property.",
+      },
+      {
+        type: "paragraph",
+        text: "The NOC process lasts a few days and costs up to AED 5,000.",
+      },
+      {
+        type: "heading2",
+        text: "6. Transfer ownership at the Dubai Land Department (DLD)",
+      },
+      {
+        type: "paragraph",
+        text: "To complete the transfer of ownership, both parties have to visit the Dubai Land Department (DLD) or an authorized Registration Trustee office.",
+      },
+      {
+        type: "paragraph",
+        text: "The documents required for this process include your original passport, signed MOU, approved NOC, the cheques for the remaining property balance, and the closing fees.",
+      },
+      {
+        type: "heading2",
+        text: "7. Pay closing costs and receive the title deed",
+      },
+      {
+        type: "paragraph",
+        text: "Upon successful transfer of funds at the DLD office, the title deed will be issued under your name, making you the owner of the property.",
+      },
+      {
+        type: "paragraph",
+        text: "However, it is important to budget for the closing costs. They include:",
+      },
+      {
+        type: "list",
+        items: [
+          "DLD transfer fee — Usually 4% of the property purchase price",
+          "Agency fee — 2% of the property purchase price + 5% VAT",
+          "Mortgage fees (if applicable)",
+          "Registration trustee fee, which ranges from AED 2,000 to AED 4,000",
+        ],
+      },
+    ],
+  },
+  {
+    id: 6,
+    title: "2026 Q1 Awards: Celebrating the people driving our success",
+    category: "Company",
+    description:
+      "Rocky Real Estate’s Q1 2026 awards—recognizing Wasif Aftab, Perhat Atayev, and Ahmed Fawzy for outstanding contributions after a record-breaking year in Dubai real estate.",
+    image: "/assets/common/awards.webp",
+    path: "/blog/2026-q1-awards",
+    content: [
+      {
+        type: "paragraph",
+        text: "2025 ended on a high note in the real estate market with over AED 682.49 billion in total real estate transactions across sales, leasing, and services, according to Dubai Land Department (DLD) data.",
+      },
+      {
+        type: "paragraph",
+        text: "And at Rocky Real Estate, that momentum continued into the first quarter of 2026, with agents and admin team members generating profits for the company. At the company's Q1 awards, we celebrated the following members for their hard work.",
+      },
+      { type: "heading2", text: "Q1 2026 award winners" },
+      {
+        type: "list",
+        items: [
+          "Wasif Aftab — Manager of the Quarter",
+          "Perhat Atayev — Admin of the Quarter",
+          "Ahmed Fawzy — Rising Agent of the Quarter",
         ],
       },
     ],
