@@ -5,6 +5,7 @@ import Script from "next/script";
 import { getSiteUrl, toAbsoluteUrl } from "@/utils/seo";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import ContactWidget from "@/components/layout/ContactWidget";
 
 const siteUrl = getSiteUrl();
 const metadataBase = new URL(siteUrl);
@@ -69,6 +70,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased" suppressHydrationWarning>
         {children}
+        <ContactWidget />
         <Analytics />
         <SpeedInsights />
       </body>
