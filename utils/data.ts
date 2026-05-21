@@ -283,7 +283,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Gizem Oksuz",
     department: "",
     designation: "Head of Operations",
-    image: "/assets/teams/gizem.webp",
+    image: "/assets/teams/gizem-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
