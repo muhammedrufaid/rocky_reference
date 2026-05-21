@@ -108,7 +108,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
               className={`shrink-0 transition-all duration-500 ${isSolid ? "" : "brightness-0 invert"}`}
             >
               <Image
-                src="/assets/common/Rocky-Logo-Original.svg"
+                src="/assets/common/rocky-50-logo.svg"
                 alt="Rocky Real Estate"
                 width={140}
                 height={56}
