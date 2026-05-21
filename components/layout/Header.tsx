@@ -9,6 +9,39 @@ import { navigationData } from "../../utils/data";
 const SCROLL_THRESHOLD = 50;
 const HEADER_HEIGHT_CSS_VAR = "--site-header-height";
 
+const socialLinks = [
+  { name: "Instagram", href: "https://www.instagram.com/rockyrealestatedubai", icon: "instagram" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/company/rockyrealestatedubai/", icon: "linkedin" },
+  { name: "Facebook", href: "https://www.facebook.com/rockyrealestatedubai/", icon: "facebook" },
+  { name: "TikTok", href: "https://www.tiktok.com/@rockyrealestate", icon: "tiktok" },
+] as const;
+
+const SocialIcon = ({ name, className }: { name: string; className?: string }) => {
+  const icons: Record<string, React.ReactNode> = {
+    instagram: (
+      <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+      </svg>
+    ),
+    tiktok: (
+      <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z" />
+      </svg>
+    ),
+    linkedin: (
+      <svg className={className} fill="currentColor" viewBox="0 0 448 512" aria-hidden="true">
+        <path d="M100.28 448H7.4V148.9h92.78zm-46.4-341.6C24.12 106.4 0 82.28 0 53.2A53.2 53.2 0 0 1 53.2 0a53.2 53.2 0 0 1 53.2 53.2c0 29.08-24.12 53.2-53.32 53.2zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.68V148.9h89V184h1.3c12.4-23.5 42.7-48.3 87.8-48.3 93.8 0 111.1 61.7 111.1 141.9V448z" />
+      </svg>
+    ),
+    facebook: (
+      <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M24 12C24 5.37 18.63 0 12 0S0 5.37 0 12c0 5.99 4.39 10.95 10.13 11.85v-8.39H7.08v-3.46h3.05V9.41c0-3 1.79-4.67 4.53-4.67 1.31 0 2.68.23 2.68.23v2.95h-1.51c-1.49 0-1.95.92-1.95 1.87v2.24h3.33l-.53 3.46h-2.8v8.39C19.61 22.95 24 17.99 24 12z" />
+      </svg>
+    ),
+  };
+  return icons[name] ?? null;
+};
+
 interface HeaderProps {
   forceSolid?: boolean;
   hideOnScroll?: boolean;
@@ -212,47 +245,28 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
               )}
             </nav>
 
-            {/* Right: CTAs */}
-            <div className="flex items-center gap-3 md:gap-4">
-              {/* Secondary CTA - Call */}
-              <a
-                href="tel:+971501234567"
-                aria-label="Call Rocky Real Estate"
-                className={`hidden sm:flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-500 ${isSolid
-                    ? "text-[var(--rocky-blue)] border border-[var(--rocky-blue)] hover:bg-[var(--rocky-blue)] hover:text-white"
-                    : "text-white border border-white/80 hover:bg-white hover:text-[var(--rocky-blue)]"
-                  }`}
+            {/* Right: Social + mobile menu */}
+            <div className="flex items-center gap-1.5 sm:gap-2 md:gap-2.5">
+              <nav
+                className="hidden lg:flex items-center gap-2"
+                aria-label="Social media"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 5.5C3 4.12 4.12 3 5.5 3h1.1c.73 0 1.37.47 1.6 1.16l.8 2.4c.2.6.03 1.26-.44 1.69l-1.1 1a14.5 14.5 0 007.98 7.98l1-1.1c.43-.47 1.09-.64 1.69-.44l2.4.8c.69.23 1.16.87 1.16 1.6v1.1C21 19.88 19.88 21 18.5 21H17c-7.73 0-14-6.27-14-14V5.5z"
-                  />
-                </svg>
-                Call
-              </a>
-
-              {/* Primary CTA - WhatsApp */}
-              <a
-                href="https://wa.me/+971564120637"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="WhatsApp Rocky Real Estate"
-                className="hidden sm:flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-[#25d366]/90 rounded-lg hover:bg-[#25d366] transition-colors"
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                </svg>
-                WhatsApp
-              </a>
+                {socialLinks.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Follow us on ${item.name}`}
+                    className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${isSolid
+                        ? "text-[var(--rocky-blue)] hover:opacity-70 focus-visible:ring-[var(--rocky-blue)]"
+                        : "text-white hover:opacity-80 focus-visible:ring-white"
+                      }`}
+                  >
+                    <SocialIcon name={item.icon} className="w-5 h-5" />
+                  </a>
+                ))}
+              </nav>
 
               {/* Mobile hamburger */}
               <button
@@ -409,28 +423,25 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
           </ul>
         </nav>
 
-        {/* Sidebar footer CTAs */}
-        <div className="shrink-0 border-t border-[var(--border-light)] p-4 flex flex-col gap-3">
-          <a
-            href="https://wa.me/971501234567"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-3 w-full py-3 text-sm font-medium text-white bg-[var(--rocky-blue)] rounded-xl hover:bg-[var(--rocky-blue-hover)] transition-colors"
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-            </svg>
-            WhatsApp Us
-          </a>
-          <a
-            href="tel:+971501234567"
-            className="flex items-center justify-center gap-3 w-full py-3 text-sm font-medium text-[var(--rocky-blue)] border border-[var(--rocky-blue)] rounded-xl hover:bg-[var(--rocky-blue)] hover:text-white transition-colors"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 8V5z" />
-            </svg>
-            Call Us
-          </a>
+        {/* Sidebar footer — social */}
+        <div className="shrink-0 border-t border-[var(--border-light)] p-5">
+          <p className="text-center text-xs font-medium uppercase tracking-wider text-[var(--charcoal)]/50 mb-4">
+            Follow us
+          </p>
+          <nav className="flex items-center justify-center gap-4" aria-label="Social media">
+            {socialLinks.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Follow us on ${item.name}`}
+                className="flex items-center justify-center w-12 h-12 rounded-full text-[var(--rocky-blue)] bg-[var(--soft-sand)]/20 hover:bg-[var(--soft-sand)]/50 hover:opacity-80 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--rocky-blue)] focus-visible:ring-offset-2"
+              >
+                <SocialIcon name={item.icon} className="w-6 h-6" />
+              </a>
+            ))}
+          </nav>
         </div>
       </aside>
     </>
