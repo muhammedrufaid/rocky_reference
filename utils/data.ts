@@ -299,7 +299,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Manali Galani",
     department: "Off Plan",
     designation: "Off Plan Team Leader",
-    image: "/assets/teams/offplan/manali.webp",
+    image: "/assets/teams/offplan/manali-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
