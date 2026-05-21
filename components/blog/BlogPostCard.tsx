@@ -32,7 +32,7 @@ export default function BlogPostCard({ post, variant = "listing", className }: P
               {post.category}
             </p>
             <h3 className="mt-2 line-clamp-2 text-base font-medium transition-colors">
-              {post.description}
+              {post.title}
             </h3>
           </div>
         </div>
