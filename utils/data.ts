@@ -595,7 +595,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Muhammed Ali",
     department: "Property Consultant",
     designation: "Property Consultant",
-    image: "/assets/teams/secondary/muhammedali-rocky.webp",
+    image: "/assets/teams/secondary/muhammadali-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -675,7 +675,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Abdullah Mahouk",
     department: "Off Plan",
     designation: "Off Plan Property Consultant",
-    image: "/assets/teams/offplan/abdullah-rocky.webp",
+    image: "/assets/teams/offplan/abdulla-rocky.webp",
     // path: "/our-team/sarah-johnson",
   }, 
   {
