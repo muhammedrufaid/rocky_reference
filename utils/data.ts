@@ -274,7 +274,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Suraj Rajshekar",
     department: "",
     designation: "",
-    image: "",
+    image: "/assets/teams/suraj-rocky.webp",
     // path: "/our-team/omar-hassan",
   },
   {
@@ -378,7 +378,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Angelo Rance",
     department: "CRM",
     designation: "Listing Coordinator",
-    image: "",
+    image: "/assets/teams/crm/rance-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -402,7 +402,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Mohamed Naziq",
     department: "Marketing",
     designation: "Graphic Designer",
-    image: "/assets/teams/marketing/naz.webp",
+    image: "/assets/teams/marketing/naziq-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -418,7 +418,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Ahsan Ali",
     department: "Marketing",
     designation: "Photographer",
-    image: "",
+    image: "/assets/teams/marketing/ahsan-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -442,7 +442,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Sherifa Azmi",
     department: "Property Management",
     designation: "Property Management & Leasing Executive",
-    image: "",
+    image: "/assets/teams/pm/sherifa-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -458,7 +458,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Gabriela Viricimo",
     department: "Telesales",
     designation: "Telesales",
-    image: "/assets/teams/telesales/gabriela.webp",
+    image: "/assets/teams/telesales/gabriala-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -490,7 +490,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Bhavesh Magnani",
     department: "Property Consultant",
     designation: "Senior Property Consultant",
-    image: "/assets/teams/secondary/bhavesh.webp",
+    image: "/assets/teams/secondary/bhavesh-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -683,7 +683,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Ziad Elsayed",
     department: "Off Plan",
     designation: "Off Plan Property Consultant",
-    image: "",
+    image: "/assets/teams/offplan/ziad-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
