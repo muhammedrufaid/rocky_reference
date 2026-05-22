@@ -1,21 +1,151 @@
 "use client";
 
-import React from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 interface VideoBackgroundProps {
   videoSrc: string;
 }
 
+const MAX_PLAY_RETRIES = 4;
+const MAX_LOAD_RETRIES = 2;
+const PLAY_RETRY_DELAY_MS = 350;
+
+function getVideoMimeType(src: string): string {
+  if (src.endsWith(".webm")) return "video/webm";
+  if (src.endsWith(".ogg") || src.endsWith(".ogv")) return "video/ogg";
+  return "video/mp4";
+}
+
 const VideoBackground: React.FC<VideoBackgroundProps> = ({ videoSrc }) => {
-  const [videoLoaded, setVideoLoaded] = React.useState(false);
-  const [videoError, setVideoError] = React.useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const playRetryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const playAttemptsRef = useRef(0);
+  const loadAttemptsRef = useRef(0);
+
+  const [mounted, setMounted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
+
+  const clearPlayRetry = useCallback(() => {
+    if (playRetryTimeoutRef.current) {
+      clearTimeout(playRetryTimeoutRef.current);
+      playRetryTimeoutRef.current = null;
+    }
+  }, []);
+
+  const attemptPlay = useCallback(async () => {
+    const video = videoRef.current;
+    if (!video || loadFailed) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    try {
+      await video.play();
+      playAttemptsRef.current = 0;
+      setIsPlaying(true);
+    } catch {
+      playAttemptsRef.current += 1;
+      if (playAttemptsRef.current >= MAX_PLAY_RETRIES) {
+        setLoadFailed(true);
+        return;
+      }
+      clearPlayRetry();
+      playRetryTimeoutRef.current = setTimeout(() => {
+        void attemptPlay();
+      }, PLAY_RETRY_DELAY_MS);
+    }
+  }, [loadFailed, clearPlayRetry]);
+
+  const handleReady = useCallback(() => {
+    void attemptPlay();
+  }, [attemptPlay]);
+
+  const handlePlaying = useCallback(() => {
+    setIsPlaying(true);
+    playAttemptsRef.current = 0;
+    clearPlayRetry();
+  }, [clearPlayRetry]);
+
+  const handleError = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) {
+      setLoadFailed(true);
+      return;
+    }
+
+    if (loadAttemptsRef.current < MAX_LOAD_RETRIES) {
+      loadAttemptsRef.current += 1;
+      setIsPlaying(false);
+      video.load();
+      return;
+    }
+
+    setLoadFailed(true);
+    setIsPlaying(false);
+  }, []);
+
+  // Client-only mount — avoids hydration timing mismatches with media APIs
+  useEffect(() => {
+    setMounted(true);
+    return () => clearPlayRetry();
+  }, [clearPlayRetry]);
+
+  // Reset and (re)initialize when src changes or after mount
+  useEffect(() => {
+    if (!mounted) return;
+
+    playAttemptsRef.current = 0;
+    loadAttemptsRef.current = 0;
+    setIsPlaying(false);
+    setLoadFailed(false);
+    clearPlayRetry();
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.load();
+
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      void attemptPlay();
+    }
+  }, [mounted, videoSrc, attemptPlay, clearPlayRetry]);
+
+  // Resume if autoplay was blocked while tab was hidden
+  useEffect(() => {
+    if (!mounted) return;
+
+    const onVisibilityChange = () => {
+      if (
+        document.visibilityState === "visible" &&
+        !loadFailed &&
+        !isPlaying
+      ) {
+        void attemptPlay();
+      }
+    };
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, [mounted, loadFailed, isPlaying, attemptPlay]);
+
+  const showVideo = mounted && isPlaying && !loadFailed;
+  const showLoadingFallback = !mounted || (!isPlaying && !loadFailed);
+  const showErrorFallback = loadFailed;
 
   return (
     <div className="absolute inset-0 z-0" aria-hidden>
-      {/* Gradient fallback — shown while video loads or on error */}
+      {/* Gradient — loading state or permanent fallback on error */}
       <div
         className={`absolute inset-0 transition-opacity duration-1000 ${
-          videoLoaded && !videoError ? "opacity-0" : "opacity-100"
+          showErrorFallback || showLoadingFallback ? "opacity-100" : "opacity-0"
         }`}
         style={{
           background:
@@ -24,21 +154,27 @@ const VideoBackground: React.FC<VideoBackgroundProps> = ({ videoSrc }) => {
         aria-hidden
       />
 
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        onLoadedData={() => setVideoLoaded(true)}
-        onError={() => setVideoError(true)}
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
-          videoLoaded && !videoError ? "opacity-100" : "opacity-0"
-        }`}
-        aria-hidden
-      >
-        <source src={videoSrc} type="video/mp4" />
-      </video>
+      {mounted && (
+        <video
+          ref={videoRef}
+          key={videoSrc}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          onLoadedData={handleReady}
+          onCanPlay={handleReady}
+          onPlaying={handlePlaying}
+          onError={handleError}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+            showVideo ? "opacity-100" : "opacity-0"
+          }`}
+          aria-hidden
+        >
+          <source src={videoSrc} type={getVideoMimeType(videoSrc)} />
+        </video>
+      )}
 
       {/* Left-anchored text overlay — keeps headline readable */}
       <div

@@ -3,17 +3,14 @@ import HeroSearchCard from "./HeroSearchCard";
 import HeroSearchCardV2 from "./HeroSearchCardV2";
 import VideoBackground from "./VideoBackground";
 
+const DEFAULT_HERO_VIDEO = "/assets/video/website.webm";
+
 interface HeroProps {
   videoSrc?: string;
 }
 
 const Hero: React.FC<HeroProps> = ({
-  // videoSrc = "https://www.pexels.com/download/video/29575342/",
-  // videoSrc = "https://www.pexels.com/download/video/8359173/",
-  // videoSrc = "/assets/video/demotransition.mp4",
-  videoSrc = "/assets/video/website.mp4",
-  // videoSrc = "https://videos.pexels.com/video-files/31617692/13470975_1920_1080_24fps.mp4",
-  // videoSrc = "https://cdn.sanity.io/files/74l1zcgb/production/572466e7a90003b155357bb6708775bd0b9a95f8.mp4",
+  videoSrc = DEFAULT_HERO_VIDEO,
 }) => {
   return (
     <section
