@@ -1625,7 +1625,7 @@ export const projects: Project[] = [
     description:
       "Offering residents a dynamic lifestyle in Dubai, Meraas continues to develop master waterfront communities and beachfront residences across the city.",
     imageUrl:
-      "/assets/developers/featured/meraas.webp",
+      "/assets/developers/featured/meraas/meraas1.webp",
     imageAlt: "Hillside residence with rammed earth walls and green roof",
     caption: "Solstice Residence — Blue Mountains, 2021",
   }
@@ -1781,8 +1781,8 @@ The developers, operating under Dubai Holding, focus on redefining the modern li
     },
   },
   meraas: {
-    heroImage: "/assets/developers/featured/meraas.webp",
-    showcaseImage: "/assets/developers/featured/citywalk-featured.webp",
+    heroImage: "/assets/developers/featured/meraas/meraas1.webp",
+    showcaseImage: "/assets/developers/featured/meraas/meraas2.webp",
     about: {
       heading: "About Meraas",
       intro:
