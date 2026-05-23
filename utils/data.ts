@@ -1595,7 +1595,7 @@ export const projects: Project[] = [
     description:
       "Developers behind the tallest building in the world, Burj Khalifa, Emaar has redefined the Dubai skyline with its iconic landmarks, be it master communities or internationally recognized properties.",
     imageUrl:
-      "/assets/developers/featured/emaar-hero.webp",
+      "/assets/developers/featured/emaar/emaar1.webp",
     imageAlt: "Emaar cultural pavilion with timber shell architecture",
     caption: "Emaar Properties — Dubai, 2022",
   },
@@ -1605,7 +1605,7 @@ export const projects: Project[] = [
     description:
       "Recognized for its bold and unique architecture, Binghatti continues to develop masterpieces across Dubai, including the most-awaited Mercedes-Benz Places.",
     imageUrl:
-      "/assets/developers/featured/binghatti-featured.avif",
+      "/assets/developers/featured/binghatti/binghatti1.avif",
     imageAlt: "Binghatti mixed-use high-rise with geometric facade",
     caption: "Binghatti Residences — Dubai, 2023",
   },
@@ -1640,8 +1640,8 @@ export function getDeveloperSlugFromPath(path?: string) {
 /** Per-route copy and imagery for developer pages. */
 const DEVELOPER_PAGE_CONTENT: Record<string, DeveloperPageContent> = {
   binghatti: {
-    heroImage: "/assets/developers/featured/binghatti-featured.avif",
-    showcaseImage: "/assets/developers/featured/binghatti-featured.avif",
+    heroImage: "/assets/developers/featured/binghatti/binghatti1.avif",
+    showcaseImage: "/assets/developers/featured/binghatti/binghatti2.avif",
     about: {
       heading: "About Binghatti",
       intro:
@@ -1667,8 +1667,8 @@ Their accessible, functional, and investment-driven developments, with bold desi
     },
   },
   azizi: {
-    heroImage: "/assets/developers/featured/citywalk-featured.webp",
-    showcaseImage: "/assets/developers/featured/emaar-featured.webp",
+    heroImage: "/assets/developers/featured/azizi/azizi1.webp",
+    showcaseImage: "/assets/developers/featured/azizi/azizi2.webp",
     about: {
       heading: "About Azizi Developments",
       intro:
@@ -1696,8 +1696,8 @@ With thousands of residential units across Dubai, Azizi continues to develop mix
     },
   },
   emaar: {
-    heroImage: "/assets/developers/featured/emaar-hero.webp",
-    showcaseImage: "/assets/developers/featured/emaar-about.webp",
+    heroImage: "/assets/developers/featured/emaar/emaar1.webp",
+    showcaseImage: "/assets/developers/featured/emaar/emaar2.avif",
     about: {
       heading: "About Emaar Properties",
       intro:
@@ -1725,8 +1725,8 @@ Emaar is known for its iconic landmarks across Dubai, including the Burj Khalifa
     },
   },
   nakheel: {
-    heroImage: "/assets/developers/featured/meraas.webp",
-    showcaseImage: "/assets/developers/featured/citywalk-featured.webp",
+    heroImage: "/assets/developers/featured/nakheel/nakheel1.webp",
+    showcaseImage: "/assets/developers/featured/nakheel/nakheel2.webp",
     about: {
       heading: "About Nakheel Properties",
       intro:
@@ -1754,8 +1754,8 @@ In 2024, Nakheel Properties was rebranded and integrated into Dubai Holding, whe
     },
   },
   "dubai-properties": {
-    heroImage: "/assets/developers/featured/citywalk-featured.webp",
-    showcaseImage: "/assets/developers/featured/emaar-about.webp",
+    heroImage: "/assets/developers/featured/dubaiproperties/dubaiproperties1.webp",
+    showcaseImage: "/assets/developers/featured/dubaiproperties/dubaiproperties2.webp",
     about: {
       heading: "About Dubai Properties",
       intro:
@@ -2040,7 +2040,7 @@ export function getDeveloperPagePayload(slug: string): DeveloperPagePayload | nu
   const page = DEVELOPER_PAGE_CONTENT[slug];
 
   const heroImage =
-    page?.heroImage ?? project?.imageUrl ?? "/assets/developers/featured/emaar-hero.webp";
+    page?.heroImage ?? project?.imageUrl ?? "/assets/developers/featured/emaar/emaar1.webp";
   const showcaseImage =
     page?.showcaseImage ?? project?.imageUrl ?? "/assets/developers/featured/emaar-about.webp";
 
