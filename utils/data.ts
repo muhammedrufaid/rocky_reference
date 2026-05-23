@@ -1615,7 +1615,7 @@ export const projects: Project[] = [
     description:
       "One of the most prominent developers in the region, DAMAC Properties, combines luxury living with architectural masterpieces and branded collaborations.",
     imageUrl:
-      "/assets/developers/featured/damac.webp",
+      "/assets/developers/featured/damac/damac1.webp",
     imageAlt: "Biophilic innovation campus with central green valley",
     caption: "Meridian Innovation Campus — Tech Precinct, 2024",
   },
@@ -1807,8 +1807,8 @@ Meraas focuses on developing mixed-use properties with entertainment, residentia
     },
   },
   damac: {
-    heroImage: "/assets/developers/featured/damac.webp",
-    showcaseImage: "/assets/developers/featured/citywalk-featured.webp",
+    heroImage: "/assets/developers/featured/damac/damac1.webp",
+    showcaseImage: "/assets/developers/featured/damac/damac3.webp",
     about: {
       heading: "About DAMAC",
       intro:
