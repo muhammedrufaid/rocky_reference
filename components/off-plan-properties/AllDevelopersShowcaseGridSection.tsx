@@ -124,7 +124,7 @@ const AllDevelopersShowcaseGridSection: React.FC<{ className?: string }> = ({
                       alt={`${dev.name} logo`}
                       fill
                       sizes="180px"
-                      className="object-contain opacity-70 grayscale transition-all duration-300 ease-out group-hover:opacity-100 group-hover:grayscale-0"
+                      className="object-contain opacity-70 transition-all duration-300 ease-out group-hover:opacity-100"
                     />
                   </div>
                 </div>

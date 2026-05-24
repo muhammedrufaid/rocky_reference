@@ -36,7 +36,7 @@ const LogoCard = ({
           src={developer.logo}
           alt={developer.name}
           fill
-          className="object-contain object-center brightness-0 opacity-40 transition-all duration-300 group-hover:brightness-100 group-hover:opacity-100"
+          className="object-contain object-center brightness-100 opacity-40 transition-all duration-300 group-hover:brightness-100 group-hover:opacity-100"
           sizes="144px"
           priority={priority}
         />
