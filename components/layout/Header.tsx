@@ -45,9 +45,10 @@ const SocialIcon = ({ name, className }: { name: string; className?: string }) =
 interface HeaderProps {
   forceSolid?: boolean;
   hideOnScroll?: boolean;
+  hideNavigation?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = false }) => {
+const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = false, hideNavigation = false }) => {
   const headerRef = useRef<HTMLElement | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileOpenId, setMobileOpenId] = useState<string | null>(null);
@@ -151,6 +152,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
             </Link>
 
             {/* Desktop Nav */}
+            {!hideNavigation && (
             <nav className="hidden lg:flex items-center gap-8 overflow-visible" aria-label="Primary navigation">
               {navigationData.map((item) =>
                 item.path && !("type" in item && item.type === "dropdown") ? (
@@ -244,6 +246,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false, hideOnScroll = fals
                 )
               )}
             </nav>
+            )}
 
             {/* Right: Social + mobile menu */}
             <div className="flex items-center gap-1.5 sm:gap-2 md:gap-2.5">

@@ -42,7 +42,7 @@ export async function generateMetadata() {
 export default function RecruitmentPage() {
     return (
         <div className="min-h-screen bg-white">
-            <Header forceSolid />
+            <Header forceSolid hideNavigation={true}/>
             <main className="site-header-offset">
                 <SalesHeroSection
                     title="Lorem ipsum dolor sit amet"
@@ -64,7 +64,7 @@ export default function RecruitmentPage() {
         <FaqsSection /> */}
 
             </main>
-            <Footer />
+            <Footer hideNavigation={true}/>
         </div>
     );
 }

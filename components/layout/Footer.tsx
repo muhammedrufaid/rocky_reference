@@ -77,7 +77,7 @@ const SocialIcon = ({ name, className }: { name: string; className?: string }) =
     return icons[name] ?? null;
 };
 
-const Footer: React.FC = () => {
+const Footer: React.FC<{ hideNavigation?: boolean }> = ({ hideNavigation = false }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -85,6 +85,7 @@ const Footer: React.FC = () => {
             <Container className="py-12 md:py-16 lg:py-20">
 
                 {/* SEO – Popular Searches */}
+                {!hideNavigation && (
                 <section
                     className="mb-8 pb-8 border-b border-white/20"
                     aria-labelledby="footer-popular-searches-heading"
@@ -156,8 +157,11 @@ const Footer: React.FC = () => {
                         </AnimatePresence>
                     </nav>
                 </section>
+                )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+                <div
+                    className={`grid grid-cols-1 sm:grid-cols-2 gap-10 lg:gap-12 ${hideNavigation ? "lg:grid-cols-2" : "lg:grid-cols-4"}`}
+                >
                     {/* Column 1 – Brand */}
                     <section className="lg:col-span-1">
                         <Link href="/" className="shrink-0 block">
@@ -174,47 +178,51 @@ const Footer: React.FC = () => {
                         </p>
                     </section>
 
-                    {/* Column 2 – Services */}
-                    <section aria-labelledby="footer-services-heading">
-                        <h2 id="footer-services-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
-                            Services
-                        </h2>
-                        <nav aria-label="Footer services">
-                            <ul className="space-y-3">
-                                {footerServices.map((item) => (
-                                    <li key={item.path}>
-                                        <Link
-                                            href={item.path}
-                                            className="text-sm text-blue-100 hover:text-white transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded"
-                                        >
-                                            {item.title}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </nav>
-                    </section>
+                    {!hideNavigation && (
+                        <>
+                            {/* Column 2 – Services */}
+                            <section aria-labelledby="footer-services-heading">
+                                <h2 id="footer-services-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
+                                    Services
+                                </h2>
+                                <nav aria-label="Footer services">
+                                    <ul className="space-y-3">
+                                        {footerServices.map((item) => (
+                                            <li key={item.path}>
+                                                <Link
+                                                    href={item.path}
+                                                    className="text-sm text-blue-100 hover:text-white transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded"
+                                                >
+                                                    {item.title}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </nav>
+                            </section>
 
-                    {/* Column 3 – Company */}
-                    <section aria-labelledby="footer-company-heading">
-                        <h2 id="footer-company-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
-                            Company
-                        </h2>
-                        <nav aria-label="Footer company links">
-                            <ul className="space-y-3">
-                                {footerCompany.map((item) => (
-                                    <li key={item.path}>
-                                        <Link
-                                            href={item.path}
-                                            className="text-sm text-blue-100 hover:text-white transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded"
-                                        >
-                                            {item.title}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </nav>
-                    </section>
+                            {/* Column 3 – Company */}
+                            <section aria-labelledby="footer-company-heading">
+                                <h2 id="footer-company-heading" className="text-sm font-medium uppercase tracking-wider text-white mb-4">
+                                    Company
+                                </h2>
+                                <nav aria-label="Footer company links">
+                                    <ul className="space-y-3">
+                                        {footerCompany.map((item) => (
+                                            <li key={item.path}>
+                                                <Link
+                                                    href={item.path}
+                                                    className="text-sm text-blue-100 hover:text-white transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded"
+                                                >
+                                                    {item.title}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </nav>
+                            </section>
+                        </>
+                    )}
 
                     {/* Column 4 – Contact + Social */}
                     <section aria-labelledby="footer-contact-heading">
@@ -254,6 +262,7 @@ const Footer: React.FC = () => {
                 </div>
 
                 {/* Bottom Bar */}
+                {!hideNavigation && (
                 <div className="mt-10 pt-6 border-t border-white/20">
                     <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-blue-200">
                         <p>© 2026 Rocky Real Estate. All rights reserved.</p>
@@ -273,6 +282,7 @@ const Footer: React.FC = () => {
                         </nav>
                     </div>
                 </div>
+                )}
             </Container>
         </footer>
     );
