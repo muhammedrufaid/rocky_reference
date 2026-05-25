@@ -4,7 +4,12 @@ import React, { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Container from "@/components/layout/Container";
 import { postSell } from "@/utils/getServices";
-import { SellTrustPriceTagIcon, SellTrustShieldIcon, SellTrustSparkIcon } from "@/utils/icons";
+import {
+  SellTrustClockIcon,
+  SellTrustPriceTagIcon,
+  SellTrustShieldIcon,
+  SellTrustSparkIcon,
+} from "@/utils/icons";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 18 },
@@ -163,26 +168,26 @@ export default function SellPropertyForm() {
               custom={3}
             >
               Fill in your details and one of our property experts will get back
-              to you within 24 hours.
+              to you. Available 24/7.
             </motion.p>
 
-            <div className="mt-8 space-y-4">
+            <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-4">
               {trustPoints.map((point, idx) => {
                 const Icon = point.icon;
                 return (
                   <motion.div
                     key={point.label}
-                    className="flex items-start gap-3"
+                    className="flex flex-col items-start gap-2.5 sm:gap-3"
                     variants={fadeUp}
                     custom={4 + idx}
                   >
                     <span
-                      className="mt-0.5 inline-flex text-[#C3AD95]"
+                      className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[rgba(8,31,58,0.05)] text-[#C3AD95] sm:h-12 sm:w-12"
                       aria-hidden
                     >
-                      <Icon />
+                      <Icon width={22} height={22} />
                     </span>
-                    <span className="text-base text-[#000000]/70">
+                    <span className="text-left text-xs leading-snug text-[#000000]/70 sm:text-sm">
                       {point.label}
                     </span>
                   </motion.div>
