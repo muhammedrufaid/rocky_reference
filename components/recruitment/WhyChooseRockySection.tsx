@@ -131,7 +131,7 @@ const cardAnim = {
 const FeatureCard: React.FC<{ feature: Feature }> = ({ feature }) => (
     <motion.article
         variants={cardAnim}
-        className="group flex items-start gap-4 rounded-2xl border border-neutral-100 bg-white p-5 sm:p-6 transition-all duration-200 hover:border-[#0b2d4e]/20 hover:shadow-sm"
+        className="group flex items-start gap-4 rounded-2xl bg-[#faf9f7] p-5 sm:p-6 transition-all duration-200 hover:border-[#0b2d4e]/20 hover:shadow-sm"
     >
         <span
             className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"

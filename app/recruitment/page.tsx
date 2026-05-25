@@ -49,7 +49,7 @@ export default function RecruitmentPage() {
                 <SalesHeroSection
                     title="Lorem ipsum dolor sit amet"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    image="/assets/common/careers.webp"
+                    image="/assets/recruitment/recruiter2.webp"
                 />
 
                 <WhyChooseRockySection />
