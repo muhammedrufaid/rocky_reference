@@ -8,6 +8,8 @@ import ImageHeroSection from "@/components/common/ImageHeroSection";
 import AwardsTimelineSection from "@/components/achievements/AwardsTimelineSection";
 import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 import SalesHeroSection from "@/components/sell/SalesHeroSection";
+import JoinOurTeamSection from "@/components/recruitment/JoinOurTeamSection";
+import WhyChooseRockySection from "@/components/recruitment/WhyChooseRockySection";
 
 
 export async function generateMetadata() {
@@ -50,18 +52,8 @@ export default function RecruitmentPage() {
                     image="/assets/common/careers.webp"
                 />
 
-                {/* image hero section */}
-                {/* <ImageHeroSection
-          title="Achievements"
-          description="View our achievements and awards in the real estate industry."
-          image="/assets/common/awards.webp"
-        /> */}
-                {/* <AwardsTimelineSection showContent={true} /> */}
-                {/* <AchievementsSection />
-        <GallerySection /> */}
-                {/* <Newsletter className="pb-16 md:pb-20 lg:pb-24" />
-        <TestimonialSection backgroundColor="#ffffff" className="pb-16 md:pb-20  lg:pb-24" />
-        <FaqsSection /> */}
+                <WhyChooseRockySection />
+                <JoinOurTeamSection />
 
             </main>
             <Footer hideNavigation={true}/>
