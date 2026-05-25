@@ -567,6 +567,8 @@ export function SellTrustPriceTagIcon({ title, ...props }: InlineIconProps) {
       {title ? <title>{title}</title> : null}
       <path d="M20.59 13.41 11 23H2v-9l9.59-9.59a2 2 0 0 1 2.82 0l6.18 6.18a2 2 0 0 1 0 2.82Z" />
       <circle cx="7.5" cy="16.5" r="1.5" />
+      <path d="M16 7v6" />
+      <path d="M13 10h6" />
     </svg>
   );
 }
@@ -588,14 +590,7 @@ export function SellTrustSparkIcon({ title, ...props }: InlineIconProps) {
       {...props}
     >
       {title ? <title>{title}</title> : null}
-      <path d="M12 2v6" />
-      <path d="M12 16v6" />
-      <path d="m4.93 4.93 4.24 4.24" />
-      <path d="m14.83 14.83 4.24 4.24" />
-      <path d="M2 12h6" />
-      <path d="M16 12h6" />
-      <path d="m4.93 19.07 4.24-4.24" />
-      <path d="m14.83 9.17 4.24-4.24" />
+      <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
     </svg>
   );
 }
@@ -642,6 +637,10 @@ export function SellTrustClockIcon({ title, ...props }: InlineIconProps) {
       {title ? <title>{title}</title> : null}
       <circle cx="12" cy="12" r="10" />
       <path d="M12 6v6l4 2" />
+      <path d="M18.5 5.5a10 10 0 0 1 0 13" />
+      <path d="M21 10v4h-4" />
+      <path d="M5.5 18.5a10 10 0 0 1 0-13" />
+      <path d="M3 14v-4h4" />
     </svg>
   );
 }

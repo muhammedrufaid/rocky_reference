@@ -7,7 +7,6 @@ import { postSell } from "@/utils/getServices";
 import {
   SellTrustClockIcon,
   SellTrustPriceTagIcon,
-  SellTrustShieldIcon,
   SellTrustSparkIcon,
 } from "@/utils/icons";
 
@@ -132,9 +131,9 @@ export default function SellPropertyForm() {
   };
 
   const trustPoints = [
-    { icon: SellTrustPriceTagIcon, label: "Top Market Price" },
     { icon: SellTrustSparkIcon, label: "Fast & Simple Process" },
-    { icon: SellTrustShieldIcon, label: "Fully Confidential" },
+    { icon: SellTrustClockIcon, label: "Available 24/7" },
+    { icon: SellTrustPriceTagIcon, label: "Top Market Price" },
   ] as const;
 
   return (
@@ -167,8 +166,15 @@ export default function SellPropertyForm() {
               variants={fadeUp}
               custom={3}
             >
-              Fill in your details and one of our property experts will get back
-              to you. Available 24/7.
+              Looking to sell or explore your options? Get in touch with our
+              experts, who combine real-time market data with local knowledge to
+              provide accurate, transparent assessments tailored to your home and
+              community.
+              <br />
+              <br />
+              Fill in the form, and one of our experienced specialists will
+              contact you within 24 hours to help you make confident, informed
+              decisions.
             </motion.p>
 
             <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-4">
@@ -177,7 +183,7 @@ export default function SellPropertyForm() {
                 return (
                   <motion.div
                     key={point.label}
-                    className="flex flex-col items-start gap-2.5 sm:gap-3"
+                    className="flex flex-col items-center gap-2.5 sm:gap-3"
                     variants={fadeUp}
                     custom={4 + idx}
                   >
@@ -187,7 +193,7 @@ export default function SellPropertyForm() {
                     >
                       <Icon width={22} height={22} />
                     </span>
-                    <span className="text-left text-xs leading-snug text-[#000000]/70 sm:text-sm">
+                    <span className="text-center text-xs leading-snug text-[#000000]/70 sm:text-sm">
                       {point.label}
                     </span>
                   </motion.div>
