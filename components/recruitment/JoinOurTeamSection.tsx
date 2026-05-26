@@ -154,18 +154,6 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
               className="absolute inset-0 bg-gradient-to-br from-[#c3ad95]/10 via-transparent to-[#0d365e]/50"
             />
 
-            <div
-              aria-hidden="true"
-              className="absolute bottom-6 left-6 z-10 rounded-2xl border border-white/20 bg-white/10 px-5 py-4 text-white backdrop-blur-md"
-            >
-              <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-white/75">
-                Open positions
-              </p>
-              <p className="mt-0.5 font-medium text-xl leading-tight tracking-tight">
-                {roleCount > 0 ? `${roleCount}+ Roles` : "Growing Team"}
-              </p>
-            </div>
-
             <div className="absolute right-4 top-4 z-10 flex items-center gap-2 rounded-full border border-white/30 bg-white/95 px-3.5 py-2 shadow-lg backdrop-blur-md">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
