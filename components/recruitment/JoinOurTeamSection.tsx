@@ -4,7 +4,11 @@ import Image from "next/image";
 import Container from "@/components/layout/Container";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { openPositions } from "@/utils/data";
+
+const POSITION = {
+  value: "property-consultant",
+  label: "Property Consultant",
+} as const;
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -33,17 +37,6 @@ const inputClass =
   "w-full rounded-lg border border-neutral-200 bg-white px-4 py-2.5 text-sm text-charcoal placeholder:text-neutral-400 outline-none transition-all duration-200 focus:border-[#0d365e]/40 focus:ring-2 focus:ring-[#0d365e]/10";
 
 const selectClass = `${inputClass} cursor-pointer appearance-none bg-[url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")] bg-position-[right_1rem_center] bg-no-repeat pr-10`;
-
-const positionOptions = [
-  ...openPositions.map((job) => ({
-    value: job.title.toLowerCase().replace(/\s+/g, "-"),
-    label: job.title,
-  })),
-  { value: "sales-manager", label: "Sales Manager" },
-  { value: "marketing", label: "Marketing & Communications" },
-  { value: "administration", label: "Administration" },
-  { value: "other", label: "Other" },
-];
 
 interface FormState {
   fullName: string;
@@ -94,7 +87,7 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
     fullName: "",
     email: "",
     phone: "",
-    position: "",
+    position: POSITION.value,
     cvFile: null,
   });
   const [fileName, setFileName] = useState("");
@@ -114,8 +107,6 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
     e.preventDefault();
     setSubmitted(true);
   };
-
-  const roleCount = openPositions.length;
 
   return (
     <section
@@ -286,14 +277,7 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
                         onChange={handleChange}
                         aria-required="true"
                       >
-                        <option value="" disabled>
-                          Select a role…
-                        </option>
-                        {positionOptions.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
-                        ))}
+                        <option value={POSITION.value}>{POSITION.label}</option>
                       </select>
                     </div>
                   </div>
