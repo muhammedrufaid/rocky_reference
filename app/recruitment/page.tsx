@@ -47,8 +47,8 @@ export default function RecruitmentPage() {
             <Header forceSolid hideNavigation={true}/>
             <main className="site-header-offset">
                 <SalesHeroSection
-                    title="Lorem ipsum dolor sit amet"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    title="Build Your Legacy With Us"
+                    description="For 50 years, we’ve been guiding the Dubai real estate market. And now, we’re looking for the next generation of real estate leaders to drive our vision forward."
                     image="/assets/recruitment/recruiter2.webp"
                 />
 
