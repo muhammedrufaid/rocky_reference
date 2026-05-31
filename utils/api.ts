@@ -160,3 +160,36 @@ export const postData = async <TResponse = unknown, TBody = unknown>(
   }
 }
 
+export const postFormData = async <TResponse = unknown>(
+  path: string,
+  formData: FormData,
+): Promise<TResponse> => {
+  const normalizedPath = path.replace(/^\//, '')
+  const apiUrl =
+    typeof window !== 'undefined'
+      ? `/api/${normalizedPath}`
+      : buildApiUrl(normalizedPath)
+  try {
+    const res = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+
+    await throwForNonOk(res, apiUrl)
+    const { json } = await readBody(res)
+    return (json as TResponse) ?? (null as TResponse)
+  } catch (error) {
+    if (shouldLogApiErrors(false)) {
+      console.error('API Request Failed:', error, {
+        url: path,
+        apiUrl,
+        timestamp: new Date().toISOString(),
+      })
+    }
+    throw error
+  }
+}
+

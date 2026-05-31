@@ -1,4 +1,4 @@
-import { getData, postData } from './api'
+import { getData, postData, postFormData } from './api'
 import type { PropertyListing } from './types'
 
 let preferredSuggestionsEndpointIndex: number | null = null
@@ -617,4 +617,23 @@ export type NewsletterPayload = {
 
 export async function postNewsletter(payload: NewsletterPayload): Promise<unknown> {
   return await postData('newsletter', payload)
+}
+
+/** Career application: `POST /api/career` (form-data) → upstream `{ROCKY_API_ORIGIN}/api/career`. */
+export type CareerApplicationPayload = {
+  name: string
+  email: string
+  phone: string
+  position: string
+  cv: File
+}
+
+export async function postCareerApplication(payload: CareerApplicationPayload): Promise<unknown> {
+  const formData = new FormData()
+  formData.set('name', payload.name)
+  formData.set('email', payload.email)
+  formData.set('phone', payload.phone)
+  formData.set('position', payload.position)
+  formData.set('cv', payload.cv)
+  return await postFormData('career', formData)
 }

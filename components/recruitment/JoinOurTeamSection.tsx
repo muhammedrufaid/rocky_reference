@@ -4,6 +4,7 @@ import Image from "next/image";
 import Container from "@/components/layout/Container";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { postCareerApplication } from "@/utils/getServices";
 
 const POSITION = {
   value: "property-consultant",
@@ -92,6 +93,8 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
   });
   const [fileName, setFileName] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -103,9 +106,37 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
     setFileName(file ? file.name : "");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (submitting) return;
+    setSubmitError(null);
+
+    if (!form.fullName.trim() || !form.email.trim() || !form.phone.trim()) {
+      setSubmitError("Please fill in your name, email, and phone number.");
+      return;
+    }
+    if (!form.cvFile) {
+      setSubmitError("Please upload your CV.");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await postCareerApplication({
+        name: form.fullName.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        position: POSITION.label,
+        cv: form.cvFile,
+      });
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error ? err.message : "Failed to submit application. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -313,11 +344,21 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
                     </label>
                   </div>
 
+                  {submitError && (
+                    <div
+                      className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+                      role="alert"
+                    >
+                      {submitError}
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    className="group mt-1 flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#0d365e] px-8 py-3.5 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:bg-[#1c4e80] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0d365e]/30 focus-visible:ring-offset-2 active:scale-[0.99]"
+                    disabled={submitting}
+                    className="group mt-1 flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#0d365e] px-8 py-3.5 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:bg-[#1c4e80] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0d365e]/30 focus-visible:ring-offset-2 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    Apply now
+                    {submitting ? "Submitting..." : "Apply now"}
                     <ArrowIcon />
                   </button>
                 </motion.form>

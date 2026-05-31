@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { JobPosition } from "@/utils/types";
 import ShareJobButton from "@/components/careers/ShareJobButton";
+import { postCareerApplication } from "@/utils/getServices";
 
 type Props = { job: JobPosition };
 
@@ -74,22 +75,13 @@ export default function JobApplyCard({ job }: Props) {
 
         setSubmitting(true);
         try {
-            const fd = new FormData();
-            fd.set("name", fullName.trim());
-            fd.set("email", email.trim());
-            fd.set("phone", phone.trim());
-            fd.set("position", job.title);
-            fd.set("cv", cvFile);
-
-            const res = await fetch("/api/careers/apply", {
-                method: "POST",
-                body: fd,
+            await postCareerApplication({
+                name: fullName.trim(),
+                email: email.trim(),
+                phone: phone.trim(),
+                position: job.title,
+                cv: cvFile,
             });
-
-            if (!res.ok) {
-                const msg = await res.text();
-                throw new Error(msg || "Failed to submit application.");
-            }
 
             setSubmitted(true);
         } catch (err) {
