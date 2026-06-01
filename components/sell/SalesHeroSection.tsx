@@ -7,7 +7,7 @@ import Container from "@/components/layout/Container";
 import { ModalCloseIcon } from "@/utils/icons";
 
 type SalesHeroSectionProps = {
-  title: string;
+  title: React.ReactNode;
   description?: string;
   image?: string;
 };
