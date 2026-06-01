@@ -10,6 +10,7 @@ import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
 import SalesHeroSection from "@/components/sell/SalesHeroSection";
 import JoinOurTeamSection from "@/components/recruitment/JoinOurTeamSection";
 import WhyChooseRockySection from "@/components/recruitment/WhyChooseRockySection";
+import RecruitmentHeroSection from "@/components/recruitment/RecruitmentHeroSection";
 
 
 export async function generateMetadata() {
@@ -46,7 +47,7 @@ export default function RecruitmentPage() {
         <div className="min-h-screen bg-white">
             <Header forceSolid hideNavigation={true}/>
             <main className="site-header-offset">
-                <SalesHeroSection
+                <RecruitmentHeroSection
                     title={
                         <>
                             Build Your Legacy
@@ -55,7 +56,7 @@ export default function RecruitmentPage() {
                         </>
                     }
                     description="For 50 years, we’ve been guiding the Dubai real estate market. And now, we’re looking for the next generation of real estate leaders to drive our vision forward."
-                    image="/assets/recruitment/recruiter2.webp"
+                    image="/assets/recruitment/recruiterai.webp"
                 />
 
                 <WhyChooseRockySection />

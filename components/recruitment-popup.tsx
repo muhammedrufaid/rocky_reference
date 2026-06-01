@@ -88,7 +88,6 @@ export default function RecruitmentPopup() {
         handleDismiss();
         return;
       }
-
       if (modalRef.current) {
         trapFocus(modalRef.current, event);
       }
@@ -130,13 +129,13 @@ export default function RecruitmentPopup() {
         >
           {/* Dark blurred backdrop */}
           <div
-            className="absolute inset-0 bg-[#081F3A]/80 backdrop-blur-md"
+            className="absolute inset-0 bg-[#000000]/80 backdrop-blur-md"
             aria-hidden="true"
           />
 
           {/* Subtle floating gradient glow */}
           <div
-            className="pointer-events-none absolute left-1/2 top-1/2 h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-50 blur-3xl"
+            className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-50 blur-3xl"
             style={{
               background:
                 "radial-gradient(circle, rgba(13, 54, 94, 0.55) 0%, rgba(195, 173, 149, 0.25) 45%, transparent 70%)",
@@ -150,25 +149,23 @@ export default function RecruitmentPopup() {
             aria-modal="true"
             aria-labelledby="recruitment-popup-heading"
             aria-describedby="recruitment-popup-description"
-            className="relative w-full max-w-[850px] overflow-hidden rounded-3xl border border-[#E7DCCD]/40 bg-white/95 shadow-[0_32px_80px_rgba(8,31,58,0.35)] backdrop-blur-xl"
+            className="relative w-full max-w-[900px] overflow-hidden rounded-2xl backdrop-blur-xl md:min-h-[420px]"
+            style={{
+              boxShadow:
+                "0 0 0 1.5px rgba(195, 173, 149, 0.15), 0 20px 60px rgba(8, 31, 58, 0.45), 0 0 80px rgba(13, 54, 94, 0.4)",
+            }}
             variants={modalVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
             onMouseDown={(event) => event.stopPropagation()}
           >
-            {/* Glass highlight edge */}
-            <div
-              className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/20"
-              aria-hidden="true"
-            />
-
             {/* Close button */}
             <motion.button
               ref={closeButtonRef}
               type="button"
               onClick={handleDismiss}
-              className="absolute right-4 top-4 z-20 inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-[#E7DCCD]/50 bg-[#081F3A]/60 text-white/80 backdrop-blur-sm transition-colors hover:border-[#C3AD95] hover:bg-[#0D365E] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C3AD95]/60 md:right-5 md:top-5"
+              className="absolute right-4 top-4 z-20 inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#081F3A]/60 text-white/80 backdrop-blur-sm transition-colors hover:bg-[#0D365E] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C3AD95]/60"
               aria-label="Close recruitment popup"
               whileHover={{ scale: 1.06, rotate: 90 }}
               whileTap={{ scale: 0.94 }}
@@ -177,53 +174,43 @@ export default function RecruitmentPopup() {
               <ModalCloseIcon />
             </motion.button>
 
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              {/* Image — shown first on mobile */}
-              <div className="relative order-1 min-h-[220px] sm:min-h-[260px] md:order-2 md:min-h-[440px]">
-                <Image
-                  src="/assets/recruitment/recruitment3.webp"
-                  alt="Rocky Real Estate recruitment — join our luxury property team in Dubai"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 425px"
-                  priority={false}
-                />
-                <div
-                  className="absolute inset-0 bg-gradient-to-t from-[#081F3A]/40 via-transparent to-transparent md:bg-gradient-to-l md:from-[#081F3A]/30 md:via-transparent md:to-transparent"
-                  aria-hidden="true"
-                />
-              </div>
+            {/*
+              Layout: flex row on desktop so both panels are perfectly flush —
+              no gap, no divider, no white line.
+              On mobile: stack vertically (flex-col).
+            */}
+            <div className="flex flex-col md:flex-row">
 
-              {/* Text panel — dark luxury section (20% structural color) */}
-              <div className="relative order-2 flex flex-col justify-center bg-gradient-to-br from-[#081F3A] via-[#0D365E] to-[#1C4E80] px-7 py-10 sm:px-9 sm:py-12 md:order-1 md:px-10 md:py-14">
+              {/* ── Text panel (left on desktop) ── */}
+              <div className="relative order-2 flex w-full flex-col justify-center bg-gradient-to-br from-[#081F3A] via-[#0D365E] to-[#1C4E80] px-6 py-8 sm:px-9 sm:py-10 md:order-1 md:w-[44%] md:flex-shrink-0 md:px-10 md:py-12 lg:px-12 lg:py-14">
                 {/* Accent glow */}
                 <div
-                  className="pointer-events-none absolute -left-16 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full opacity-30 blur-3xl"
+                  className="pointer-events-none absolute -left-16 top-1/2 h-36 w-36 -translate-y-1/2 rounded-full opacity-30 blur-3xl"
                   style={{ background: "rgba(195, 173, 149, 0.45)" }}
                   aria-hidden="true"
                 />
 
                 <div className="relative z-10">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-[#C3AD95]">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#C3AD95]">
                     Careers at Rocky
                   </p>
 
                   {/* Sandstone accent divider */}
                   <div
-                    className="mt-4 h-px w-14 bg-[#C3AD95]"
+                    className="mt-3 h-px w-12 bg-[#C3AD95]"
                     aria-hidden="true"
                   />
 
                   <h2
                     id="recruitment-popup-heading"
-                    className="mt-5 text-2xl font-medium leading-tight tracking-tight text-white sm:text-3xl md:text-[2rem]"
+                    className="mt-4 text-2xl font-medium leading-tight tracking-tight text-white sm:text-[1.65rem] md:text-[2rem] lg:text-[2.15rem]"
                   >
                     Build Your Legacy With Us
                   </h2>
 
                   <p
                     id="recruitment-popup-description"
-                    className="mt-4 text-sm leading-relaxed text-white/80 sm:text-[15px] sm:leading-7"
+                    className="mt-4 text-sm leading-relaxed text-white/80 sm:text-base sm:leading-7"
                   >
                     For 50 years, we&apos;ve guided Dubai&apos;s real estate market.
                     Now we&apos;re looking for the next generation of real estate
@@ -231,15 +218,15 @@ export default function RecruitmentPopup() {
                   </p>
 
                   <div
-                    className="mt-8 h-px w-full bg-[#9F8870]/35"
+                    className="mt-6 h-px w-full bg-[#9F8870]/35"
                     aria-hidden="true"
                   />
 
-                  <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
                     <Link
                       href="/recruitment"
                       onClick={handleDismiss}
-                      className="group inline-flex items-center justify-center rounded-xl bg-[#0D365E] px-6 py-3.5 text-sm font-medium text-white shadow-[0_8px_24px_rgba(13,54,94,0.35)] transition-colors duration-200 hover:bg-[#1C4E80] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C3AD95]/50"
+                      className="group inline-flex items-center justify-center rounded-xl bg-[#0D365E] px-6 py-3.5 text-sm font-medium text-white shadow-[0_8px_24px_rgba(13,54,94,0.35)] transition-colors duration-200 hover:bg-[#1C4E80] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C3AD95]/50 sm:text-base"
                     >
                       Apply Now
                       <span
@@ -249,17 +236,32 @@ export default function RecruitmentPopup() {
                         →
                       </span>
                     </Link>
-
-                    <button
-                      type="button"
-                      onClick={handleDismiss}
-                      className="inline-flex cursor-pointer items-center justify-center rounded-xl border border-[#9F8870]/60 bg-transparent px-6 py-3.5 text-sm font-medium text-[#E7DCCD] transition-colors duration-200 hover:border-[#C3AD95] hover:bg-white/5 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C3AD95]/40"
-                    >
-                      Maybe Later
-                    </button>
                   </div>
                 </div>
               </div>
+
+              {/* ── Image panel (right on desktop) ── 
+                  Uses aspect-ratio on mobile so it's never clipped.
+                  On desktop: flex-1 so it fills the remaining width,
+                  position relative + inset-0 image fills every pixel.
+              -->
+              */}
+              <div className="relative order-1 aspect-[4/3] w-full md:order-2 md:aspect-auto md:min-h-[420px] md:flex-1">
+                <Image
+                  src="/assets/recruitment/recruitmentv2.webp"
+                  alt="Rocky Real Estate recruitment — join our luxury property team in Dubai"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, 500px"
+                  priority={false}
+                />
+                {/* Subtle left-edge fade to blend into text panel — no hard line */}
+                <div
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#081F3A]/20 via-transparent to-transparent md:bg-gradient-to-r md:from-[#0D365E]/30 md:via-transparent md:to-transparent"
+                  aria-hidden="true"
+                />
+              </div>
+
             </div>
           </motion.div>
         </motion.div>

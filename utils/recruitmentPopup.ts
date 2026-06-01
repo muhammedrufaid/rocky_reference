@@ -4,8 +4,8 @@ export const RECRUITMENT_POPUP_STORAGE_KEY = "rocky-recruitment-popup-dismissed-
 /** Cooldown before the popup can appear again (24 hours). */
 export const RECRUITMENT_POPUP_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 
-/** Delay before the time-based trigger fires (8 seconds). */
-export const RECRUITMENT_POPUP_DELAY_MS = 8000;
+/** Delay before the time-based trigger fires (7 seconds). */
+export const RECRUITMENT_POPUP_DELAY_MS = 7000;
 
 /** Scroll depth (0–1) required to trigger the popup (40%). */
 export const RECRUITMENT_POPUP_SCROLL_THRESHOLD = 0.4;

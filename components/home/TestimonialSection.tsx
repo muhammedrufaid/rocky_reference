@@ -111,7 +111,7 @@ const TestimonialSection: React.FC<{ backgroundColor?: string, className?: strin
           }}
           className="overflow-hidden!"
         >
-          {testimonials.map((testimonial, index) => (
+          {[...testimonials].reverse().map((testimonial, index) => (
             <SwiperSlide key={testimonial.id}>
               <motion.article
                 className="group relative bg-white/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-sm h-full flex flex-col border border-[var(--charcoal)]/10 transition-all duration-300 hover:border-[var(--rocky-blue)]/50 hover:shadow-md"

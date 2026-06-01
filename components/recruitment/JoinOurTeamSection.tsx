@@ -141,6 +141,7 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
 
   return (
     <section
+      id="join-our-team"
       ref={sectionRef}
       className={`relative overflow-hidden py-16 md:py-20 lg:py-24 ${className ?? ""}`}
       aria-labelledby="join-team-heading"
@@ -164,7 +165,7 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
             variants={fadeLeft}
           >
             <Image
-              src="/assets/recruitment/recruitment3.webp"
+              src="/assets/recruitment/recruitmentv2.webp"
               alt="Rocky Real Estate team collaborating"
               fill
               className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"

@@ -21,7 +21,7 @@ interface UseRecruitmentPopupReturn {
 }
 
 /**
- * Manages recruitment popup triggers (8s timer OR 40% scroll),
+ * Manages recruitment popup triggers (7s timer OR 40% scroll),
  * localStorage cooldown, and body scroll lock while open.
  */
 export function useRecruitmentPopup({
