@@ -1,8 +1,8 @@
 "use client";
 
 import Container from "@/components/layout/Container";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 // ─── Brand Tokens ─────────────────────────────────────────────────────────────
 // Rocky Blue    #0D365E  — primary structure
@@ -104,10 +104,66 @@ const features: Feature[] = [
 ];
 
 const stats = [
-    { value: "50+", label: "Years of Experience" },
-    { value: "500+", label: "Active Agents" },
-    { value: "#1", label: "Dubai Brokerage" },
+    { value: 50, suffix: "+", label: "Years of Experience" },
+    { value: 500, suffix: "+", label: "Active Agents" },
+    { value: 1, prefix: "#", suffix: "", label: "Dubai Brokerage" },
 ];
+
+const STAT_COUNT_DURATIONS = [1600, 2000, 1200];
+
+function useCountUp(target: number, duration: number, start: boolean) {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        if (!start) {
+            setCount(0);
+            return;
+        }
+
+        let rafId = 0;
+        const startTime = performance.now();
+        const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
+
+        const step = (now: number) => {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            setCount(Math.round(easeOutQuart(progress) * target));
+            if (progress < 1) rafId = requestAnimationFrame(step);
+        };
+
+        rafId = requestAnimationFrame(step);
+        return () => cancelAnimationFrame(rafId);
+    }, [start, target, duration]);
+
+    return count;
+}
+
+const StatRow: React.FC<{
+    stat: (typeof stats)[number];
+    index: number;
+    shouldAnimate: boolean;
+    prefersReducedMotion: boolean | null;
+}> = ({ stat, index, shouldAnimate, prefersReducedMotion }) => {
+    const animate = shouldAnimate && !prefersReducedMotion;
+    const count = useCountUp(stat.value, STAT_COUNT_DURATIONS[index] ?? 1800, animate);
+    const display = prefersReducedMotion ? stat.value : count;
+    const prefix = "prefix" in stat ? stat.prefix : "";
+
+    return (
+        <div
+            className={`flex items-center justify-between px-5 py-4 sm:px-6 ${
+                index < stats.length - 1 ? "border-b border-neutral-100" : ""
+            }`}
+        >
+            <span className="text-sm text-neutral-500 md:text-base">{stat.label}</span>
+            <span className="tabular-nums text-2xl font-medium leading-none text-[#0d365e] sm:text-3xl">
+                {prefix}
+                {display}
+                {stat.suffix}
+            </span>
+        </div>
+    );
+};
 
 // ─── Motion Variants ──────────────────────────────────────────────────────────
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -158,6 +214,7 @@ const WhyChooseRockySection: React.FC<{ className?: string }> = ({ className }) 
     const gridRef = useRef<HTMLDivElement>(null);
     const leftInView = useInView(leftRef, { once: true, margin: "-80px" });
     const gridInView = useInView(gridRef, { once: true, margin: "-60px" });
+    const prefersReducedMotion = useReducedMotion();
 
     return (
         <section
@@ -226,17 +283,13 @@ const WhyChooseRockySection: React.FC<{ className?: string }> = ({ className }) 
                             className="mb-10 w-full overflow-hidden rounded-2xl border border-neutral-100"
                         >
                             {stats.map((s, i) => (
-                                <div
-                                    key={i}
-                                    className={`flex items-center justify-between px-5 py-4 sm:px-6 ${
-                                        i < stats.length - 1 ? "border-b border-neutral-100" : ""
-                                    }`}
-                                >
-                                    <span className="text-sm text-neutral-500 md:text-base">{s.label}</span>
-                                    <span className="text-2xl font-medium leading-none text-[#0d365e] sm:text-3xl">
-                                        {s.value}
-                                    </span>
-                                </div>
+                                <StatRow
+                                    key={s.label}
+                                    stat={s}
+                                    index={i}
+                                    shouldAnimate={leftInView}
+                                    prefersReducedMotion={prefersReducedMotion}
+                                />
                             ))}
                         </motion.div>
                     </div>
