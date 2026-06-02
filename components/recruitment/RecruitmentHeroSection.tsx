@@ -88,9 +88,19 @@ export default function RecruitmentHeroSection({
         />
       )}
 
-      {/* Rocky Blue → Royal Blue gradient — text side only */}
+      {/* Mobile — bottom gradient for centered text */}
       <div
-        className="pointer-events-none absolute inset-0 z-10"
+        className="pointer-events-none absolute inset-0 z-10 md:hidden"
+        aria-hidden
+        style={{
+          background:
+            "linear-gradient(to top, rgba(8, 31, 58, 0.94) 0%, rgba(13, 54, 94, 0.82) 32%, rgba(28, 78, 128, 0.4) 58%, transparent 82%)",
+        }}
+      />
+
+      {/* Desktop — Rocky Blue → Royal Blue, text side */}
+      <div
+        className="pointer-events-none absolute inset-0 z-10 hidden md:block"
         aria-hidden
         style={{
           background:
@@ -99,7 +109,7 @@ export default function RecruitmentHeroSection({
       />
 
       <div
-        className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-32"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 hidden h-32 md:block"
         aria-hidden
         style={{
           background:
