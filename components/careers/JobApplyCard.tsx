@@ -76,7 +76,7 @@ export default function JobApplyCard({ job }: Props) {
         setSubmitting(true);
         try {
             await postCareerApplication({
-                name: fullName.trim(),
+                fullName: fullName.trim(),
                 email: email.trim(),
                 phone: phone.trim(),
                 position: job.title,

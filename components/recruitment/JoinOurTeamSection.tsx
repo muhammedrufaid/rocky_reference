@@ -123,7 +123,7 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
     setSubmitting(true);
     try {
       await postCareerApplication({
-        name: form.fullName.trim(),
+        fullName: form.fullName.trim(),
         email: form.email.trim(),
         phone: form.phone.trim(),
         position: POSITION.label,
@@ -148,7 +148,7 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#c3ad95] to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-[#c3ad95] to-transparent"
       />
       <div
         aria-hidden="true"
@@ -174,7 +174,7 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
             />
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-br from-[#c3ad95]/10 via-transparent to-[#0d365e]/50"
+              className="absolute inset-0 bg-linear-to-br from-[#c3ad95]/10 via-transparent to-[#0d365e]/50"
             />
 
             <div className="absolute right-4 top-4 z-10 flex items-center gap-2 rounded-full border border-white/30 bg-white/95 px-3.5 py-2 shadow-lg backdrop-blur-md">
@@ -199,7 +199,7 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
                 role="alert"
                 aria-live="polite"
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#c3ad95] to-[#9f8870] text-2xl text-white shadow-lg shadow-[#c3ad95]/30">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-linear-to-br from-[#c3ad95] to-[#9f8870] text-2xl text-white shadow-lg shadow-[#c3ad95]/30">
                   ✓
                 </div>
                 <h3 className="text-2xl font-medium tracking-tight text-[#0d365e] sm:text-3xl">

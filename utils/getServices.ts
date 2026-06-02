@@ -621,7 +621,7 @@ export async function postNewsletter(payload: NewsletterPayload): Promise<unknow
 
 /** Career application: `POST /api/career` (form-data) → upstream `{ROCKY_API_ORIGIN}/api/career`. */
 export type CareerApplicationPayload = {
-  name: string
+  fullName: string
   email: string
   phone: string
   position: string
@@ -630,7 +630,7 @@ export type CareerApplicationPayload = {
 
 export async function postCareerApplication(payload: CareerApplicationPayload): Promise<unknown> {
   const formData = new FormData()
-  formData.set('name', payload.name)
+  formData.set('fullName', payload.fullName)
   formData.set('email', payload.email)
   formData.set('phone', payload.phone)
   formData.set('position', payload.position)
