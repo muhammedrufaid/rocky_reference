@@ -226,7 +226,7 @@ export default function RecruitmentPopup() {
                     <Link
                       href="/recruitment"
                       onClick={handleDismiss}
-                      className="group inline-flex items-center justify-center rounded-xl bg-[#0D365E] px-6 py-3.5 text-sm font-medium text-white shadow-[0_8px_24px_rgba(13,54,94,0.35)] transition-colors duration-200 hover:bg-[#1C4E80] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C3AD95]/50 sm:text-base"
+                      className="group inline-flex items-center justify-center rounded-xl bg-[#C3AD95] px-6 py-3.5 text-sm font-medium text-[#081F3A] shadow-[0_4px_14px_rgba(0,0,0,0.25)] transition-colors duration-200 hover:bg-[#B79F84] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C3AD95]/60 sm:text-base"
                     >
                       Apply Now
                       <span
