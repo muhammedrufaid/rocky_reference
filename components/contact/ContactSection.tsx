@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 import { postContact } from "@/utils/getServices";
 import { CallIcon, EmailIcon, LocationIcon } from "@/utils/icons";
+import { PHONE_INPUT_PROPS, sanitizePhoneInput } from "@/utils/phone";
 
 const INQUIRY_TYPES = [ "General", "Residential Sales", "Off Plan & Investments", "Residential Leasing", "Property Management", "Marketing"] as const;
 type InquiryType = (typeof INQUIRY_TYPES)[number];
@@ -172,8 +173,7 @@ const ContactSection: React.FC = () => {
     >
   ) => {
     const { name, value } = e.target;
-    const nextValue =
-      name === "phone" ? String(value).replace(/[^\d]/g, "") : value;
+    const nextValue = name === "phone" ? sanitizePhoneInput(String(value)) : value;
     setFieldErrors((prev) => {
       if (!(name in prev)) return prev;
       const next = { ...prev };
@@ -391,8 +391,7 @@ const ContactSection: React.FC = () => {
                       id="phone"
                       name="phone"
                       type="tel"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
+                      {...PHONE_INPUT_PROPS}
                       autoComplete="tel"
                       placeholder="+971 50 000 0000"
                       value={formState.phone}

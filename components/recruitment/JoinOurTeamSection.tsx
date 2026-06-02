@@ -5,6 +5,7 @@ import Container from "@/components/layout/Container";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { postCareerApplication } from "@/utils/getServices";
+import { PHONE_INPUT_PROPS, sanitizePhoneInput } from "@/utils/phone";
 
 const POSITION = {
   value: "property-consultant",
@@ -97,7 +98,13 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    const nextValue = name === "phone" ? sanitizePhoneInput(value) : value;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: nextValue,
+    }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -289,6 +296,7 @@ const JoinOurTeamSection: React.FC<{ className?: string }> = ({ className }) => 
                         id="phone"
                         name="phone"
                         type="tel"
+                        {...PHONE_INPUT_PROPS}
                         className={inputClass}
                         placeholder="+971 50 000 0000"
                         autoComplete="tel"

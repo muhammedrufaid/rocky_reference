@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Container from "@/components/layout/Container";
 import { postSell } from "@/utils/getServices";
+import { PHONE_INPUT_PROPS, sanitizePhoneInput } from "@/utils/phone";
 import {
   SellTrustClockIcon,
   SellTrustPriceTagIcon,
@@ -119,8 +120,7 @@ export default function SellPropertyForm() {
     >,
   ) => {
     const { name, value } = e.target;
-    const nextValue =
-      name === "phone" ? String(value).replace(/[^\d]/g, "") : value;
+    const nextValue = name === "phone" ? sanitizePhoneInput(String(value)) : value;
     setFieldErrors((prev) => {
       if (!(name in prev)) return prev;
       const next = { ...prev };
@@ -289,8 +289,7 @@ export default function SellPropertyForm() {
                       id="phone"
                       name="phone"
                       type="tel"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
+                      {...PHONE_INPUT_PROPS}
                       autoComplete="tel"
                       placeholder="+971 50 000 0000"
                       value={formState.phone}
