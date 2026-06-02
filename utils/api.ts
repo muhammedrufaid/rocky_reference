@@ -79,8 +79,33 @@ async function throwForNonOk(res: Response, apiUrl: string, options?: { silent?:
     throw error
   }
 
+  if (res.status === 413) {
+    error.message = 'Your file is too large. Please upload a smaller CV and try again.'
+    throw error
+  }
+
   if (body && typeof (body as any)?.message === 'string') {
     error.message = (body as any).message
+    throw error
+  }
+
+  if (typeof bodyText === 'string' && bodyText.trim()) {
+    // If the server responds with an HTML error page, don't surface raw markup to users.
+    const normalized = bodyText.trim()
+    const titleMatch = normalized.match(/<title[^>]*>([^<]+)<\/title>/i)
+    const looksLikeHtml = /<!doctype html|<html[\s>]/i.test(normalized)
+    const maybePayloadTooLarge =
+      /payload too large|request entity too large|content too large/i.test(normalized)
+
+    if (maybePayloadTooLarge) {
+      error.message = 'Your file is too large. Please upload a smaller CV and try again.'
+      throw error
+    }
+
+    if (looksLikeHtml && titleMatch?.[1]) {
+      error.message = `${titleMatch[1]} (HTTP ${res.status})`
+      throw error
+    }
   }
 
   throw error
