@@ -7,6 +7,23 @@ import { postCareerApplication } from "@/utils/getServices";
 
 type Props = { job: JobPosition };
 
+const UploadIcon = () => (
+    <svg
+        className="size-[18px] shrink-0 text-[#9f8870]"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+    >
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="17 8 12 3 7 8" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+    </svg>
+);
+
 export default function JobApplyCard({ job }: Props) {
     const rootRef = useRef<HTMLDivElement | null>(null);
     const [open, setOpen] = useState(false);
@@ -18,6 +35,7 @@ export default function JobApplyCard({ job }: Props) {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [cvFile, setCvFile] = useState<File | null>(null);
+    const [cvFileName, setCvFileName] = useState("");
 
     useEffect(() => {
         function onKeyDown(e: KeyboardEvent) {
@@ -57,6 +75,7 @@ export default function JobApplyCard({ job }: Props) {
         setEmail("");
         setPhone("");
         setCvFile(null);
+        setCvFileName("");
     }, [open]);
 
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -281,17 +300,32 @@ export default function JobApplyCard({ job }: Props) {
                                         <span className="text-xs font-medium" style={{ color: "#0d365e" }}>
                                             Upload CV
                                         </span>
-                                        <input
-                                            type="file"
-                                            accept=".pdf,.doc,.docx"
-                                            required
-                                            onChange={(e) => setCvFile(e.target.files?.[0] ?? null)}
-                                            className="w-full cursor-pointer rounded-xl border px-3 py-2.5"
-                                            style={{ borderColor: "#e8edf3" }}
-                                        />
-                                        <span className="text-[11px]" style={{ color: "#5a6a7d" }}>
-                                            Accepted: PDF, DOC, DOCX
-                                        </span>
+                                        <label
+                                            htmlFor="cvFile"
+                                            className="mt-1 flex cursor-pointer items-center gap-3 rounded-lg border border-dashed border-neutral-200 bg-neutral-50 px-4 py-3 transition-all duration-200 hover:border-[#9f8870]/50 hover:bg-white focus-within:border-[#0d365e]/40 focus-within:bg-white focus-within:ring-2 focus-within:ring-[#0d365e]/10"
+                                        >
+                                            <UploadIcon />
+                                            <span
+                                                className={`min-w-0 flex-1 truncate text-sm ${
+                                                    cvFileName ? "font-medium text-charcoal" : "text-neutral-500"
+                                                }`}
+                                            >
+                                                {cvFileName || "Upload your CV or resume"}
+                                            </span>
+                                            <span className="shrink-0 text-[11px] text-neutral-400">PDF, DOC</span>
+                                            <input
+                                                id="cvFile"
+                                                type="file"
+                                                accept=".pdf,.doc,.docx"
+                                                required
+                                                onChange={(e) => {
+                                                    const file = e.target.files?.[0] ?? null;
+                                                    setCvFile(file);
+                                                    setCvFileName(file ? file.name : "");
+                                                }}
+                                                className="sr-only"
+                                            />
+                                        </label>
                                     </label>
 
                                     {submitError && (
