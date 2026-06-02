@@ -248,7 +248,7 @@ export const teamMembers2: TeamMember[] = [
   {
     id: 1,
     name: "Ashok Uttamchandani",
-    department: "",
+    department: "Management",
     designation: "Founder",
     image: "/assets/teams/ashok-rocky.webp",
     // path: "/our-team/sarah-johnson",
@@ -256,7 +256,7 @@ export const teamMembers2: TeamMember[] = [
   {
     id: 2,
     name: "Kiran Uttamchandani",
-    department: "",
+    department: "Management",
     designation: "Director",
     image: "/assets/teams/kiran-rocky.webp",
     // path: "/our-team/sarah-johnson",
@@ -264,15 +264,15 @@ export const teamMembers2: TeamMember[] = [
   {
     id: 3,
     name: "Nitin Ramchandani",
-    department: "",
+    department: "Management",
     designation: "CEO",
-    image: "",
+    image: "/assets/teams/nitin-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
     id: 4,
     name: "Suraj Rajshekar",
-    department: "",
+    department: "Management",
     designation: "General Manager",
     image: "/assets/teams/suraj-rocky.webp",
     // path: "/our-team/omar-hassan",
@@ -280,7 +280,7 @@ export const teamMembers2: TeamMember[] = [
   {
     id: 5,
     name: "Gizem Oksuz",
-    department: "",
+    department: "Management",
     designation: "Head of Operations",
     image: "/assets/teams/gizem-rocky.webp",
     // path: "/our-team/sarah-johnson",
@@ -442,7 +442,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Sherifa Azmi",
     department: "Property Management",
     designation: "Property Management & Leasing Executive",
-    image: "/assets/teams/pm/sherifa-rocky.webp",
+    image: "/assets/teams/pm/sherifa1-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   
@@ -531,7 +531,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Suleman Akhtar",
     department: "Property Consultant",
     designation: "Senior Property Consultant",
-    image: "/assets/teams/secondary/suleman-rocky.webp",
+    image: "/assets/teams/secondary/suleman1-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
 
@@ -540,7 +540,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Ahmed Fawzy",
     department: "Property Consultant",
     designation: "Property Consultant",
-    image: "/assets/teams/secondary/ahmedfawzy-rocky.webp",
+    image: "/assets/teams/secondary/ahmedfawzy1-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -588,7 +588,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Muhammed Rizwan",
     department: "Property Consultant",
     designation: "Property Consultant",
-    image: "/assets/teams/secondary/rizwan.webp",
+    image: "/assets/teams/secondary/rizwan1.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -612,7 +612,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Shabeer Basheer",
     department: "Property Consultant",
     designation: "Property Consultant",
-    image: "/assets/teams/secondary/shabeerbasheer.webp",
+    image: "/assets/teams/secondary/shabeerbasheer1.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -628,7 +628,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Ann Wanjiku",
     department: "Off Plan",
     designation: "Off Plan Property Consultant",
-    image: "/assets/teams/offplan/ann-rocky.webp",
+    image: "/assets/teams/offplan/ann1-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -636,7 +636,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Mahul Sanjoyal",
     department: "Off Plan",
     designation: "Off Plan Property Consultant",
-    image: "",
+    image: "/assets/teams/offplan/mahul-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -644,7 +644,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Amit Anand Kalebag",
     department: "Off Plan",
     designation: "Off Plan Property Consultant",
-    image: "/assets/teams/offplan/amit-rocky.webp",
+    image: "/assets/teams/offplan/amit1-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
