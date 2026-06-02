@@ -72,7 +72,7 @@ export default function RootLayout({
       <body className="antialiased" suppressHydrationWarning>
         {children}
         <ContactWidget />
-        {/* <RecruitmentPopup /> */}
+        <RecruitmentPopup />
         <Analytics />
         <SpeedInsights />
       </body>
