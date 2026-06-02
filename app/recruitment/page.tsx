@@ -57,6 +57,7 @@ export default function RecruitmentPage() {
                     }
                     description="For 50 years, we’ve been guiding the Dubai real estate market. And now, we’re looking for the next generation of real estate leaders to drive our vision forward."
                     image="/assets/recruitment/recruiterai.webp"
+                    mobileImage="/assets/recruitment/recruiter-mobile.webp"
                 />
 
                 <WhyChooseRockySection />

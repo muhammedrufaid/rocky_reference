@@ -16,6 +16,8 @@ type RecruitmentHeroSectionProps = {
   title: React.ReactNode;
   description?: string;
   image?: string;
+  /** Shown below `md` when set; otherwise `image` is used on all breakpoints. */
+  mobileImage?: string;
   ctaLabel?: string;
   ctaTargetId?: string;
 };
@@ -33,10 +35,13 @@ const fadeUp = {
   }),
 };
 
+const heroImageClass = "absolute inset-0 z-0 object-cover";
+
 export default function RecruitmentHeroSection({
   title,
   description,
   image = "/assets/recruitment/recruiterai.webp",
+  mobileImage,
   ctaLabel = "Apply now",
   ctaTargetId = "join-our-team",
 }: RecruitmentHeroSectionProps) {
@@ -53,14 +58,35 @@ export default function RecruitmentHeroSection({
       className="relative flex min-h-[580px] items-center overflow-hidden md:min-h-[660px] lg:min-h-[740px]"
       aria-labelledby="recruitment-hero-heading"
     >
-      <Image
-        src={image}
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="absolute inset-0 z-0 object-cover"
-      />
+      {mobileImage ? (
+        <>
+          <Image
+            src={mobileImage}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className={`${heroImageClass} md:hidden`}
+          />
+          <Image
+            src={image}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className={`${heroImageClass} hidden md:block`}
+          />
+        </>
+      ) : (
+        <Image
+          src={image}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className={heroImageClass}
+        />
+      )}
 
       {/* Rocky Blue → Royal Blue gradient — text side only */}
       <div
