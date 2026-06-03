@@ -8,6 +8,7 @@ import CareersBenefitsSection from "@/components/careers/CareersBenefitsSection"
 import OpenPositionsSection from "@/components/careers/OpenPositionsSection";
 import WhyRockySection from "@/components/careers/WhyRockySection";
 import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
+import RecruitmentPopup from "@/components/recruitment-popup";
 
 
 export async function generateMetadata() {
@@ -61,6 +62,7 @@ export default function CareersPage() {
                 {/* <FaqsSection /> */}
             </main>
             <Footer />
+            <RecruitmentPopup />
         </div>
     );
 }

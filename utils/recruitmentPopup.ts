@@ -4,26 +4,11 @@ export const RECRUITMENT_POPUP_STORAGE_KEY = "rocky-recruitment-popup-dismissed-
 /** Cooldown before the popup can appear again (24 hours). */
 export const RECRUITMENT_POPUP_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 
-/** Delay before the time-based trigger fires (7 seconds). */
-export const RECRUITMENT_POPUP_DELAY_MS = 7000;
+/** Delay before the time-based trigger fires (4 seconds). */
+export const RECRUITMENT_POPUP_DELAY_MS = 4000;
 
 /** Scroll depth (0–1) required to trigger the popup (40%). */
 export const RECRUITMENT_POPUP_SCROLL_THRESHOLD = 0.4;
-
-/** Routes where the recruitment popup must never appear. */
-export const RECRUITMENT_POPUP_HIDDEN_PATHS = ["/recruitment"] as const;
-
-/** Returns true only on the homepage (never on /recruitment or other routes). */
-export function isRecruitmentPopupEligible(pathname: string): boolean {
-  return pathname === "/";
-}
-
-/** Returns true when the popup should stay hidden on the current route. */
-export function isRecruitmentPopupHidden(pathname: string): boolean {
-  return RECRUITMENT_POPUP_HIDDEN_PATHS.some(
-    (path) => pathname === path || pathname.startsWith(`${path}/`)
-  );
-}
 
 /** Reads the last dismissal timestamp from localStorage, or null if unset. */
 export function getRecruitmentPopupDismissedAt(): number | null {

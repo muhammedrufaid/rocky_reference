@@ -4,10 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRecruitmentPopup } from "@/hooks/useRecruitmentPopup";
-import { isRecruitmentPopupEligible } from "@/utils/recruitmentPopup";
 import { ModalCloseIcon } from "@/utils/icons";
 
 const LUXURY_EASE = [0.22, 1, 0.36, 1] as const;
@@ -63,9 +61,7 @@ function trapFocus(container: HTMLElement, event: KeyboardEvent) {
 }
 
 export default function RecruitmentPopup() {
-  const pathname = usePathname();
-  const eligible = isRecruitmentPopupEligible(pathname);
-  const { isOpen, dismiss } = useRecruitmentPopup({ enabled: eligible });
+  const { isOpen, dismiss } = useRecruitmentPopup({ enabled: true });
 
   const [mounted, setMounted] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -108,7 +104,7 @@ export default function RecruitmentPopup() {
     return () => window.clearTimeout(timerId);
   }, [isOpen]);
 
-  if (!mounted || !eligible) return null;
+  if (!mounted) return null;
 
   return createPortal(
     <AnimatePresence>
