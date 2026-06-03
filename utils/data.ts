@@ -491,7 +491,7 @@ export const teamMembers2: TeamMember[] = [
     name: "Jyotika Ronghangpal",
     department: "Property Consultant",
     designation: "Senior Property Consultant",
-    image: "/assets/teams/secondary/jyotika1.webp",
+    image: "/assets/teams/secondary/jyothika-rocky.webp",
     // path: "/our-team/sarah-johnson",
   },
   {
