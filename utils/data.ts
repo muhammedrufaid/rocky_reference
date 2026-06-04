@@ -320,7 +320,7 @@ export const teamMembers2: TeamMember[] = [
   {
     id: 10,
     name: "Mariam Al Madamgha",
-    department: "",
+    department: "marketing",
     designation: "Marketing Manager",
     image: "/assets/teams/marketing/mariam.webp",
     // path: "/our-team/sarah-johnson",
