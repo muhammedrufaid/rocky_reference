@@ -15,6 +15,7 @@ import { services } from "@/utils/data";
 import WhyChooseUsSection2 from "@/components/home/WhyChooseUsSection2";
 import Newsletter from "@/components/home/Newsletter";
 import PropertyCategoriesSection from "@/components/home/PropertyCategoriesSection";
+import FeaturedDubaiSouthSection from "@/components/home/FeaturedDubaiSouthSection";
 import AwardsSection from "@/components/home/AwardsSection";
 import AwardsSection3 from "@/components/home/AwardsSection3";
 import ServiceSectionv2 from "@/components/home/ServiceSectionv2";
@@ -63,6 +64,7 @@ export default async function Home() {
         <FeaturedOffPlanProjects data={offPlanPropertiesData} />
         {/* <ExplorePropertySection data={readyPropertiesData}/> */}
         <PropertyCategoriesSection data={readyPropertiesData} />
+        <FeaturedDubaiSouthSection />
         <DevelopmentPartnersSection />
         {/* <ServiceSection data={services} />  */}
         {/* <ServiceSectionv2 data={services} /> */}
