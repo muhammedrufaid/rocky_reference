@@ -114,6 +114,8 @@ async function throwForNonOk(res: Response, apiUrl: string, options?: { silent?:
 type GetDataOptions = {
   /** If true, do not `console.error` on failure (still throws). */
   silent?: boolean
+  /** Skip Next.js data cache (use for data that must reflect live API state). */
+  cache?: 'no-store'
 }
 
 function shouldLogApiErrors(silent?: boolean) {
@@ -127,6 +129,10 @@ export const getData = async <T = unknown>(
   options: GetDataOptions = {},
 ): Promise<T> => {
   const apiUrl = buildApiUrl(path)
+  const fetchInit: RequestInit =
+    options.cache === 'no-store'
+      ? { cache: 'no-store' }
+      : { next: { revalidate } }
   try {
     const res = await fetch(apiUrl, {
       method: 'GET',
@@ -134,7 +140,7 @@ export const getData = async <T = unknown>(
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      next: { revalidate },
+      ...fetchInit,
     })
 
     await throwForNonOk(res, apiUrl, { silent: options.silent })

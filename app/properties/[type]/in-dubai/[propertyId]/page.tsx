@@ -19,6 +19,8 @@ import OffPlanIndividualHero from "@/components/properties/OffPlanIndividualHero
 import PropertyDetailPage from "@/components/properties/PropertyDetailPage";
 import Newsletter from "@/components/home/Newsletter";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   params: Promise<{ type: string; propertyId: string }>;
 };

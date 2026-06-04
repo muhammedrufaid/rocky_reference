@@ -20,10 +20,32 @@ export interface PageHeroCtaPopupDetail {
   popupId?: string;
 }
 
+export type PageHeroVariant = "default" | "charcoal";
+
+const variantStyles: Record<
+  PageHeroVariant,
+  { gradient: string; backgroundColor: string; glow: string }
+> = {
+  default: {
+    gradient:
+      "linear-gradient(135deg, rgba(13, 54, 94, 0.97) 0%, rgba(8, 31, 58, 0.95) 50%, rgba(13, 54, 94, 0.88) 100%)",
+    backgroundColor: "#081f3a",
+    glow: "radial-gradient(ellipse 80% 60% at 20% 50%, rgba(195, 173, 149, 0.07) 0%, transparent 70%)",
+  },
+  charcoal: {
+    gradient:
+      "linear-gradient(135deg, rgba(51, 51, 51, 0.98) 0%, rgba(40, 40, 40, 0.96) 50%, rgba(35, 45, 55, 0.92) 100%)",
+    backgroundColor: "#2a2a2a",
+    glow: "radial-gradient(ellipse 80% 60% at 20% 50%, rgba(195, 173, 149, 0.05) 0%, transparent 70%)",
+  },
+};
+
 export interface PageHeroProps {
   title: string;
   description?: string;
   breadcrumb: BreadcrumbItem[];
+  /** Gradient preset when no `image` is set. Default matches contact and other primary pages. */
+  variant?: PageHeroVariant;
   /** Background image path. When provided, image shows with overlay. Otherwise uses gradient background. */
   image?: string;
   ctaLabel?: string;
@@ -43,8 +65,6 @@ const fadeUp = {
   }),
 };
 
-const gradientBg =
-  "linear-gradient(135deg, rgba(13, 54, 94, 0.97) 0%, rgba(8, 31, 58, 0.95) 50%, rgba(13, 54, 94, 0.88) 100%)";
 const imageOverlay =
   "linear-gradient(135deg, rgba(13, 54, 94, 0.82) 0%, rgba(8, 31, 58, 0.78) 50%, rgba(13, 54, 94, 0.75) 100%)";
 
@@ -94,6 +114,7 @@ const PageHero: React.FC<PageHeroProps> = ({
   title,
   description,
   breadcrumb,
+  variant = "default",
   image,
   ctaLabel,
   ctaHref,
@@ -118,16 +139,18 @@ const PageHero: React.FC<PageHeroProps> = ({
     );
   };
 
+  const palette = variantStyles[variant];
+
   const sectionStyle = image
     ? {
       backgroundImage: `url(${image})`,
       backgroundSize: "cover",
       backgroundPosition: "center",
-      backgroundColor: "#081f3a",
+      backgroundColor: palette.backgroundColor,
     }
     : {
-      background: gradientBg,
-      backgroundColor: "#081f3a",
+      background: palette.gradient,
+      backgroundColor: palette.backgroundColor,
     };
 
   return (
@@ -148,10 +171,7 @@ const PageHero: React.FC<PageHeroProps> = ({
       {/* Subtle radial glow — matches Hero overlay depth */}
       <div
         className="pointer-events-none absolute inset-0 z-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 20% 50%, rgba(195, 173, 149, 0.07) 0%, transparent 70%)",
-        }}
+        style={{ background: palette.glow }}
         aria-hidden
       />
 

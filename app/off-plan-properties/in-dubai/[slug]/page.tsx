@@ -10,6 +10,8 @@ import { buildPropertyDetailMetadata, fetchSeoFromCms, getSiteUrl } from "@/util
 import JsonLd from "@/components/seo/JsonLd";
 import { buildRealEstateListingJsonLd } from "@/utils/jsonLd";
 
+export const dynamic = "force-dynamic";
+
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props) {

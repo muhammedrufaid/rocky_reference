@@ -575,7 +575,11 @@ export async function getPropertySuggestions(
 /** Fetches a single property by propertyRefNo from the API */
 export async function getPropertyByRefNo(propertyRefNo: string): Promise<ApiPropertyDetail | null> {
   try {
-    const data = await getData<ApiPropertyDetail>(`frontend/properties/${encodeURIComponent(propertyRefNo)}`, 60)
+    const data = await getData<ApiPropertyDetail>(
+      `frontend/properties/${encodeURIComponent(propertyRefNo)}`,
+      0,
+      { cache: 'no-store' },
+    )
     return data ?? null
   } catch (error) {
     console.error('Failed to fetch property by ref:', propertyRefNo, error)
