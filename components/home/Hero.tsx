@@ -3,7 +3,7 @@ import HeroSearchCard from "./HeroSearchCard";
 import HeroSearchCardV2 from "./HeroSearchCardV2";
 import VideoBackground from "./VideoBackground";
 
-const DEFAULT_HERO_VIDEO = "/assets/video/website.webm";
+const DEFAULT_HERO_VIDEO = "/assets/video/latest_website_aivideo.mp4";
 
 interface HeroProps {
   videoSrc?: string;
