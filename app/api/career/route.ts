@@ -19,13 +19,13 @@ function upstreamCareerPath() {
 export async function POST(req: Request) {
   try {
     const form = await req.formData();
-    const name = String(form.get("name") ?? "").trim();
+    const fullName = String(form.get("fullName") ?? "").trim();
     const email = String(form.get("email") ?? "").trim();
     const phone = String(form.get("phone") ?? "").trim();
     const position = String(form.get("position") ?? "").trim();
     const cv = form.get("cv");
 
-    if (!name || !email || !phone || !position) {
+    if (!fullName || !email || !phone || !position) {
       return NextResponse.json({ message: "Missing required fields." }, { status: 400 });
     }
 
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
     }
 
     const upstreamForm = new FormData();
-    upstreamForm.set("name", name);
+    upstreamForm.set("fullName", fullName);
     upstreamForm.set("email", email);
     upstreamForm.set("phone", phone);
     upstreamForm.set("position", position);
