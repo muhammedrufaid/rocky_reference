@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 import PropertyImage from "@/components/common/PropertyImage";
@@ -44,7 +43,6 @@ type ListingCardProps = {
 };
 
 function ListingCard({ listing, index }: ListingCardProps) {
-  const router = useRouter();
   const [activeImg, setActiveImg] = useState(0);
   const images =
     listing.images.length > 0
@@ -67,7 +65,7 @@ function ListingCard({ listing, index }: ListingCardProps) {
 
   return (
     <motion.article
-      className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,54,94,0.10),0_2px_8px_rgba(13,54,94,0.06)]"
+      className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl bg-white transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(13,54,94,0.10),0_2px_8px_rgba(13,54,94,0.06)]"
       style={{
         boxShadow:
           "0 1px 2px rgba(13,54,94,0.04), 0 0 0 0.5px rgba(13,54,94,0.07)",
@@ -80,18 +78,15 @@ function ListingCard({ listing, index }: ListingCardProps) {
         delay: index * 0.06,
         ease: [0.22, 1, 0.36, 1],
       }}
-      role="link"
-      tabIndex={0}
-      onClick={() => router.push(listing.path)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          router.push(listing.path);
-        }
-      }}
     >
-      {/* ── Image ────────────────────────────────────── */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-[#f0ede8]">
+      <Link
+        href={listing.path}
+        className="absolute inset-0 z-[1] rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0d365e]/25 focus-visible:ring-offset-2"
+        aria-label={`View ${displayTitle}`}
+      />
+
+      {/* Image */}
+      <div className="pointer-events-none relative aspect-[4/3] overflow-hidden bg-[#f0ede8]">
         <PropertyImage
           src={mainImage}
           alt={displayTitle}
@@ -125,22 +120,16 @@ function ListingCard({ listing, index }: ListingCardProps) {
           <>
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                prevImg();
-              }}
-              className="absolute left-2 top-1/2 z-10 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-white/92 text-[#0d365e] opacity-0 shadow-sm transition-all duration-300 group-hover:opacity-100"
+              onClick={prevImg}
+              className="pointer-events-auto absolute left-2 top-1/2 z-[2] grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-white/92 text-[#0d365e] opacity-0 shadow-sm transition-all duration-300 group-hover:opacity-100"
               aria-label="Previous image"
             >
               <ChevronLeftIcon width="12" height="12" />
             </button>
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                nextImg();
-              }}
-              className="absolute right-2 top-1/2 z-10 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-white/92 text-[#0d365e] opacity-0 shadow-sm transition-all duration-300 group-hover:opacity-100"
+              onClick={nextImg}
+              className="pointer-events-auto absolute right-2 top-1/2 z-[2] grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-white/92 text-[#0d365e] opacity-0 shadow-sm transition-all duration-300 group-hover:opacity-100"
               aria-label="Next image"
             >
               <ChevronRightIcon width="12" height="12" />
@@ -149,8 +138,8 @@ function ListingCard({ listing, index }: ListingCardProps) {
         )}
       </div>
 
-      {/* ── Body ─────────────────────────────────────── */}
-      <div className="flex flex-1 flex-col p-4">
+      {/* Body */}
+      <div className="pointer-events-none flex flex-1 flex-col p-4">
         {/* Property type tag */}
         {listing.propertyType && (
           <span
@@ -212,15 +201,13 @@ function ListingCard({ listing, index }: ListingCardProps) {
             </span>
           </p>
 
-          <Link
-            href={listing.path}
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex shrink-0 items-center gap-1 rounded-lg px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-white transition-opacity duration-200 hover:opacity-90"
+          <span
+            className="inline-flex shrink-0 items-center gap-1 rounded-lg px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-white transition-opacity duration-200 group-hover:opacity-90"
             style={{ backgroundColor: "#0d365e" }}
           >
             View
             <ChevronRightIcon width="12" height="12" />
-          </Link>
+          </span>
         </div>
       </div>
     </motion.article>
