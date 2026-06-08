@@ -573,6 +573,68 @@ export async function getPropertySuggestions(
 //get proeprtysuggestions by areas
 
 /** Fetches a single property by propertyRefNo from the API */
+type AgentListingFilter = {
+  name: string
+  email?: string
+}
+
+function extractRawProperties(response: unknown): ApiPropertyDetail[] {
+  if (!response || typeof response !== 'object') return []
+  const items =
+    (response as { properties?: unknown }).properties ??
+    (response as { data?: unknown }).data
+  return Array.isArray(items) ? (items as ApiPropertyDetail[]) : []
+}
+
+function matchesListingAgent(item: ApiPropertyDetail, agent: AgentListingFilter): boolean {
+  const agentEmail = agent.email?.trim().toLowerCase()
+  const agentName = agent.name.trim().toLowerCase()
+  const listingEmail = item.listingAgentEmail?.trim().toLowerCase()
+  const listingName = item.listingAgent?.trim().toLowerCase()
+
+  if (agentEmail && listingEmail && agentEmail === listingEmail) return true
+  if (agentName && listingName && agentName === listingName) return true
+
+  const agentFirst = agentName.split(/\s+/)[0]
+  const listingFirst = listingName?.split(/\s+/)[0]
+  if (agentEmail && listingEmail && agentFirst && listingFirst && agentFirst === listingFirst) {
+    return true
+  }
+
+  return false
+}
+
+/** Fetches buy + rent listings in Dubai South for a given agent. */
+export async function getAgentDubaiSouthListings(
+  agent: AgentListingFilter,
+  limit = 12,
+): Promise<PropertyListing[]> {
+  const fetchLimit = Math.max(limit, 60)
+  const [buyRes, rentRes] = await Promise.all([
+    getBuyProperties({ search: 'Dubai South', limit: fetchLimit }),
+    getRentProperties({ search: 'Dubai South', limit: fetchLimit }),
+  ])
+
+  const buyItems = extractRawProperties(buyRes).filter((item) => matchesListingAgent(item, agent))
+  const rentItems = extractRawProperties(rentRes).filter((item) => matchesListingAgent(item, agent))
+
+  const seen = new Set<string>()
+  const merged: ApiPropertyDetail[] = []
+  for (const item of [...buyItems, ...rentItems]) {
+    const key = item.propertyRefNo?.trim()
+    if (!key || seen.has(key)) continue
+    seen.add(key)
+    merged.push(item)
+  }
+
+  return merged
+    .slice(0, limit)
+    .flatMap((item) => {
+      const purpose = item.propertyPurpose === 'Rent' ? 'Rent' : 'Buy'
+      return mapApiResponseToPropertyListings({ properties: [item] }, purpose)
+    })
+}
+
 export async function getPropertyByRefNo(propertyRefNo: string): Promise<ApiPropertyDetail | null> {
   try {
     const data = await getData<ApiPropertyDetail>(

@@ -8,6 +8,8 @@ import {
 } from "@/utils/selectors";
 import { notFound } from "next/navigation";
 import { buildPageMetadata, fetchSeoFromCms, toAbsoluteUrl } from "@/utils/seo";
+import DubaiSouthListingSection from "@/components/dubaisouth/DubaiSouthListingSection";
+import { getAgentDubaiSouthListings } from "@/utils/getServices";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -61,11 +63,17 @@ export default async function DubaiSouthAgentPage({ params }: Props) {
   const member = getDubaiSouthAgentBySlug(slug);
   if (!member) notFound();
 
+  const listings = await getAgentDubaiSouthListings(
+    { name: member.name, email: member.email },
+    12,
+  );
+
   return (
     <div className="min-h-screen bg-white">
       <Header forceSolid />
       <main className="site-header-offset">
         <AgentProfileSection member={member} />
+        <DubaiSouthListingSection member={member} listings={listings} />
       </main>
       <Footer />
     </div>
