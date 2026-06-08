@@ -47,6 +47,23 @@ function getExperienceParagraphs(experience?: string | string[]): string[] {
   return Array.isArray(experience) ? experience : [experience];
 }
 
+async function downloadBusinessCard(url: string, fileName: string) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Download failed");
+
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = fileName;
+    link.click();
+    URL.revokeObjectURL(blobUrl);
+  } catch {
+    window.location.assign(url);
+  }
+}
+
 type AgentProfileImageProps = {
   name: string;
   image: string;
@@ -146,7 +163,7 @@ const AgentProfileSection: React.FC<AgentProfileSectionProps> = ({ member }) => 
     : undefined;
 
   return (
-    <section className="pt-12 pb-20 sm:pt-14 sm:pb-24 lg:pt-16 lg:pb-28">
+    <section className="pt-12 pb-16 sm:pt-14 sm:pb-20 lg:pt-16 lg:pb-24">
       <Container>
         {/* Back link */}
         <Link
@@ -173,7 +190,7 @@ const AgentProfileSection: React.FC<AgentProfileSectionProps> = ({ member }) => 
             </h1>
 
             {member.designation && (
-              <p className="mt-4 text-[0.9375rem] font-normal leading-normal tracking-[0.01em] text-[#0d365e]/60">
+              <p className="mt-4 text-[15px] md:text-base leading-relaxed tracking-tight text-[#0d365e]/60">
                 {member.designation}
               </p>
             )}
@@ -211,12 +228,14 @@ const AgentProfileSection: React.FC<AgentProfileSectionProps> = ({ member }) => 
               </p>
             )}
 
-            {businessCardPdf && (
+            {businessCardPdf && downloadFileName && (
               <a
                 href={businessCardPdf}
                 download={downloadFileName}
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={(event) => {
+                  event.preventDefault();
+                  void downloadBusinessCard(businessCardPdf, downloadFileName);
+                }}
                 className="group mt-9 inline-flex w-fit items-center gap-2.5 rounded-lg border border-[#0d365e] bg-transparent px-7 py-3.5 text-[0.8125rem] font-medium uppercase tracking-[0.04em] text-[#0d365e] no-underline transition-[background,color,border-color] duration-200 hover:border-[#C3AD95] hover:bg-[#C3AD95] hover:text-white"
               >
                 <DownloadArrowIcon
@@ -237,24 +256,19 @@ const AgentProfileSection: React.FC<AgentProfileSectionProps> = ({ member }) => 
 
         {/* Experience section */}
         {experienceParagraphs.length > 0 && (
-          <div className="mt-20 border-t border-[#0d365e]/8 pt-16 sm:mt-22 lg:mt-26">
-            <div className="grid max-w-208 gap-12 md:grid-cols-[180px_1fr] md:gap-16">
-              <div className="flex flex-col gap-3">
-                <span className="text-lg font-medium leading-snug tracking-[-0.01em] text-[#0d365e]">
-                  Experience at Rocky Real Estate
-                </span>
-              </div>
-
-              <div className="flex flex-col gap-5">
-                {experienceParagraphs.map((paragraph, index) => (
-                  <p
-                    key={index}
-                    className="m-0 text-[0.9375rem] leading-[1.8] text-[#0d365e]/60"
-                  >
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
+          <div className=" border-t border-[#0d365e]/8 pt-16 sm:mt-22 lg:mt-20">
+            <div className="flex flex-col gap-5 max-w-208">
+              <h2 className="m-0 text-xl font-medium tracking-[-0.02em] text-[#0d365e] md:text-2xl">
+                Experience at Rocky Real Estate
+              </h2>
+              {experienceParagraphs.map((paragraph, index) => (
+                <p
+                  key={index}
+                  className="m-0 text-[15px] md:text-base leading-relaxed tracking-tight text-[#0d365e]/60"
+                >
+                  {paragraph}
+                </p>
+              ))}
             </div>
           </div>
         )}

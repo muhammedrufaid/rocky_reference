@@ -173,29 +173,6 @@ const AgentsSection: React.FC = () => {
           Team members
         </h2>
 
-        {/* ── Section header ── */}
-        <header className="mb-10 max-w-3xl sm:mb-12 md:mb-14">
-          <div className="mb-4 flex items-center gap-3">
-            <div
-              className="h-px w-10 bg-[var(--sandstone-taupe)]"
-              aria-hidden
-            />
-            <p className="text-xs font-medium uppercase tracking-widest text-[var(--sandstone-taupe)]">
-              Our Experts
-            </p>
-          </div>
-          <p
-            className="text-2xl font-medium leading-tight tracking-tight text-[var(--rocky-blue)] sm:text-3xl md:text-4xl"
-            aria-hidden
-          >
-            Dubai South property specialists
-          </p>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--charcoal)]/75 md:text-base">
-            Connect with experienced advisors for sales, leasing, and off-plan
-            investments across Dubai South and the wider UAE market.
-          </p>
-        </header>
-
         {/* ── Filters bar ── */}
         <div className="mb-10 sm:mb-12">
           <div className="relative min-w-0">
