@@ -251,6 +251,9 @@ export const teamMembers2: TeamMember[] = [
     department: "Management",
     designation: "Founder",
     image: "/assets/teams/ashok-rocky.webp",
+    phone: "+97144476644",
+    email: "info@rockyrealestate.com",
+    whatsapp: "97144476644",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -259,6 +262,9 @@ export const teamMembers2: TeamMember[] = [
     department: "Management",
     designation: "Director",
     image: "/assets/teams/kiran-rocky.webp",
+    phone: "+97144476644",
+    email: "info@rockyrealestate.com",
+    whatsapp: "97144476644",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -267,6 +273,9 @@ export const teamMembers2: TeamMember[] = [
     department: "Management",
     designation: "CEO",
     image: "/assets/teams/nitin-rocky.webp",
+    phone: "+97144476644",
+    email: "info@rockyrealestate.com",
+    whatsapp: "97144476644",
     // path: "/our-team/sarah-johnson",
   },
   {
@@ -275,6 +284,9 @@ export const teamMembers2: TeamMember[] = [
     department: "Management",
     designation: "General Manager",
     image: "/assets/teams/suraj-rocky.webp",
+    phone: "+97144476644",
+    email: "info@rockyrealestate.com",
+    whatsapp: "97144476644",
     // path: "/our-team/omar-hassan",
   },
   {
@@ -468,7 +480,17 @@ export const teamMembers2: TeamMember[] = [
     department: "Property Consultant",
     designation: "Senior Property Consultant",
     image: "",
-    // path: "/our-team/sarah-johnson",
+    phone: "+97144476644",
+    email: "info@rockyrealestate.com",
+    whatsapp: "97144476644",
+    path: "/dubaisouth/agents/ali-ahmad",
+    languages: ["English", "Arabic", "Urdu"],
+    businessCardPdf: "/assets/dubaisouth/business-cards/ali-ahmad.pdf",
+    experience: [
+      "Ali Ahmad is a Senior Property Consultant at Rocky Real Estate with a strong focus on Dubai South communities, off-plan investments, and residential sales across the wider UAE market.",
+      "He works closely with buyers, sellers, and investors to identify opportunities aligned with their goals — from first-home purchases to portfolio growth — and guides clients through every stage with clear, practical advice.",
+      "Known for his market knowledge and responsive approach, Ali helps clients navigate viewings, negotiations, and handover with confidence.",
+    ],
   },
   {
     id: 30,
@@ -492,7 +514,17 @@ export const teamMembers2: TeamMember[] = [
     department: "Property Consultant",
     designation: "Senior Property Consultant",
     image: "/assets/teams/secondary/jyothika1-rocky.webp",
-    // path: "/our-team/sarah-johnson",
+    phone: "+97144476644",
+    email: "jyotika@rockyrealestate.com",
+    whatsapp: "97144476644",
+    path: "/dubaisouth/agents/jyotika-ronghangpal",
+    languages: ["English", "Hindi"],
+    businessCardPdf: "/assets/dubaisouth/business-cards/jyotika-ronghangpal.pdf",
+    experience: [
+      "Jyotika Ronghangpal is a Senior Property Consultant at Rocky Real Estate specialising in Dubai South, residential leasing, and sales across established and emerging communities.",
+      "She supports clients with tailored property searches, market insights, and end-to-end transaction support — helping families, end-users, and investors find the right fit for their lifestyle and budget.",
+      "With a client-first approach and deep familiarity with Dubai's secondary market, Jyotika delivers a smooth, transparent advisory experience from first enquiry to completion.",
+    ],
   },
   {
     id: 33,
@@ -672,6 +704,10 @@ export const teamMembers2: TeamMember[] = [
     // path: "/our-team/sarah-johnson",
   },
 ];
+
+export const dubaiSouthAgents: TeamMember[] = [29, 32]
+  .map((id) => teamMembers2.find((m) => m.id === id))
+  .filter((m): m is TeamMember => m != null);
 
 export const navigationData: (NavLink | NavDropdown)[] = [
   { id: "1", title: "Buy", path: "/properties/buy/in-dubai" },

@@ -145,6 +145,12 @@ export interface TeamMember {
   designation?: string;
   image: string;
   path?: string;
+  phone?: string;
+  email?: string;
+  whatsapp?: string;
+  languages?: string[];
+  experience?: string | string[];
+  businessCardPdf?: string;
 }
 
 export interface JobPosition {
