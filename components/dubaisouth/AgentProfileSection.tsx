@@ -67,9 +67,16 @@ async function downloadBusinessCard(url: string, fileName: string) {
 type AgentProfileImageProps = {
   name: string;
   image: string;
+  businessCardPdf?: string;
+  downloadFileName?: string;
 };
 
-function AgentProfileImage({ name, image }: AgentProfileImageProps) {
+function AgentProfileImage({
+  name,
+  image,
+  businessCardPdf,
+  downloadFileName,
+}: AgentProfileImageProps) {
   const trimmed = image.trim();
   const [loadFailed, setLoadFailed] = useState(false);
 
@@ -90,7 +97,7 @@ function AgentProfileImage({ name, image }: AgentProfileImageProps) {
             fill
             priority
             sizes="(max-width: 640px) 300px, (max-width: 1024px) 380px, 440px"
-            className="object-cover object-top"
+            className="object-cover object-center"
             onError={() => setLoadFailed(true)}
           />
         )}
@@ -102,6 +109,27 @@ function AgentProfileImage({ name, image }: AgentProfileImageProps) {
             <span className="text-[2.5rem] font-medium tracking-[-0.02em] text-[#0d365e]/20">
               {getTeamMemberInitials(name)}
             </span>
+          </div>
+        )}
+
+        {businessCardPdf && downloadFileName && (
+          <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-[#0d365e]/75 via-[#0d365e]/35 to-transparent px-4 pb-4 pt-10">
+            <a
+              href={businessCardPdf}
+              download={downloadFileName}
+              onClick={(event) => {
+                event.preventDefault();
+                void downloadBusinessCard(businessCardPdf, downloadFileName);
+              }}
+              className="group inline-flex w-full items-center justify-center gap-2.5 rounded-lg border border-white/25 bg-white/10 px-5 py-3 text-[0.75rem] font-medium uppercase tracking-[0.04em] text-white no-underline backdrop-blur-sm transition-[background,border-color] duration-200 hover:border-[#C3AD95] hover:bg-[#C3AD95]"
+            >
+              <DownloadArrowIcon
+                width={14}
+                height={14}
+                className="transition-transform duration-200 group-hover:translate-y-0.5"
+              />
+              Download Business Card
+            </a>
           </div>
         )}
       </div>
@@ -179,7 +207,7 @@ const AgentProfileSection: React.FC<AgentProfileSectionProps> = ({ member }) => 
         </Link>
 
         {/* Hero grid */}
-        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-20">
 
           {/* ── Content ── */}
           <div className="flex flex-col lg:order-1">
@@ -221,57 +249,40 @@ const AgentProfileSection: React.FC<AgentProfileSectionProps> = ({ member }) => 
               </div>
             )}
 
+            {experienceParagraphs.length > 0 && (
+              <div className="mt-8 flex flex-col gap-5">
+                <h2 className="m-0 text-xl font-medium tracking-[-0.02em] text-[#0d365e] md:text-2xl">
+                  Experience at Rocky Real Estate
+                </h2>
+                {experienceParagraphs.map((paragraph, index) => (
+                  <p
+                    key={index}
+                    className="m-0 text-[15px] md:text-base leading-relaxed tracking-tight text-[#000000]/60"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            )}
+
             {languages.length > 0 && (
-              <p className="mt-6 text-sm tracking-[0.01em] text-[#0d365e]/55">
+              <p className="mt-6 text-sm tracking-[0.01em] text-[#000000]/60">
                 <strong className="font-medium text-[#0d365e]">Languages</strong>
                 &nbsp;&nbsp;{languages.join(", ")}
               </p>
             )}
-
-            {businessCardPdf && downloadFileName && (
-              <a
-                href={businessCardPdf}
-                download={downloadFileName}
-                onClick={(event) => {
-                  event.preventDefault();
-                  void downloadBusinessCard(businessCardPdf, downloadFileName);
-                }}
-                className="group mt-9 inline-flex w-fit items-center gap-2.5 rounded-lg border border-[#0d365e] bg-transparent px-7 py-3.5 text-[0.8125rem] font-medium uppercase tracking-[0.04em] text-[#0d365e] no-underline transition-[background,color,border-color] duration-200 hover:border-[#C3AD95] hover:bg-[#C3AD95] hover:text-white"
-              >
-                <DownloadArrowIcon
-                  width={14}
-                  height={14}
-                  className="transition-transform duration-200 group-hover:translate-y-0.5 "
-                />
-                Download Business Card
-              </a>
-            )}
           </div>
 
           {/* ── Image ── */}
-          <div className="flex justify-center lg:order-2 lg:justify-end">
-            <AgentProfileImage name={member.name} image={member.image} />
+          <div className="flex flex-col items-center lg:order-2">
+            <AgentProfileImage
+              name={member.name}
+              image={member.image}
+              businessCardPdf={businessCardPdf}
+              downloadFileName={downloadFileName}
+            />
           </div>
         </div>
-
-        {/* Experience section */}
-        {experienceParagraphs.length > 0 && (
-          <div className=" border-t border-[#0d365e]/8 pt-16 sm:mt-22 lg:mt-20">
-            <div className="flex flex-col gap-5 max-w-208">
-              <h2 className="m-0 text-xl font-medium tracking-[-0.02em] text-[#0d365e] md:text-2xl">
-                Experience at Rocky Real Estate
-              </h2>
-              {experienceParagraphs.map((paragraph, index) => (
-                <p
-                  key={index}
-                  className="m-0 text-[15px] md:text-base leading-relaxed tracking-tight text-[#0d365e]/60"
-                >
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </div>
-        )}
       </Container>
     </section>
   );
