@@ -217,7 +217,7 @@ const AgentProfileSection: React.FC<AgentProfileSectionProps> = ({ member }) => 
                 download={downloadFileName}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group mt-9 inline-flex w-fit items-center gap-2.5 rounded-lg border border-[#0d365e] bg-transparent px-7 py-3.5 text-[0.8125rem] font-medium uppercase tracking-[0.04em] text-[#0d365e] no-underline transition-[background,color,border-color] duration-200 hover:bg-[#0d365e] hover:text-white"
+                className="group mt-9 inline-flex w-fit items-center gap-2.5 rounded-lg border border-[#0d365e] bg-transparent px-7 py-3.5 text-[0.8125rem] font-medium uppercase tracking-[0.04em] text-[#0d365e] no-underline transition-[background,color,border-color] duration-200 hover:border-[#C3AD95] hover:bg-[#C3AD95] hover:text-white"
               >
                 <DownloadArrowIcon
                   width={14}
