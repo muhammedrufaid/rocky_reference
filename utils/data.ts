@@ -518,12 +518,12 @@ export const teamMembers2: TeamMember[] = [
     email: "jyotika@rockyrealestate.com",
     whatsapp: "971507772451",
     path: "/dubaisouth/agents/jyotika-ronghangpal",
-    languages: ["English", "Hindi"],
+    languages: ["English", "Hindi", "Assamese", "Bengali"],
     businessCardPdf: "/assets/businesscard/jyotika.pdf",
     experience: [
-      "Jyotika Ronghangpal is a Senior Property Consultant at Rocky Real Estate specialising in Dubai South, residential leasing, and sales across established and emerging communities.",
-      "She supports clients with tailored property searches, market insights, and end-to-end transaction support — helping families, end-users, and investors find the right fit for their lifestyle and budget.",
-      "With a client-first approach and deep familiarity with Dubai's secondary market, Jyotika delivers a smooth, transparent advisory experience from first enquiry to completion.",
+      "Jyotika Ronghangpal is a Senior Property Consultant at Rocky Real Estate, specializing in off-plan leasing and sales across established and emerging communities in Business Bay and Dubai Sports City.",
+      "She supports clients with tailored property searches, market insights, and end-to-end transaction support, helping them find the right fit for their lifestyle and budget.",
+      "With a client-first approach and deep familiarity with Dubai's off-plan market, Jyotika delivers a smooth and transparent experience, from the first inquiry to handover.",
     ],
   },
   {
