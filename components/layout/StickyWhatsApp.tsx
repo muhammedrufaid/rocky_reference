@@ -48,14 +48,14 @@ const dividerVariants = {
   }),
 };
 
-function Divider({ custom }: { custom: number }) {
+function Divider({ custom, className = "" }: { custom: number; className?: string }) {
   return (
     <motion.div
       custom={custom}
       variants={dividerVariants}
       initial="hidden"
       animate="visible"
-      className="my-1 origin-center"
+      className={`my-1 origin-center ${className}`}
       style={{ width: "1px", height: "8px", background: "rgba(196,169,109,0.4)" }}
       aria-hidden="true"
     />
@@ -96,7 +96,6 @@ function IconButton({
     group relative
     flex h-12 w-12 sm:h-9 sm:w-9 items-center justify-center
     shrink-0 rounded-full
-    shadow-[0_4px_14px_rgba(0,0,0,0.25)]
     transition-opacity duration-200
     hover:opacity-85
     touch-manipulation
@@ -183,10 +182,10 @@ interface StickyWhatsAppProps {
 export default function StickyWhatsApp({ onChatOpen }: StickyWhatsAppProps) {
   return (
     <aside
-      className="fixed bottom-6 right-4 z-40 sm:bottom-8 sm:right-6"
+      className="fixed z-50 bottom-[max(1.25rem,env(safe-area-inset-bottom,0px))] right-[max(1rem,env(safe-area-inset-right,0px))] sm:bottom-[max(2rem,env(safe-area-inset-bottom,0px))] sm:right-[max(1.5rem,env(safe-area-inset-right,0px))]"
       aria-label="Quick contact"
     >
-      <div className="flex flex-col items-center gap-0">
+      <div className="flex flex-row items-center gap-2 sm:flex-col sm:gap-0">
         <IconButton
           href={PHONE_HREF}
           ariaLabel="Call Rocky Real Estate"
@@ -197,7 +196,7 @@ export default function StickyWhatsApp({ onChatOpen }: StickyWhatsAppProps) {
           <CallIcon width={16} height={16} />
         </IconButton>
 
-        <Divider custom={1} />
+        <Divider custom={1} className="hidden sm:block" />
 
         <IconButton
           href={WHATSAPP_HREF}

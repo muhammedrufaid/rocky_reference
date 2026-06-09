@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { fontDubai } from "@/lib/fonts";
 import Script from "next/script";
@@ -13,6 +13,12 @@ const gaId = (process.env.NEXT_PUBLIC_GA_ID ?? "").trim();
 
 export const metadata: Metadata = {
   metadataBase,
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

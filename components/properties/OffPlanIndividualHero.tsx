@@ -506,7 +506,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                           <circle cx="12" cy="13" r="4" />
                         </svg>
                       </span>
-                      All Photos ({safeImages.length})
+                      View Gallery ({safeImages.length})
                     </button>
                   </motion.div>
                 </motion.div>
