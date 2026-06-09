@@ -436,6 +436,31 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                           </SwiperSlide>
                         ))}
                       </Swiper>
+                      {safeImages.length > 1 && (
+                        <div className="flex items-center justify-start gap-3 mt-2">
+                          <button
+                            type="button"
+                            aria-label="Previous thumbnail"
+                            disabled={activeIndex === 0}
+                            onClick={() => syncHeroTo(activeIndex - 1)}
+                            className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-[#C3AD95]/50 hover:text-[#C3AD95] transition-all duration-200 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-white/20 disabled:hover:text-white/60"
+                          >
+                            <OffPlanCarouselChevronLeftIcon />
+                          </button>
+                          <span className="text-[11px] tracking-[0.2em] text-white/50 tabular-nums">
+                            {activeIndex + 1} / {safeImages.length}
+                          </span>
+                          <button
+                            type="button"
+                            aria-label="Next thumbnail"
+                            disabled={activeIndex === safeImages.length - 1}
+                            onClick={() => syncHeroTo(activeIndex + 1)}
+                            className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-[#C3AD95]/50 hover:text-[#C3AD95] transition-all duration-200 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-white/20 disabled:hover:text-white/60"
+                          >
+                            <OffPlanCarouselChevronRightIcon />
+                          </button>
+                        </div>
+                      )}
                     </div>
                     <button
                       onClick={() => openLightbox(activeIndex)}
@@ -536,29 +561,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
             </Container>
 
             {/* ── Slide Counter + Nav (bottom-right, desktop) ── */}
-            <div className="absolute bottom-6 right-6 z-20 hidden lg:flex items-center gap-3">
-              <span
-                className="text-[11px] tracking-[0.2em] text-white/50"
-              >
-                {String(activeIndex + 1).padStart(2, '0')} / {String(safeImages.length).padStart(2, '0')}
-              </span>
-              <div className="flex gap-1.5">
-                <button
-                  type="button"
-                  ref={prevRef}
-                  className="w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-[#C3AD95]/50 hover:text-[#C3AD95] transition-all duration-200 cursor-pointer"
-                >
-                  <OffPlanCarouselChevronLeftIcon />
-                </button>
-                <button
-                  type="button"
-                  ref={nextRef}
-                  className="w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-white/60 hover:border-[#C3AD95]/50 hover:text-[#C3AD95] transition-all duration-200 cursor-pointer"
-                >
-                  <OffPlanCarouselChevronRightIcon />
-                </button>
-              </div>
-            </div>
+            
           </div>
         </div>
       </section>
