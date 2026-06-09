@@ -13,7 +13,7 @@ const socialLinks = [
   { name: "Instagram", href: "https://www.instagram.com/rockyrealestatedubai", icon: "instagram" },
   { name: "LinkedIn", href: "https://www.linkedin.com/company/rockyrealestatedubai/", icon: "linkedin" },
   { name: "Facebook", href: "https://www.facebook.com/rockyrealestatedubai/", icon: "facebook" },
-  { name: "TikTok", href: "https://www.tiktok.com/@rockyrealestate", icon: "tiktok" },
+  { name: "TikTok", href: "https://www.tiktok.com/@rockyrealestatedubai", icon: "tiktok" },
 ] as const;
 
 const SocialIcon = ({ name, className }: { name: string; className?: string }) => {

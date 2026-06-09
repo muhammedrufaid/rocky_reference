@@ -94,10 +94,12 @@ function IconButton({
 
   const baseClass = `
     group relative
-    flex h-9 w-9 items-center justify-center
-    rounded-full
+    flex h-12 w-12 sm:h-9 sm:w-9 items-center justify-center
+    shrink-0 rounded-full
+    shadow-[0_4px_14px_rgba(0,0,0,0.25)]
     transition-opacity duration-200
     hover:opacity-85
+    touch-manipulation
     focus:outline-none
     focus-visible:ring-2 ${focusRing} focus-visible:ring-offset-2
   `;
