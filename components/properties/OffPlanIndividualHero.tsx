@@ -2,14 +2,13 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Navigation, Thumbs, EffectFade } from 'swiper/modules'
+import { Autoplay, Navigation, EffectFade } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
 import { motion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 import 'swiper/css/navigation'
-import 'swiper/css/thumbs'
 import Container from '../layout/Container'
 import type { ApiPropertyDetail } from '@/utils/getServices'
 import {
@@ -164,6 +163,13 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
     []
   )
 
+  const handleThumbClick = useCallback(
+    (idx: number) => {
+      openLightbox(idx)
+    },
+    [openLightbox],
+  )
+
   const closeLightbox = useCallback(() => {
     setLightboxOpen(false)
     setZoomed(false)
@@ -242,6 +248,12 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
     swiper.navigation?.update?.()
   }, [])
 
+  useEffect(() => {
+    const thumbs = heroThumbsSwiper
+    if (!thumbs || thumbs.destroyed) return
+    thumbs.slideTo(activeIndex)
+  }, [activeIndex, heroThumbsSwiper])
+
   return (
     <>
       {/* ── Swiper CSS Overrides ── */}
@@ -262,7 +274,7 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
           <div className="absolute inset-0 z-0">
             <Swiper
               className="rre-hero-swiper"
-              modules={[Autoplay, EffectFade, Thumbs, Navigation]}
+              modules={[Autoplay, EffectFade, Navigation]}
               effect="fade"
               autoplay={canLoop ? { delay: 5000, disableOnInteraction: false } : false}
               loop={canLoop}
@@ -287,7 +299,6 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                 swiper.navigation?.init?.()
                 swiper.navigation?.update?.()
               }}
-              thumbs={{ swiper: heroThumbsSwiper && !heroThumbsSwiper.destroyed ? heroThumbsSwiper : null }}
               onSlideChange={(s) => setActiveIndex(s.realIndex)}
             >
               {safeImages.map((src, i) => (
@@ -422,15 +433,28 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     <div className="min-w-0 flex-1 md:flex-none md:w-[35rem]">
                       <Swiper
                         className="rre-thumb-swiper"
-                        modules={[Thumbs]}
-                        watchSlidesProgress
                         onSwiper={setHeroThumbsSwiper}
                         slidesPerView={4}
                         spaceBetween={7}
                       >
                         {safeImages.map((src, i) => (
-                          <SwiperSlide key={i}>
-                            <div className="h-[70px] md:h-[100px] w-full rounded overflow-hidden">
+                          <SwiperSlide
+                            key={i}
+                            className={i === activeIndex ? 'swiper-slide-thumb-active' : undefined}
+                          >
+                            <div
+                              role="button"
+                              tabIndex={0}
+                              aria-label={`Open photo ${i + 1}`}
+                              onClick={() => handleThumbClick(i)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault()
+                                  handleThumbClick(i)
+                                }
+                              }}
+                              className="h-[70px] md:h-[100px] w-full rounded overflow-hidden"
+                            >
                               <img src={src} alt="" className="w-full h-full object-cover" />
                             </div>
                           </SwiperSlide>
