@@ -16,7 +16,6 @@ import {
   CallIcon,
   DirhamIcon,
   DownloadArrowIcon,
-  LayoutGridIcon,
   MapPinFilledIcon,
   OffPlanBathIcon,
   OffPlanBedIcon,
@@ -419,19 +418,19 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                   </motion.div>
 
                   {/* Thumbnail strip + gallery btn */}
-                  <motion.div variants={fadeUp} custom={5} className="hidden md:flex items-center gap-3">
-                    <div className="w-48">
+                  <motion.div variants={fadeUp} custom={5} className="flex items-center gap-3">
+                    <div className="min-w-0 flex-1 md:flex-none md:w-[35rem]">
                       <Swiper
                         className="rre-thumb-swiper"
                         modules={[Thumbs]}
                         watchSlidesProgress
                         onSwiper={setHeroThumbsSwiper}
                         slidesPerView={4}
-                        spaceBetween={5}
+                        spaceBetween={7}
                       >
                         {safeImages.map((src, i) => (
                           <SwiperSlide key={i}>
-                            <div className="h-9 rounded overflow-hidden">
+                            <div className="h-[70px] md:h-[100px] w-full rounded overflow-hidden">
                               <img src={src} alt="" className="w-full h-full object-cover" />
                             </div>
                           </SwiperSlide>
@@ -440,10 +439,23 @@ const OffPlanIndividualHero: React.FC<OffPlanHeroProps> = ({
                     </div>
                     <button
                       onClick={() => openLightbox(activeIndex)}
-                      className="flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase text-[#f6f6f6] hover:text-[#f6f6f6]/80 transition-colors duration-200 cursor-pointer"
+                      className="flex shrink-0 items-center justify-center gap-1.5 h-[70px] md:h-[100px] px-3 text-[13px] md:text-[14px] tracking-[0.18em] uppercase text-[#f6f6f6] hover:text-[#f6f6f6]/80 transition-colors duration-200 cursor-pointer"
                     >
-                      <span className='text-[#C3AD95]'>
-                        <LayoutGridIcon />
+                      <span className="text-[#C3AD95]">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden
+                        >
+                          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                          <circle cx="12" cy="13" r="4" />
+                        </svg>
                       </span>
                       All Photos ({safeImages.length})
                     </button>
