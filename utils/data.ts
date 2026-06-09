@@ -1055,7 +1055,7 @@ export const blogPosts: BlogPost[] = [
     category: "Company",
     description:
       "Rocky Real Estate's Q1 2026 awards—recognizing Wasif Aftab, Perhat Atayev, and Ahmed Fawzy for outstanding contributions after a record-breaking year in Dubai real estate.",
-    image: "/assets/common/awards.webp",
+    image: "/assets/blogs/Q1-Awards.webp",
     path: "/blog/2026-q1-awards",
     content: [
       {
@@ -1083,7 +1083,7 @@ export const blogPosts: BlogPost[] = [
     category: "Insights",
     description:
       "A clear 7-step guide for foreigners buying property in Dubai—from freehold zones and finances to RERA brokers, MOU, NOC, DLD transfer, and closing costs.",
-    image: "/assets/common/buy.webp",
+    image: "/assets/blogs/buy-property.webp",
     path: "/blog/buying-property-dubai-foreigner",
     content: [
       {
@@ -1193,6 +1193,122 @@ export const blogPosts: BlogPost[] = [
           "Mortgage fees (if applicable)",
           "Registration trustee fee, which ranges from AED 2,000 to AED 4,000.",
         ],
+      },
+    ],
+  },
+  {
+    id: 6,
+    title: "Living in Dubai South: Everything you need to know",
+    category: "Insights",
+    description:
+      "A guide to Dubai South—location, connectivity, residential communities, lifestyle amenities, and why investors, families, and professionals are choosing this master-planned city.",
+    image: "/assets/blogs/dubai-south-azziz.webp",
+    path: "/blog/living-in-dubai-south",
+    content: [
+      {
+        type: "paragraph",
+        text: "One of the most popular places to live, Dubai South, continues to grow rapidly. The fully integrated city is built around business, aviation, logistics, and modern living.",
+      },
+      {
+        type: "paragraph",
+        text: "Dubai South offers affordable homes, excellent connectivity, and strong long-term growth prospects. Here's everything you need to know about the master-planned city if you're an investor, first-time buyer, or family looking for a community.",
+      },
+      { type: "heading2", text: "About Dubai South" },
+      {
+        type: "paragraph",
+        text: "Formerly known as Dubai World Central, Dubai South is a master-planned city spanning approximately 145 square kilometers in southern Dubai. The community was created to support the city's long-term vision for aviation, economic growth, residential expansion, and trade.",
+      },
+      {
+        type: "paragraph",
+        text: "Dubai South is built around Al Maktoum International Airport, the world's largest airport upon completion. Developed by Dubai South Properties, this community offers a range of commercial, residential, and leisure spaces and stands out for its smart city initiatives, creating a \"city within a city\".",
+      },
+      { type: "heading2", text: "Location and Connectivity" },
+      {
+        type: "paragraph",
+        text: "There are several reasons why Dubai South continues to be a favorite among investors and residents in Dubai, one of which is its strategic location.",
+      },
+      {
+        type: "paragraph",
+        text: "Dubai South serves as a strategic link between Dubai and Abu Dhabi, providing access to major highways, including Emirates Road (E611) and Sheik Mohammed Bin Zayed Road (E311).",
+      },
+      {
+        type: "paragraph",
+        text: "Other locations include:",
+      },
+      {
+        type: "list",
+        items: [
+          "Al Maktoum International Airport",
+          "Expo City Dubai",
+          "Palm Jebel Ali",
+          "Dubai Parks and Resorts",
+          "Dubai Marina",
+          "Dubai Industrial City",
+          "Jebel Ali Port",
+          "Downtown Dubai",
+        ],
+      },
+      { type: "heading2", text: "Residential Communities in Dubai South" },
+      {
+        type: "paragraph",
+        text: "Villas to apartments and more, Dubai South offers a variety of housing options for residents in Dubai to suit different budgets and lifestyles. Some of the most popular communities include:",
+      },
+      { type: "heading3", text: "Expo City Dubai" },
+      {
+        type: "paragraph",
+        text: "Located in Dubai South, Expo City Dubai is one of the biggest urban destinations in the city. An evolving sustainable city, Expo City Dubai, offers townhouses, apartments, parks, community facilities, retail outlets, and more. Suitable for both investors and end-users.",
+      },
+      { type: "heading3", text: "Emaar South" },
+      {
+        type: "paragraph",
+        text: "One of the most established communities in Dubai South, Emaar South is popular among long-term residents and families seeking a suburban lifestyle. Emaar South features villas, apartments, and townhouses surrounded by an 18-hole golf course and parks.",
+      },
+      { type: "heading2", text: "Lifestyle Amenities" },
+      {
+        type: "paragraph",
+        text: "Residents in Dubai South can enjoy world-class amenities, in a less congested and quieter environment, which includes:",
+      },
+      {
+        type: "list",
+        items: [
+          "Community parks and green spaces",
+          "Spacious apartments, villas, and townhouses",
+          "Retail centers",
+          "Schools and nurseries",
+          "Fitness and sports centers",
+          "Healthcare facilities",
+          "Dining and retail",
+        ],
+      },
+      { type: "heading2", text: "Who should invest in Dubai South?" },
+      {
+        type: "paragraph",
+        text: "Whether you're an investor, a first-time buyer, or a professional, Dubai South is ideal for you.",
+      },
+      {
+        type: "paragraph",
+        text: "For families, Dubai South offers spacious homes with a growing range of educational and recreational amenities.",
+      },
+      {
+        type: "paragraph",
+        text: "For professionals, Dubai South offers a convenient living option close to your workplace, with major employment hubs nearby, including business districts, aviation, logistics, and more.",
+      },
+      {
+        type: "paragraph",
+        text: "And because of the infrastructure in Dubai South, investors are drawn in. With major projects including the Al Maktoum International Airport expansion, residential development, and more, Dubai South is ideal for investors looking at long-term growth.",
+      },
+      { type: "heading2", text: "Conclusion" },
+      {
+        type: "paragraph",
+        text: "Dubai South is not any other community in Dubai; it is one of the key components of Dubai's future growth strategy.",
+      },
+      {
+        type: "paragraph",
+        text: "With a perfect combination of connectivity, affordability, lifestyle, and future growth potential, Dubai South is becoming a preferred destination for investors and residents alike.",
+      },
+      {
+        type: "paragraph",
+        text: "So, if you're looking for a community that offers convenience and opportunities, Dubai South is a perfect location to consider.",
       },
     ],
   },
