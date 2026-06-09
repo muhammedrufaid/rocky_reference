@@ -1524,6 +1524,13 @@ export const testimonials: Testimonial[] = [
     author: "David O'Neill",
     rating: 5,
   },
+  {
+    id: 5,
+    quote:
+      "I had an excellent experience working with Felicia Elorm from Rocky during my rental process. She was highly professional, responsive, and supportive throughout every stage of the journey. What stood out most was her commitment to ensuring that everything was handled efficiently, making my move-in experience simple and hassle-free. She was always available to answer questions, provide guidance, and address any concerns promptly.",
+    author: "odame God'spower",
+    rating: 5,
+  },
 ];
 
 export const whyChooseAgentsData: WhyChooseItem[] = [

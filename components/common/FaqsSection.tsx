@@ -3,61 +3,82 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/layout/Container";
+import { DirhamIcon } from "@/utils/icons";
 
 interface FaqItem {
   id: string;
   question: string;
-  answer: string;
+  answer: React.ReactNode;
 }
 
 const faqs: FaqItem[] = [
   {
     id: "faq-1",
-    question: "Why should you choose Rocky Real Estate?",
+    question: "Why should I choose Rocky Real Estate?",
     answer:
-      "With a legacy of over 50 years, we offer 'Local Intelligence' and have navigated every market cycle in Dubai, providing a stable, transparent partnership.",
+      "With a legacy of over 50 years, we offer local expertise and have navigated every market cycle in Dubai, providing a stable, transparent partnership.",
   },
   {
     id: "faq-2",
-    question: "What does Rocky Real Estate’s Property Management include?",
+    question: "What are the costs involved in buying property in Dubai?",
     answer:
-      "At Rocky Real Estate, we provide end-to-end service: screening, rent collection, legal compliance, maintenance, detailed financial reporting, and more. We currently manage over 300 buildings, treating every unit like our own.",
+      "Beyond the purchase price, you must factor in the 4% DLD fee, a trustee office fee, and an agency commission, typically 2% plus 5% VAT. For off-plan, an additional Oqood (Pre-Title Deed) registration fee is required.",
   },
   {
     id: "faq-3",
-    question: "Does Rocky Real Estate offer property inspection services?",
+    question: "Is it safe to buy off-plan property in Dubai?",
     answer:
-      "Yes. Before you take possession of a new property, our experts conduct a professional inspection to identify construction defects or unfinished work, ensuring the developer rectifies them before you move in or rent it out.",
+      "Absolutely! The Dubai Land Department (DLD) and RERA have implemented strict regulations wherein all payments are deposited directly into a project-specific Escrow Account. It will then be released to the developer only upon verified construction milestones.",
   },
   {
     id: "faq-4",
-    question: "Is it safe to buy off-plan property in Dubai?",
+    question: "Can I sell my off-plan property before completion?",
     answer:
-      "Yes. The Dubai Land Department (DLD) and RERA have implemented strict regulations. All payments are deposited into a project-specific Escrow Account and are released to the developer only upon verified construction milestones.",
+      "Yes. Most developers allow you to resell after paying a percentage of the total property value (typically 30% to 40%). We manage the entire resale process for you.",
   },
   {
     id: "faq-5",
-    question: "Can I sell my off-plan property before completion?",
-    answer:
-      "Most developers allow you to resell after paying a percentage of the total property value (typically 30% to 40%). Rocky Real Estate can manage the entire resale process for you.",
+    question: "Does buying a property in Dubai qualify me for a UAE Golden visa?",
+    answer: (
+      <>
+        If your property investment value is at{" "}
+        <span className="inline-flex items-center gap-0.5 whitespace-nowrap align-middle">
+          <DirhamIcon className="h-[0.85em] w-[0.85em] shrink-0" aria-hidden />
+          <span>2 million or more</span>
+        </span>
+        , you are eligible for the 10-year Golden Visa. The qualification applies to both ready and off-plan properties (provided the investment reaches the threshold).
+      </>
+    ),
   },
   {
     id: "faq-6",
-    question: "What are the hidden costs of buying property in Dubai?",
+    question: "Can I manage my property if I live outside the UAE?",
     answer:
-      "Beyond the purchase price, you must factor in the 4% DLD fee, a registration trustee fee (approx. AED 4,000), and agency commission (typically 2%). For off-plan, there is also an Oqood (Pre-Title Deed) registration fee.",
+      "Yes. Rocky Real Estate offers property management services to help overseas investors maintain and rent out their properties with ease. You can also grant a Power of Attorney to complete transactions remotely.",
   },
   {
     id: "faq-7",
-    question: "Does buying property qualify me for a UAE Golden Visa?",
+    question: "What does Rocky Real Estate’s Property Management service include?",
     answer:
-      "If your property investment value is at Dh2 million or more, you are eligible for the 10-year Golden Visa. This qualification applies to both ready and off-plan properties (provided the investment reaches the threshold).",
+      "We offer comprehensive property management services, helping overseas and local investors maintain and rent out their properties. The services include tenant screening, rent collection, legal compliance, maintenance, detailed financial reporting, and more.",
   },
   {
     id: "faq-8",
-    question: "Can I manage my property if I live outside the UAE?",
+    question: "How long does the buying process take in Dubai?",
     answer:
-      "Absolutely. Through our Remote Management services and Power of Attorney (POA) arrangements, Rocky Real Estate can handle everything from utility setup (DEWA) to tenant disputes while you remain abroad.",
+      "This depends on whether the buyer or seller is using finance. It typically takes 4 to 8 weeks, but if the purchase is made by cash, the process is quicker, as the ownership transfer takes place at the Trustee Office once all approvals are completed.",
+  },
+  {
+    id: "faq-9",
+    question: "Can foreigners buy property in Dubai?",
+    answer:
+      "Yes. Foreigners, whether residing in the UAE or outside it, can purchase property in Dubai without residency in designated freehold areas, including The Palm, Dubai Marina, JVC, and more.",
+  },
+  {
+    id: "faq-10",
+    question: "Does Rocky Real Estate offer property snagging services?",
+    answer:
+      "Yes. Before you take possession of a new property, our experts will conduct a professional snagging inspection to identify any construction defects or unfinished work, and ensure the developer rectifies them before handover.",
   },
 ];
 
