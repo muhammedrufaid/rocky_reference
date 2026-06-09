@@ -5,8 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Container from "./Container";
 import Image from "next/image";
-import { generateSeoSlug } from "@/utils/seo";
-
 const footerServices = [
     { title: "Property Management", path: "services/property-management" },
     { title: "Professional Inspection", path: "services/professional-inspection" },
@@ -26,22 +24,22 @@ const footerCompany = [
 ];
 
 const popularSearches = [
-    "Dubai Marina",
-    "Downtown Dubai",
-    "Palm Jumeirah",
-    "Business Bay",
-    "JBR",
-    "Dubai Hills",
-    "Jumeirah Village Circle",
-    "Jumeirah Village Triangle",
-    "Al Barsha",
-    "Arabian Ranches",
-    "Dubai Creek Harbour",
-    "Dubai Silicon Oasis",
-    "International City",
-    "Meydan",
-    "DAMAC Hills",
-    "Expo City Dubai",
+    { name: "Dubai Marina", href: "/properties/buy/in-dubai?search=dubai-marina" },
+    { name: "Downtown Dubai", href: "/properties/buy/in-dubai?search=downtown-dubai" },
+    { name: "Jumeirah Lake Towers", href: "/properties/buy/in-dubai?search=jumeirah-lake-towers" },
+    { name: "Business Bay", href: "/properties/buy/in-dubai?search=business-bay" },
+    { name: "Dubai Hills Estate", href: "/properties/rent/in-dubai?search=dubai-hills-estate" },
+    { name: "Jumeirah Village Circle", href: "/properties/rent/in-dubai?search=jumeirah-village-circle" },
+    { name: "Al Barsha 1", href: "/properties/rent/in-dubai?search=al-barsha-1" },
+    { name: "Dubai Creek Harbour", href: "/properties/buy/in-dubai?search=dubai-creek-harbour" },
+    { name: "Dubai Silicon Oasis", href: "/properties/buy/in-dubai?search=dubai-silicon-oasis" },
+    { name: "International City", href: "/properties/buy/in-dubai?search=international-city" },
+    { name: "Meydan", href: "/properties/buy/in-dubai?search=meydan" },
+    { name: "DAMAC Hills", href: "/properties/buy/in-dubai?search=damac-hills" },
+    { name: "Expo City", href: "/properties/buy/in-dubai?search=expo-city" },
+    { name: "Dubai Jewel Tower", href: "/properties/buy/in-dubai?search=dubai-jewel-tower" },
+    { name: "Dubai South", href: "/off-plan-properties/in-dubai?search=dubai-south" },
+    { name: "Al Jaddaf", href: "/off-plan-properties/in-dubai?search=al-jaddaf" },
 ];
 
 const socialLinks = [
@@ -141,13 +139,13 @@ const Footer: React.FC<{ hideNavigation?: boolean }> = ({ hideNavigation = false
                                     style={{ overflow: "hidden" }}
                                 >
                                     <ul className="mt-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-2">
-                                        {popularSearches.map((area) => (
-                                            <li key={area}>
+                                        {popularSearches.map((item) => (
+                                            <li key={item.href}>
                                                 <Link
-                                                    href={`/properties/buy/in-dubai?search=${encodeURIComponent(generateSeoSlug(area))}`}
+                                                    href={item.href}
                                                     className="text-xs text-blue-200 hover:text-white py-1 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
                                                 >
-                                                    {area}
+                                                    {item.name}
                                                 </Link>
                                             </li>
                                         ))}
